@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { User, Mail, Phone, Lock, Building2 } from "lucide-react";
+import { User, Mail, Phone, Lock } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -12,13 +12,6 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Form,
   FormControl,
@@ -45,7 +38,6 @@ export default function RegisterPage() {
       email: "",
       phone: "",
       password: "",
-      role: "member",
     },
   });
 
@@ -183,9 +175,6 @@ export default function RegisterPage() {
                         />
                       </div>
                     </FormControl>
-                    <p className="text-xs text-muted-foreground mt-1.5">
-                      Must be at least 6 characters
-                    </p>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -201,44 +190,6 @@ export default function RegisterPage() {
                       className="pl-10"
                       disabled={isLoading}
                       autoComplete="new-password"
-                    />
-                  </div>
-                </FormControl>
-              </FormItem>
-            </div>
-
-            {/* Row 4: Account type | Mess code */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="role"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Account type</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select account type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="member">Member</SelectItem>
-                        <SelectItem value="manager">Manager</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormItem>
-                <FormLabel>Mess code (optional)</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      placeholder="Enter code"
-                      className="pl-10"
-                      disabled={isLoading}
                     />
                   </div>
                 </FormControl>
