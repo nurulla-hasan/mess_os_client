@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Project Rules: Senior Frontend Architect
 
 **Role:** Senior Frontend Architect (Expert in Clean & Scalable Web Apps)
