@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "../button";
 
-const DashboardHeader = ({
+const DashboardPageHeader = ({
   title,
   description,
   length,
@@ -51,4 +51,4 @@ const DashboardHeader = ({
   );
 };
 
-export default DashboardHeader
+export default DashboardPageHeader

@@ -1,5 +1,5 @@
 
-import DashboardPageLayout from "@/components/ui/custom/page-layout";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 
 export default async function DashboardPage() {
 

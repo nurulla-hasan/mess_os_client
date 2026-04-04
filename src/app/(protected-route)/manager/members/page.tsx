@@ -1,5 +1,5 @@
 import DashboardHeader from "@/components/ui/custom/dashboard-page-header";
-import DashboardPageLayout from "@/components/ui/custom/page-layout";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { SearchParams } from "@/types/global.type";
 
 export default async function MembersPage({
