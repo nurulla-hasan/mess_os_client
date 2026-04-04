@@ -174,7 +174,7 @@ export default function ManagerDashboardPage() {
 
           {/* Recent Financial Activity */}
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader>
               <CardTitle className="text-lg">Recent Financial Activity</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -201,7 +201,7 @@ export default function ManagerDashboardPage() {
         <div className="space-y-6">
           {/* Mess Overview */}
           <Card>
-            <CardHeader className="pb-3">
+            <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Building2 className="h-5 w-5 text-primary" />
                 Mess Overview
