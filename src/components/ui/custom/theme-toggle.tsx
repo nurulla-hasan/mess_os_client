@@ -87,7 +87,7 @@ export function ThemeToggle({
             className={cn(currentMode === "light" && "bg-accent")}
           >
             <Sun className="mr-2 h-4 w-4" />
-            Light
+            <span className="uppercase font-medium text-xs tracking-wider">Light</span>
             {currentMode === "light" && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />}
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -95,7 +95,7 @@ export function ThemeToggle({
             className={cn(currentMode === "dark" && "bg-accent")}
           >
             <Moon className="mr-2 h-4 w-4" />
-            Dark
+            <span className="uppercase font-medium text-xs tracking-wider">Dark</span>
             {currentMode === "dark" && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />}
           </DropdownMenuItem>
         </div>
