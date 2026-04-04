@@ -1,31 +1,99 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { cookies } from "next/headers";
 import { jwtDecode } from "jwt-decode";
 
-// Define auth and protected routes
-const authRoutes = ["/auth/login", "/auth/register", "/auth/verify-otp", "/auth/forgot-password", "/auth/reset-password"];
-const protectedRoutes = ["/admin", "/manager", "/dashboard", "/pending-approval", "/create-mess", "/get-started"];
+import { getPostLoginRoute } from "@/lib/auth-routing";
+import { IUser } from "@/types/user.type";
+
+const authRoutesToRedirect = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/forgot-password",
+  "/auth/reset-password",
+];
+
+const verifyOtpRoute = "/auth/verify-otp";
+
+const protectedRoutes = [
+  "/admin",
+  "/manager",
+  "/dashboard",
+  "/pending-approval",
+  "/create-mess",
+  "/get-started",
+];
 
 /**
- * Proxy function (Next.js 16+ convention) to handle route protection 
- * and authentication redirects.
+ * Use the same API base that your serverFetch uses.
+ * Replace this line only if your env name is different.
+ *
+ * Examples:
+ * - http://localhost:5000/api/v1
+ * - https://api.example.com/api/v1
+ */
+
+type DecodedToken = {
+  exp: number;
+  globalRole?: "user" | "manager" | "super_admin";
+};
+
+async function fetchCurrentUserInProxy(
+  request: NextRequest,
+  accessToken: string
+): Promise<IUser | null> {
+  if (!process.env.NEXT_PUBLIC_API_URL) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Cookie: request.headers.get("cookie") ?? "",
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const result = (await response.json()) as {
+      success?: boolean;
+      data?: IUser;
+    };
+
+    if (!result?.success || !result?.data) {
+      return null;
+    }
+
+    return result.data;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Proxy function (Next.js 16+) to handle route protection
+ * and smart auth redirects.
  */
 export async function proxy(request: NextRequest) {
   const { nextUrl } = request;
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
+  const pathname = nextUrl.pathname;
+  const accessToken = request.cookies.get("accessToken")?.value;
 
-  // Check if token is valid (expired)
   if (accessToken) {
     try {
-      const decoded: any = jwtDecode(accessToken);
+      const decoded = jwtDecode<DecodedToken>(accessToken);
       const currentTime = Date.now() / 1000;
-      
+
       if (decoded.exp < currentTime) {
-        console.log("Token expired, redirecting to login");
-        const response = NextResponse.redirect(new URL("/auth/login", request.url));
+        const response = NextResponse.redirect(
+          new URL("/auth/login", request.url)
+        );
         response.cookies.delete("accessToken");
         response.cookies.delete("refreshToken");
         return response;
@@ -39,36 +107,45 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  const isAuthRoute = authRoutes.some((route) => nextUrl.pathname.startsWith(route));
-  const isProtectedRoute = protectedRoutes.some((route) => nextUrl.pathname.startsWith(route));
+  const isAuthRouteToRedirect = authRoutesToRedirect.some((route) =>
+    pathname.startsWith(route)
+  );
 
-  // 1. If user is logged in and tries to access auth pages (login, register, etc.)
-  // Redirect them to get-started (neutral entry point)
-  if (isAuthRoute && accessToken) {
-    return NextResponse.redirect(new URL("/get-started", request.url));
-  }
+  const isVerifyOtpRoute = pathname.startsWith(verifyOtpRoute);
 
-  // 2. If user is NOT logged in and tries to access protected pages (dashboard, etc.)
-  // Redirect them to the login page
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  // Unauthenticated users cannot access protected routes
   if (isProtectedRoute && !accessToken) {
-    const loginUrl = new URL("/auth/login", request.url);
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  // Continue with the request if no conditions match
+  // Smart redirect for authenticated users on auth-entry routes
+  if (accessToken && (isAuthRouteToRedirect || isVerifyOtpRoute)) {
+    const user = await fetchCurrentUserInProxy(request, accessToken);
+    const resolvedRoute = getPostLoginRoute(user);
+
+    // Allow unverified authenticated users to stay on verify-otp
+    if (isVerifyOtpRoute && resolvedRoute === "/auth/verify-otp") {
+      return NextResponse.next();
+    }
+
+    // Avoid redirect loop
+    if (resolvedRoute === pathname) {
+      return NextResponse.next();
+    }
+
+    // If user data fetch fails, getPostLoginRoute(null) => /get-started
+    return NextResponse.redirect(new URL(resolvedRoute, request.url));
+  }
+
   return NextResponse.next();
 }
 
-// Routes Proxy should not run on
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],
 };

@@ -70,7 +70,7 @@ export const login = async (data: FieldValues): Promise<any> => {
  * Get current logged-in user profile
  */
 export const getMe = async (): Promise<any> => {
-  return await serverFetch("/auth/get-me");
+  return await serverFetch("/users/me");
 };
 
 /**

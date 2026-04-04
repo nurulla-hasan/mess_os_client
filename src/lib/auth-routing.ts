@@ -4,8 +4,8 @@ import { IMembership, IUser } from "@/types/user.type";
  * Determines the post-login redirect route based on user state
  *
  * Routing priority:
- * 1. Not verified -> /auth/verify-otp
- * 2. Blocked -> /blocked
+ * 1. Blocked -> /blocked
+ * 2. Not verified -> /auth/verify-otp
  * 3. Super admin -> /admin
  * 4. Approved manager membership -> /manager
  * 5. Approved member membership -> /dashboard
@@ -19,14 +19,14 @@ export function getPostLoginRoute(user: IUser | null | undefined): string {
     return "/get-started";
   }
 
-  // 1. Check if user email is verified
-  if (!user.isEmailVerified) {
-    return "/auth/verify-otp";
-  }
-
-  // 2. Check if user is blocked
+  // 1. Check if user is blocked (always check this first)
   if (user.status === "blocked") {
     return "/blocked";
+  }
+
+  // 2. Check if user email is verified
+  if (!user.isEmailVerified) {
+    return "/auth/verify-otp";
   }
 
   // 3. Use globalRole (backend-aligned field)

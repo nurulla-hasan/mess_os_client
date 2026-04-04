@@ -51,18 +51,13 @@ export default function LoginPage() {
       if (response?.success) {
         SuccessToast(response.message || "Login successful!");
 
+        // Use user from login response if available
         let user: IUser | null = null;
 
         if (response.data?.user) {
-          const responseUser = response.data.user as IUser;
-          // Only use response user if it has membership data for route resolution
-          if (responseUser.memberships || responseUser.activeMembership) {
-            user = responseUser;
-          }
-        }
-
-        // Fallback to getMe if user is missing or lacks membership data
-        if (!user) {
+          user = response.data.user as IUser;
+        } else {
+          // Fallback to getMe if user is missing from response
           try {
             const meResponse = await getMe();
             if (meResponse?.success && meResponse.data) {
