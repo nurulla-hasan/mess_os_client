@@ -1,0 +1,2547 @@
+{
+  "info": {
+    "_postman_id": "full-mess-management-saas-id",
+    "name": "Mess Management SaaS - Full API",
+    "description": "Complete API documentation for the Mess Management SaaS system, categorized by modules.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth Module",
+      "description": "User authentication, registration, OTP verification, and profile management.",
+      "item": [
+        {
+          "name": "Register User (Public)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullname\": \"Golap Hasan\",\n    \"email\": \"nurullahasan.dev@gmail.com\",\n    \"phone\": \"01712345678\",\n    \"password\": \"111111\",\n    \"role\": \"manager\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Role: Public - Create a new user account. Required fields: fullname, email, phone, password. Optional: role (default: member)."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify OTP (Public)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"nurullahasan.dev@gmail.com\",\n    \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-otp"
+              ]
+            },
+            "description": "Role: Public - Verify user email using 6-digit OTP. Required fields: email, otp."
+          },
+          "response": []
+        },
+        {
+          "name": "Login User (Public)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.environment.set(\"accessToken\", jsonData.data.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"nurullahasan.dev@gmail.com\",\n    \"password\": \"111111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Role: Public - Authenticate user and receive Access Token. Required fields: email, password."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Me (Profile) (All Roles)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/get-me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "get-me"
+              ]
+            },
+            "description": "Role: All Roles - Get current logged-in user's profile data. Requires Bearer Token."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile (All Roles)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": [],
+                  "description": "Profile image file (JPG/PNG)."
+                },
+                {
+                  "key": "data",
+                  "value": "{\n  \"fullname\": \"Golap Hasan Updated\",\n  \"phone\": \"01900000000\",\n  \"address\": \"Dhaka, Bangladesh\"\n}",
+                  "type": "text",
+                  "description": "JSON string containing updated profile data (fullname, phone, address)."
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/update-profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "update-profile"
+              ]
+            },
+            "description": "Role: All Roles - Update profile. Uses multipart/form-data. Fields: profileImage (file), data (JSON string with fullname, phone, address)."
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot Password (Public)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"nurullahasan.dev@gmail.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/forgot-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forgot-password"
+              ]
+            },
+            "description": "Role: Public - Initiate password reset. Sends OTP to the provided email. Required: email."
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password (Public)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"nurullahasan.dev@gmail.com\",\n    \"otp\": \"123456\",\n    \"newPassword\": \"newsecret123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ]
+            },
+            "description": "Role: Public - Reset password using OTP received via email. Required: email, otp, newPassword."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Reset OTP (Public)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"nurullahasan.dev@gmail.com\",\n    \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify-reset-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-reset-otp"
+              ]
+            },
+            "description": "Role: Public - Verify OTP specifically for password reset process. Required: email, otp."
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password (All Roles)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"oldPassword\": \"111111\",\n    \"newPassword\": \"newsecret123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/change-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "change-password"
+              ]
+            },
+            "description": "Role: All Roles - Change account password for logged-in user. Required: oldPassword, newPassword."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Mess Module",
+      "description": "Mess creation, membership, settings, and member management.",
+      "item": [
+        {
+          "name": "Create Mess (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Dream Home Mess\",\n    \"address\": \"Sector 10, Uttara, Dhaka\",\n    \"phone\": \"01712345678\",\n    \"description\": \"A friendly mess for students and professionals.\",\n    \"mealOffTime\": \"08:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/mess/create-mess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                "create-mess"
+              ]
+            },
+            "description": "Role: Manager - Creates a new mess. The creator becomes the manager. Required: name, address, phone. Optional: description, mealOffTime."
+          },
+          "response": []
+        },
+        {
+          "name": "Join Mess (Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"inviteCode\": \"ABC123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/mess/join-mess",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                "join-mess"
+              ]
+            },
+            "description": "Role: Member - Join a mess using a unique 6-character invite code. Required: inviteCode."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Mess Details (All Roles)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/mess/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MESS_ID",
+                  "description": "The unique ID of the mess."
+                }
+              ]
+            },
+            "description": "Role: All Roles - Get specific mess details by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Mess Settings (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Updated Mess Name\",\n    \"address\": \"New Address, Dhaka\",\n    \"phone\": \"018XXXXXXXX\",\n    \"description\": \"Updated description for the mess\",\n    \"mealOffTime\": \"09:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/mess/update-settings/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                "update-settings",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MESS_ID",
+                  "description": "The unique ID of the mess."
+                }
+              ]
+            },
+            "description": "Role: Manager - Update mess configuration. Fields: name, address, phone, description, mealOffTime."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Mess Status (Super Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"suspended\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/mess/update-status/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                "update-status",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MESS_ID",
+                  "description": "The unique ID of the mess."
+                }
+              ]
+            },
+            "description": "Role: Super Admin - Suspend or activate a mess. Required: status (active/suspended)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Messes (Super Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/mess/all?page=1&limit=10&searchTerm=Mess&sort=-createdAt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                "all"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "Mess",
+                  "description": "Search by name, address, or phone."
+                },
+                {
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Super Admin - Fetch all messes in the system with pagination, search, and sort. Filters: page, limit, sort, fields, searchTerm, name, address, phone."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Mess (Manager/Super Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/mess/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MESS_ID_TO_DELETE",
+                  "description": "The unique ID of the mess to delete."
+                }
+              ]
+            },
+            "description": "Role: Manager/Super Admin - Permanently deletes the mess and unlinks all members."
+          },
+          "response": []
+        },
+        {
+          "name": "Transfer Ownership (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"newManagerId\": \"USER_ID_OF_MEMBER\",\n    \"leaveAfterTransfer\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/mess/transfer-ownership/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                "transfer-ownership",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MESS_ID",
+                  "description": "The unique ID of the mess."
+                }
+              ]
+            },
+            "description": "Role: Manager - Transfers manager role to another member. Required: newManagerId. Optional: leaveAfterTransfer (boolean)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Activity Logs (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/mess/activity-logs?page=1&limit=20&sort=-createdAt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "mess",
+                "activity-logs"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number."
+                },
+                {
+                  "key": "limit",
+                  "value": "20",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "module",
+                  "value": "deposit",
+                  "disabled": true,
+                  "description": "Filter by module (deposit, expense, meal, member, etc.)."
+                },
+                {
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort order."
+                }
+              ]
+            },
+            "description": "Role: Manager - View all mess activities/transaction logs. This is the 'History' of the mess."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User Module",
+      "description": "Super Admin operations for managing users and roles.",
+      "item": [
+        {
+          "name": "Get All Users (Super Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "golap",
+                  "disabled": true,
+                  "description": "Search by fullname, email, or phone."
+                }
+              ]
+            },
+            "description": "Role: Super Admin - Get all users with pagination and search. Filters: page, limit, sort, fields, searchTerm, fullname, email, phone, role."
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Role (Super Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"role\": \"manager\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/:id/role",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                ":id",
+                "role"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "USER_ID_HERE",
+                  "description": "The unique ID of the user."
+                }
+              ]
+            },
+            "description": "Role: Super Admin - Update user role. Required: role (member/manager/super_admin)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Meal Module",
+      "description": "Daily meal management for messes.",
+      "item": [
+        {
+          "name": "Create/Update Meal (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"date\": \"2023-10-25\",\n    \"entries\": [\n        {\n            \"memberId\": \"MEMBER_ID_HERE\",\n            \"breakfast\": 1,\n            \"lunch\": 1,\n            \"dinner\": 1,\n            \"guest\": 0\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meals",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meals"
+              ]
+            },
+            "description": "Role: Manager - Record daily meal counts for members. Required: date (YYYY-MM-DD), entries (array of memberId, breakfast, lunch, dinner, guest counts)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Meals (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/all?page=1&limit=10&date=2024-03-15&sort=-date",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meals",
+                "all"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "date",
+                  "value": "2024-03-15",
+                  "description": "Filter by specific date (YYYY-MM-DD)."
+                },
+                {
+                  "key": "sort",
+                  "value": "-date",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get meal history with pagination and filters. Filters: page, limit, sort, fields, date."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Monthly Summary (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/monthly-summary?date=2024-03-01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meals",
+                "monthly-summary"
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-03-01",
+                  "description": "Any date within the target month (YYYY-MM-DD)."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get total meals per member for a specific month. Required: date (any day in the month)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Meal By Date (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/date/:date",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meals",
+                "date",
+                ":date"
+              ],
+              "variable": [
+                {
+                  "key": "date",
+                  "value": "2024-03-15",
+                  "description": "Target date (YYYY-MM-DD)."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get meal counts for a specific date."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Meal By ID (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/:mealId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meals",
+                ":mealId"
+              ],
+              "variable": [
+                {
+                  "key": "mealId",
+                  "value": "MEAL_ID_HERE",
+                  "description": "The unique ID of the meal entry."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get specific meal entry details by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Meal (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meals/:mealId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meals",
+                ":mealId"
+              ],
+              "variable": [
+                {
+                  "key": "mealId",
+                  "value": "MEAL_ID_HERE",
+                  "description": "The unique ID of the meal entry."
+                }
+              ]
+            },
+            "description": "Role: Manager - Delete a specific meal entry."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Deposit Module",
+      "item": [
+        {
+          "name": "Create Deposit (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"date\": \"2023-10-25\",\n    \"memberId\": \"MEMBER_ID_HERE\",\n    \"amount\": 2000,\n    \"paymentMethod\": \"mobile_banking\",\n    \"transactionId\": \"TRX12345678\",\n    \"note\": \"Monthly deposit\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/deposits",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "deposits"
+              ]
+            },
+            "description": "Role: Manager/Member - Record a new deposit. Required: memberId (ObjectId), amount (number), paymentMethod (cash/mobile_banking/bank_transfer). Optional: date (YYYY-MM-DD), transactionId (string), note (string). Member entries are pending until manager approval."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Deposits (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/deposits?page=1&limit=10&searchTerm=TRX123&sort=-date",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "deposits"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "TRX123",
+                  "description": "Search by transactionId, note, or member name."
+                },
+                {
+                  "key": "sort",
+                  "value": "-date",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get all deposits with pagination, search, and filtering. Filters: page, limit, sort, fields, status (pending/approved/rejected), paymentMethod, memberId, transactionId, note, date."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Deposit By ID (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/deposits/:depositId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "deposits",
+                ":depositId"
+              ],
+              "variable": [
+                {
+                  "key": "depositId",
+                  "value": "DEPOSIT_ID_HERE",
+                  "description": "The unique ID of the deposit record."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get specific deposit details by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Deposit Status (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"approved\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/deposits/:depositId/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "deposits",
+                ":depositId",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "depositId",
+                  "value": "DEPOSIT_ID_HERE",
+                  "description": "The unique ID of the deposit record."
+                }
+              ]
+            },
+            "description": "Role: Manager - Approve or Reject a deposit request. Required: status (approved/rejected)."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Deposit (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/deposits/:depositId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "deposits",
+                ":depositId"
+              ],
+              "variable": [
+                {
+                  "key": "depositId",
+                  "value": "DEPOSIT_ID_HERE",
+                  "description": "The unique ID of the deposit record."
+                }
+              ]
+            },
+            "description": "Role: Manager - Permanently delete a deposit record."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Expense Module",
+      "description": "Daily expense and bazaar management for messes.",
+      "item": [
+        {
+          "name": "Create Expense (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"date\": \"2023-10-25\",\n    \"buyerId\": \"MEMBER_ID_HERE\",\n    \"details\": [\n        {\n            \"category\": \"meat_fish\",\n            \"itemName\": \"Beef 2kg\",\n            \"amount\": 1400\n        },\n        {\n            \"category\": \"vegetables\",\n            \"itemName\": \"Onion 1kg, Potato 2kg\",\n            \"amount\": 200\n        }\n    ],\n    \"paymentSource\": \"mess_fund\",\n    \"adjustment\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/expenses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses"
+              ]
+            },
+            "description": "Role: Manager/Member - Create a new expense entry. Required: details (array of category, itemName, amount), paymentSource (mess_fund/manager_hand/member_hand). Optional: date (YYYY-MM-DD), buyerId (required if category is not loss/mess_income), adjustment (number). Member entries are pending until manager approval."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Loss Expense (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"details\": [\n        {\n            \"category\": \"loss\",\n            \"itemName\": \"500 taka lost from mess fund\",\n            \"amount\": 500\n        }\n    ],\n    \"paymentSource\": \"mess_fund\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/expenses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses"
+              ]
+            },
+            "description": "Role: Manager - Record a financial loss. Category MUST be 'loss'. buyerId is not required."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Mess Income (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"details\": [\n        {\n            \"category\": \"mess_income\",\n            \"itemName\": \"Donation to mess\",\n            \"amount\": 1000\n        }\n    ],\n    \"paymentSource\": \"mess_fund\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/expenses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses"
+              ]
+            },
+            "description": "Role: Manager - Record general income for the mess. Category MUST be 'mess_income'. This reduces net expenses for meal rate calculation. buyerId is not required."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Expenses (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/all?page=1&limit=10&searchTerm=Beef&sort=-date",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                "all"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "Beef",
+                  "description": "Search by itemName, category, or buyer name."
+                },
+                {
+                  "key": "sort",
+                  "value": "-date",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get all expenses with pagination, search, and filtering. Filters: page, limit, sort, fields, paymentSource, status (pending/approved/rejected), buyerId, details.category, details.itemName, date."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense By ID (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:expenseId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":expenseId"
+              ],
+              "variable": [
+                {
+                  "key": "expenseId",
+                  "value": "EXPENSE_ID_HERE",
+                  "description": "The unique ID of the expense record."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get specific expense details by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Expense Status (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"approved\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:expenseId/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":expenseId",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "expenseId",
+                  "value": "EXPENSE_ID_HERE",
+                  "description": "The unique ID of the expense record."
+                }
+              ]
+            },
+            "description": "Role: Manager - Approve or reject an expense request. Required: status (approved/rejected)."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Expense (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/expenses/:expenseId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "expenses",
+                ":expenseId"
+              ],
+              "variable": [
+                {
+                  "key": "expenseId",
+                  "value": "EXPENSE_ID_HERE",
+                  "description": "The unique ID of the expense record."
+                }
+              ]
+            },
+            "description": "Role: Manager - Permanently delete an expense record."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Member Module",
+      "description": "Member management within the mess.",
+      "item": [
+        {
+          "name": "Add Member Manually (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullname\": \"New Member Name\",\n    \"email\": \"member@example.com\",\n    \"phone\": \"017XXXXXXXX\",\n    \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/members",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "members"
+              ]
+            },
+            "description": "Role: Manager - Add a member to the mess manually. Required: fullname, email, phone. Optional: password (default: 123456). If the user doesn't exist, a new account is created."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Members (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/members?page=1&limit=10&searchTerm=golap&sort=-createdAt&status=active",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "members"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "The page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "golap",
+                  "description": "Search by fullname, email, or phone."
+                },
+                {
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Field to sort by (e.g., -createdAt for descending)."
+                },
+                {
+                  "key": "status",
+                  "value": "active",
+                  "description": "Filter by member status (active/inactive)."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get all members of the mess with pagination, search, and filtering. Filters: page, limit, sort, fields, status, searchTerm, fullname, email, phone."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Member By ID (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/members/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "members",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MEMBER_ID",
+                  "description": "The unique ID of the member record."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get specific member details by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Member Status (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"inactive\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/members/:id/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "members",
+                ":id",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MEMBER_ID",
+                  "description": "The unique ID of the member record."
+                }
+              ]
+            },
+            "description": "Role: Manager - Update a member's status. Required: status (active/inactive)."
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Member (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/members/:userId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "members",
+                ":userId"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "USER_ID",
+                  "description": "The unique ID of the User to be removed from the mess."
+                }
+  ]
+            },
+            "description": "Role: Manager - Remove a member from the mess. This unlinks their messId."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notice Module",
+      "description": "Notice board and announcements for the mess.",
+      "item": [
+        {
+          "name": "Create Notice (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Mess Meeting\",\n    \"description\": \"There will be a mess meeting tomorrow at 9:00 PM.\",\n    \"status\": \"active\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notices"
+              ]
+            },
+            "description": "Role: Manager - Create a new notice for the mess members. Required: title, description. Optional: status (active/inactive)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Notices (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notices?page=1&limit=10&searchTerm=meeting&sort=-createdAt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notices"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "meeting",
+                  "description": "Search by title or description."
+                },
+                {
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Member/Manager - Get all notices for the mess. Filters: page, limit, sort, fields, searchTerm, status (active/inactive)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notice By ID (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notices/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notices",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "NOTICE_ID",
+                  "description": "The unique ID of the notice."
+                }
+              ]
+            },
+            "description": "Role: Member/Manager - Get details of a specific notice by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Notice (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"title\": \"Updated Meeting Time\",\n    \"description\": \"The meeting will be at 10:00 PM instead.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notices/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notices",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "NOTICE_ID",
+                  "description": "The unique ID of the notice."
+                }
+              ]
+            },
+            "description": "Role: Manager - Update notice title, description, or status."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Notice (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notices/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notices",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "NOTICE_ID",
+                  "description": "The unique ID of the notice."
+                }
+              ]
+            },
+            "description": "Role: Manager - Permanently delete a notice."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Meal Off Request Module",
+      "description": "Meal cancellation requests for members.",
+      "item": [
+        {
+          "name": "Create Meal Off Request (Member/Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"startDate\": \"2023-11-01\",\n    \"endDate\": \"2023-11-05\",\n    \"reason\": \"Going home for vacation\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meal-off-requests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-off-requests"
+              ]
+            },
+            "description": "Role: Member/Manager - Submit a request to stop meals for a date range. Required: startDate (YYYY-MM-DD), endDate (YYYY-MM-DD). Optional: reason."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Meal Off Requests (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-off-requests/all?page=1&limit=10&searchTerm=pending&sort=-createdAt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-off-requests",
+                "all"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "pending",
+                  "description": "Search by status or member name."
+                },
+                {
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Manager - Get all meal off requests in the mess. Filters: page, limit, sort, searchTerm, status (pending/approved/rejected), fields."
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Meal Off Requests (Member/Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-off-requests/my-requests?page=1&limit=10&searchTerm=approved&sort=-createdAt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-off-requests",
+                "my-requests"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "searchTerm",
+                  "value": "approved",
+                  "description": "Search by status or date range."
+                },
+                {
+                  "key": "sort",
+                  "value": "-createdAt",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Member/Manager - Get current user's meal off requests. Filters: page, limit, sort, searchTerm, status, fields."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Meal Off Request By ID (Member/Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/meal-off-requests/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-off-requests",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "REQUEST_ID",
+                  "description": "The unique ID of the request."
+                }
+              ]
+            },
+            "description": "Role: Member/Manager - Get specific meal off request details by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Request Status (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"approved\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/meal-off-requests/:id/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "meal-off-requests",
+                ":id",
+                "status"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "REQUEST_ID",
+                  "description": "The unique ID of the request."
+                }
+              ]
+            },
+            "description": "Role: Manager - Approve or reject a meal off request. Required: status (approved/rejected)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Report Module",
+      "description": "Summary reports and analytics for the mess.",
+      "item": [
+        {
+          "name": "Get Dashboard Stats (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/dashboard",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "dashboard"
+              ]
+            },
+            "description": "Role: Member/Manager - Get real-time dashboard stats for the current user and the mess. Includes all-time balance, today's meal status, recent transactions, and upcoming bills. Calculations are month-aware and guest-meal adjusted."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Mess Summary (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/summary?month=2024-03",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reports",
+                "summary"
+              ],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "2024-03",
+                  "description": "Filter summary by specific month (YYYY-MM). If omitted, returns all-time summary."
+                }
+              ]
+            },
+            "description": "Role: Member/Manager - Get comprehensive mess report (Total Deposits, Expenses, Meal Rate, Member Wise Summary). Month-by-month logic ensures no retroactive changes to older records. Guest meals are charged to the host."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Utility Bill Module",
+      "description": "Utility bills management (electricity, water, gas, internet, etc.).",
+      "item": [
+        {
+          "name": "Create Utility Bill (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"category\": \"electricity\",\n    \"amount\": 2500,\n    \"month\": \"2024-03\",\n    \"dueDate\": \"2024-03-25\",\n    \"note\": \"DESCO bill\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/utility-bills",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "utility-bills"
+              ]
+            },
+            "description": "Role: Manager - Create a new utility bill. Required: category (electricity/water/gas/internet/others), amount (number), month (YYYY-MM), dueDate (YYYY-MM-DD). Optional: note."
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Utility Bills (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/utility-bills/all?page=1&limit=10&month=2024-03&sort=-dueDate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "utility-bills",
+                "all"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "key": "month",
+                  "value": "2024-03",
+                  "description": "Filter by specific month (YYYY-MM)."
+                },
+                {
+                  "key": "sort",
+                  "value": "-dueDate",
+                  "description": "Sort field (prefix with - for descending)."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get utility bills with pagination and filters. Filters: page, limit, sort, fields, month, status (unpaid/paid), category, note."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Utility Bill By ID (Manager/Member)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/utility-bills/:billId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "utility-bills",
+                ":billId"
+              ],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "BILL_ID_HERE",
+                  "description": "The unique ID of the utility bill."
+                }
+              ]
+            },
+            "description": "Role: Manager/Member - Get specific utility bill details by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Utility Bill (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 2600,\n  \"note\": \"Updated after meter reading\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/utility-bills/:billId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "utility-bills",
+                ":billId"
+              ],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "BILL_ID_HERE",
+                  "description": "The unique ID of the utility bill."
+                }
+              ]
+            },
+            "description": "Role: Manager - Update existing utility bill fields."
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Bill As Paid (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"memberId\": \"MEMBER_ID_WHO_PAID\",\n  \"paymentDate\": \"2024-03-15\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/utility-bills/:billId/pay",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "utility-bills",
+                ":billId",
+                "pay"
+              ],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "BILL_ID_HERE",
+                  "description": "The unique ID of the utility bill."
+                }
+              ]
+            },
+            "description": "Role: Manager - Mark a bill as paid. Required: memberId (who paid), paymentDate (YYYY-MM-DD)."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Utility Bill (Manager)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/utility-bills/:billId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "utility-bills",
+                ":billId"
+              ],
+              "variable": [
+                {
+                  "key": "billId",
+                  "value": "BILL_ID_HERE",
+                  "description": "The unique ID of the utility bill."
+                }
+              ]
+            },
+            "description": "Role: Manager - Permanently delete a utility bill."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api/v1",
+      "type": "string"
+    }
+  ]
+}
