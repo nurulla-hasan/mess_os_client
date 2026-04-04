@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
+import { forgotPassword } from "@/services/auth.service";
+
 const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
@@ -41,10 +43,16 @@ export default function ForgotPasswordPage() {
   async function onSubmit(values: ForgotPasswordFormValues) {
     setIsLoading(true);
     try {
-      SuccessToast("OTP sent to your email!");
-      router.push("/auth/verify-otp?email=" + encodeURIComponent(values.email));
+      const response = await forgotPassword({ email: values.email });
+
+      if (response?.success) {
+        SuccessToast(response.message || "OTP sent to your email!");
+        router.push(`/auth/verify-otp?type=reset&email=${encodeURIComponent(values.email)}`);
+      } else {
+        ErrorToast(response?.message || "Failed to send OTP. Please try again.");
+      }
     } catch (error) {
-      ErrorToast("Failed to send OTP. Please try again.");
+      ErrorToast("Something went wrong. Please try again.");
       console.error(error);
     } finally {
       setIsLoading(false);

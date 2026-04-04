@@ -17,10 +17,21 @@ export const register = async (data: FieldValues): Promise<any> => {
 };
 
 /**
- * Verify OTP after registration
+ * Verify email OTP after registration
  */
 export const verifyOtp = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/verify-otp", {
+  return await serverFetch("/auth/verify-email", {
+    method: "POST",
+    body: data,
+    isPublic: true,
+  });
+};
+
+/**
+ * Resend email verification OTP
+ */
+export const resendVerifyOtp = async (data: FieldValues): Promise<any> => {
+  return await serverFetch("/auth/resend-otp", {
     method: "POST",
     body: data,
     isPublic: true,

@@ -10,7 +10,10 @@ export const registerSchema = z.object({
   email: z.string().email("Invalid email address"),
   phone: z.string().min(11, "Phone number must be at least 11 characters"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["manager", "member"]),
+  confirmPassword: z.string().min(6, "Confirm password must be at least 6 characters"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 export const verifyOtpSchema = z.object({

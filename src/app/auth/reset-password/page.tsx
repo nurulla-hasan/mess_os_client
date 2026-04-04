@@ -6,7 +6,7 @@ import { Lock, ArrowLeft } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { resetPassword } from "@/services/auth.service";
 
 const resetPasswordSchema = z
   .object({
@@ -36,6 +37,9 @@ type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 export default function ResetPasswordPage() {
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email");
+  const otp = searchParams.get("otp");
 
   const form = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
@@ -45,12 +49,26 @@ export default function ResetPasswordPage() {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async function onSubmit(_values: ResetPasswordFormValues) {
+  async function onSubmit(values: ResetPasswordFormValues) {
+    if (!email || !otp) {
+      ErrorToast("Email and OTP are required");
+      return;
+    }
+
     setIsLoading(true);
     try {
-      SuccessToast("Password reset successfully!");
-      router.push("/auth/login");
+      const response = await resetPassword({
+        email,
+        otp,
+        newPassword: values.password,
+      });
+
+      if (response?.success) {
+        SuccessToast(response.message || "Password reset successfully!");
+        router.push("/auth/login");
+      } else {
+        ErrorToast(response?.message || "Failed to reset password. Please try again.");
+      }
     } catch (error) {
       ErrorToast("Failed to reset password. Please try again.");
       console.error(error);

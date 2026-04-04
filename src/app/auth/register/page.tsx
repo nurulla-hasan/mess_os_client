@@ -38,6 +38,7 @@ export default function RegisterPage() {
       email: "",
       phone: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -49,13 +50,22 @@ export default function RegisterPage() {
 
     setIsLoading(true);
     try {
-      const response = await register(values);
+      const response = await register({
+        fullName: values.fullname,
+        email: values.email,
+        password: values.password,
+        phone: values.phone,
+      });
 
       if (response?.success) {
         SuccessToast(response.message || "Account created successfully!");
-        router.replace("/auth/login");
+        router.replace(
+          `/auth/verify-otp?type=register&email=${encodeURIComponent(values.email)}`,
+        );
       } else {
-        ErrorToast(response?.message || "Registration failed. Please try again.");
+        ErrorToast(
+          response?.message || "Registration failed. Please try again.",
+        );
       }
     } catch (error) {
       ErrorToast("Something went wrong. Please try again.");
@@ -179,21 +189,30 @@ export default function RegisterPage() {
                   </FormItem>
                 )}
               />
-              <FormItem>
-                <FormLabel>Confirm password</FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="password"
-                      placeholder="••••••••"
-                      className="pl-10"
-                      disabled={isLoading}
-                      autoComplete="new-password"
-                    />
-                  </div>
-                </FormControl>
-              </FormItem>
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field, fieldState }) => (
+                  <FormItem data-invalid={fieldState.invalid}>
+                    <FormLabel>Confirm password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          type="password"
+                          placeholder="••••••••"
+                          className="pl-10"
+                          {...field}
+                          disabled={isLoading}
+                          aria-invalid={fieldState.invalid}
+                          autoComplete="new-password"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* Terms Section */}
@@ -202,7 +221,9 @@ export default function RegisterPage() {
                 <Checkbox
                   id="terms"
                   checked={agreeToTerms}
-                  onCheckedChange={(checked) => setAgreeToTerms(checked as boolean)}
+                  onCheckedChange={(checked) =>
+                    setAgreeToTerms(checked as boolean)
+                  }
                 />
                 <label
                   htmlFor="terms"

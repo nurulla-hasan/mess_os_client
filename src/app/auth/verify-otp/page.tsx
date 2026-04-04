@@ -26,6 +26,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { verifyOtp, resendVerifyOtp, forgotPassword, verifyResetOtp } from "@/services/auth.service";
 
 const verifyOtpSchema = z.object({
   otp: z.string().min(6, "Your one-time password must be 6 characters"),
@@ -38,7 +39,11 @@ export default function VerifyOtpPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
+  const type = searchParams.get("type") || "register";
   const { secondsLeft, isRunning, start } = useCountdown(30, "otp-timer");
+
+  const isRegister = type === "register";
+  const isReset = type === "reset";
 
   const form = useForm<VerifyOtpFormValues>({
     resolver: zodResolver(verifyOtpSchema),
@@ -52,33 +57,89 @@ export default function VerifyOtpPage() {
     if (!isRunning && secondsLeft === "00:30") {
       start();
     }
-  });
+  }, [isRunning, secondsLeft, start]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async function onSubmit(_values: VerifyOtpFormValues) {
+  async function onSubmit(values: VerifyOtpFormValues) {
+    if (!email) {
+      ErrorToast("Email is required");
+      return;
+    }
+
     setIsLoading(true);
     try {
-      SuccessToast("OTP verified successfully!");
-      router.push("/auth/reset-password");
+      if (isRegister) {
+        // Email verification after registration
+        const response = await verifyOtp({
+          email,
+          otp: values.otp,
+        });
+
+        if (response?.success) {
+          SuccessToast(response.message || "Email verified successfully!");
+          router.push("/auth/login");
+        } else {
+          ErrorToast(response?.message || "Failed to verify OTP. Please try again.");
+        }
+      } else if (isReset) {
+        // OTP verification for password reset
+        const response = await verifyResetOtp({
+          email,
+          otp: values.otp,
+        });
+
+        if (response?.success) {
+          SuccessToast(response.message || "OTP verified successfully!");
+          router.push(`/auth/reset-password?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(values.otp)}`);
+        } else {
+          ErrorToast(response?.message || "Failed to verify OTP. Please try again.");
+        }
+      }
     } catch (error) {
-      ErrorToast("Failed to verify OTP. Please try again.");
+      ErrorToast("Something went wrong. Please try again.");
       console.error(error);
     } finally {
       setIsLoading(false);
     }
   }
 
-  const handleResend = () => {
+  const handleResend = async () => {
+    if (!email) {
+      ErrorToast("Email is required");
+      return;
+    }
+
     start();
-    SuccessToast("OTP resent to your email!");
+    try {
+      if (isRegister) {
+        const response = await resendVerifyOtp({ email });
+        if (response?.success) {
+          SuccessToast("Verification OTP resent to your email!");
+        } else {
+          ErrorToast(response?.message || "Failed to resend OTP. Please try again.");
+        }
+      } else {
+        const response = await forgotPassword({ email });
+        if (response?.success) {
+          SuccessToast("Reset OTP resent to your email!");
+        } else {
+          ErrorToast(response?.message || "Failed to resend OTP. Please try again.");
+        }
+      }
+    } catch {
+      ErrorToast("Failed to resend OTP. Please try again.");
+    }
   };
 
   return (
     <Card className="w-full">
       <CardHeader className="text-center space-y-1.5">
-        <h1 className="text-xl font-semibold tracking-tight">Verify OTP</h1>
+        <h1 className="text-xl font-semibold tracking-tight">
+          {isRegister ? "Verify your email" : "Verify reset code"}
+        </h1>
         <p className="text-sm text-muted-foreground">
-          Enter the 6-digit code sent to your email
+          {isRegister
+            ? "Enter the 6-digit code sent to your email to verify your account"
+            : "Enter the 6-digit code sent to your email to reset your password"}
         </p>
         {email && (
           <p className="text-xs text-muted-foreground">{email}</p>
@@ -143,7 +204,7 @@ export default function VerifyOtpPage() {
               loadingText="Verifying..."
               className="w-full"
             >
-              Verify code
+              {isRegister ? "Verify email" : "Verify code"}
             </Button>
           </form>
         </Form>
