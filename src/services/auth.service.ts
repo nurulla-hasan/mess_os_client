@@ -107,7 +107,7 @@ export const getCurrentUserRole = async (): Promise<string | null> => {
   try {
     const { jwtDecode } = await import("jwt-decode");
     const decoded: any = jwtDecode(token);
-    return decoded.role || "Member";
+    return decoded.globalRole || null;
   } catch (error) {
     console.error("Error decoding token on server:", error);
     return null;

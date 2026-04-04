@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { getPostLoginRoute } from "@/lib/auth-routing";
+import { IUser } from "@/types/user.type";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,7 +25,7 @@ import {
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { loginSchema } from "@/schemas/auth.schema";
-import { login } from "@/services/auth.service";
+import { login, getMe } from "@/services/auth.service";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
@@ -48,7 +50,32 @@ export default function LoginPage() {
 
       if (response?.success) {
         SuccessToast(response.message || "Login successful!");
-        router.replace("/dashboard");
+
+        let user: IUser | null = null;
+
+        if (response.data?.user) {
+          const responseUser = response.data.user as IUser;
+          // Only use response user if it has membership data for route resolution
+          if (responseUser.memberships || responseUser.activeMembership) {
+            user = responseUser;
+          }
+        }
+
+        // Fallback to getMe if user is missing or lacks membership data
+        if (!user) {
+          try {
+            const meResponse = await getMe();
+            if (meResponse?.success && meResponse.data) {
+              user = meResponse.data as IUser;
+            }
+          } catch {
+            // If getMe fails, user stays null and falls back to /get-started
+          }
+        }
+
+        // Determine redirect route based on user state
+        const redirectRoute = getPostLoginRoute(user);
+        router.replace(redirectRoute);
       } else {
         ErrorToast(response?.message || "Login failed. Please try again.");
       }

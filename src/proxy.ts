@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 
 // Define auth and protected routes
 const authRoutes = ["/auth/login", "/auth/register", "/auth/verify-otp", "/auth/forgot-password", "/auth/reset-password"];
-const protectedRoutes = ["/dashboard"];
+const protectedRoutes = ["/admin", "/manager", "/dashboard", "/pending-approval", "/create-mess", "/get-started"];
 
 /**
  * Proxy function (Next.js 16+ convention) to handle route protection 
@@ -43,9 +43,9 @@ export async function proxy(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) => nextUrl.pathname.startsWith(route));
 
   // 1. If user is logged in and tries to access auth pages (login, register, etc.)
-  // Redirect them to the dashboard
+  // Redirect them to get-started (neutral entry point)
   if (isAuthRoute && accessToken) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/get-started", request.url));
   }
 
   // 2. If user is NOT logged in and tries to access protected pages (dashboard, etc.)
