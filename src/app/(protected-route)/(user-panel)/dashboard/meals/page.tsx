@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 export default function MemberMealsPage() {
   const myMeals = mockMeals.filter(m => m.member.name === "Nasir Uddin"); // Mocking current user filter
-  const totalMeals = myMeals.reduce((acc, m) => acc + m.mealCount, 0);
+  const totalMeals = myMeals.reduce((acc, m) => acc + m.count, 0);
 
   return (
     <DashboardPageLayout>
