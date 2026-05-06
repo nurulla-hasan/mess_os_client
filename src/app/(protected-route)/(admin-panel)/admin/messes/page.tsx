@@ -1,30 +1,62 @@
 "use client";
 
-import PageLayout from "@/components/ui/custom/page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { Home } from "lucide-react";
+import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { columns } from "@/components/admin/messes/columns";
+import { mockAdminMesses } from "@/components/admin/messes/mockData";
+import { Button } from "@/components/ui/button";
+import * as Icons from "lucide-react";
 
 export default function AdminMessesPage() {
+  const activeMesses = mockAdminMesses.filter(m => m.status === "active");
+  const suspendedMesses = mockAdminMesses.filter(m => m.status === "suspended");
+
   return (
-    <PageLayout>
-      <DashboardPageHeader
-        title="Messes Management"
-        description="View all messes and manage suspensions."
-      />
-      <div className="mt-8">
-        <Card>
-          <CardContent className="p-12 flex flex-col items-center justify-center text-center">
-            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <Home className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Platform Messes</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This page will display a data table of all messes operating on the platform, allowing super admins to suspend or review them.
-            </p>
-          </CardContent>
-        </Card>
+    <DashboardPageLayout>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <DashboardHeader
+          title="Platform Messes"
+          description="Monitor all registered messes, track growth, and manage global mess statuses."
+        />
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm">
+            <Icons.Filter /> Filters
+          </Button>
+        </div>
       </div>
-    </PageLayout>
+
+      <div>
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList variant="line" className="mb-4">
+            <TabsTrigger value="all" className="flex items-center gap-2">
+              <Icons.Building2 className="h-4 w-4" />
+              <span>All Messes</span>
+            </TabsTrigger>
+            <TabsTrigger value="active" className="flex items-center gap-2">
+              <Icons.ShieldCheck className="h-4 w-4" />
+              <span>Active</span>
+            </TabsTrigger>
+            <TabsTrigger value="suspended" className="flex items-center gap-2">
+              <Icons.ShieldAlert className="h-4 w-4" />
+              <span>Suspended</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="all">
+            <DataTable columns={columns} data={mockAdminMesses} searchKey="name" />
+          </TabsContent>
+          
+          <TabsContent value="active">
+            <DataTable columns={columns} data={activeMesses} />
+          </TabsContent>
+
+          <TabsContent value="suspended">
+            <DataTable columns={columns} data={suspendedMesses} />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DashboardPageLayout>
   );
 }
