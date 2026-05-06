@@ -14,14 +14,14 @@ import { IUser } from "@/types/user.type";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormField } from "@/components/ui/form";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldContent,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { loginSchema } from "@/schemas/auth.schema";
@@ -93,83 +93,82 @@ export default function LoginPage() {
       <CardContent className="space-y-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field, fieldState }) => (
-                <FormItem data-invalid={fieldState.invalid}>
-                  <FormLabel>Email or phone</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        placeholder="name@example.com"
-                        className="pl-10"
-                        {...field}
-                        disabled={isLoading}
-                        aria-invalid={fieldState.invalid}
-                        autoComplete="email"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field, fieldState }) => (
-                <FormItem data-invalid={fieldState.invalid}>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="••••••••"
-                        className="pl-10 pr-10"
-                        {...field}
-                        disabled={isLoading}
-                        aria-invalid={fieldState.invalid}
-                        autoComplete="current-password"
-                      />
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        disabled={isLoading}
-                      >
-                        {showPassword ? (
-                          <EyeOff className="h-4 w-4 text-muted-foreground" />
-                        ) : (
-                          <Eye className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <FieldGroup>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel>Email or phone</FieldLabel>
+                    <FieldContent>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="name@example.com"
+                          className="pl-10"
+                          {...field}
+                          disabled={isLoading}
+                          aria-invalid={fieldState.invalid}
+                          autoComplete="email"
+                        />
+                      </div>
+                      <FieldError errors={[fieldState.error]} />
+                    </FieldContent>
+                  </Field>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel>Password</FieldLabel>
+                    <FieldContent>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="••••••••"
+                          className="pl-10 pr-10"
+                          {...field}
+                          disabled={isLoading}
+                          aria-invalid={fieldState.invalid}
+                          autoComplete="current-password"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          disabled={isLoading}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4 text-muted-foreground" />
+                          ) : (
+                            <Eye className="h-4 w-4 text-muted-foreground" />
+                          )}
+                        </Button>
+                      </div>
+                      <FieldError errors={[fieldState.error]} />
+                    </FieldContent>
+                  </Field>
+                )}
+              />
+            </FieldGroup>
 
             {/* Utility Row */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
+              <Field orientation="horizontal" className="w-auto">
                 <Checkbox
                   id="remember"
                   checked={rememberMe}
                   onCheckedChange={(checked) => setRememberMe(checked as boolean)}
                 />
-                <label
-                  htmlFor="remember"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
+                <FieldLabel htmlFor="remember" className="font-normal cursor-pointer">
                   Remember me
-                </label>
-              </div>
+                </FieldLabel>
+              </Field>
               <Link
                 href="/auth/forgot-password"
                 className="text-sm font-medium text-primary hover:underline underline-offset-4"

@@ -12,14 +12,14 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormField } from "@/components/ui/form";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldContent,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { registerSchema } from "@/schemas/auth.schema";
 import { register } from "@/services/auth.service";
@@ -86,138 +86,140 @@ export default function RegisterPage() {
       <CardContent className="space-y-4">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Row 1: Full name | Phone number */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="fullname"
-                render={({ field, fieldState }) => (
-                  <FormItem data-invalid={fieldState.invalid}>
-                    <FormLabel>Full name</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          placeholder="John Doe"
-                          className="pl-10"
-                          {...field}
-                          disabled={isLoading}
-                          aria-invalid={fieldState.invalid}
-                          autoComplete="name"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field, fieldState }) => (
-                  <FormItem data-invalid={fieldState.invalid}>
-                    <FormLabel>Phone number</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="tel"
-                          placeholder="+880 1XXX-XXXXXX"
-                          className="pl-10"
-                          {...field}
-                          disabled={isLoading}
-                          aria-invalid={fieldState.invalid}
-                          autoComplete="tel"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FieldGroup>
+              {/* Row 1: Full name | Phone number */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="fullname"
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel>Full name</FieldLabel>
+                      <FieldContent>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            placeholder="John Doe"
+                            className="pl-10"
+                            {...field}
+                            disabled={isLoading}
+                            aria-invalid={fieldState.invalid}
+                            autoComplete="name"
+                          />
+                        </div>
+                        <FieldError errors={[fieldState.error]} />
+                      </FieldContent>
+                    </Field>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel>Phone number</FieldLabel>
+                      <FieldContent>
+                        <div className="relative">
+                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            type="tel"
+                            placeholder="+880 1XXX-XXXXXX"
+                            className="pl-10"
+                            {...field}
+                            disabled={isLoading}
+                            aria-invalid={fieldState.invalid}
+                            autoComplete="tel"
+                          />
+                        </div>
+                        <FieldError errors={[fieldState.error]} />
+                      </FieldContent>
+                    </Field>
+                  )}
+                />
+              </div>
 
-            {/* Row 2: Email (full width) */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field, fieldState }) => (
-                <FormItem data-invalid={fieldState.invalid}>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="email"
-                        placeholder="name@example.com"
-                        className="pl-10"
-                        {...field}
-                        disabled={isLoading}
-                        aria-invalid={fieldState.invalid}
-                        autoComplete="email"
-                      />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              {/* Row 2: Email (full width) */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel>Email</FieldLabel>
+                    <FieldContent>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          type="email"
+                          placeholder="name@example.com"
+                          className="pl-10"
+                          {...field}
+                          disabled={isLoading}
+                          aria-invalid={fieldState.invalid}
+                          autoComplete="email"
+                        />
+                      </div>
+                      <FieldError errors={[fieldState.error]} />
+                    </FieldContent>
+                  </Field>
+                )}
+              />
 
-            {/* Row 3: Password | Confirm password */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field, fieldState }) => (
-                  <FormItem data-invalid={fieldState.invalid}>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="password"
-                          placeholder="••••••••"
-                          className="pl-10"
-                          {...field}
-                          disabled={isLoading}
-                          aria-invalid={fieldState.invalid}
-                          autoComplete="new-password"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field, fieldState }) => (
-                  <FormItem data-invalid={fieldState.invalid}>
-                    <FormLabel>Confirm password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="password"
-                          placeholder="••••••••"
-                          className="pl-10"
-                          {...field}
-                          disabled={isLoading}
-                          aria-invalid={fieldState.invalid}
-                          autoComplete="new-password"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+              {/* Row 3: Password | Confirm password */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel>Password</FieldLabel>
+                      <FieldContent>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            className="pl-10"
+                            {...field}
+                            disabled={isLoading}
+                            aria-invalid={fieldState.invalid}
+                            autoComplete="new-password"
+                          />
+                        </div>
+                        <FieldError errors={[fieldState.error]} />
+                      </FieldContent>
+                    </Field>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel>Confirm password</FieldLabel>
+                      <FieldContent>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            type="password"
+                            placeholder="••••••••"
+                            className="pl-10"
+                            {...field}
+                            disabled={isLoading}
+                            aria-invalid={fieldState.invalid}
+                            autoComplete="new-password"
+                          />
+                        </div>
+                        <FieldError errors={[fieldState.error]} />
+                      </FieldContent>
+                    </Field>
+                  )}
+                />
+              </div>
+            </FieldGroup>
 
             {/* Terms Section */}
             <div className="pt-2 border-t">
-              <div className="flex items-start space-x-2 pt-2">
+              <Field orientation="horizontal" className="pt-2 items-start">
                 <Checkbox
                   id="terms"
                   checked={agreeToTerms}
@@ -225,9 +227,9 @@ export default function RegisterPage() {
                     setAgreeToTerms(checked as boolean)
                   }
                 />
-                <label
+                <FieldLabel
                   htmlFor="terms"
-                  className="text-sm leading-relaxed peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-sm leading-relaxed font-normal cursor-pointer"
                 >
                   I agree to the{" "}
                   <Link
@@ -243,8 +245,8 @@ export default function RegisterPage() {
                   >
                     Privacy Policy
                   </Link>
-                </label>
-              </div>
+                </FieldLabel>
+              </Field>
             </div>
 
             <Button
