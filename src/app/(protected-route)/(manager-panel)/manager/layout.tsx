@@ -8,7 +8,7 @@ export default function ManagerLayout({
   children: ReactNode;
 }>) {
   return (
-    <MainLayout>
+    <MainLayout userRole="manager">
       {children}
     </MainLayout>
   );

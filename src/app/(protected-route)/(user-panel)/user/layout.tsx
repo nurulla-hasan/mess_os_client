@@ -8,7 +8,7 @@ export default function UserLayout({
   children: ReactNode;
 }>) {
   return (
-    <MainLayout>
+    <MainLayout userRole="member">
       {children}
     </MainLayout>
   );

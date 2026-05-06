@@ -4,7 +4,14 @@ import { useState } from "react";
 import Sidebar from "./sidebar";
 import Header from "./header";
 
-const MainLayout = ({ children }: { children: React.ReactNode }) => {
+type UserRole = "member" | "manager" | "admin";
+
+interface MainLayoutProps {
+  children: React.ReactNode;
+  userRole?: UserRole;
+}
+
+const MainLayout = ({ children, userRole = "member" }: MainLayoutProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -13,17 +20,14 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        userRole={userRole}
       />
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col relative lg:pl-64 h-screen overflow-hidden">
+      <div className="flex-1 flex flex-col relative lg:ml-64 h-screen overflow-hidden">
         <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
 
-        <div className="flex-1 flex flex-col relative lg:ml-64 h-screen overflow-hidden">
-          <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-
-          <main className="flex-1 overflow-y-auto p-4 mt-20">{children}</main>
-        </div>
+        <main className="flex-1 overflow-y-auto p-4 mt-20">{children}</main>
       </div>
 
       {/* Mobile Overlay */}
