@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Sidebar from "./sidebar";
 import Header from "./header";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -19,14 +18,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col relative lg:pl-64 h-screen overflow-hidden">
         <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-        
-        <main className="flex-1 overflow-hidden pt-20">
-          <ScrollArea className="h-full">
-            <div className="p-4">
-              {children}
-            </div>
-          </ScrollArea>
-        </main>
+
+        <div className="flex-1 flex flex-col relative lg:ml-64 h-screen overflow-hidden">
+          <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+
+          <main className="flex-1 overflow-y-auto p-4 mt-20">{children}</main>
+        </div>
       </div>
 
       {/* Mobile Overlay */}

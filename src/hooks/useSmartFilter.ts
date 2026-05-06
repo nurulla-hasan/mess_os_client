@@ -1,38 +1,52 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useRef, useEffect } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 // ============================================
 // Type Definitions
 // ============================================
 
+type FilterValue = string | number | null | undefined;
+type NavigationMethod = "push" | "replace";
+
 export interface SmartFilterOptions {
   /** Debounce delay in milliseconds */
   debounce?: number;
+
   /** Reset pagination to page 1 when filter changes */
   resetPage?: boolean;
+
   /** Enable scroll restoration after navigation */
   scroll?: boolean;
+
   /** Navigation method - push adds to history, replace does not */
-  method?: "push" | "replace";
+  method?: NavigationMethod;
 }
 
 export interface SmartFilterConfig {
-  /** URL parameter key for pagination (default: "page") */
+  /** URL parameter key for pagination */
   paginationKey?: string;
-  /** Default debounce delay for all updates (default: 0) */
+
+  /** Default debounce delay for all updates */
   defaultDebounce?: number;
+
+  /** Default navigation method */
+  defaultMethod?: NavigationMethod;
 }
 
 export interface ClearAllOptions {
   /** Keys to exclude from clearing */
   exclude?: ReadonlyArray<string>;
+
   /** Enable scroll restoration */
   scroll?: boolean;
+
   /** Navigation method */
-  method?: "push" | "replace";
+  method?: NavigationMethod;
 }
+
+const BATCH_KEY = "___global_batch_update___";
 
 // ============================================
 // Main Hook
@@ -40,338 +54,416 @@ export interface ClearAllOptions {
 
 /**
  * A powerful hook for managing URL search parameters in Next.js App Router.
- * 
+ *
  * Features:
- * - Debouncing for search/filter inputs
- * - Batch updates for multiple filters at once
- * - Toggle support for multi-select filters
- * - Automatic pagination reset on filter change
- * - Type-safe parameter keys
- * - Memory leak prevention
- * 
- * @example
- * ```tsx
- * const { updateFilter, getFilter, clearAll } = useSmartFilter<"search" | "status">();
- * 
- * // Debounced search
- * <input 
- *   value={getFilter("search")} 
- *   onChange={(e) => updateFilter("search", e.target.value, { debounce: 300 })}
- * />
- * 
- * // Status filter
- * <select 
- *   value={getFilter("status")} 
- *   onChange={(e) => updateFilter("status", e.target.value)}
- * />
- * 
- * // Clear all filters
- * <button onClick={() => clearAll()}>Reset</button>
- * ```
+ * - Optimistic UI updates
+ * - Debounced URL navigation
+ * - Batch filter updates
+ * - Pagination reset
+ * - Multi-select toggle
+ * - Clear all filters
+ * - Pending update state
  */
 export const useSmartFilter = <T extends string = string>(
-  config: SmartFilterConfig = {}
+  config: SmartFilterConfig = {},
 ) => {
-  const { paginationKey = "page", defaultDebounce = 0 } = config;
+  const {
+    paginationKey = "page",
+    defaultDebounce = 0,
+    defaultMethod = "replace",
+  } = config;
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const timeoutRefs = useRef<Record<string, NodeJS.Timeout>>({});
+
+  const timeoutRefs = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+
+  const [optimisticParams, setOptimisticParams] = useState(
+    () => new URLSearchParams(searchParams.toString()),
+  );
+
+  const latestParamsRef = useRef(new URLSearchParams(searchParams.toString()));
+
+  const [pendingKeys, setPendingKeys] = useState<string[]>([]);
 
   // ============================================
-  // Cleanup on unmount
+  // Helpers
   // ============================================
+
+  const isEmptyValue = useCallback((value: FilterValue) => {
+    return value === null || value === undefined || value === "";
+  }, []);
+
+  const isInvalidPagination = useCallback(
+    (key: string, value: FilterValue) => {
+      if (key !== paginationKey || isEmptyValue(value)) return false;
+
+      const page = Number(value);
+
+      return !Number.isInteger(page) || page < 1;
+    },
+    [paginationKey, isEmptyValue],
+  );
+
+  const buildUrl = useCallback(
+    (params: URLSearchParams) => {
+      const query = params.toString();
+
+      return query ? `${pathname}?${query}` : pathname;
+    },
+    [pathname],
+  );
+
+  const navigateWithParams = useCallback(
+    (params: URLSearchParams, method: NavigationMethod, scroll: boolean) => {
+      const url = buildUrl(params);
+
+      if (method === "push") {
+        router.push(url, { scroll });
+      } else {
+        router.replace(url, { scroll });
+      }
+    },
+    [router, buildUrl],
+  );
+
+  const addPendingKey = useCallback((key: string) => {
+    setPendingKeys((prev) => {
+      if (prev.includes(key)) return prev;
+
+      return [...prev, key];
+    });
+  }, []);
+
+  const removePendingKey = useCallback((key: string) => {
+    setPendingKeys((prev) => prev.filter((item) => item !== key));
+  }, []);
+
+  const clearTimer = useCallback(
+    (key: string) => {
+      if (timeoutRefs.current[key]) {
+        clearTimeout(timeoutRefs.current[key]);
+        delete timeoutRefs.current[key];
+      }
+
+      removePendingKey(key);
+    },
+    [removePendingKey],
+  );
+
+  /**
+   * Only clears timers.
+   * Do not call setState here, so it stays safe to use inside effects.
+   */
+  const clearAllTimers = useCallback(() => {
+    Object.values(timeoutRefs.current).forEach(clearTimeout);
+    timeoutRefs.current = {};
+  }, []);
+
+  const updateOptimisticParams = useCallback(
+    (updater: (prev: URLSearchParams) => URLSearchParams) => {
+      const next = updater(new URLSearchParams(latestParamsRef.current));
+
+      latestParamsRef.current = new URLSearchParams(next);
+      setOptimisticParams(next);
+    },
+    [],
+  );
+
+  const applyUpdatesToParams = useCallback(
+    (
+      baseParams: URLSearchParams,
+      updates: Partial<Record<T, FilterValue>>,
+      resetPage: boolean,
+    ) => {
+      const next = new URLSearchParams(baseParams);
+      const entries = Object.entries(updates) as [T, FilterValue][];
+
+      let hasFilterChanged = false;
+
+      entries.forEach(([key, value]) => {
+        if (isInvalidPagination(key, value)) return;
+
+        if (isEmptyValue(value)) {
+          next.delete(key);
+        } else {
+          next.set(key, String(value));
+        }
+
+        if (key !== paginationKey) {
+          hasFilterChanged = true;
+        }
+      });
+
+      if (resetPage && hasFilterChanged) {
+        next.set(paginationKey, "1");
+      }
+
+      return next;
+    },
+    [paginationKey, isEmptyValue, isInvalidPagination],
+  );
+
+  const scheduleNavigation = useCallback(
+    (
+      key: string,
+      debounce: number,
+      method: NavigationMethod,
+      scroll: boolean,
+    ) => {
+      clearTimer(key);
+
+      const executeUpdate = () => {
+        const latestParams = new URLSearchParams(latestParamsRef.current);
+
+        navigateWithParams(latestParams, method, scroll);
+
+        delete timeoutRefs.current[key];
+        removePendingKey(key);
+      };
+
+      if (debounce > 0) {
+        addPendingKey(key);
+        timeoutRefs.current[key] = setTimeout(executeUpdate, debounce);
+      } else {
+        executeUpdate();
+      }
+    },
+    [clearTimer, navigateWithParams, addPendingKey, removePendingKey],
+  );
+
+  // ============================================
+  // Sync With Real URL
+  // ============================================
+
+  useEffect(() => {
+    const currentParams = searchParams.toString();
+    const latestParams = latestParamsRef.current.toString();
+
+    // Back/forward button or external URL change
+    if (latestParams === currentParams) return;
+
+    clearAllTimers();
+
+    const next = new URLSearchParams(currentParams);
+
+    latestParamsRef.current = next;
+
+    // URL search params are external state, so this sync is intentional.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOptimisticParams(next);
+    setPendingKeys([]);
+  }, [searchParams, clearAllTimers]);
+
+  // Cleanup pending timers on unmount
   useEffect(() => {
     return () => {
-      // Clear all pending timeouts to prevent memory leaks
       Object.values(timeoutRefs.current).forEach(clearTimeout);
-      timeoutRefs.current = {};
     };
   }, []);
 
   // ============================================
   // Update Single Filter
   // ============================================
+
   const updateFilter = useCallback(
-    (
-      key: T,
-      value: string | number | null | undefined,
-      options: SmartFilterOptions | number = {}
-    ) => {
-      // Handle legacy debounceTime as 3rd argument (backward compatibility)
+    (key: T, value: FilterValue, options: SmartFilterOptions | number = {}) => {
+      if (isInvalidPagination(key, value)) return;
+
       const opt = typeof options === "number" ? { debounce: options } : options;
+
       const {
         debounce = defaultDebounce,
         resetPage = true,
         scroll = false,
-        method = "push",
+        method = defaultMethod,
       } = opt;
 
-      // Clear existing timeout for this key
-      if (timeoutRefs.current[key]) {
-        clearTimeout(timeoutRefs.current[key]);
-        delete timeoutRefs.current[key];
-      }
+      updateOptimisticParams((prev) =>
+        applyUpdatesToParams(
+          prev,
+          { [key]: value } as Partial<Record<T, FilterValue>>,
+          resetPage,
+        ),
+      );
 
-      const executeUpdate = () => {
-        const params = new URLSearchParams(searchParams.toString());
-
-        // Set or delete parameter
-        if (value !== null && value !== undefined && value !== "") {
-          // Validate page number if updating pagination
-          if (key === paginationKey) {
-            const pageNum = Number(value);
-            if (isNaN(pageNum) || pageNum < 1) {
-              console.warn(`[useSmartFilter] Invalid page number: ${value}`);
-              return;
-            }
-          }
-          params.set(key, String(value));
-        } else {
-          params.delete(key);
-        }
-
-        // Reset pagination when other filters change
-        if (resetPage && key !== paginationKey) {
-          params.set(paginationKey, "1");
-        }
-
-        // Navigate
-        const url = `${pathname}?${params.toString()}`;
-        if (method === "replace") {
-          router.replace(url, { scroll });
-        } else {
-          router.push(url, { scroll });
-        }
-      };
-
-      // Execute with or without debounce
-      if (debounce > 0) {
-        timeoutRefs.current[key] = setTimeout(executeUpdate, debounce);
-      } else {
-        executeUpdate();
-      }
+      scheduleNavigation(key, debounce, method, scroll);
     },
-    [searchParams, pathname, router, paginationKey, defaultDebounce]
+    [
+      defaultDebounce,
+      defaultMethod,
+      isInvalidPagination,
+      updateOptimisticParams,
+      applyUpdatesToParams,
+      scheduleNavigation,
+    ],
   );
 
   // ============================================
-  // Update Multiple Filters (Batch)
+  // Update Multiple Filters
   // ============================================
+
   const updateBatch = useCallback(
     (
-      updates: Partial<Record<T, string | number | null | undefined>>,
-      options: SmartFilterOptions | number = {}
+      updates: Partial<Record<T, FilterValue>>,
+      options: SmartFilterOptions | number = {},
     ) => {
-      // Handle legacy debounceTime as 2nd argument
+      if (Object.keys(updates).length === 0) return;
+
       const opt = typeof options === "number" ? { debounce: options } : options;
+
       const {
         debounce = defaultDebounce,
         resetPage = true,
         scroll = false,
-        method = "push",
+        method = defaultMethod,
       } = opt;
 
-      const keys = Object.keys(updates) as T[];
+      updateOptimisticParams((prev) =>
+        applyUpdatesToParams(prev, updates, resetPage),
+      );
 
-      // Clear existing timeouts for all updated keys
-      keys.forEach((key) => {
-        if (timeoutRefs.current[key]) {
-          clearTimeout(timeoutRefs.current[key]);
-          delete timeoutRefs.current[key];
-        }
-      });
-
-      const executeUpdate = () => {
-        const params = new URLSearchParams(searchParams.toString());
-        let hasFilterChanged = false;
-
-        // Apply all updates
-        Object.entries(updates).forEach(([key, value]) => {
-          if (value !== null && value !== undefined && value !== "") {
-            // Validate page number
-            if (key === paginationKey) {
-              const pageNum = Number(value);
-              if (isNaN(pageNum) || pageNum < 1) {
-                console.warn(`[useSmartFilter] Invalid page number: ${value}`);
-                return;
-              }
-            }
-            params.set(key, String(value));
-          } else {
-            params.delete(key);
-          }
-
-          if (key !== paginationKey) {
-            hasFilterChanged = true;
-          }
-        });
-
-        // Reset pagination if non-page filters changed
-        if (resetPage && hasFilterChanged) {
-          params.set(paginationKey, "1");
-        }
-
-        // Navigate
-        const url = `${pathname}?${params.toString()}`;
-        if (method === "replace") {
-          router.replace(url, { scroll });
-        } else {
-          router.push(url, { scroll });
-        }
-      };
-
-      // Execute with or without debounce
-      if (debounce > 0) {
-        // Use unique key for batch operation to avoid conflicts
-        const batchKey = `__batch_${Math.random()}` as T;
-        timeoutRefs.current[batchKey] = setTimeout(() => {
-          executeUpdate();
-          delete timeoutRefs.current[batchKey];
-        }, debounce);
-      } else {
-        executeUpdate();
-      }
+      scheduleNavigation(BATCH_KEY, debounce, method, scroll);
     },
-    [searchParams, pathname, router, paginationKey, defaultDebounce]
+    [
+      defaultDebounce,
+      defaultMethod,
+      updateOptimisticParams,
+      applyUpdatesToParams,
+      scheduleNavigation,
+    ],
   );
 
   // ============================================
-  // Toggle Filter (Multi-Select)
+  // Toggle Filter - Multi Select
   // ============================================
+
   const toggleFilter = useCallback(
     (key: T, value: string, options?: SmartFilterOptions) => {
-      const params = new URLSearchParams(searchParams.toString());
-      const currentVal = params.get(key);
-      let newValues = currentVal ? currentVal.split(",") : [];
+      const currentValue = latestParamsRef.current.get(key);
+      let values = currentValue ? currentValue.split(",").filter(Boolean) : [];
 
-      if (newValues.includes(value)) {
-        newValues = newValues.filter((v) => v !== value);
+      if (values.includes(value)) {
+        values = values.filter((item) => item !== value);
       } else {
-        newValues.push(value);
+        values.push(value);
       }
 
-      const finalValue = newValues.length > 0 ? newValues.join(",") : null;
+      const finalValue = values.length > 0 ? values.join(",") : null;
+
       updateFilter(key, finalValue, options);
     },
-    [searchParams, updateFilter]
+    [updateFilter],
   );
 
   // ============================================
   // Clear All Filters
   // ============================================
+
   const clearAll = useCallback(
     (options: ClearAllOptions = {}) => {
-      const { exclude = [], scroll = false, method = "push" } = options;
-      const params = new URLSearchParams(searchParams.toString());
+      const { exclude = [], scroll = false, method = defaultMethod } = options;
 
-      // Clear all timeouts
-      Object.values(timeoutRefs.current).forEach(clearTimeout);
-      timeoutRefs.current = {};
+      clearAllTimers();
+      setPendingKeys([]);
 
-      // Delete all params except excluded ones
-      Array.from(params.keys()).forEach((key) => {
-        if (!exclude.includes(key)) {
-          params.delete(key);
-        }
+      updateOptimisticParams((prev) => {
+        const next = new URLSearchParams(prev);
+
+        Array.from(next.keys()).forEach((key) => {
+          if (!exclude.includes(key)) {
+            next.delete(key);
+          }
+        });
+
+        return next;
       });
 
-      // Navigate
-      const url = `${pathname}?${params.toString()}`;
-      if (method === "replace") {
-        router.replace(url, { scroll });
-      } else {
-        router.push(url, { scroll });
-      }
+      navigateWithParams(
+        new URLSearchParams(latestParamsRef.current),
+        method,
+        scroll,
+      );
     },
-    [searchParams, pathname, router]
+    [defaultMethod, clearAllTimers, updateOptimisticParams, navigateWithParams],
   );
 
   // ============================================
-  // Get Filter Value
+  // Read Methods
   // ============================================
+
   const getFilter = useCallback(
     (key: T, defaultValue = "") => {
-      return searchParams.get(key) ?? defaultValue;
+      return optimisticParams.get(key) ?? defaultValue;
     },
-    [searchParams]
+    [optimisticParams],
   );
 
-  // ============================================
-  // Get Array Filter (Comma-Separated)
-  // ============================================
   const getArrayFilter = useCallback(
     (key: T) => {
-      const val = searchParams.get(key);
-      return val ? val.split(",").filter(Boolean) : [];
+      const value = optimisticParams.get(key);
+
+      return value ? value.split(",").filter(Boolean) : [];
     },
-    [searchParams]
+    [optimisticParams],
   );
 
-  // ============================================
-  // Check if Value is Selected (Multi-Select)
-  // ============================================
   const isSelected = useCallback(
     (key: T, value: string) => {
-      const val = searchParams.get(key);
-      return val ? val.split(",").includes(value) : false;
+      const currentValue = optimisticParams.get(key);
+
+      return currentValue ? currentValue.split(",").includes(value) : false;
     },
-    [searchParams]
+    [optimisticParams],
   );
 
-  // ============================================
-  // Check if Any Filter is Active
-  // ============================================
-  /**
-   * Check if any filters are active
-   * @param keys - Specific keys to check. If not provided, checks all keys except pagination
-   */
   const isFilterActive = useCallback(
     (keys?: ReadonlyArray<T>) => {
       if (keys && keys.length > 0) {
-        return keys.some((key) => searchParams.has(key));
+        return keys.some((key) => optimisticParams.has(key));
       }
 
-      // Check all params except pagination
-      const allKeys = Array.from(searchParams.keys());
-      return allKeys.some((key) => key !== paginationKey);
+      return Array.from(optimisticParams.keys()).some(
+        (key) => key !== paginationKey,
+      );
     },
-    [searchParams, paginationKey]
+    [optimisticParams, paginationKey],
   );
 
-  // ============================================
-  // Get Active Filter Count
-  // ============================================
-  /**
-   * Count active filters
-   * @param keys - Specific keys to count. If not provided, counts all keys except pagination
-   */
+  const getAllFilters = useCallback(() => {
+    return Object.fromEntries(optimisticParams.entries()) as Partial<
+      Record<T, string>
+    >;
+  }, [optimisticParams]);
+
   const getActiveCount = useCallback(
     (keys?: ReadonlyArray<T>) => {
-      if (keys && keys.length > 0) {
-        return keys.filter((key) => searchParams.has(key)).length;
-      }
+      const activeKeys =
+        keys ??
+        (Array.from(optimisticParams.keys()).filter(
+          (key) => key !== paginationKey,
+        ) as T[]);
 
-      // Count all params except pagination
-      const allKeys = Array.from(searchParams.keys());
-      return allKeys.filter((key) => key !== paginationKey).length;
+      return activeKeys.filter((key) => optimisticParams.has(key)).length;
     },
-    [searchParams, paginationKey]
+    [optimisticParams, paginationKey],
   );
 
-  // ============================================
-  // Get All Filters as Object
-  // ============================================
-  /**
-   * Get all search params as an object
-   */
-  const getAllFilters = useCallback(() => {
-    const filters: Record<string, string> = {};
-    searchParams.forEach((value, key) => {
-      filters[key] = value;
-    });
-    return filters;
-  }, [searchParams]);
+  const params = useMemo(
+    () => new URLSearchParams(optimisticParams),
+    [optimisticParams],
+  );
+
+  const visiblePendingKeys = useMemo(
+    () => pendingKeys.filter((key) => key !== BATCH_KEY) as T[],
+    [pendingKeys],
+  );
+
+  const isPendingKey = useCallback(
+    (key: T) => pendingKeys.includes(key),
+    [pendingKeys],
+  );
 
   return {
     // Update methods
@@ -389,5 +481,14 @@ export const useSmartFilter = <T extends string = string>(
     // Status methods
     isFilterActive,
     getActiveCount,
+
+    // Advanced state
+    params,
+    paramsString: optimisticParams.toString(),
+
+    // Pending state
+    isPending: pendingKeys.length > 0,
+    pendingKeys: visiblePendingKeys,
+    isPendingKey,
   };
 };
