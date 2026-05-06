@@ -192,7 +192,7 @@ function getSidebarSections(role: UserRole): NavSection[] {
 function SidebarSectionGroup({ section, pathname }: { section: NavSection; pathname: string }) {
   // Check if any item in this section is currently active
   const isSectionActive = section.items.some((item) => pathname === item.href);
-  const [isOpen, setIsOpen] = useState(isSectionActive);
+  const [isOpen, setIsOpen] = useState(true);
 
   // Render navigation item
   const NavItem = ({ item, isSubItem = false }: { item: NavItemType; isSubItem?: boolean }) => {
@@ -305,7 +305,7 @@ export default function Sidebar({
       </div>
 
       {/* Main Navigation */}
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1 h-[calc(100vh-148px)]">
         <nav className="space-y-2 p-4">
           {sections.map((section, idx) => (
             <SidebarSectionGroup key={idx} section={section} pathname={pathname} />

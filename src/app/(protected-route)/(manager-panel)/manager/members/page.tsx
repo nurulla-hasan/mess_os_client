@@ -1,30 +1,60 @@
 "use client";
 
-import PageLayout from "@/components/ui/custom/page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { LayoutGrid } from "lucide-react";
+import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Users, UserPlus, History } from "lucide-react";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { columns, pendingColumns } from "@/components/members/columns";
+import { activeMembers, pendingRequests, inactiveMembers } from "@/components/members/mockData";
 
-export default function Page() {
+export default function ManagerMembersPage() {
   return (
-    <PageLayout>
-      <DashboardPageHeader
-        title="Members"
-        description="View and manage Members."
+    <DashboardPageLayout>
+      <DashboardHeader
+        title="Members Management"
+        description="Oversee your community. Approve new join requests, manage active members, and view history."
       />
-      <div className="mt-8">
-        <Card>
-          <CardContent className="p-12 flex flex-col items-center justify-center text-center">
-            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <LayoutGrid className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Members</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This is a placeholder page for Members. The UI will be designed later.
-            </p>
-          </CardContent>
-        </Card>
+
+      <div>
+        <Tabs defaultValue="active">
+          <TabsList variant="line" className="mb-3">
+            <TabsTrigger value="active">
+              <Users />
+              <span className="hidden sm:inline">Active</span>
+            </TabsTrigger>
+            <TabsTrigger value="pending">
+              <UserPlus />
+              <span className="hidden sm:inline">Pending</span>
+            </TabsTrigger>
+            <TabsTrigger value="inactive">
+              <History />
+              <span className="hidden sm:inline">History</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="active">
+            <DataTable
+              columns={columns}
+              data={activeMembers}
+            />
+          </TabsContent>
+          
+          <TabsContent value="pending">
+            <DataTable
+              columns={pendingColumns}
+              data={pendingRequests}
+            />
+          </TabsContent>
+          
+          <TabsContent value="inactive">
+            <DataTable
+              columns={columns}
+              data={inactiveMembers}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
-    </PageLayout>
+    </DashboardPageLayout>
   );
 }

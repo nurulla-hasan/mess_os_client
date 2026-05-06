@@ -32,17 +32,42 @@ const badgeVariants = cva(
 
 
         success:
-          "bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-50 dark:bg-slate-900/30 dark:text-slate-400 dark:border-slate-800 backdrop-blur-sm",
+          "bg-emerald-500/15 text-emerald-700 border-emerald-500/20 hover:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/30 backdrop-blur-sm",
 
-        info: "bg-blue-50 text-blue-600 border-blue-100 hover:bg-blue-50 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800 backdrop-blur-sm",
+        info: "bg-sky-500/15 text-sky-700 border-sky-500/20 hover:bg-sky-500/20 dark:text-sky-400 dark:border-sky-500/30 backdrop-blur-sm",
 
         progress:
-          "bg-amber-50 text-amber-600 border-amber-100 hover:bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800 backdrop-blur-sm",
+          "bg-amber-500/15 text-amber-700 border-amber-500/20 hover:bg-amber-500/20 dark:text-amber-400 dark:border-amber-500/30 backdrop-blur-sm",
 
         accepted:
-          "bg-green-50 text-green-600 border-green-100 hover:bg-green-50 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800 backdrop-blur-sm",
+          "bg-green-500/15 text-green-700 border-green-500/20 hover:bg-green-500/20 dark:text-green-400 dark:border-green-500/30 backdrop-blur-sm",
 
-        rejected: "bg-red-50 text-red-600 border-red-100 hover:bg-red-50 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800 backdrop-blur-sm",
+        active:
+          "bg-emerald-500/15 text-emerald-700 border-emerald-500/20 hover:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/30 backdrop-blur-sm",
+
+        pending:
+          "bg-orange-500/15 text-orange-700 border-orange-500/20 hover:bg-orange-500/20 dark:text-orange-400 dark:border-orange-500/30 backdrop-blur-sm",
+
+        blocked:
+          "bg-rose-500/15 text-rose-700 border-rose-500/20 hover:bg-rose-500/20 dark:text-rose-400 dark:border-rose-500/30 backdrop-blur-sm",
+
+        rejected:
+          "bg-red-500/15 text-red-700 border-red-500/20 hover:bg-red-500/20 dark:text-red-400 dark:border-red-500/30 backdrop-blur-sm",
+
+        processing:
+          "bg-blue-500/15 text-blue-700 border-blue-500/20 hover:bg-blue-500/20 dark:text-blue-400 dark:border-blue-500/30 backdrop-blur-sm",
+
+        completed:
+          "bg-teal-500/15 text-teal-700 border-teal-500/20 hover:bg-teal-500/20 dark:text-teal-400 dark:border-teal-500/30 backdrop-blur-sm",
+
+        manager:
+          "bg-indigo-500/15 text-indigo-700 border-indigo-500/20 hover:bg-indigo-500/20 dark:text-indigo-400 dark:border-indigo-500/30 backdrop-blur-sm",
+
+        member:
+          "bg-slate-500/15 text-slate-700 border-slate-500/20 hover:bg-slate-500/20 dark:text-slate-400 dark:border-slate-500/30 backdrop-blur-sm",
+
+        admin:
+          "bg-violet-500/15 text-violet-700 border-violet-500/20 hover:bg-violet-500/20 dark:text-violet-400 dark:border-violet-500/30 backdrop-blur-sm",
       },
     },
     defaultVariants: {

@@ -1,0 +1,108 @@
+import { ActiveMember, PendingRequest } from "./columns";
+
+export const activeMembers: ActiveMember[] = [
+  {
+    id: "1",
+    name: "Golap Hasan",
+    email: "golaphasan379@gmail.com",
+    phone: "01712345678",
+    role: "manager",
+    status: "active",
+    joinedDate: "2024-01-10T12:38:47.080Z",
+    dueAmount: 0,
+    advanceAmount: 2500,
+  },
+  {
+    id: "2",
+    name: "Rahim Uddin",
+    email: "rahim@example.com",
+    phone: "01822334455",
+    role: "member",
+    status: "active",
+    joinedDate: "2024-02-15T10:20:00.000Z",
+    dueAmount: 450,
+    advanceAmount: 0,
+  },
+  {
+    id: "3",
+    name: "Karim Ahmed",
+    email: "karim@example.com",
+    phone: "01911223344",
+    role: "member",
+    status: "active",
+    joinedDate: "2024-03-01T09:15:00.000Z",
+    dueAmount: 0,
+    advanceAmount: 0,
+  },
+  {
+    id: "4",
+    name: "Mahmudul Islam",
+    email: "mahmudul@example.com",
+    phone: "01677889900",
+    role: "member",
+    status: "active",
+    joinedDate: "2024-03-20T14:30:00.000Z",
+    dueAmount: 1200,
+    advanceAmount: 0,
+  },
+  {
+    id: "5",
+    name: "Saiful Islam",
+    email: "saiful@example.com",
+    phone: "01511223344",
+    role: "member",
+    status: "active",
+    joinedDate: "2024-04-05T11:45:00.000Z",
+    dueAmount: 0,
+    advanceAmount: 500,
+  },
+];
+
+export const pendingRequests: PendingRequest[] = [
+  {
+    id: "101",
+    name: "Tanvir Hasan",
+    email: "tanvir@example.com",
+    phone: "01555667788",
+    requestDate: "2024-05-01T08:00:00.000Z",
+  },
+  {
+    id: "102",
+    name: "Sakib Al Hasan",
+    email: "sakib@example.com",
+    phone: "01333445566",
+    requestDate: "2024-05-04T13:20:00.000Z",
+  },
+  {
+    id: "103",
+    name: "Rafi Hassan",
+    email: "rafi@example.com",
+    phone: "01444556677",
+    requestDate: "2024-05-05T16:40:00.000Z",
+  },
+];
+
+export const inactiveMembers: ActiveMember[] = [
+  {
+    id: "201",
+    name: "Old Member 1",
+    email: "old1@example.com",
+    phone: "01700000001",
+    role: "member",
+    status: "inactive",
+    joinedDate: "2023-05-10T10:00:00.000Z",
+    dueAmount: 0,
+    advanceAmount: 0,
+  },
+  {
+    id: "202",
+    name: "Removed Member 2",
+    email: "removed2@example.com",
+    phone: "01700000002",
+    role: "member",
+    status: "inactive",
+    joinedDate: "2023-08-15T12:00:00.000Z",
+    dueAmount: 0,
+    advanceAmount: 0,
+  },
+];

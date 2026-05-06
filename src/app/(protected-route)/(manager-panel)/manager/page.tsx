@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -9,7 +8,6 @@ import {
   UserPlus,
   TrendingUp,
   Plus,
-  Calendar,
   CheckCircle,
   FileText,
   Settings,
@@ -18,244 +16,289 @@ import {
   Bell,
   CreditCard,
   Building2,
-  AlertCircle,
+  Copy,
+  Receipt,
+  AlertTriangle,
+  Zap,
+  ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
-// Fake Summary Data
-const summaryData = [
-  { title: "Total Members", value: "24", note: "Currently active", icon: Users, color: "bg-blue-500/10 text-blue-600" },
-  { title: "Today's Meals", value: "18", note: "Meal entries submitted", icon: Utensils, color: "bg-green-500/10 text-green-600" },
-  { title: "Pending Deposits", value: "6", note: "Awaiting approval", icon: Wallet, color: "bg-yellow-500/10 text-yellow-600" },
-  { title: "Pending Join Requests", value: "3", note: "Need review", icon: UserPlus, color: "bg-orange-500/10 text-orange-600" },
-  { title: "Monthly Expenses", value: "৳18,500", note: "This month so far", icon: TrendingUp, color: "bg-purple-500/10 text-purple-600" },
+// Mock Data for the Dashboard
+const summaryMetrics = [
+  { label: "Active Members", value: "18", icon: Users, variant: "member" as const, note: "2 pending join requests" },
+  { label: "Today's Meals", value: "24", icon: Utensils, variant: "processing" as const, note: "Breakfast: 8, Lunch: 16" },
+  { label: "Pending Payments", value: "৳4,500", icon: Wallet, variant: "pending" as const, note: "5 members haven't paid" },
+  { label: "Monthly Expenses", value: "৳12,850", icon: TrendingUp, variant: "active" as const, note: "Current month bazaar" },
+  { label: "Pending Expenses", value: "৳1,200", icon: Receipt, variant: "warning" as const, note: "3 bazaar entries pending" },
+  { label: "Unpaid Utilities", value: "2", icon: Zap, variant: "blocked" as const, note: "Electricity & Water" },
+  { label: "Open Complaints", value: "1", icon: AlertTriangle, variant: "rejected" as const, note: "Kitchen tap leaking" },
+  { label: "Join Requests", value: "3", icon: UserPlus, variant: "info" as const, note: "Waiting for review" },
 ];
 
-// Quick Actions
-const quickActions = [
-  { label: "Add Expense", icon: Plus, href: "/manager/expenses", variant: "default" as const },
-  { label: "Manage Meals", icon: Calendar, href: "/manager/meals", variant: "outline" as const },
-  { label: "Approve Members", icon: CheckCircle, href: "/manager/members", variant: "outline" as const },
-  { label: "Post Notice", icon: FileText, href: "/manager/notices", variant: "outline" as const },
-  { label: "View Deposits", icon: CreditCard, href: "/manager/deposits", variant: "outline" as const },
-  { label: "Mess Settings", icon: Settings, href: "/manager/mess-settings", variant: "outline" as const },
+const quickOperations = [
+  { label: "Approvals", icon: CheckCircle, href: "/manager/members", count: 3, variant: "outline" as const },
+  { label: "Billing", icon: CreditCard, href: "/manager/billing", variant: "outline" as const },
+  { label: "Meals", icon: Utensils, href: "/manager/meals", variant: "outline" as const },
+  { label: "Notices", icon: FileText, href: "/manager/notices", variant: "outline" as const },
+  { label: "Market", icon: ShoppingCart, href: "/manager/market-schedules", variant: "outline" as const },
 ];
 
-// Fake Pending Actions
-const pendingActions = [
-  { id: 1, name: "Rahim Uddin", type: "Join Request", context: "Requested to join Green Valley Mess", time: "2 hours ago", status: "pending" },
-  { id: 2, name: "Karim Ahmed", type: "Deposit", context: "৳5,000 deposit awaiting approval", time: "4 hours ago", status: "pending" },
-  { id: 3, name: "Sadia Islam", type: "Meal Off", context: "Requested meal off for tomorrow", time: "5 hours ago", status: "pending" },
-  { id: 4, name: "Tasnuva Akter", type: "Join Request", context: "Requested to join via invite code", time: "1 day ago", status: "pending" },
-];
-
-// Fake Recent Financial Activity
 const recentActivity = [
-  { id: 1, title: "Bazaar Expense", amount: "৳2,400", description: "Daily bazaar - Rice, Vegetables, Fish", date: "Today, 10:30 AM" },
-  { id: 2, title: "Deposit Approved", amount: "৳3,500", description: "Monthly deposit from Rafi Hassan", date: "Today, 9:15 AM" },
-  { id: 3, title: "Utility Bill", amount: "৳1,200", description: "Electricity bill for November", date: "Yesterday, 6:45 PM" },
-  { id: 4, title: "Member Payment", amount: "৳4,000", description: "Deposit from Mahmudul Islam", date: "Yesterday, 3:20 PM" },
+  { id: 1, type: "financial", title: "Bazaar Expense Added", user: "Rahim Uddin", amount: "৳2,400", time: "10 mins ago", status: "processing" as const },
+  { id: 2, type: "operational", title: "New Join Request", user: "Tanvir Hasan", detail: "Wants to join Sunrise Mess", time: "1 hour ago", status: "pending" as const },
+  { id: 3, type: "financial", title: "Deposit Approved", user: "Saiful Islam", amount: "৳5,000", time: "3 hours ago", status: "active" as const },
+  { id: 4, type: "operational", title: "Notice Posted", user: "Manager", detail: "Monthly meeting on Friday", time: "5 hours ago", status: "completed" as const },
 ];
-
-// Fake Notices
-const latestNotices = [
-  { id: 1, title: "Monthly Bazaar Budget Update", description: "The monthly bazaar budget has been increased to accommodate rising prices.", date: "Posted 2 days ago" },
-  { id: 2, title: "Deposit Deadline Reminder", description: "Please submit your monthly deposits by the 5th of every month.", date: "Posted 3 days ago" },
-  { id: 3, title: "Meal Schedule Adjustment", description: "Lunch timing has been adjusted to 1:00 PM starting next week.", date: "Posted 5 days ago" },
-];
-
-// Mess Overview Data
-const messOverview = {
-  name: "Green Valley Mess",
-  role: "Active Manager",
-  billingCycle: "Monthly",
-  status: "Stable",
-};
 
 export default function ManagerDashboardPage() {
   const router = useRouter();
 
+  const copyInviteCode = () => {
+    navigator.clipboard.writeText("SUNRISE-2024");
+    toast.success("Invite code copied to clipboard!");
+  };
+
   return (
     <DashboardPageLayout>
-      {/* Header */}
       <DashboardPageHeader
         title="Manager Dashboard"
-        description="Manage members, meals, deposits, expenses, and daily mess operations"
+        description="Overview of your mess operations and pending management tasks"
       />
 
-      {/* Summary Cards */}
-      <section className="mb-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {summaryData.map((item, index) => (
-            <Card key={index} className="border hover:border-primary/20 transition-colors">
+      <div className="space-y-6 mt-6">
+        {/* Hero Section */}
+        <Card className="relative overflow-hidden border-none bg-linear-to-br from-primary/10 via-background to-background ring-1 ring-primary/20">
+          <CardContent>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-lg bg-primary/20">
+                    <Building2 className="h-6 w-6 text-primary" />
+                  </div>
+                  <h2 className="text-3xl font-bold tracking-tight">Sunrise Mess</h2>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Badge variant="active" className="px-3 py-1">Active Now</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 font-medium">Billing: Monthly</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 font-medium">Cycle: Day 1-30</Badge>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-background/50 border border-primary/20 backdrop-blur-sm">
+                  <div className="space-y-0.5">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Invite Code</p>
+                    <p className="text-xl font-mono font-bold tracking-widest text-primary">SUNRISE-2024</p>
+                  </div>
+                  <Button size="icon" variant="ghost" onClick={copyInviteCode} className="ml-2 hover:bg-primary/10">
+                    <Copy className="h-5 w-5" />
+                  </Button>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="default" className="flex-1 shadow-lg shadow-primary/20" onClick={() => router.push("/manager/mess-settings")}>
+                    <Settings className="mr-2 h-4 w-4" />
+                    Configure Mess
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Summary Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {summaryMetrics.map((metric, index) => (
+            <Card key={index} className="hover:border-primary/30 transition-all duration-300 group">
               <CardContent>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">{item.title}</p>
-                    <p className="text-2xl font-bold">{item.value}</p>
-                    <p className="text-xs text-muted-foreground mt-1">{item.note}</p>
+                <div className="flex justify-between items-start">
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-muted-foreground">{metric.label}</p>
+                    <h3 className="text-2xl font-bold tracking-tight">{metric.value}</h3>
                   </div>
-                  <div className={`flex items-center justify-center w-10 h-10 rounded-lg ${item.color}`}>
-                    <item.icon className="h-5 w-5" />
+                  <div className="p-2.5 rounded-xl bg-muted group-hover:bg-primary/10 transition-colors">
+                    <metric.icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
+                </div>
+                <div className="mt-4 flex items-center gap-2">
+                  <Badge variant={metric.variant} className="text-[10px] uppercase font-bold py-0 h-5">
+                    {metric.variant}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground truncate">{metric.note}</span>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
-      </section>
 
-      {/* Main Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Takes 2/3 on desktop */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Quick Actions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {quickActions.map((action, index) => (
-                  <Button
-                    key={index}
-                    variant={action.variant}
-                    className="h-auto py-4 flex flex-col gap-2 items-center justify-center"
-                    onClick={() => router.push(action.href)}
-                  >
-                    <action.icon className="h-5 w-5" />
-                    <span className="text-xs">{action.label}</span>
-                  </Button>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Recent Activity & Operations */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Quick Operations */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Operational Hub</CardTitle>
+                <CardDescription>Fast access to daily mess management modules</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                  {quickOperations.map((op, index) => (
+                    <Button
+                      key={index}
+                      variant={op.variant}
+                      className="h-auto flex-col gap-3 py-6 relative hover:border-primary/50"
+                      onClick={() => router.push(op.href)}
+                    >
+                      <div className="p-2.5 rounded-full bg-primary/5">
+                        <op.icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span className="text-xs font-semibold">{op.label}</span>
+                      {op.count && (
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                          {op.count}
+                        </span>
+                      )}
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Activity */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div className="space-y-1">
+                  <CardTitle className="text-lg">Recent Activity</CardTitle>
+                  <CardDescription>Latest financial and operational updates</CardDescription>
+                </div>
+                <Button variant="ghost" size="sm" className="text-xs text-primary font-bold">
+                  View Full Audit Log
+                </Button>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {recentActivity.map((activity) => (
+                  <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-colors border border-transparent hover:border-muted">
+                    <div className={cn(
+                      "p-2 rounded-lg mt-1",
+                      activity.type === "financial" ? "bg-emerald-500/10 text-emerald-600" : "bg-sky-500/10 text-sky-600"
+                    )}>
+                      {activity.type === "financial" ? <Wallet className="h-4 w-4" /> : <Clock className="h-4 w-4" />}
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-semibold">{activity.title}</p>
+                        <span className="text-[10px] text-muted-foreground font-medium">{activity.time}</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {activity.user} • {activity.detail || activity.amount}
+                      </p>
+                      <div className="pt-2">
+                        <Badge variant={activity.status} className="text-[9px] h-4 font-bold uppercase">
+                          {activity.status}
+                        </Badge>
+                      </div>
+                    </div>
+                    <Button size="icon" variant="ghost" className="h-8 w-8">
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 ))}
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Pending Actions */}
-          <Card className="border-orange-200/50">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-orange-500" />
-                <CardTitle className="text-lg">Pending Actions</CardTitle>
-              </div>
-              <Badge variant="secondary">{pendingActions.length} items</Badge>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {pendingActions.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-start gap-4 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium">{item.name}</span>
-                      <Badge variant="outline" className="text-xs">
-                        {item.type}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground truncate">{item.context}</p>
-                    <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {item.time}
-                    </p>
+          {/* Sidebar / Secondary Info */}
+          <div className="space-y-6">
+            {/* Join Requests Summary */}
+            <Card className="border-primary/20 bg-primary/5">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <UserPlus className="h-5 w-5 text-primary" />
+                  <CardTitle className="text-lg">Join Requests</CardTitle>
+                </div>
+                <CardDescription>New members waiting for your approval</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex flex-col items-center justify-center p-6 text-center space-y-3">
+                  <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Users className="h-6 w-6 text-primary" />
                   </div>
-                  <Button size="sm" variant="ghost" onClick={() => router.push("/manager/members")}>
-                    <ArrowRight className="h-4 w-4" />
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold">3 Pending Requests</p>
+                    <p className="text-xs text-muted-foreground">Review their applications and approve or reject.</p>
+                  </div>
+                  <Button className="w-full mt-2" size="sm" onClick={() => router.push("/manager/members")}>
+                    Review All
                   </Button>
                 </div>
-              ))}
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          {/* Recent Financial Activity */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Recent Financial Activity</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {recentActivity.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium">{item.title}</span>
-                      <span className="text-sm font-semibold text-primary">{item.amount}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground truncate">{item.description}</p>
+            {/* Notifications / Notices */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <div className="flex items-center gap-2">
+                  <Bell className="h-4 w-4 text-primary" />
+                  <CardTitle className="text-base font-bold">Recent Notices</CardTitle>
+                </div>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-3">
+                  <div className="p-3 rounded-lg border border-primary/10 bg-primary/5 space-y-1">
+                    <p className="text-xs font-bold text-primary">IMPORTANT</p>
+                    <p className="text-sm font-medium">Monthly bazaar budget update</p>
+                    <p className="text-[10px] text-muted-foreground">Posted by you • 2 days ago</p>
                   </div>
-                  <p className="text-xs text-muted-foreground shrink-0">{item.date}</p>
+                  <div className="p-3 rounded-lg border border-muted space-y-1">
+                    <p className="text-sm font-medium">Bazaar schedule for Friday changed</p>
+                    <p className="text-[10px] text-muted-foreground">Posted by you • 4 days ago</p>
+                  </div>
                 </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
+                <Button variant="outline" size="sm" className="w-full text-xs font-bold" onClick={() => router.push("/manager/notices")}>
+                  View Notice Board
+                </Button>
+              </CardContent>
+            </Card>
 
-        {/* Right Column - Takes 1/3 on desktop */}
-        <div className="space-y-6">
-          {/* Mess Overview */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Building2 className="h-5 w-5 text-primary" />
-                Mess Overview
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <div>
-                  <p className="text-xs text-muted-foreground">Mess Name</p>
-                  <p className="font-medium">{messOverview.name}</p>
-                </div>
-                <Separator />
-                <div>
-                  <p className="text-xs text-muted-foreground">Manager Role</p>
-                  <p className="font-medium">{messOverview.role}</p>
-                </div>
-                <Separator />
-                <div>
-                  <p className="text-xs text-muted-foreground">Billing Cycle</p>
-                  <p className="font-medium">{messOverview.billingCycle}</p>
-                </div>
-                <Separator />
-                <div>
-                  <p className="text-xs text-muted-foreground">Member Status</p>
-                  <Badge variant="outline" className="text-green-600 border-green-200">
-                    {messOverview.status}
-                  </Badge>
-                </div>
+            {/* Quick Summary Card */}
+            <Card className="bg-slate-950 text-slate-50 border-none overflow-hidden relative">
+              <div className="absolute top-0 right-0 p-4 opacity-10">
+                <TrendingUp className="h-24 w-24" />
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Latest Notices */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Bell className="h-5 w-5 text-primary" />
-                Latest Notices
-              </CardTitle>
-              <Button variant="ghost" size="sm" className="h-auto py-1 px-2" onClick={() => router.push("/manager/notices")}>
-                View All
-              </Button>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {latestNotices.map((notice) => (
-                <div key={notice.id} className="space-y-1">
-                  <h4 className="font-medium text-sm">{notice.title}</h4>
-                  <p className="text-xs text-muted-foreground line-clamp-2">{notice.description}</p>
-                  <p className="text-xs text-muted-foreground">{notice.date}</p>
-                  {notice.id !== latestNotices.length && <Separator className="mt-3" />}
+              <CardHeader>
+                <CardTitle className="text-sm font-medium text-slate-400">Total Mess Fund</CardTitle>
+                <h3 className="text-3xl font-bold tracking-tight text-white">৳42,500</h3>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-2 text-xs text-emerald-400 font-bold">
+                  <TrendingUp className="h-4 w-4" />
+                  <span>+12% from last cycle</span>
                 </div>
-              ))}
-            </CardContent>
-          </Card>
+                <Separator className="my-4 bg-slate-800" />
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-slate-400">Total Deposits</span>
+                    <span className="font-bold">৳55,000</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-slate-400">Total Expenses</span>
+                    <span className="font-bold">৳12,500</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </DashboardPageLayout>
