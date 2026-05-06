@@ -47,24 +47,22 @@ export const login = async (data: FieldValues): Promise<any> => {
       method: "POST",
       body: data,
       isPublic: true,
-      persistCookies: true,
+      persistCookies: true, 
     });
-    if ((response as any).success) {
+
+    if (response && (response as any).success) {
       const cookieStore = await cookies();
-      
-      // Set accessToken from response.data if backend doesn't set cookie
       const accessToken = (response as any).data?.accessToken;
+
       if (accessToken) {
         cookieStore.set("accessToken", accessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
           path: "/",
-          maxAge: 60 * 60 * 24 * 7, // 7 days
+          maxAge: 60 * 60 * 24 * 7, 
         });
       }
-      
-      return response;
     }
 
     return response;
@@ -76,6 +74,7 @@ export const login = async (data: FieldValues): Promise<any> => {
     };
   }
 };
+
 
 /**
  * Get current logged-in user profile

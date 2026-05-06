@@ -2,7 +2,7 @@
 import type { ReactNode } from "react";
 import MainLayout from "@/layout/main-layout";
 
-export default function VendorLayout({
+export default function ManagerLayout({
   children,
 }: Readonly<{
   children: ReactNode;

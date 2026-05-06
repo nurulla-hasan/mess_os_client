@@ -103,12 +103,13 @@ export const serverFetch = async <T = unknown>(
       const cookiesArray = setCookieHeader.split(/,(?=[^;]+=[^;]+)/);
 
       cookiesArray.forEach((cookieString) => {
-        const [nameValue] = cookieString.split(";");
-        const [name, ...valueParts] = nameValue.split("=");
-        const trimmedName = name.trim();
-        const value = valueParts.join("=");
+        if (!cookieString.includes("=")) return; // DSA Guard: Avoid useless processing
 
-        if (trimmedName === 'accessToken' || trimmedName === 'refreshToken') {
+        const parts = cookieString.split(";")[0].split("=");
+        const trimmedName = parts[0].trim();
+        const value = parts.slice(1).join("=");
+
+        if (trimmedName === "accessToken" || trimmedName === "refreshToken") {
           try {
             cookieStore.set(trimmedName, value, {
               httpOnly: true,
