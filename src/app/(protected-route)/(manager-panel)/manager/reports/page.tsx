@@ -34,10 +34,10 @@ export default function ManagerReportsPage() {
         />
         <div className="flex gap-2">
           <Button variant="outline" size="sm">
-            <Download className="mr-2 h-4 w-4" /> Export CSV
+            <Download /> Export CSV
           </Button>
           <Button size="sm">
-            <Download className="mr-2 h-4 w-4" /> Export PDF
+            <Download /> Export PDF
           </Button>
         </div>
       </div>

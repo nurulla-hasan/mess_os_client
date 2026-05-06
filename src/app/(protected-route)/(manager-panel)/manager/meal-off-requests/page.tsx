@@ -45,7 +45,7 @@ export default function ManagerMealOffRequestsPage() {
         description="Review and manage member requests to stop meals for specific date ranges."
       />
 
-      <div className="mt-6">
+      <div>
         <Tabs defaultValue="pending" className="w-full">
           <TabsList variant="line" className="mb-4">
             <TabsTrigger value="pending" className="flex items-center gap-2">

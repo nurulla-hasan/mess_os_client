@@ -10,7 +10,6 @@ import {
   AlertCircle, 
   Clock, 
   CheckCircle2, 
-  XCircle,
   MessageSquare
 } from "lucide-react";
 
@@ -26,7 +25,7 @@ export default function ManagerComplaintsPage() {
         description="Review and address issues raised by mess members. Maintain a healthy community environment."
       />
 
-      <div className="mt-6">
+      <div>
         <Tabs defaultValue="open" className="w-full">
           <TabsList variant="line" className="mb-4">
             <TabsTrigger value="open" className="flex items-center gap-2">

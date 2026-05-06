@@ -65,7 +65,7 @@ export default function ManagerSubscriptionPage() {
       <div className="space-y-6">
         {/* Current Subscription Status */}
         <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="p-6">
+          <CardContent>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-primary/20 flex items-center justify-center">

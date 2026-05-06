@@ -27,9 +27,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import DashboardHeader from "@/components/ui/custom/page-header";
 
 // Mock Data for the Dashboard
 const summaryMetrics = [
@@ -68,12 +68,12 @@ export default function ManagerDashboardPage() {
 
   return (
     <DashboardPageLayout>
-      <DashboardPageHeader
+      <DashboardHeader
         title="Manager Dashboard"
         description="Overview of your mess operations and pending management tasks"
       />
 
-      <div className="space-y-6 mt-6">
+      <div className="space-y-6">
         {/* Hero Section */}
         <Card className="relative overflow-hidden border-none bg-linear-to-br from-primary/10 via-background to-background ring-1 ring-primary/20">
           <CardContent>

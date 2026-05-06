@@ -31,7 +31,7 @@ export default function ManagerMarketSchedulesPage() {
         </Button>
       </div>
 
-      <div className="mt-6">
+      <div>
         <Tabs defaultValue="pending" className="w-full">
           <TabsList variant="line" className="mb-4">
             <TabsTrigger value="pending" className="flex items-center gap-2">

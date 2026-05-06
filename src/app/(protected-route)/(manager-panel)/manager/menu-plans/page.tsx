@@ -36,7 +36,7 @@ export default function ManagerMenuPlansPage() {
         </div>
       </div>
 
-      <div className="mt-6">
+      <div>
         <Tabs defaultValue="published" className="w-full">
           <TabsList variant="line" className="mb-4">
             <TabsTrigger value="published" className="flex items-center gap-2">
