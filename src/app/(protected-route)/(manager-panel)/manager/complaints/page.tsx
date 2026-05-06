@@ -1,30 +1,69 @@
 "use client";
 
-import PageLayout from "@/components/ui/custom/page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { LayoutGrid } from "lucide-react";
+import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { columns } from "@/components/complaints/columns";
+import { mockComplaints } from "@/components/complaints/mockData";
+import { 
+  AlertCircle, 
+  Clock, 
+  CheckCircle2, 
+  XCircle,
+  MessageSquare
+} from "lucide-react";
 
-export default function Page() {
+export default function ManagerComplaintsPage() {
+  const openComplaints = mockComplaints.filter(c => c.status === "open");
+  const inProgressComplaints = mockComplaints.filter(c => c.status === "in_progress");
+  const resolvedComplaints = mockComplaints.filter(c => c.status === "resolved");
+
   return (
-    <PageLayout>
-      <DashboardPageHeader
-        title="Complaints"
-        description="View and manage Complaints."
+    <DashboardPageLayout>
+      <DashboardHeader
+        title="Member Complaints"
+        description="Review and address issues raised by mess members. Maintain a healthy community environment."
       />
-      <div className="mt-8">
-        <Card>
-          <CardContent className="p-12 flex flex-col items-center justify-center text-center">
-            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <LayoutGrid className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Complaints</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This is a placeholder page for Complaints. The UI will be designed later.
-            </p>
-          </CardContent>
-        </Card>
+
+      <div className="mt-6">
+        <Tabs defaultValue="open" className="w-full">
+          <TabsList variant="line" className="mb-4">
+            <TabsTrigger value="open" className="flex items-center gap-2">
+              <AlertCircle className="h-4 w-4" />
+              <span>Open ({openComplaints.length})</span>
+            </TabsTrigger>
+            <TabsTrigger value="in_progress" className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>In Progress</span>
+            </TabsTrigger>
+            <TabsTrigger value="resolved" className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              <span>Resolved</span>
+            </TabsTrigger>
+            <TabsTrigger value="all" className="flex items-center gap-2">
+              <MessageSquare className="h-4 w-4" />
+              <span>All History</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="open">
+            <DataTable columns={columns} data={openComplaints} />
+          </TabsContent>
+          
+          <TabsContent value="in_progress">
+            <DataTable columns={columns} data={inProgressComplaints} />
+          </TabsContent>
+
+          <TabsContent value="resolved">
+            <DataTable columns={columns} data={resolvedComplaints} />
+          </TabsContent>
+
+          <TabsContent value="all">
+            <DataTable columns={columns} data={mockComplaints} searchKey="title" />
+          </TabsContent>
+        </Tabs>
       </div>
-    </PageLayout>
+    </DashboardPageLayout>
   );
 }

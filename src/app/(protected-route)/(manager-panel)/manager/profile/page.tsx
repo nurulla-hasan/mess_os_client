@@ -1,30 +1,20 @@
 "use client";
 
-import PageLayout from "@/components/ui/custom/page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { LayoutGrid } from "lucide-react";
+import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
+import { ProfileView } from "@/components/profile/profile-view";
 
-export default function Page() {
+export default function ManagerProfilePage() {
   return (
-    <PageLayout>
-      <DashboardPageHeader
-        title="Profile"
-        description="View and manage Profile."
+    <DashboardPageLayout>
+      <DashboardHeader
+        title="My Profile"
+        description="Manage your personal information, account security, and notification preferences."
       />
-      <div className="mt-8">
-        <Card>
-          <CardContent className="p-12 flex flex-col items-center justify-center text-center">
-            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <LayoutGrid className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Profile</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This is a placeholder page for Profile. The UI will be designed later.
-            </p>
-          </CardContent>
-        </Card>
+
+      <div className="mt-2">
+        <ProfileView role="manager" />
       </div>
-    </PageLayout>
+    </DashboardPageLayout>
   );
 }

@@ -1,30 +1,71 @@
 "use client";
 
-import PageLayout from "@/components/ui/custom/page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { LayoutGrid } from "lucide-react";
+import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { columns } from "@/components/menu-plans/columns";
+import { mockMenuPlans } from "@/components/menu-plans/mockData";
+import { 
+  Sparkles, 
+  Calendar as CalendarIcon, 
+  Archive,
+  Plus,
+  LayoutList
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export default function Page() {
+export default function ManagerMenuPlansPage() {
+  const publishedPlans = mockMenuPlans.filter(p => p.status === "published");
+  const draftPlans = mockMenuPlans.filter(p => p.status === "draft");
+
   return (
-    <PageLayout>
-      <DashboardPageHeader
-        title="Menu Plans"
-        description="View and manage Menu Plans."
-      />
-      <div className="mt-8">
-        <Card>
-          <CardContent className="p-12 flex flex-col items-center justify-center text-center">
-            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <LayoutGrid className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Menu Plans</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This is a placeholder page for Menu Plans. The UI will be designed later.
-            </p>
-          </CardContent>
-        </Card>
+    <DashboardPageLayout>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <DashboardHeader
+          title="Menu Plans"
+          description="Design and publish daily meal menus. Use AI to generate healthy meal ideas."
+        />
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="text-primary border-primary/20 bg-primary/5">
+            <Sparkles className="mr-2 h-4 w-4" /> AI Generate
+          </Button>
+          <Button size="sm">
+            <Plus className="mr-2 h-4 w-4" /> New Plan
+          </Button>
+        </div>
       </div>
-    </PageLayout>
+
+      <div className="mt-6">
+        <Tabs defaultValue="published" className="w-full">
+          <TabsList variant="line" className="mb-4">
+            <TabsTrigger value="published" className="flex items-center gap-2">
+              <CalendarIcon className="h-4 w-4" />
+              <span>Published</span>
+            </TabsTrigger>
+            <TabsTrigger value="drafts" className="flex items-center gap-2">
+              <LayoutList className="h-4 w-4" />
+              <span>Drafts ({draftPlans.length})</span>
+            </TabsTrigger>
+            <TabsTrigger value="archived" className="flex items-center gap-2">
+              <Archive className="h-4 w-4" />
+              <span>Archived</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="published">
+            <DataTable columns={columns} data={publishedPlans} />
+          </TabsContent>
+          
+          <TabsContent value="drafts">
+            <DataTable columns={columns} data={draftPlans} />
+          </TabsContent>
+
+          <TabsContent value="archived">
+            <DataTable columns={columns} data={mockMenuPlans.filter(p => p.status === "archived")} />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DashboardPageLayout>
   );
 }
