@@ -45,7 +45,7 @@ export default function MemberDashboardPage() {
               <div className="absolute top-0 right-0 p-3 opacity-10">
                 <Wallet className="h-16 w-16" />
               </div>
-              <CardContent className="p-6">
+              <CardContent>
                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Current Balance</p>
                 <div className="flex items-baseline gap-2 mt-1">
                   <p className="text-3xl font-black">৳1,250</p>
@@ -59,7 +59,7 @@ export default function MemberDashboardPage() {
               <div className="absolute top-0 right-0 p-3 opacity-10">
                 <Utensils className="h-16 w-16" />
               </div>
-              <CardContent className="p-6">
+              <CardContent>
                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Meals This Month</p>
                 <div className="flex items-baseline gap-2 mt-1">
                   <p className="text-3xl font-black">42</p>
@@ -82,7 +82,7 @@ export default function MemberDashboardPage() {
               {quickActions.map((action, i) => (
                 <Link key={i} href={action.href}>
                   <Card className="hover:border-primary/50 transition-all cursor-pointer group">
-                    <CardContent className="p-4 flex flex-col items-center justify-center gap-3 text-center">
+                    <CardContent className="flex flex-col items-center justify-center gap-3 text-center">
                       <div className={`p-3 rounded-2xl ${action.bg} group-hover:scale-110 transition-transform`}>
                         <action.icon className={`h-5 w-5 ${action.color}`} />
                       </div>

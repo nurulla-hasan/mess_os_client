@@ -185,7 +185,7 @@ export default function ManagerDashboardPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {recentActivity.map((activity) => (
-                  <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-colors border border-transparent hover:border-muted">
+                  <div key={activity.id} className="flex items-start gap-4 p-4 rounded-xl border hover:bg-muted/50 transition-colors">
                     <div className={cn(
                       "p-2 rounded-lg mt-1",
                       activity.type === "financial" ? "bg-emerald-500/10 text-emerald-600" : "bg-sky-500/10 text-sky-600"
@@ -272,13 +272,13 @@ export default function ManagerDashboardPage() {
             </Card>
 
             {/* Quick Summary Card */}
-            <Card className="bg-slate-950 text-slate-50 border-none overflow-hidden relative">
+            <Card className="border-none overflow-hidden relative">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <TrendingUp className="h-24 w-24" />
               </div>
               <CardHeader>
-                <CardTitle className="text-sm font-medium text-slate-400">Total Mess Fund</CardTitle>
-                <h3 className="text-3xl font-bold tracking-tight text-white">৳42,500</h3>
+                <CardTitle className="text-sm font-medium">Total Mess Fund</CardTitle>
+                <h3 className="text-3xl font-bold tracking-tight">৳42,500</h3>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2 text-xs text-emerald-400 font-bold">
@@ -288,11 +288,11 @@ export default function ManagerDashboardPage() {
                 <Separator className="my-4 bg-slate-800" />
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-400">Total Deposits</span>
+                    <span>Total Deposits</span>
                     <span className="font-bold">৳55,000</span>
                   </div>
                   <div className="flex justify-between text-xs">
-                    <span className="text-slate-400">Total Expenses</span>
+                    <span>Total Expenses</span>
                     <span className="font-bold">৳12,500</span>
                   </div>
                 </div>
