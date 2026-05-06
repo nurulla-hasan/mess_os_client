@@ -1,14 +1,14 @@
 "use client";
 
-import PageLayout from "@/components/ui/custom/page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { LayoutGrid } from "lucide-react";
+import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 
 export default function Page() {
   return (
-    <PageLayout>
-      <DashboardPageHeader
+    <DashboardPageLayout>
+      <DashboardHeader
         title="Meals"
         description="View and manage Meals."
       />
@@ -25,6 +25,6 @@ export default function Page() {
           </CardContent>
         </Card>
       </div>
-    </PageLayout>
+    </DashboardPageLayout>
   );
 }

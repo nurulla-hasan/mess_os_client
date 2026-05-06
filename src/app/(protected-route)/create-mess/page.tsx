@@ -102,7 +102,7 @@ export default function CreateMessPage() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <Card>
-                <CardContent className="p-6">
+                <CardContent >
                   <FieldGroup>
                     <FormField
                       control={form.control}
