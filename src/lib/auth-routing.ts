@@ -37,32 +37,28 @@ export function getPostLoginRoute(user: IUser | null | undefined): string {
     return "/admin";
   }
 
-  // Check for approved memberships first
+  // Check for approved/active memberships first
   const activeMembership = user.activeMembership;
   const memberships = user.memberships ?? [];
-
-  // Prefer activeMembership if present and approved
-  if (activeMembership?.status === "approved") {
-    if (activeMembership.role === "manager") {
-      return "/manager";
-    }
-    if (activeMembership.role === "member") {
-      return "/dashboard";
-    }
+ 
+  // Helper to check if a membership is considered "active/approved"
+  const isApproved = (m: IMembership) => m.status === "approved" || m.status === "active";
+  const getRole = (m: IMembership) => m.role || m.messRole;
+ 
+  // 1. Prefer activeMembership if present and approved/active
+  if (activeMembership && isApproved(activeMembership)) {
+    const role = getRole(activeMembership);
+    if (role === "manager") return "/manager";
+    if (role === "member") return "/dashboard";
   }
-
-  // Search in memberships array for approved membership
-  const approvedMembership = memberships.find(
-    (m: IMembership) => m.status === "approved"
-  );
-
+ 
+  // 2. Search in memberships array for any approved/active membership
+  const approvedMembership = memberships.find(isApproved);
+ 
   if (approvedMembership) {
-    if (approvedMembership.role === "manager") {
-      return "/manager";
-    }
-    if (approvedMembership.role === "member") {
-      return "/dashboard";
-    }
+    const role = getRole(approvedMembership);
+    if (role === "manager") return "/manager";
+    if (role === "member") return "/dashboard";
   }
 
   // Check for any pending memberships

@@ -1,12 +1,20 @@
 export type GlobalRole = "user" | "manager" | "super_admin";
 export type UserStatus = "active" | "blocked";
 export type MembershipRole = "manager" | "member";
-export type MembershipStatus = "pending" | "approved" | "rejected";
+export type MembershipStatus = "pending" | "approved" | "rejected" | "active";
 
 export interface IMembership {
-  messId: string;
-  role: MembershipRole;
+  _id?: string;
+  messId: string | {
+    _id: string;
+    name: string;
+    address?: string;
+    status: string;
+  };
+  role?: MembershipRole; // Keep for backward compatibility
+  messRole?: MembershipRole; // Backend uses this
   status: MembershipStatus;
+  joinedAt?: string;
 }
 
 export interface IUser {

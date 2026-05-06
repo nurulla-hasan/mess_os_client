@@ -101,7 +101,7 @@ export default function CreateMessPage() {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <Card className="border-2 border-primary/10 shadow-sm bg-card/50 backdrop-blur-sm">
+              <Card>
                 <CardContent className="p-6">
                   <FieldGroup>
                     <FormField
@@ -155,20 +155,20 @@ export default function CreateMessPage() {
               </Card>
 
               {/* Meal Categories */}
-              <Card className="border border-border/50 shadow-sm">
-                <CardHeader className="pb-4 border-b">
+              <Card>
+                <CardHeader>
                   <CardTitle className="text-lg">Meal Categories</CardTitle>
                   <CardDescription>Define the daily meal types available for members.</CardDescription>
                 </CardHeader>
-                <CardContent className="p-6 space-y-4">
+                <CardContent>
                   {mealFields.map((field, index) => (
                     <FormField
                       key={field.id}
                       control={form.control}
                       name={`mealCategories.${index}.value`}
                       render={({ field: inputField, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid} orientation="horizontal" className="items-start">
-                          <FieldContent className="flex-1">
+                        <Field data-invalid={fieldState.invalid} orientation="horizontal" className="space-y-3">
+                          <FieldContent>
                             <Input {...inputField} disabled={isLoading} aria-invalid={fieldState.invalid} />
                             <FieldError errors={[fieldState.error]} />
                           </FieldContent>
@@ -176,7 +176,6 @@ export default function CreateMessPage() {
                             type="button" 
                             variant="ghost" 
                             size="icon" 
-                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
                             onClick={() => removeMeal(index)}
                             disabled={mealFields.length === 1 || isLoading}
                           >
@@ -190,7 +189,6 @@ export default function CreateMessPage() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="mt-2 border-dashed"
                     onClick={() => appendMeal({ value: "" })}
                     disabled={isLoading}
                   >
@@ -201,20 +199,20 @@ export default function CreateMessPage() {
               </Card>
 
               {/* Equal Share Categories */}
-              <Card className="border border-border/50 shadow-sm">
-                <CardHeader className="pb-4 border-b">
+              <Card>
+                <CardHeader>
                   <CardTitle className="text-lg">Equal Share Categories</CardTitle>
                   <CardDescription>Fixed expenses divided equally among all active members.</CardDescription>
                 </CardHeader>
-                <CardContent className="p-6 space-y-4">
+                <CardContent>
                   {shareFields.map((field, index) => (
                     <FormField
                       key={field.id}
                       control={form.control}
                       name={`equalShareCategories.${index}.value`}
                       render={({ field: inputField, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid} orientation="horizontal" className="items-start">
-                          <FieldContent className="flex-1">
+                        <Field data-invalid={fieldState.invalid} orientation="horizontal" className="space-y-3">
+                          <FieldContent>
                             <Input {...inputField} disabled={isLoading} aria-invalid={fieldState.invalid} />
                             <FieldError errors={[fieldState.error]} />
                           </FieldContent>
@@ -222,7 +220,6 @@ export default function CreateMessPage() {
                             type="button" 
                             variant="ghost" 
                             size="icon" 
-                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
                             onClick={() => removeShare(index)}
                             disabled={shareFields.length === 1 || isLoading}
                           >
@@ -236,7 +233,6 @@ export default function CreateMessPage() {
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="mt-2 border-dashed"
                     onClick={() => appendShare({ value: "" })}
                     disabled={isLoading}
                   >
@@ -247,10 +243,10 @@ export default function CreateMessPage() {
               </Card>
 
               <div className="flex gap-4">
-                <Button type="button" variant="outline" size="lg" className="flex-1" onClick={() => router.push("/get-started")} disabled={isLoading}>
+                <Button type="button" variant="outline" size="lg" onClick={() => router.push("/get-started")} disabled={isLoading}>
                   Cancel
                 </Button>
-                <Button type="submit" size="lg" className="flex-2 group" loading={isLoading} loadingText="Creating...">
+                <Button type="submit" size="lg" loading={isLoading} loadingText="Creating...">
                   Create Mess
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -267,14 +263,14 @@ export default function CreateMessPage() {
               Preview Workspace
             </h3>
             
-            <Card className="border border-primary/20 shadow-lg overflow-hidden bg-linear-to-b from-card to-card/50">
+            <Card className="pt-0 overflow-hidden">
               <div className="h-24 bg-linear-to-r from-primary/20 via-primary/10 to-transparent flex items-end p-4">
                 <div className="w-16 h-16 rounded-xl bg-background border shadow-sm flex items-center justify-center -mb-8 z-10">
                   <LayoutDashboard className="h-8 w-8 text-primary" />
                 </div>
               </div>
               
-              <CardContent className="pt-10 p-6 space-y-6">
+              <CardContent className="space-y-6">
                 <div>
                   <h2 className="text-xl font-bold truncate">
                     {watchedName || "Your Mess Name"}
@@ -290,7 +286,7 @@ export default function CreateMessPage() {
                     <p className="text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">Invite Code</p>
                     <p className="font-mono font-bold text-primary tracking-widest blur-xs group-hover:blur-none transition-all">MESS-XXXX</p>
                   </div>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                  <Button variant="ghost" size="icon">
                     <Copy className="h-4 w-4" />
                   </Button>
                 </div>
@@ -301,7 +297,7 @@ export default function CreateMessPage() {
                     <div className="flex flex-wrap gap-2">
                       {watchedMeals.filter(m => m.value).length > 0 ? (
                         watchedMeals.filter(m => m.value).map((meal, i) => (
-                          <Badge key={i} variant="secondary" className="bg-blue-500/10 text-blue-600 hover:bg-blue-500/20">{meal.value}</Badge>
+                          <Badge key={i} variant="secondary">{meal.value}</Badge>
                         ))
                       ) : (
                         <span className="text-sm text-muted-foreground italic">None added</span>
@@ -314,7 +310,7 @@ export default function CreateMessPage() {
                     <div className="flex flex-wrap gap-2">
                       {watchedShares.filter(s => s.value).length > 0 ? (
                         watchedShares.filter(s => s.value).map((share, i) => (
-                          <Badge key={i} variant="secondary" className="bg-orange-500/10 text-orange-600 hover:bg-orange-500/20">{share.value}</Badge>
+                          <Badge key={i} variant="secondary">{share.value}</Badge>
                         ))
                       ) : (
                         <span className="text-sm text-muted-foreground italic">None added</span>
