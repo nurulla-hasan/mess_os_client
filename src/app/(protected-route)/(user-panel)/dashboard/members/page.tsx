@@ -4,13 +4,14 @@ import DashboardHeader from "@/components/ui/custom/page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { userColumns } from "@/components/members/user-columns";
-import { mockMembers } from "@/components/members/mockData";
+import { activeMembers } from "@/components/members/mockData";
 import { Users, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function MemberMembersPage() {
-  const activeMembers = mockMembers.filter(m => m.status === "active");
+  // Members only see active members list
+  const members = activeMembers;
 
   return (
     <DashboardPageLayout>
@@ -32,7 +33,7 @@ export default function MemberMembersPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <DataTable columns={userColumns} data={activeMembers} />
+            <DataTable columns={userColumns} data={members} />
           </CardContent>
         </Card>
       </div>
