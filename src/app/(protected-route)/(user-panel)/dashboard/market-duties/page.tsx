@@ -61,7 +61,7 @@ export default function MemberMarketDutiesPage() {
         <AlertCircle className="h-5 w-5 text-amber-500 shrink-0" />
         <div className="space-y-1">
           <p className="text-xs font-bold text-amber-700">Reporting Tip</p>
-          <p className="text-[10px] text-amber-600 leading-relaxed">
+          <p className="text-xs text-amber-600 leading-relaxed">
             Please make sure to collect all receipts during bazaar. You need to record the final amount spent to update the mess balance accurately.
           </p>
         </div>

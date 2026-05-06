@@ -34,7 +34,7 @@ const verifyOtpSchema = z.object({
 
 type VerifyOtpFormValues = z.infer<typeof verifyOtpSchema>;
 
-export default function VerifyOtpPage() {
+function VerifyOtpForm() {
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -221,5 +221,13 @@ export default function VerifyOtpPage() {
         </p>
       </CardContent>
     </Card>
+  );
+}
+
+export default function VerifyOtpPage() {
+  return (
+    <React.Suspense fallback={<div className="flex items-center justify-center p-8">Loading...</div>}>
+      <VerifyOtpForm />
+    </React.Suspense>
   );
 }

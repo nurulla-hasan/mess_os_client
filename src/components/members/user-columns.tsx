@@ -5,9 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { format } from "date-fns";
-import { Member } from "./columns";
+import { ActiveMember } from "./columns";
 
-export const userColumns: ColumnDef<Member>[] = [
+export const userColumns: ColumnDef<ActiveMember>[] = [
   {
     accessorKey: "member",
     header: "Member",
@@ -18,7 +18,7 @@ export const userColumns: ColumnDef<Member>[] = [
         </div>
         <div className="flex flex-col">
           <span className="text-sm font-bold">{row.original.name}</span>
-          <span className="text-[10px] text-muted-foreground uppercase">{row.original.email}</span>
+          <span className="text-xs text-muted-foreground uppercase">{row.original.email}</span>
         </div>
       </div>
     ),

@@ -90,7 +90,7 @@ export default function ManagerMealsPage() {
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-black">458</p>
-              <p className="text-[10px] text-muted-foreground uppercase font-bold mt-1 tracking-tight">Total Meals in May</p>
+              <p className="text-xs text-muted-foreground uppercase font-bold mt-1 tracking-tight">Total Meals in May</p>
             </CardContent>
           </Card>
         </div>

@@ -74,7 +74,7 @@ export default function ManagerSubscriptionPage() {
                 <div>
                   <h3 className="text-lg font-bold flex items-center gap-2">
                     Standard Monthly Plan
-                    <Badge variant="success" className="h-5 text-[10px]">ACTIVE</Badge>
+                    <Badge variant="success" className="h-5 text-xs">ACTIVE</Badge>
                   </h3>
                   <p className="text-sm text-muted-foreground">Your mess is currently on the standard plan. Renewing on June 01, 2024.</p>
                 </div>
@@ -113,7 +113,7 @@ export default function ManagerSubscriptionPage() {
 
           {/* Professional Plan (Recommended) */}
           <Card className="border-primary relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase">Recommended</div>
+            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg uppercase">Recommended</div>
             <CardHeader>
               <CardTitle className="text-sm font-bold uppercase tracking-wider text-primary">Standard</CardTitle>
               <div className="flex items-baseline gap-1 mt-2">

@@ -31,7 +31,7 @@ export const columns: ColumnDef<MenuPlan>[] = [
         <span className="text-sm font-bold">
           {format(new Date(row.original.date), "EEEE")}
         </span>
-        <span className="text-[10px] text-muted-foreground uppercase">
+        <span className="text-xs text-muted-foreground uppercase">
           {format(new Date(row.original.date), "MMM dd, yyyy")}
         </span>
       </div>
@@ -43,15 +43,15 @@ export const columns: ColumnDef<MenuPlan>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col gap-0.5 max-w-50">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-muted-foreground w-3">B</span>
+          <span className="text-xs font-bold text-muted-foreground w-3">B</span>
           <span className="text-xs truncate">{row.original.breakfast}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-muted-foreground w-3">L</span>
+          <span className="text-xs font-bold text-muted-foreground w-3">L</span>
           <span className="text-xs truncate font-medium">{row.original.lunch}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-muted-foreground w-3">D</span>
+          <span className="text-xs font-bold text-muted-foreground w-3">D</span>
           <span className="text-xs truncate font-medium">{row.original.dinner}</span>
         </div>
       </div>

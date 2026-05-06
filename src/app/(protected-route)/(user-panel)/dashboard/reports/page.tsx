@@ -47,7 +47,7 @@ export default function MemberReportsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Report Category</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Report Category</p>
                 <Select defaultValue="personal">
                   <SelectTrigger className="w-full">
                     <FileText className="mr-2 h-4 w-4 text-muted-foreground" />
@@ -61,7 +61,7 @@ export default function MemberReportsPage() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Billing Month</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Billing Month</p>
                 <Select defaultValue="may-2024">
                   <SelectTrigger className="w-full h-9">
                     <Calendar className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
@@ -85,7 +85,7 @@ export default function MemberReportsPage() {
               <CardContent className="p-4 flex flex-col gap-1">
                 <div className="flex items-center gap-2 text-primary">
                   <Wallet className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">Total Paid (Cycle)</span>
+                  <span className="text-xs font-bold uppercase tracking-wider">Total Paid (Cycle)</span>
                 </div>
                 <p className="text-xl font-black">৳2,000</p>
               </CardContent>
@@ -94,7 +94,7 @@ export default function MemberReportsPage() {
               <CardContent className="p-4 flex flex-col gap-1">
                 <div className="flex items-center gap-2 text-emerald-500">
                   <ArrowUpRight className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">Meal Consumption</span>
+                  <span className="text-xs font-bold uppercase tracking-wider">Meal Consumption</span>
                 </div>
                 <p className="text-xl font-black">42 Meals</p>
               </CardContent>
@@ -130,7 +130,7 @@ export default function MemberReportsPage() {
                 </div>
 
                 <div className="bg-accent/30 p-4 rounded-xl border border-dashed border-primary/20">
-                  <p className="text-[10px] text-muted-foreground leading-relaxed italic text-center">
+                  <p className="text-xs text-muted-foreground leading-relaxed italic text-center">
                     This report is for informational purposes. Final monthly statements are issued after the billing cycle is closed by the manager.
                   </p>
                 </div>

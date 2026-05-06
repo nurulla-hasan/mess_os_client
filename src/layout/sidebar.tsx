@@ -297,7 +297,7 @@ export default function Sidebar({
             <span className="text-lg font-extrabold tracking-tight text-foreground">
               Mess<span className="text-primary">Manager</span>
             </span>
-            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
               Mess Management
             </span>
           </div>

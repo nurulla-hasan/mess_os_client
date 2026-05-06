@@ -38,7 +38,7 @@ export const columns: ColumnDef<MarketSchedule>[] = [
     cell: ({ row }) => (
       <div className="flex -space-x-2">
         {row.original.assignedMembers.map((m, i) => (
-          <div key={i} className="h-7 w-7 rounded-full border-2 border-background bg-accent flex items-center justify-center text-[10px] font-bold">
+          <div key={i} className="h-7 w-7 rounded-full border-2 border-background bg-accent flex items-center justify-center text-xs font-bold">
             {m.name.charAt(0)}
           </div>
         ))}
@@ -52,7 +52,7 @@ export const columns: ColumnDef<MarketSchedule>[] = [
       <div className="flex flex-col">
         <span className="text-sm font-bold">৳{row.original.estimatedBudget}</span>
         {row.original.actualSpent && (
-          <span className="text-[10px] text-muted-foreground uppercase">Spent: ৳{row.original.actualSpent}</span>
+          <span className="text-xs text-muted-foreground uppercase">Spent: ৳{row.original.actualSpent}</span>
         )}
       </div>
     ),

@@ -54,7 +54,7 @@ export default function ManagerReportsPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground">
+                <p className="text-xs font-bold uppercase text-muted-foreground">
                   Report Type
                 </p>
                 <Select defaultValue="summary">
@@ -71,7 +71,7 @@ export default function ManagerReportsPage() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground">
+                <p className="text-xs font-bold uppercase text-muted-foreground">
                   Select Month
                 </p>
                 <Select defaultValue="may-2024">
@@ -97,7 +97,7 @@ export default function ManagerReportsPage() {
               <CardContent className="p-4 flex flex-col gap-1">
                 <div className="flex items-center gap-2 text-primary">
                   <TrendingUp className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">
+                  <span className="text-xs font-bold uppercase tracking-wider">
                     Total Revenue
                   </span>
                 </div>
@@ -108,7 +108,7 @@ export default function ManagerReportsPage() {
               <CardContent className="p-4 flex flex-col gap-1">
                 <div className="flex items-center gap-2 text-rose-500">
                   <Wallet className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">
+                  <span className="text-xs font-bold uppercase tracking-wider">
                     Total Expense
                   </span>
                 </div>
@@ -119,7 +119,7 @@ export default function ManagerReportsPage() {
               <CardContent className="p-4 flex flex-col gap-1">
                 <div className="flex items-center gap-2 text-emerald-500">
                   <LineChart className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">
+                  <span className="text-xs font-bold uppercase tracking-wider">
                     Net Balance
                   </span>
                 </div>

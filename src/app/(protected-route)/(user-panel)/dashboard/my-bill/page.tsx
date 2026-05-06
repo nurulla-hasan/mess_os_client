@@ -77,8 +77,8 @@ export default function MemberMyBillPage() {
             <CardContent className="p-6 text-center">
               <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Estimated Balance</h3>
               <p className="text-3xl font-black text-primary">৳450</p>
-              <Badge variant="rejected" className="mt-2 h-5 text-[10px] uppercase">Pending Due</Badge>
-              <p className="text-[10px] text-muted-foreground mt-4 italic">Final amount may change after cycle ends.</p>
+              <Badge variant="rejected" className="mt-2 h-5 text-xs uppercase">Pending Due</Badge>
+              <p className="text-xs text-muted-foreground mt-4 italic">Final amount may change after cycle ends.</p>
             </CardContent>
           </Card>
         </div>
@@ -106,13 +106,13 @@ export default function MemberMyBillPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      Meal Charges <span className="text-[10px] text-muted-foreground">(42 meals × ৳45.00)</span>
+                      Meal Charges <span className="text-xs text-muted-foreground">(42 meals × ৳45.00)</span>
                     </span>
                     <span className="font-bold">৳1,890.00</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      Equal Shares <span className="text-[10px] text-muted-foreground">(Rent, Internet, Maid)</span>
+                      Equal Shares <span className="text-xs text-muted-foreground">(Rent, Internet, Maid)</span>
                     </span>
                     <span className="font-bold">৳1,500.00</span>
                   </div>
@@ -133,13 +133,13 @@ export default function MemberMyBillPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      Total Payments <span className="text-[10px] text-muted-foreground">(Submitted Deposits)</span>
+                      Total Payments <span className="text-xs text-muted-foreground">(Submitted Deposits)</span>
                     </span>
                     <span className="font-bold text-emerald-600">৳2,000.00</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      Personal Expenses <span className="text-[10px] text-muted-foreground">(Adjusted from bazar)</span>
+                      Personal Expenses <span className="text-xs text-muted-foreground">(Adjusted from bazar)</span>
                     </span>
                     <span className="font-bold text-emerald-600">৳940.00</span>
                   </div>
@@ -158,7 +158,7 @@ export default function MemberMyBillPage() {
                     <CreditCard className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Net Payable Amount</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Net Payable Amount</p>
                     <p className="text-lg font-black">৳450.00</p>
                   </div>
                 </div>

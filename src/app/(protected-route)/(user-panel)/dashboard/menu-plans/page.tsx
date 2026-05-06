@@ -69,7 +69,7 @@ export default function MemberMenuPlansPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-[10px] text-muted-foreground leading-relaxed italic">
+              <p className="text-xs text-muted-foreground leading-relaxed italic">
                 Menu is subject to change based on market availability. Please check the notices section for any sudden updates.
               </p>
             </CardContent>

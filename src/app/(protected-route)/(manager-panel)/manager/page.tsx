@@ -95,7 +95,7 @@ export default function ManagerDashboardPage() {
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-background/50 border border-primary/20 backdrop-blur-sm">
                   <div className="space-y-0.5">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Invite Code</p>
+                    <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Invite Code</p>
                     <p className="text-xl font-mono font-bold tracking-widest text-primary">SUNRISE-2024</p>
                   </div>
                   <Button size="icon" variant="ghost" onClick={copyInviteCode} className="ml-2 hover:bg-primary/10">
@@ -128,7 +128,7 @@ export default function ManagerDashboardPage() {
                   </div>
                 </div>
                 <div className="mt-4 flex items-center gap-2">
-                  <Badge variant={metric.variant} className="text-[10px] uppercase font-bold py-0 h-5">
+                  <Badge variant={metric.variant} className="text-xs uppercase font-bold py-0 h-5">
                     {metric.variant}
                   </Badge>
                   <span className="text-xs text-muted-foreground truncate">{metric.note}</span>
@@ -162,7 +162,7 @@ export default function ManagerDashboardPage() {
                       </div>
                       <span className="text-xs font-semibold">{op.label}</span>
                       {op.count && (
-                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                        <span className="absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                           {op.count}
                         </span>
                       )}
@@ -195,7 +195,7 @@ export default function ManagerDashboardPage() {
                     <div className="flex-1 space-y-1">
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-semibold">{activity.title}</p>
-                        <span className="text-[10px] text-muted-foreground font-medium">{activity.time}</span>
+                        <span className="text-xs text-muted-foreground font-medium">{activity.time}</span>
                       </div>
                       <p className="text-xs text-muted-foreground">
                         {activity.user} • {activity.detail || activity.amount}
@@ -258,11 +258,11 @@ export default function ManagerDashboardPage() {
                   <div className="p-3 rounded-lg border border-primary/10 bg-primary/5 space-y-1">
                     <p className="text-xs font-bold text-primary">IMPORTANT</p>
                     <p className="text-sm font-medium">Monthly bazaar budget update</p>
-                    <p className="text-[10px] text-muted-foreground">Posted by you • 2 days ago</p>
+                    <p className="text-xs text-muted-foreground">Posted by you • 2 days ago</p>
                   </div>
                   <div className="p-3 rounded-lg border border-muted space-y-1">
                     <p className="text-sm font-medium">Bazaar schedule for Friday changed</p>
-                    <p className="text-[10px] text-muted-foreground">Posted by you • 4 days ago</p>
+                    <p className="text-xs text-muted-foreground">Posted by you • 4 days ago</p>
                   </div>
                 </div>
                 <Button variant="outline" size="sm" className="w-full text-xs font-bold" onClick={() => router.push("/manager/notices")}>

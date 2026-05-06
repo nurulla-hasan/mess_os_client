@@ -46,7 +46,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "method",
     header: "Method",
     cell: ({ row }) => (
-      <Badge variant="secondary" className="uppercase font-mono text-[10px]">
+      <Badge variant="secondary" className="uppercase font-mono text-xs">
         {row.original.method}
       </Badge>
     ),

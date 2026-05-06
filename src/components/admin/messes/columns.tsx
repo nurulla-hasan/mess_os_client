@@ -32,7 +32,7 @@ export const columns: ColumnDef<AdminMess>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="text-sm font-bold">{row.original.name}</span>
-        <span className="text-[10px] text-muted-foreground uppercase truncate max-w-48">{row.original.address}</span>
+        <span className="text-xs text-muted-foreground uppercase truncate max-w-48">{row.original.address}</span>
       </div>
     ),
   },
@@ -42,7 +42,7 @@ export const columns: ColumnDef<AdminMess>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="text-sm font-medium">{row.original.manager.name}</span>
-        <span className="text-[10px] text-muted-foreground uppercase">{row.original.manager.email}</span>
+        <span className="text-xs text-muted-foreground uppercase">{row.original.manager.email}</span>
       </div>
     ),
   },
@@ -50,7 +50,7 @@ export const columns: ColumnDef<AdminMess>[] = [
     accessorKey: "memberCount",
     header: "Members",
     cell: ({ row }) => (
-      <Badge variant="secondary" className="px-2 py-0.5 h-5 text-[10px]">
+      <Badge variant="secondary" className="px-2 py-0.5 h-5 text-xs">
         {row.original.memberCount} Members
       </Badge>
     ),

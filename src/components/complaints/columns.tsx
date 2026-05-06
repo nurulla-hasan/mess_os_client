@@ -31,7 +31,7 @@ export const columns: ColumnDef<Complaint>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="text-sm font-bold truncate max-w-48">{row.original.title}</span>
-        <span className="text-[10px] text-muted-foreground uppercase">{row.original.member.name}</span>
+        <span className="text-xs text-muted-foreground uppercase">{row.original.member.name}</span>
       </div>
     ),
   },

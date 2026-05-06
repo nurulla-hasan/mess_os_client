@@ -44,7 +44,7 @@ export const columns: ColumnDef<MealOffRequest>[] = [
         <span className="text-sm font-medium">
           {format(new Date(row.original.startDate), "MMM dd")} - {format(new Date(row.original.endDate), "MMM dd")}
         </span>
-        <span className="text-[10px] text-muted-foreground uppercase">
+        <span className="text-xs text-muted-foreground uppercase">
           {Math.ceil((new Date(row.original.endDate).getTime() - new Date(row.original.startDate).getTime()) / (1000 * 60 * 60 * 24)) + 1} Days
         </span>
       </div>

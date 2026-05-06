@@ -63,19 +63,19 @@ export function ProfileView({ role }: { role: "manager" | "member" }) {
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Full Name</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Full Name</p>
                 <p className="text-sm font-medium">Golap Hasan</p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Email Address</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Email Address</p>
                 <p className="text-sm font-medium">golap.hasan@example.com</p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Phone Number</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Phone Number</p>
                 <p className="text-sm font-medium">+880 1712-345678</p>
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Permanent Address</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Permanent Address</p>
                 <p className="text-sm font-medium flex items-center gap-1">
                   <MapPin className="h-3.5 w-3.5 text-rose-500" />
                   Dhaka, Bangladesh

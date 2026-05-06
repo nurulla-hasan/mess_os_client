@@ -39,13 +39,13 @@ export default function AdminStatsPage() {
               {/* Mock Bar Chart */}
               {[40, 60, 45, 80, 95, 70, 85, 100, 60, 75, 90, 110].map((h, i) => (
                 <div key={i} className="flex-1 bg-primary/20 rounded-t-lg relative group transition-all hover:bg-primary/40" style={{ height: `${h}%` }}>
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                     {h * 10}
                   </div>
                 </div>
               ))}
             </CardContent>
-            <div className="px-6 pb-6 pt-2 flex justify-between text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+            <div className="px-6 pb-6 pt-2 flex justify-between text-xs text-muted-foreground uppercase font-bold tracking-widest">
               <span>May 01</span>
               <span>May 15</span>
               <span>May 30</span>
@@ -94,7 +94,7 @@ export default function AdminStatsPage() {
                    </svg>
                    <span className="absolute text-xl font-black">75%</span>
                 </div>
-                <p className="text-[10px] text-muted-foreground uppercase font-bold mt-4 tracking-wider text-center">Daily Active Users</p>
+                <p className="text-xs text-muted-foreground uppercase font-bold mt-4 tracking-wider text-center">Daily Active Users</p>
               </CardContent>
             </Card>
           </div>

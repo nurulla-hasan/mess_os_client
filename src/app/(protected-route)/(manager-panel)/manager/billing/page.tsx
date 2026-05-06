@@ -102,8 +102,8 @@ export default function ManagerBillingPage() {
               Member Bills
             </CardTitle>
             <div className="flex items-center gap-2">
-              <Badge variant="success" className="text-[10px]">3 Paid</Badge>
-              <Badge variant="pending" className="text-[10px]">2 Pending</Badge>
+              <Badge variant="success" className="text-xs">3 Paid</Badge>
+              <Badge variant="pending" className="text-xs">2 Pending</Badge>
             </div>
           </CardHeader>
           <CardContent>

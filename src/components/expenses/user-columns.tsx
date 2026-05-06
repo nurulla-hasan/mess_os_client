@@ -23,7 +23,7 @@ export const userExpenseColumns: ColumnDef<Expense>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tight">
+      <Badge variant="outline" className="text-xs uppercase font-bold tracking-tight">
         {row.original.category}
       </Badge>
     ),

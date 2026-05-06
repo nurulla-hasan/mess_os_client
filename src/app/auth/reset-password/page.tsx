@@ -34,7 +34,7 @@ const resetPasswordSchema = z
 
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -168,5 +168,13 @@ export default function ResetPasswordPage() {
         </p>
       </CardContent>
     </Card>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <React.Suspense fallback={<div className="flex items-center justify-center p-8">Loading...</div>}>
+      <ResetPasswordForm />
+    </React.Suspense>
   );
 }

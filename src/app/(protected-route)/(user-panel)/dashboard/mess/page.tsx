@@ -41,11 +41,11 @@ export default function MemberMessOverviewPage() {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-1">
-                  <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Status</p>
+                  <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Status</p>
                   <Badge variant="success">ACTIVE</Badge>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest">Members</p>
+                  <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Members</p>
                   <p className="text-sm font-bold flex items-center gap-1">
                     <Users className="h-3.5 w-3.5" /> 12 Active Members
                   </p>
@@ -106,7 +106,7 @@ export default function MemberMessOverviewPage() {
               <div className="p-3 bg-background border border-dashed border-primary/30 rounded-lg flex items-center justify-center font-mono font-bold tracking-widest text-lg">
                 MESS-XYZ-789
               </div>
-              <p className="text-[10px] text-center text-muted-foreground italic">Share this with people you want to invite.</p>
+              <p className="text-xs text-center text-muted-foreground italic">Share this with people you want to invite.</p>
             </CardContent>
           </Card>
 

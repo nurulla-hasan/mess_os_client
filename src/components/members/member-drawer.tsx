@@ -88,7 +88,7 @@ export function MemberDrawer({ member, isOpen, onClose }: MemberDrawerProps) {
                     <span className="text-xs font-medium">Total Meals</span>
                   </div>
                   <p className="text-2xl font-bold">124</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">This month</p>
+                  <p className="text-xs text-muted-foreground mt-1">This month</p>
                 </div>
                 <div className="p-4 rounded-xl bg-accent/50 border border-border">
                   <div className="flex items-center gap-2 text-muted-foreground mb-1">
@@ -98,7 +98,7 @@ export function MemberDrawer({ member, isOpen, onClose }: MemberDrawerProps) {
                   <p className={`text-2xl font-bold ${member.dueAmount > 0 ? "text-rose-500" : "text-emerald-500"}`}>
                     ৳{member.advanceAmount - member.dueAmount}
                   </p>
-                  <p className="text-[10px] text-muted-foreground mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     {member.dueAmount > 0 ? "Outstanding due" : "Advance available"}
                   </p>
                 </div>

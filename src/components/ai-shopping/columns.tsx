@@ -44,7 +44,7 @@ export const columns: ColumnDef<AiShoppingList>[] = [
     accessorKey: "items",
     header: "Items",
     cell: ({ row }) => (
-      <Badge variant="secondary" className="px-2 py-0.5 h-5 text-[10px]">
+      <Badge variant="secondary" className="px-2 py-0.5 h-5 text-xs">
         {row.original.itemCount} Items
       </Badge>
     ),

@@ -49,9 +49,9 @@ export default function MemberDashboardPage() {
                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Current Balance</p>
                 <div className="flex items-baseline gap-2 mt-1">
                   <p className="text-3xl font-black">৳1,250</p>
-                  <Badge variant="success" className="h-5 text-[10px]">ADVANCE</Badge>
+                  <Badge variant="success" className="h-5 text-xs">ADVANCE</Badge>
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-2">Last updated 2 hours ago</p>
+                <p className="text-xs text-muted-foreground mt-2">Last updated 2 hours ago</p>
               </CardContent>
             </Card>
 
@@ -109,16 +109,16 @@ export default function MemberDashboardPage() {
                 <div className="h-2 w-2 rounded-full bg-emerald-500 mt-1.5" />
                 <div>
                   <p className="text-xs font-bold">Payment Approved</p>
-                  <p className="text-[10px] text-muted-foreground">৳2,000 deposit confirmed by manager.</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">Yesterday, 4:30 PM</p>
+                  <p className="text-xs text-muted-foreground">৳2,000 deposit confirmed by manager.</p>
+                  <p className="text-xs text-muted-foreground mt-1">Yesterday, 4:30 PM</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="h-2 w-2 rounded-full bg-primary mt-1.5" />
                 <div>
                   <p className="text-xs font-bold">New Notice Posted</p>
-                  <p className="text-[10px] text-muted-foreground">Monthly mess meeting scheduled for May 10.</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">2 days ago</p>
+                  <p className="text-xs text-muted-foreground">Monthly mess meeting scheduled for May 10.</p>
+                  <p className="text-xs text-muted-foreground mt-1">2 days ago</p>
                 </div>
               </div>
             </CardContent>

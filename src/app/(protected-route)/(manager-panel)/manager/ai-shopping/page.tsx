@@ -50,7 +50,7 @@ export default function ManagerAiShoppingPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground">Select Menu Plan</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground">Select Menu Plan</p>
                 <Select defaultValue="next-week">
                   <SelectTrigger className="w-full h-9">
                     <Calendar className="mr-2 h-3.5 w-3.5 text-muted-foreground" />

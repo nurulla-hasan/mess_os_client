@@ -95,12 +95,12 @@ export default function AdminDashboardPage() {
                     </div>
                     <div>
                       <p className="text-sm font-bold">{mess.name}</p>
-                      <p className="text-[10px] text-muted-foreground uppercase font-medium">Manager: {mess.manager}</p>
+                      <p className="text-xs text-muted-foreground uppercase font-medium">Manager: {mess.manager}</p>
                     </div>
                   </div>
                   <div className="text-right flex flex-col items-end gap-1">
                     <Badge variant={mess.status === "active" ? "success" : "pending"}>{mess.status}</Badge>
-                    <p className="text-[10px] text-muted-foreground">{mess.date}</p>
+                    <p className="text-xs text-muted-foreground">{mess.date}</p>
                   </div>
                 </div>
               ))}

@@ -22,7 +22,7 @@ export const columns: ColumnDef<MealRecord>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="font-bold text-foreground">{row.original.member.name}</span>
-        <span className="text-[10px] text-muted-foreground uppercase">{row.original.member.email}</span>
+        <span className="text-xs text-muted-foreground uppercase">{row.original.member.email}</span>
       </div>
     ),
   },
@@ -48,7 +48,7 @@ export const columns: ColumnDef<MealRecord>[] = [
     accessorKey: "updatedAt",
     header: "Last Logged",
     cell: ({ row }) => (
-      <span className="text-[10px] text-muted-foreground uppercase font-medium">
+      <span className="text-xs text-muted-foreground uppercase font-medium">
         {format(new Date(row.original.updatedAt), "hh:mm a")}
       </span>
     ),

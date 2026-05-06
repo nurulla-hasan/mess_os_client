@@ -86,12 +86,12 @@ export const columns: ColumnDef<ActiveMember>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col gap-1">
         {row.original.dueAmount > 0 && (
-          <Badge variant="rejected" className="w-fit text-[10px]">
+          <Badge variant="rejected" className="w-fit text-xs">
             Due: ৳{row.original.dueAmount}
           </Badge>
         )}
         {row.original.advanceAmount > 0 && (
-          <Badge variant="success" className="w-fit text-[10px]">
+          <Badge variant="success" className="w-fit text-xs">
             Adv: ৳{row.original.advanceAmount}
           </Badge>
         )}

@@ -41,11 +41,11 @@ export const userPaymentColumns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "submittedAt",
     header: "Date",
     cell: ({ row }) => (
       <span className="text-sm text-muted-foreground">
-        {format(new Date(row.original.date), "MMM dd, yyyy")}
+        {format(new Date(row.original.submittedAt), "MMM dd, yyyy")}
       </span>
     ),
   },
