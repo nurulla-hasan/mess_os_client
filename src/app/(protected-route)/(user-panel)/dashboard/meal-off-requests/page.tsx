@@ -1,30 +1,74 @@
 "use client";
 
-import PageLayout from "@/components/ui/custom/page-layout";
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { LayoutGrid } from "lucide-react";
+import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { userMealOffColumns } from "@/components/meal-off-requests/user-columns";
+import { mockOffRequests } from "@/components/meals/off-requests-mockData";
+import { 
+  Calendar, 
+  Clock, 
+  CheckCircle2, 
+  XCircle,
+  Plus
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export default function Page() {
+export default function MemberMealOffRequestsPage() {
+  const myRequests = mockOffRequests.filter(r => r.member.name === "Nasir Uddin");
+  const pendingRequests = myRequests.filter(r => r.status === "pending");
+
   return (
-    <PageLayout>
-      <DashboardPageHeader
-        title="Meal Off Requests"
-        description="View and manage Meal Off Requests."
-      />
-      <div className="mt-8">
-        <Card>
-          <CardContent className="p-12 flex flex-col items-center justify-center text-center">
-            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-              <LayoutGrid className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Meal Off Requests</h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
-              This is a placeholder page for Meal Off Requests. The UI will be designed later.
-            </p>
-          </CardContent>
-        </Card>
+    <DashboardPageLayout>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <DashboardHeader
+          title="Meal Off Requests"
+          description="Request to skip meals for a specific date range. Manager approval is required."
+        />
+        <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">
+          <Plus className="mr-2 h-4 w-4" /> New Request
+        </Button>
       </div>
-    </PageLayout>
+
+      <div className="mt-2">
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList variant="line" className="mb-4">
+            <TabsTrigger value="all" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span>My Requests</span>
+            </TabsTrigger>
+            <TabsTrigger value="pending" className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>Pending ({pendingRequests.length})</span>
+            </TabsTrigger>
+            <TabsTrigger value="approved" className="flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4" />
+              <span>Approved</span>
+            </TabsTrigger>
+            <TabsTrigger value="rejected" className="flex items-center gap-2">
+              <XCircle className="h-4 w-4" />
+              <span>Rejected</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="all">
+            <DataTable columns={userMealOffColumns} data={myRequests} />
+          </TabsContent>
+          
+          <TabsContent value="pending">
+            <DataTable columns={userMealOffColumns} data={pendingRequests} />
+          </TabsContent>
+
+          <TabsContent value="approved">
+            <DataTable columns={userMealOffColumns} data={myRequests.filter(r => r.status === "approved")} />
+          </TabsContent>
+
+          <TabsContent value="rejected">
+            <DataTable columns={userMealOffColumns} data={myRequests.filter(r => r.status === "rejected")} />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DashboardPageLayout>
   );
 }
