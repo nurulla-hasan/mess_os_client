@@ -108,7 +108,7 @@ export default function GetStartedPage() {
           {/* Join a Mess Card */}
           <div className="group relative">
             <CardGlow />
-            <Card>
+            <Card className="relative overflow-hidden border-2 border-transparent hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 bg-card/80 backdrop-blur-sm">
               <ShimmerEffect />
               
               <CardContent className="relative flex flex-col gap-8 p-8">
