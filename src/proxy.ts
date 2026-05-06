@@ -22,6 +22,7 @@ const protectedRoutes = [
   "/pending-approval",
   "/create-mess",
   "/get-started",
+  "/join-mess",
 ];
 
 /**
@@ -42,12 +43,12 @@ async function fetchCurrentUserInProxy(
   request: NextRequest,
   accessToken: string
 ): Promise<IUser | null> {
-  if (!process.env.NEXT_PUBLIC_API_URL) {
+  if (!process.env.NEXT_PUBLIC_BASE_API) {
     return null;
   }
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -122,23 +123,76 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  // Smart redirect for authenticated users on auth-entry routes
-  if (accessToken && (isAuthRouteToRedirect || isVerifyOtpRoute)) {
+  // Strict Role-Based Route Protection
+  if (accessToken && (isAuthRouteToRedirect || isVerifyOtpRoute || isProtectedRoute)) {
     const user = await fetchCurrentUserInProxy(request, accessToken);
-    const resolvedRoute = getPostLoginRoute(user);
+    let resolvedRoute = getPostLoginRoute(user);
 
-    // Allow unverified authenticated users to stay on verify-otp
-    if (isVerifyOtpRoute && resolvedRoute === "/auth/verify-otp") {
+    // Fallback: If backend fetch fails but token is valid, use token's globalRole
+    if (!user) {
+      try {
+        const decoded = jwtDecode<DecodedToken>(accessToken);
+        if (decoded.globalRole === "super_admin") {
+          resolvedRoute = "/admin";
+        } else if (decoded.globalRole === "manager") {
+          resolvedRoute = "/create-mess";
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    console.log("=== PROXY DEBUG ===");
+    console.log("Pathname:", pathname);
+    console.log("User Fetched:", !!user);
+    console.log("Resolved Route:", resolvedRoute);
+    console.log("Is Onboarding Route:", pathname.startsWith("/get-started") || pathname.startsWith("/join-mess") || pathname.startsWith("/create-mess") || pathname.startsWith("/pending-approval"));
+
+    // 1. If user must go to blocked or verify-otp, force them there
+    if (resolvedRoute === "/blocked" || resolvedRoute === "/auth/verify-otp") {
+      if (pathname !== resolvedRoute) {
+        return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      }
       return NextResponse.next();
     }
 
-    // Avoid redirect loop
-    if (resolvedRoute === pathname) {
-      return NextResponse.next();
+    // 2. If they are trying to access an auth route (like /login), send them to their dashboard
+    if (isAuthRouteToRedirect) {
+      return NextResponse.redirect(new URL(resolvedRoute, request.url));
     }
 
-    // If user data fetch fails, getPostLoginRoute(null) => /get-started
-    return NextResponse.redirect(new URL(resolvedRoute, request.url));
+    // 3. Strict checks for protected routes
+    if (isProtectedRoute) {
+      const isAdminRoute = pathname.startsWith("/admin");
+      const isManagerRoute = pathname.startsWith("/manager");
+      const isMemberRoute = pathname.startsWith("/dashboard");
+      const isOnboardingRoute = 
+        pathname.startsWith("/get-started") || 
+        pathname.startsWith("/join-mess") || 
+        pathname.startsWith("/create-mess") || 
+        pathname.startsWith("/pending-approval");
+
+      // Block unauthorized access to specific role areas
+      if (isAdminRoute && resolvedRoute !== "/admin") {
+        return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      }
+
+      if (isManagerRoute && resolvedRoute !== "/manager") {
+        return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      }
+
+      if (isMemberRoute && resolvedRoute !== "/dashboard") {
+        return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      }
+
+      // If they have an active dashboard (admin, manager, member), block onboarding routes
+      if (isOnboardingRoute && (resolvedRoute === "/admin" || resolvedRoute === "/manager" || resolvedRoute === "/dashboard")) {
+        return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      }
+      
+      // If none of the restrictions hit, let them pass
+      return NextResponse.next();
+    }
   }
 
   return NextResponse.next();
