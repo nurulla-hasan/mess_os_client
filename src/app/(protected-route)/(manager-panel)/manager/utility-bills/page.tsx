@@ -1,8 +1,30 @@
-export default function UtilityBillsPage() {
+"use client";
+
+import PageLayout from "@/components/ui/custom/page-layout";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
+import { Card, CardContent } from "@/components/ui/card";
+import { LayoutGrid } from "lucide-react";
+
+export default function Page() {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Utility Bills</h1>
-      <p className="text-muted-foreground">Manage gas, electricity, and other monthly bills.</p>
-    </div>
+    <PageLayout>
+      <DashboardPageHeader
+        title="Utility Bills"
+        description="View and manage Utility Bills."
+      />
+      <div className="mt-8">
+        <Card>
+          <CardContent className="p-12 flex flex-col items-center justify-center text-center">
+            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <LayoutGrid className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Utility Bills</h3>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              This is a placeholder page for Utility Bills. The UI will be designed later.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    </PageLayout>
   );
 }

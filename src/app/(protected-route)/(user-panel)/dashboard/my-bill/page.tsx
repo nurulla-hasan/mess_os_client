@@ -9,8 +9,8 @@ export default function Page() {
   return (
     <PageLayout>
       <DashboardPageHeader
-        title="Notices"
-        description="View and manage Notices."
+        title="My Bill"
+        description="View and manage My Bill."
       />
       <div className="mt-8">
         <Card>
@@ -18,9 +18,9 @@ export default function Page() {
             <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
               <LayoutGrid className="h-8 w-8 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Notices</h3>
+            <h3 className="text-xl font-semibold mb-2">My Bill</h3>
             <p className="text-muted-foreground max-w-md mx-auto">
-              This is a placeholder page for Notices. The UI will be designed later.
+              This is a placeholder page for My Bill. The UI will be designed later.
             </p>
           </CardContent>
         </Card>
