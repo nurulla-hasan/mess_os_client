@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { jwtDecode } from "jwt-decode";
 
 import { getPostLoginRoute } from "@/lib/auth-routing";
-import { IUser } from "@/types/user.type";
+import { IMembership, IUser } from "@/types/user.type";
 
 const authRoutesToRedirect = [
   "/auth/login",
@@ -183,6 +183,15 @@ export async function proxy(request: NextRequest) {
 
       if (isMemberRoute && resolvedRoute !== "/dashboard") {
         return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      }
+
+      // 4. Strict suspension check: If user has a suspended mess, they MUST stay on /get-started
+      const hasSuspendedMess = user?.memberships?.some(
+        (m: IMembership) => typeof m.messId !== "string" && m.messId?.status === "suspended"
+      );
+
+      if (hasSuspendedMess && pathname !== "/get-started") {
+        return NextResponse.redirect(new URL("/get-started", request.url));
       }
 
       // If they have an active dashboard (admin, manager, member), block onboarding routes

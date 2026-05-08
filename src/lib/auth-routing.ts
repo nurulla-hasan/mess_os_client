@@ -76,6 +76,15 @@ export function getPostLoginRoute(user: IUser | null | undefined): string {
     return "/pending-approval";
   }
 
+  // Check for any suspended memberships
+  const hasSuspendedMembership = memberships.some(
+    (m: IMembership) => typeof m.messId !== "string" && m.messId?.status === "suspended"
+  );
+
+  if (hasSuspendedMembership) {
+    return "/get-started";
+  }
+
   // 7. Manager without approved mess
   if (userRole === "manager") {
     return "/create-mess";
