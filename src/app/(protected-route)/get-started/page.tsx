@@ -1,46 +1,17 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Sparkles } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { IUser } from "@/types/user.type";
-import { logout, getMe } from "@/services/auth.service";
-
+import { getMe } from "@/services/auth.service";
 import PageLayout from "@/components/ui/custom/page-layout";
 
 // Refactored Components
 import { ParticleField } from "@/components/get-started/particle-field";
-import { UserProfileCard } from "@/components/get-started/user-profile-card";
 import { ActionCards } from "@/components/get-started/action-cards";
 import { HowItWorks } from "@/components/get-started/how-it-works";
+import GetStartedClientWrapper from "../../../components/get-started/get-started-client-wrapper";
 
-export default function GetStartedPage() {
-  const router = useRouter();
-  const [user, setUser] = useState<IUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getMe();
-        if (response?.success) {
-          setUser(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching profile in get-started:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProfile();
-  }, []);
-
-  const handleLogout = async () => {
-    await logout();
-    router.replace("/auth/login");
-  };
-
+export default async function GetStartedPage() {
+  const response = await getMe();
+  const user = response?.success ? response.data : null;
   const isUserOnly = user?.globalRole === "user";
 
   return (
@@ -56,12 +27,7 @@ export default function GetStartedPage() {
             <span className="text-sm font-semibold text-primary">Welcome to Mess OS</span>
             <Sparkles className="h-4 w-4 text-primary animate-pulse" />
           </div>
-          {/* User Profile Section */}
-          <UserProfileCard 
-            user={user} 
-            isLoading={isLoading} 
-            onLogout={handleLogout} 
-          />
+          <GetStartedClientWrapper user={user} />
         </div>
 
         {/* Main Action Cards */}
@@ -72,12 +38,12 @@ export default function GetStartedPage() {
       </PageLayout>
       
       {/* Global animation styles */}
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }
         }
-      `}</style>
+      `}} />
     </>
   );
 }

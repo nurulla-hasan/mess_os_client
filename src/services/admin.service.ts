@@ -13,6 +13,7 @@ export const getAllManagerRequests = async (params: QueryParams = {}): Promise<a
   try {
     return await serverFetch(`/admin/manager-requests${qs}`, {
       method: "GET",
+      tags: ["manager-requests"],
     });
   } catch (error: any) {
     return {
@@ -33,6 +34,7 @@ export const updateManagerRequestStatus = async (
     return await serverFetch(`/admin/manager-requests/${requestId}/status`, {
       method: "PATCH",
       body: data,
+      updateTag: ["manager-requests", "my-manager-request", "user-profile"],
     });
   } catch (error: any) {
     return {

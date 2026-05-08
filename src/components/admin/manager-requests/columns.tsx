@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, XCircle, Info } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -11,40 +11,113 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { format } from "date-fns";
+import { ViewRequestModal } from "./view-request-modal";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+import { updateManagerRequestStatus } from "@/services/admin.service";
+import { SuccessToast, ErrorToast } from "@/lib/utils";
+import React from "react";
 
-export type ManagerRequest = {
-  _id: string;
-  userId: {
-    _id: string;
-    fullName: string;
-    email: string;
-    phone: string;
-    status: string;
-    globalRole: string;
+import { IManagerRequest } from "@/types/manager-request.type";
+import { IUser } from "@/types/user.type";
+
+function ActionButtons({ request }: { request: IManagerRequest }) {
+  const [isUpdating, setIsUpdating] = React.useState(false);
+  const user = request.userId as IUser;
+
+  const handleStatusUpdate = async (newStatus: "approved" | "rejected") => {
+    setIsUpdating(true);
+    try {
+      const response = await updateManagerRequestStatus(request._id, {
+        status: newStatus,
+        adminNote: newStatus === "approved" ? "Approved for mess creation." : "Your request was rejected.",
+      });
+      if (response?.success) {
+        SuccessToast(response.message || `Request ${newStatus} successfully!`);
+      } else {
+        ErrorToast(response?.message || "Failed to update request.");
+      }
+    } catch {
+      ErrorToast("Something went wrong. Please try again.");
+    } finally {
+      setIsUpdating(false);
+    }
   };
-  status: "pending" | "approved" | "rejected";
-  reason: string;
-  createdAt: string;
-  updatedAt: string;
-};
 
-export const columns: ColumnDef<ManagerRequest>[] = [
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <ViewRequestModal request={request} />
+          </TooltipTrigger>
+          <TooltipContent>View Details</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      {request.status === "pending" && (
+        <>
+          <ConfirmationModal
+            title="Approve Request?"
+            description={`Are you sure you want to approve manager access for ${user.fullName}?`}
+            confirmText="Approve"
+            loadingText="Approving..."
+            onConfirm={() => handleStatusUpdate("approved")}
+            isLoading={isUpdating}
+            trigger={
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+              >
+                <CheckCircle2 />
+              </Button>
+            }
+          />
+
+          <ConfirmationModal
+            title="Reject Request?"
+            description={`Are you sure you want to reject manager access for ${user.fullName}?`}
+            confirmText="Reject"
+            loadingText="Rejecting..."
+            onConfirm={() => handleStatusUpdate("rejected")}
+            isLoading={isUpdating}
+            trigger={
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+              >
+                <XCircle />
+              </Button>
+            }
+          />
+        </>
+      )}
+    </div>
+  );
+}
+
+export const columns: ColumnDef<IManagerRequest>[] = [
   {
     accessorKey: "userId.fullName",
     header: "User",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="text-sm font-bold">{row.original.userId.fullName}</span>
-        <span className="text-xs text-muted-foreground uppercase">{row.original.userId.email}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const user = row.original.userId as IUser;
+      return (
+        <div className="flex flex-col">
+          <span className="text-sm font-bold">{user.fullName}</span>
+          <span className="text-xs text-muted-foreground">{user.email}</span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "userId.phone",
     header: "Phone",
-    cell: ({ row }) => (
-      <span className="text-sm font-medium">{row.original.userId.phone}</span>
-    ),
+    cell: ({ row }) => {
+      const user = row.original.userId as IUser;
+      return <span className="text-sm font-medium">{user.phone}</span>;
+    },
   },
   {
     accessorKey: "reason",
@@ -90,49 +163,6 @@ export const columns: ColumnDef<ManagerRequest>[] = [
   {
     id: "actions",
     header: () => <div className="text-end">Review</div>,
-    cell: ({ row }) => {
-      const request = row.original;
-
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <Info className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {request.status === "pending" && (
-            <>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50">
-                      <CheckCircle2 className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Approve Request</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50">
-                      <XCircle className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Reject Request</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <ActionButtons request={row.original} />,
   },
 ];

@@ -103,7 +103,9 @@ export const login = async (data: FieldValues): Promise<any> => {
  * Get current logged-in user profile
  */
 export const getMe = async (): Promise<any> => {
-  const response: any = await serverFetch("/users/me");
+  const response: any = await serverFetch("/users/me", {
+    tags: ["user-profile"],
+  });
   
   // If getMe is successful and no activeMessId is set, set it from the first approved membership
   if (response && response.success && response.data) {

@@ -12,6 +12,7 @@ export const requestManagerAccess = async (data: FieldValues): Promise<any> => {
     return await serverFetch("/users/me/manager-request", {
       method: "POST",
       body: data,
+      updateTag: "my-manager-request",
     });
   } catch (error: any) {
     return {
@@ -28,6 +29,7 @@ export const getMyManagerRequest = async (): Promise<any> => {
   try {
     return await serverFetch("/users/me/manager-request", {
       method: "GET",
+      tags: ["my-manager-request"],
     });
   } catch (error: any) {
     return {
