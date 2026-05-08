@@ -2,6 +2,7 @@ import React from "react";
 import { Sparkles } from "lucide-react";
 import { getMe } from "@/services/auth.service";
 import PageLayout from "@/components/ui/custom/page-layout";
+import { redirect } from "next/navigation";
 
 // Refactored Components
 import { ParticleField } from "@/components/get-started/particle-field";
@@ -11,7 +12,12 @@ import GetStartedClientWrapper from "../../../components/get-started/get-started
 
 export default async function GetStartedPage() {
   const response = await getMe();
-  const user = response?.success ? response.data : null;
+
+  if (!response?.success) {
+    redirect("/auth/login");
+  }
+
+  const user = response.data;
   const isUserOnly = user?.globalRole === "user";
 
   return (

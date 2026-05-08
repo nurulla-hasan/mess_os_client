@@ -103,34 +103,41 @@ export const login = async (data: FieldValues): Promise<any> => {
  * Get current logged-in user profile
  */
 export const getMe = async (): Promise<any> => {
-  const response: any = await serverFetch("/users/me", {
-    tags: ["user-profile"],
-  });
-  
-  // If getMe is successful and no activeMessId is set, set it from the first approved membership
-  if (response && response.success && response.data) {
-    try {
-      const userData = response.data;
-      const cookieStore = await cookies();
-      const currentMessId = cookieStore.get("activeMessId")?.value;
+  try {
+    const response: any = await serverFetch("/users/me", {
+      tags: ["user-profile"],
+    });
+    
+    // If getMe is successful and no activeMessId is set, set it from the first approved membership
+    if (response && response.success && response.data) {
+      try {
+        const userData = response.data;
+        const cookieStore = await cookies();
+        const currentMessId = cookieStore.get("activeMessId")?.value;
 
-      if (!currentMessId) {
-        const memberships = userData.memberships || [];
-        const approved = memberships.find((m: any) => m.status === "approved" || m.status === "active");
-        
-        if (approved) {
-          const mId = typeof approved.messId === "string" ? approved.messId : approved.messId?._id;
-          if (mId) {
-            await setActiveMessId(mId);
+        if (!currentMessId) {
+          const memberships = userData.memberships || [];
+          const approved = memberships.find((m: any) => m.status === "approved" || m.status === "active");
+          
+          if (approved) {
+            const mId = typeof approved.messId === "string" ? approved.messId : approved.messId?._id;
+            if (mId) {
+              await setActiveMessId(mId);
+            }
           }
         }
+      } catch (cookieError) {
+        console.error("Error setting activeMessId cookie:", cookieError);
       }
-    } catch (cookieError) {
-      console.error("Error setting activeMessId cookie:", cookieError);
     }
-  }
 
-  return response;
+    return response;
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch profile.",
+    };
+  }
 };
 
 /**

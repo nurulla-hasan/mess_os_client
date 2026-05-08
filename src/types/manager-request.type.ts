@@ -7,6 +7,7 @@ export interface IManagerRequest {
   userId: string | IUser;
   status: RequestStatus;
   reason: string;
+  adminNote?: string;
   createdAt: string;
   updatedAt: string;
 }

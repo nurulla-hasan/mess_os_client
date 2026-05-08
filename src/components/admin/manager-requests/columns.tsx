@@ -15,6 +15,7 @@ import { ViewRequestModal } from "./view-request-modal";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { updateManagerRequestStatus } from "@/services/admin.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 
 import { IManagerRequest } from "@/types/manager-request.type";
@@ -22,6 +23,7 @@ import { IUser } from "@/types/user.type";
 
 function ActionButtons({ request }: { request: IManagerRequest }) {
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [note, setNote] = React.useState("");
   const user = request.userId as IUser;
 
   const handleStatusUpdate = async (newStatus: "approved" | "rejected") => {
@@ -29,10 +31,11 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
     try {
       const response = await updateManagerRequestStatus(request._id, {
         status: newStatus,
-        adminNote: newStatus === "approved" ? "Approved for mess creation." : "Your request was rejected.",
+        adminNote: note || (newStatus === "approved" ? "Approved for mess creation." : "Your request was rejected."),
       });
       if (response?.success) {
         SuccessToast(response.message || `Request ${newStatus} successfully!`);
+        setNote(""); // Reset note
       } else {
         ErrorToast(response?.message || "Failed to update request.");
       }
@@ -72,7 +75,19 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
                 <CheckCircle2 />
               </Button>
             }
-          />
+          >
+            <div className="py-4 space-y-2">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                Approval Note (Optional)
+              </p>
+              <Textarea 
+                placeholder="Type any note for this approval..." 
+                className="min-h-24 bg-muted/30 focus-visible:ring-emerald-500"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+          </ConfirmationModal>
 
           <ConfirmationModal
             title="Reject Request?"
@@ -90,7 +105,19 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
                 <XCircle />
               </Button>
             }
-          />
+          >
+            <div className="py-4 space-y-2">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                Rejection Note (Optional)
+              </p>
+              <Textarea 
+                placeholder="Type your reason for rejection..." 
+                className="min-h-24 bg-muted/30 focus-visible:ring-rose-500"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+          </ConfirmationModal>
         </>
       )}
     </div>

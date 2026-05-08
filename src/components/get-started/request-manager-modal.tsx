@@ -2,22 +2,13 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { Loader2, ArrowRight, Clock, CheckCircle2, XCircle, Info } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { SuccessToast, ErrorToast, cn } from "@/lib/utils";
 import { requestManagerAccess, getMyManagerRequest } from "@/services/user.service";
-import { IManagerRequest, RequestStatus } from "@/types/user.type";
+import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
+import { IManagerRequest, RequestStatus } from "@/types/manager-request.type";
 
 export function RequestManagerModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -106,8 +97,15 @@ export function RequestManagerModal() {
   const statusConfig = existingRequest ? getStatusConfig(existingRequest.status) : null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
+    <ModalWrapper
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      title="Manager Access Request"
+      description={existingRequest 
+        ? statusConfig?.description 
+        : "To create and manage a mess, you need manager privileges. Please provide a reason for your request."}
+      showClose={isPending || isApproved}
+      actionTrigger={
         <Button 
           size="lg" 
           variant={isPending ? "outline" : isApproved ? "secondary" : "default"}
@@ -116,45 +114,58 @@ export function RequestManagerModal() {
           {isPending ? "Request Pending" : isApproved ? "Access Approved" : "Request Manager Access"}
           <ArrowRight className="h-4 w-4" />
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle className="flex flex-col sm:flex-row sm:items-center gap-2">
-            <span>Manager Access Request</span>
-            {existingRequest && (
-              <Badge variant="outline" className={cn("text-[10px] uppercase font-bold w-fit", statusConfig?.class)}>
-                {statusConfig?.label}
-              </Badge>
+      }
+    >
+      <div className="flex flex-col h-full">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          {existingRequest && (
+            <div className={cn("p-4 rounded-xl border flex items-center justify-between", statusConfig?.class)}>
+              <div className="flex items-center gap-3">
+                {statusConfig?.icon}
+                <span className="font-bold uppercase tracking-wider text-xs">{statusConfig?.label}</span>
+              </div>
+              <span className="text-[10px] opacity-70 font-medium uppercase">
+                Status Update
+              </span>
+            </div>
+          )}
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="reason" className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                Your Request Reason
+              </Label>
+              <Textarea
+                id="reason"
+                placeholder="Example: I want to create and manage my own mess for my college hostel."
+                value={requestReason}
+                onChange={(e) => setRequestReason(e.target.value)}
+                disabled={isPending || isApproved}
+                className="bg-muted/30 min-h-32"
+              />
+            </div>
+
+            {existingRequest?.status === "rejected" && existingRequest.adminNote && (
+              <div className="p-4 rounded-xl border border-destructive/20 bg-destructive/5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
+                <div className="flex items-center gap-2 text-destructive">
+                  <XCircle className="h-4 w-4" />
+                  <span className="text-xs font-black uppercase tracking-widest">Admin Feedback</span>
+                </div>
+                <p className="text-sm italic text-foreground/80 leading-relaxed">
+                  &quot;{existingRequest.adminNote}&quot;
+                </p>
+              </div>
             )}
-          </DialogTitle>
-          <DialogDescription>
-            {existingRequest 
-              ? statusConfig?.description 
-              : "To create and manage a mess, you need manager privileges. Please provide a reason for your request."}
-          </DialogDescription>
-        </DialogHeader>
-        
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="reason">Reason for Request</Label>
-            <Textarea
-              id="reason"
-              placeholder="Example: I want to create and manage my own mess for my college hostel."
-              value={requestReason}
-              onChange={(e) => setRequestReason(e.target.value)}
-              disabled={isPending || isApproved}
-            />
           </div>
         </div>
-        
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => setIsOpen(false)} disabled={isSubmittingRequest}>
-            {isPending || isApproved ? "Close" : "Cancel"}
-          </Button>
-          {!isPending && !isApproved && (
+
+        {!isPending && !isApproved && (
+          <div className="p-6 border-t bg-muted/20 flex items-center justify-end">
             <Button 
+              size="lg"
               onClick={handleRequestManager} 
               disabled={isSubmittingRequest || !requestReason.trim()}
+              className="w-full sm:w-auto"
             >
               {isSubmittingRequest ? (
                 <>
@@ -167,9 +178,9 @@ export function RequestManagerModal() {
                 "Submit Request"
               )}
             </Button>
-          )}
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </div>
+        )}
+      </div>
+    </ModalWrapper>
   );
 }

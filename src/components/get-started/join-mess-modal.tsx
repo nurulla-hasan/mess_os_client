@@ -2,21 +2,13 @@
 
 import React, { useState } from "react";
 import { Loader2, ArrowRight, Hash } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { joinMess } from "@/services/mess.service";
 import { useRouter } from "next/navigation";
+import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 
 export function JoinMessModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,47 +41,49 @@ export function JoinMessModal() {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
+    <ModalWrapper
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      title="Join a Mess"
+      description="Enter the unique invite code shared by your mess manager to join their community."
+      showClose={false}
+      actionTrigger={
         <Button size="lg" className="gap-2">
           Join with Code
           <ArrowRight className="h-4 w-4" />
         </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Join a Mess</DialogTitle>
-          <DialogDescription>
-            Enter the unique invite code shared by your mess manager to join their community.
-          </DialogDescription>
-        </DialogHeader>
-        
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="inviteCode">Invite Code</Label>
-            <div className="relative">
-              <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                id="inviteCode"
-                placeholder="Ex: MESS-123-ABC"
-                className="pl-10"
-                value={inviteCode}
-                onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
-              />
+      }
+    >
+      <div className="flex flex-col h-full">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="inviteCode" className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                Invite Code
+              </Label>
+              <div className="relative">
+                <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" />
+                <Input
+                  id="inviteCode"
+                  placeholder="Ex: MESS-123-ABC"
+                  className="pl-10 h-12 bg-muted/30 border-primary/10 focus-visible:ring-primary"
+                  value={inviteCode}
+                  onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                />
+              </div>
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-tight">
+                Codes are case-sensitive. Ask your manager if you don&apos;t have one.
+              </p>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Codes are case-sensitive. Ask your manager if you don&apos;t have one.
-            </p>
           </div>
         </div>
-        
-        <DialogFooter>
-          <Button variant="ghost" onClick={() => setIsOpen(false)} disabled={isSubmitting}>
-            Cancel
-          </Button>
+
+        <div className="p-6 border-t bg-muted/20 flex items-center justify-end">
           <Button 
+            size="lg"
             onClick={handleJoinMess} 
             disabled={isSubmitting || !inviteCode.trim()}
+            className="w-full sm:w-auto"
           >
             {isSubmitting ? (
               <>
@@ -100,8 +94,8 @@ export function JoinMessModal() {
               "Join Mess"
             )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </div>
+      </div>
+    </ModalWrapper>
   );
 }
