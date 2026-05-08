@@ -68,10 +68,8 @@ export default function RegisterPage() {
         );
       }
     } catch (error: unknown) {
-      // For network errors or unexpected crashes
       const errorMessage = (error as Error).message || "An unexpected error occurred. Please try again.";
       ErrorToast(errorMessage);
-      console.error("Registration catch block error:", error);
     } finally {
       setIsLoading(false);
     }

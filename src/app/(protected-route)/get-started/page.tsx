@@ -7,10 +7,22 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import PageLayout from "@/components/ui/custom/page-layout";
-import { cn, getInitials } from "@/lib/utils";
+import { cn, getInitials, SuccessToast, ErrorToast } from "@/lib/utils";
 import { getMe, logout } from "@/services/auth.service";
+import { requestManagerAccess } from "@/services/user.service";
 import { useRouter } from "next/navigation";
 import { IUser } from "@/types/user.type";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 
 // Animated floating particles
 function ParticleField() {
@@ -91,6 +103,9 @@ export default function GetStartedPage() {
   const router = useRouter();
   const [user, setUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const [requestReason, setRequestReason] = useState("");
+  const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -113,6 +128,31 @@ export default function GetStartedPage() {
     await logout();
     router.replace("/auth/login");
   };
+
+  const handleRequestManager = async () => {
+    if (!requestReason.trim()) {
+      ErrorToast("Please provide a reason for your request.");
+      return;
+    }
+
+    setIsSubmittingRequest(true);
+    try {
+      const response = await requestManagerAccess({ reason: requestReason });
+      if (response?.success) {
+        SuccessToast(response.message || "Request submitted successfully!");
+        setIsRequestModalOpen(false);
+        setRequestReason("");
+      } else {
+        ErrorToast(response?.message || "Failed to submit request.");
+      }
+    } catch {
+      ErrorToast("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmittingRequest(false);
+    }
+  };
+
+  const isUserOnly = user?.globalRole === "user";
 
   return (
     <>
@@ -259,12 +299,23 @@ export default function GetStartedPage() {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <Button asChild size="lg" className="group/btn shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all">
-                    <a href="/create-mess" className="gap-2">
-                      Create Mess
+                  {isUserOnly ? (
+                    <Button 
+                      onClick={() => setIsRequestModalOpen(true)}
+                      size="lg" 
+                      className="group/btn shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
+                    >
+                      Request Manager Access
                       <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                    </a>
-                  </Button>
+                    </Button>
+                  ) : (
+                    <Button asChild size="lg" className="group/btn shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all">
+                      <a href="/create-mess" className="gap-2">
+                        Create Mess
+                        <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -360,6 +411,57 @@ export default function GetStartedPage() {
           </div>
         </div>
       </PageLayout>
+
+      {/* Request Manager Modal */}
+      <Dialog open={isRequestModalOpen} onOpenChange={setIsRequestModalOpen}>
+        <DialogContent className="sm:max-w-125 border-primary/20 bg-card/95 backdrop-blur-xl">
+          <DialogHeader>
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+              <Shield className="h-6 w-6 text-primary" />
+            </div>
+            <DialogTitle className="text-2xl font-bold tracking-tight">Request Manager Access</DialogTitle>
+            <DialogDescription className="text-muted-foreground text-base">
+              To create and manage a mess, you need manager privileges. Please provide a reason for your request.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="reason" className="text-sm font-semibold">Reason for Request</Label>
+              <Textarea
+                id="reason"
+                placeholder="Example: I want to create and manage my own mess for my college hostel."
+                className="min-h-30 bg-background/50 border-primary/10 focus-visible:ring-primary/30"
+                value={requestReason}
+                onChange={(e) => setRequestReason(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">
+                Your request will be reviewed by the super admin.
+              </p>
+            </div>
+          </div>
+          
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="ghost" onClick={() => setIsRequestModalOpen(false)} disabled={isSubmittingRequest}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleRequestManager} 
+              disabled={isSubmittingRequest || !requestReason.trim()}
+              className="min-w-35 shadow-lg shadow-primary/20"
+            >
+              {isSubmittingRequest ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Submitting...
+                </>
+              ) : (
+                "Submit Request"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       
       {/* Global animation styles */}
       <style jsx global>{`
