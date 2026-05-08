@@ -51,6 +51,13 @@ export const serverFetch = async <T = unknown>(
     const accessToken = cookieStore.get("accessToken")?.value;
     if (accessToken) {
       defaultHeaders["Authorization"] = `Bearer ${accessToken}`;
+    } else {
+      // Early exit if token is missing for protected route
+      return {
+        success: false,
+        message: "Authorization token is required",
+        status: 401,
+      } as T;
     }
   }
 
@@ -135,8 +142,11 @@ export const serverFetch = async <T = unknown>(
     if (res.status === 204 || res.headers.get("content-length") === "0") return null;
 
     return res.json();
-  } catch (error) {
-    console.error("[serverFetch] Error:", error);
+  } catch (error: unknown) {
+    const apiError = error as ApiError;
+    if (apiError?.status !== 401) {
+      console.error("[serverFetch] Error:", apiError);
+    }
     throw error;
   }
 };

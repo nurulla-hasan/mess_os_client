@@ -96,7 +96,7 @@ export const columns: ColumnDef<IMess>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-bold">{row.original.name}</span>
+          <span className="text-sm">{row.original.name}</span>
           <Badge variant="outline" className="text-xs font-mono px-1.5 h-4 border-primary/20 text-primary">
             {row.original.inviteCode}
           </Badge>
@@ -114,7 +114,7 @@ export const columns: ColumnDef<IMess>[] = [
       const manager = row.original.manager;
       return (
         <div className="flex flex-col">
-          <span className="text-sm font-medium">{manager?.fullName || "N/A"}</span>
+          <span className="text-sm">{manager?.fullName || "N/A"}</span>
           <span className="text-xs text-muted-foreground font-medium tracking-tight">
             {manager?.email}
           </span>

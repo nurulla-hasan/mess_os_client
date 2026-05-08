@@ -81,16 +81,21 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
                   {isLoading ? (
-                    <>
-                      <Skeleton className=" rounded-full" />
-                      <Skeleton className="h-4 w-28 rounded-sm hidden lg:block" />
-                    </>
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="h-9 w-9 rounded-full" />
+                      <div className="hidden lg:flex flex-col gap-1">
+                        <Skeleton className="h-4 w-28 rounded-sm" />
+                        <Skeleton className="h-3 w-16 rounded-sm" />
+                      </div>
+                    </div>
                   ) : (
                     <>
-                      <Avatar className="h-9 w-9">
+                      <Avatar className="h-9 w-9 border border-border">
                         <AvatarImage
+                          key={user?.avatarUrl}
                           src={user?.avatarUrl}
                           alt={user?.fullName || "user"}
+                          className="object-cover"
                         />
                         <AvatarFallback>
                           {user?.fullName?.charAt(0) || "U"}

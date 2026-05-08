@@ -1,8 +1,14 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { 
-  TrendingUp, 
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import {
+  TrendingUp,
   Calendar,
   ShieldCheck,
   Building2,
@@ -20,10 +26,37 @@ export default async function AdminStatsPage() {
   const trends = data.trends || { dailyNewUsers: [], dailyNewMesses: [] };
 
   const summaryCards = [
-    { title: "Total Users", value: summary.users?.total || 0, active: summary.users?.active || 0, icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
-    { title: "Active Managers", value: summary.managers?.active || 0, total: summary.managers?.total || 0, icon: UserCheck, color: "text-primary", bg: "bg-primary/10" },
-    { title: "Platform Messes", value: summary.messes?.total || 0, active: summary.messes?.active || 0, icon: Building2, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-    { title: "Active Members", value: summary.members?.active || 0, icon: ShieldCheck, color: "text-purple-500", bg: "bg-purple-500/10" },
+    {
+      title: "Total Users",
+      value: summary.users?.total || 0,
+      active: summary.users?.active || 0,
+      icon: Users,
+      color: "text-blue-500",
+      bg: "bg-blue-500/10",
+    },
+    {
+      title: "Active Managers",
+      value: summary.managers?.active || 0,
+      total: summary.managers?.total || 0,
+      icon: UserCheck,
+      color: "text-primary",
+      bg: "bg-primary/10",
+    },
+    {
+      title: "Platform Messes",
+      value: summary.messes?.total || 0,
+      active: summary.messes?.active || 0,
+      icon: Building2,
+      color: "text-emerald-500",
+      bg: "bg-emerald-500/10",
+    },
+    {
+      title: "Active Members",
+      value: summary.members?.active || 0,
+      icon: ShieldCheck,
+      color: "text-purple-500",
+      bg: "bg-purple-500/10",
+    },
   ];
 
   return (
@@ -44,7 +77,9 @@ export default async function AdminStatsPage() {
             <CardContent>
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                  <p className="text-sm font-bold uppercase tracking-wider text-muted-foreground">{card.title}</p>
+                  <p className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                    {card.title}
+                  </p>
                   <p className="text-3xl font-black">{card.value}</p>
                   {card.active !== undefined && (
                     <p className="text-xs font-bold text-emerald-500 flex items-center gap-1">
@@ -61,74 +96,100 @@ export default async function AdminStatsPage() {
         ))}
       </div>
 
-      <div className="mt-8">
-        <AnalyticsCharts 
-          userTrends={trends.dailyNewUsers} 
-          messTrends={trends.dailyNewMesses} 
+      <div>
+        <AnalyticsCharts
+          userTrends={trends.dailyNewUsers}
+          messTrends={trends.dailyNewMesses}
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Operational Deep Dive */}
         <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base font-bold">Mess Breakdown</CardTitle>
-              <CardDescription className="text-xs">Current operational status of all registered messes.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                  <span className="text-sm">Active Messes</span>
-                </div>
-                <span className="text-sm font-bold">{summary.messes?.active || 0}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-rose-500" />
-                  <span className="text-sm">Suspended/Inactive</span>
-                </div>
-                <span className="text-sm font-bold">{summary.messes?.suspended || 0}</span>
-              </div>
-              <div className="pt-2 border-t">
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base font-bold">
+                  Mess Breakdown
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Current operational status of all registered messes.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-bold">Pending Manager Requests</span>
-                  <Badge variant="secondary" className="h-6 px-2 font-mono text-xs">
-                    {summary.pendingManagerRequests || 0}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    <span className="text-sm">Active Messes</span>
+                  </div>
+                  <span className="text-sm font-bold">
+                    {summary.messes?.active || 0}
+                  </span>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-rose-500" />
+                    <span className="text-sm">Suspended/Inactive</span>
+                  </div>
+                  <span className="text-sm font-bold">
+                    {summary.messes?.suspended || 0}
+                  </span>
+                </div>
+                <div className="pt-2 border-t">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-bold">
+                      Pending Manager Requests
+                    </span>
+                    <Badge
+                      variant="secondary"
+                      className="h-6 px-2 font-mono text-xs"
+                    >
+                      {summary.pendingManagerRequests || 0}
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base font-bold">Account Integrity</CardTitle>
-              <CardDescription className="text-xs">Security and status overview of platform accounts.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                  <span className="text-sm">Active Users</span>
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base font-bold">
+                  Account Integrity
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  Security and status overview of platform accounts.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                    <span className="text-sm">Active Users</span>
+                  </div>
+                  <span className="text-sm font-bold">
+                    {summary.users?.active || 0}
+                  </span>
                 </div>
-                <span className="text-sm font-bold">{summary.users?.active || 0}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <div className="h-2.5 w-2.5 rounded-full bg-rose-600" />
-                  <span className="text-sm">Blocked Accounts</span>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-rose-600" />
+                    <span className="text-sm">Blocked Accounts</span>
+                  </div>
+                  <span className="text-sm font-bold text-rose-600">
+                    {summary.users?.blocked || 0}
+                  </span>
                 </div>
-                <span className="text-sm font-bold text-rose-600">{summary.users?.blocked || 0}</span>
-              </div>
-              <div className="pt-2 border-t">
-                <p className="text-xs text-muted-foreground leading-relaxed italic">
-                  * Blocked accounts have restricted access to all platform features until manually restored by a Super Admin.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="pt-2 border-t">
+                  <p className="text-xs text-muted-foreground leading-relaxed italic">
+                    * Blocked accounts have restricted access to all platform
+                    features until manually restored by a Super Admin.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* System Health */}
@@ -143,24 +204,40 @@ export default async function AdminStatsPage() {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground font-medium">Mess Approval Rate</span>
+                  <span className="text-muted-foreground font-medium">
+                    Mess Approval Rate
+                  </span>
                   <span className="text-emerald-500 font-bold flex items-center gap-1">
-                    {summary.messes?.total ? Math.round((summary.messes.active / summary.messes.total) * 100) : 0}%
+                    {summary.messes?.total
+                      ? Math.round(
+                          (summary.messes.active / summary.messes.total) * 100,
+                        )
+                      : 0}
+                    %
                   </span>
                 </div>
                 <div className="h-2 w-full bg-accent rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-emerald-500 transition-all duration-1000" 
-                    style={{ width: `${summary.messes?.total ? (summary.messes.active / summary.messes.total) * 100 : 0}%` }} 
+                  <div
+                    className="h-full bg-emerald-500 transition-all duration-1000"
+                    style={{
+                      width: `${summary.messes?.total ? (summary.messes.active / summary.messes.total) * 100 : 0}%`,
+                    }}
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground font-medium">Admin/Manager Ratio</span>
+                  <span className="text-muted-foreground font-medium">
+                    Admin/Manager Ratio
+                  </span>
                   <span className="text-primary font-bold flex items-center gap-1">
-                    1:{summary.managers?.total ? Math.round(summary.users?.total / summary.managers.total) : 0}
+                    1:
+                    {summary.managers?.total
+                      ? Math.round(
+                          summary.users?.total / summary.managers.total,
+                        )
+                      : 0}
                   </span>
                 </div>
                 <div className="h-2 w-full bg-accent rounded-full overflow-hidden">
@@ -177,8 +254,8 @@ export default async function AdminStatsPage() {
               </div>
               <h3 className="text-base font-bold">System Integrity</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Platform analytics are synchronized in real-time. 
-                All system health checks passed successfully.
+                Platform analytics are synchronized in real-time. All system
+                health checks passed successfully.
               </p>
             </CardContent>
           </Card>
