@@ -2,6 +2,17 @@ export type GlobalRole = "user" | "manager" | "super_admin";
 export type UserStatus = "active" | "blocked";
 export type MembershipRole = "manager" | "member";
 export type MembershipStatus = "pending" | "approved" | "rejected" | "active";
+export type RequestStatus = "pending" | "approved" | "rejected";
+
+export interface IManagerRequest {
+  _id: string;
+  userId: string;
+  status: RequestStatus;
+  reason: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 
 export interface IMembership {
   _id?: string;

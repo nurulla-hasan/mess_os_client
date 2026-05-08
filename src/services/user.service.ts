@@ -21,3 +21,19 @@ export const requestManagerAccess = async (data: FieldValues): Promise<any> => {
     };
   }
 };
+/**
+ * Get current user's manager access request
+ */
+export const getMyManagerRequest = async (): Promise<any> => {
+  try {
+    return await serverFetch("/users/me/manager-request", {
+      method: "GET",
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch request status.",
+      error: error?.data,
+    };
+  }
+};

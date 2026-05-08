@@ -49,7 +49,7 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
             </div>
           </div>
 
-          <div className="flex-1 text-center md:text-left space-y-1.5">
+          <div className="flex-1 text-center md:text-left space-y-1.5 pr-8 md:pr-10">
             <div className="flex flex-col md:flex-row md:items-center gap-2">
               <h4 className="text-xl font-bold tracking-tight text-foreground">{user.fullName}</h4>
               <div className={cn(
@@ -70,7 +70,7 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
             <p className="text-xs text-primary/70 font-medium">Ready to manage your mess</p>
           </div>
 
-          <div className="absolute top-2 right-2 flex gap-2">
+          <div className="absolute top-4 right-4 flex gap-2 z-10">
             <Button 
               variant="ghost" 
               size="icon" 

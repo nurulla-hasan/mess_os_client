@@ -102,16 +102,16 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
               {isUserOnly ? (
                 <RequestManagerModal />
               ) : (
-                <Link href="/create-mess" className="gap-2">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="group/btn shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
-                  >
+                <Button
+                  asChild
+                  size="lg"
+                  className="group/btn shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
+                >
+                  <Link href="/create-mess" className="gap-2">
                     Create Mess
                     <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               )}
             </div>
           </CardContent>
