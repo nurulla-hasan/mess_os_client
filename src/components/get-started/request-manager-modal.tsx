@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { Shield, Loader2, ArrowRight, Clock, CheckCircle2, XCircle, Info } from "lucide-react";
+import { Loader2, ArrowRight, Clock, CheckCircle2, XCircle, Info } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -110,34 +110,24 @@ export function RequestManagerModal() {
       <DialogTrigger asChild>
         <Button 
           size="lg" 
-          className={cn(
-            "group/btn shadow-lg transition-all",
-            isPending 
-              ? "bg-amber-500 hover:bg-amber-600 shadow-amber-500/20 hover:shadow-amber-500/30" 
-              : isApproved
-                ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/20 hover:shadow-emerald-500/30"
-                : "shadow-primary/20 hover:shadow-primary/30"
-          )}
+          variant={isPending ? "outline" : isApproved ? "secondary" : "default"}
+          className="gap-2"
         >
           {isPending ? "Request Pending" : isApproved ? "Access Approved" : "Request Manager Access"}
-          <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform ml-2" />
+          <ArrowRight className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-125 border-primary/20 bg-card/95 backdrop-blur-xl">
+      <DialogContent>
         <DialogHeader>
-          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-            <Shield className="h-6 w-6 text-primary" />
-          </div>
-          <DialogTitle className="text-2xl font-bold tracking-tight flex items-center gap-3">
-            Manager Access Request
+          <DialogTitle className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span>Manager Access Request</span>
             {existingRequest && (
-              <Badge variant="outline" className={cn("text-[10px] uppercase tracking-wider font-bold", statusConfig?.class)}>
-                <span className="mr-1">{statusConfig?.icon}</span>
+              <Badge variant="outline" className={cn("text-[10px] uppercase font-bold w-fit", statusConfig?.class)}>
                 {statusConfig?.label}
               </Badge>
             )}
           </DialogTitle>
-          <DialogDescription className="text-muted-foreground text-base">
+          <DialogDescription>
             {existingRequest 
               ? statusConfig?.description 
               : "To create and manage a mess, you need manager privileges. Please provide a reason for your request."}
@@ -146,30 +136,18 @@ export function RequestManagerModal() {
         
         <div className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="reason" className="text-sm font-semibold">Reason for Request</Label>
+            <Label htmlFor="reason">Reason for Request</Label>
             <Textarea
               id="reason"
               placeholder="Example: I want to create and manage my own mess for my college hostel."
-              className="min-h-30 bg-background/50 border-primary/10 focus-visible:ring-primary/30 disabled:opacity-80"
               value={requestReason}
               onChange={(e) => setRequestReason(e.target.value)}
               disabled={isPending || isApproved}
             />
-            {!isPending && !isApproved && (
-              <p className="text-xs text-muted-foreground">
-                Your request will be reviewed by the super admin.
-              </p>
-            )}
-            {isPending && (
-              <div className="flex items-center gap-2 p-3 rounded-xl bg-amber-500/5 border border-amber-500/10 text-amber-500 text-xs">
-                <Clock className="h-3.5 w-3.5" />
-                <span>Submitted on {existingRequest?.createdAt && new Date(existingRequest.createdAt).toLocaleDateString()}</span>
-              </div>
-            )}
           </div>
         </div>
         
-        <DialogFooter className="gap-2 sm:gap-0">
+        <DialogFooter>
           <Button variant="ghost" onClick={() => setIsOpen(false)} disabled={isSubmittingRequest}>
             {isPending || isApproved ? "Close" : "Cancel"}
           </Button>
@@ -177,7 +155,6 @@ export function RequestManagerModal() {
             <Button 
               onClick={handleRequestManager} 
               disabled={isSubmittingRequest || !requestReason.trim()}
-              className="min-w-35 shadow-lg shadow-primary/20"
             >
               {isSubmittingRequest ? (
                 <>

@@ -5,6 +5,7 @@ import { Users, Utensils, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { RequestManagerModal } from "./request-manager-modal";
+import { JoinMessModal } from "./join-mess-modal";
 import Link from "next/link";
 
 // Shimmer effect component
@@ -33,7 +34,7 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
         <CardGlow />
         <Card className="py-0 relative overflow-hidden border-2 border-transparent hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 bg-card/80 backdrop-blur-sm">
           <ShimmerEffect />
-
+          
           <CardContent className="relative flex flex-col gap-8 p-8">
             <div className="flex items-start gap-5">
               <div className="relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-primary/20">
@@ -49,23 +50,14 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
                 </p>
               </div>
             </div>
-
+            
             <p className="text-muted-foreground leading-relaxed text-lg">
               Join an existing mess using an invite code or request approval
               from mess managers. Perfect for members looking to connect.
             </p>
-
+            
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <Button
-                asChild
-                size="lg"
-                className="group/btn shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
-              >
-                <a href="/join-mess" className="gap-2">
-                  Join with Code
-                  <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                </a>
-              </Button>
+              <JoinMessModal />
             </div>
           </CardContent>
         </Card>
@@ -76,7 +68,7 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
         <CardGlow />
         <Card className="py-0 relative overflow-hidden border-2 border-transparent hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 bg-card/80 backdrop-blur-sm">
           <ShimmerEffect />
-
+          
           <CardContent className="relative flex flex-col gap-8 p-8">
             <div className="flex items-start gap-5">
               <div className="relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-primary/20">
@@ -92,12 +84,12 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
                 </p>
               </div>
             </div>
-
+            
             <p className="text-muted-foreground leading-relaxed text-lg">
               Start your own mess and manage members, meals, and expenses with
               powerful tools. Ideal for managers.
             </p>
-
+            
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               {isUserOnly ? (
                 <RequestManagerModal />
