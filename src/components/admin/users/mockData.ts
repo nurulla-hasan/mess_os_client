@@ -1,6 +1,5 @@
-import { AdminUser } from "./columns";
-
-export const mockAdminUsers: AdminUser[] = [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const mockAdminUsers: any[] = [
   {
     id: "au1",
     name: "Golap Hasan",

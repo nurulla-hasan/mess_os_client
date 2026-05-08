@@ -1,6 +1,7 @@
-import { AdminMess } from "./columns";
 
-export const mockAdminMesses: AdminMess[] = [
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const mockAdminMesses: any[] = [
   {
     id: "am1",
     name: "Green House Mess",
