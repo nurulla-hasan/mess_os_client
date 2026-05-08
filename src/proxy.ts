@@ -23,6 +23,7 @@ const protectedRoutes = [
   "/create-mess",
   "/get-started",
   "/join-mess",
+  "/blocked",
 ];
 
 /**
@@ -142,11 +143,11 @@ export async function proxy(request: NextRequest) {
       }
     }
 
-    console.log("=== PROXY DEBUG ===");
-    console.log("Pathname:", pathname);
-    console.log("User Fetched:", !!user);
-    console.log("Resolved Route:", resolvedRoute);
-    console.log("Is Onboarding Route:", pathname.startsWith("/get-started") || pathname.startsWith("/join-mess") || pathname.startsWith("/create-mess") || pathname.startsWith("/pending-approval"));
+    // console.log("=== PROXY DEBUG ===");
+    // console.log("Pathname:", pathname);
+    // console.log("User Fetched:", !!user);
+    // console.log("Resolved Route:", resolvedRoute);
+    // console.log("Is Onboarding Route:", pathname.startsWith("/get-started") || pathname.startsWith("/join-mess") || pathname.startsWith("/create-mess") || pathname.startsWith("/pending-approval"));
 
     // 1. If user must go to blocked or verify-otp, force them there
     if (resolvedRoute === "/blocked" || resolvedRoute === "/auth/verify-otp") {
