@@ -9,33 +9,57 @@ import { cookies } from "next/headers";
  * Register a new user
  */
 export const register = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/register", {
-    method: "POST",
-    body: data,
-    isPublic: true,
-  });
+  try {
+    return await serverFetch("/auth/register", {
+      method: "POST",
+      body: data,
+      isPublic: true,
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Registration failed. Please try again.",
+      error: error?.data,
+    };
+  }
 };
 
 /**
  * Verify email OTP after registration
  */
 export const verifyOtp = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/verify-email", {
-    method: "POST",
-    body: data,
-    isPublic: true,
-  });
+  try {
+    return await serverFetch("/auth/verify-email", {
+      method: "POST",
+      body: data,
+      isPublic: true,
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Verification failed. Please try again.",
+      error: error?.data,
+    };
+  }
 };
 
 /**
  * Resend email verification OTP
  */
 export const resendVerifyOtp = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/resend-otp", {
-    method: "POST",
-    body: data,
-    isPublic: true,
-  });
+  try {
+    return await serverFetch("/auth/resend-otp", {
+      method: "POST",
+      body: data,
+      isPublic: true,
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to resend OTP. Please try again.",
+      error: error?.data,
+    };
+  }
 };
 
 /**
