@@ -219,7 +219,7 @@ export default function RegisterPage() {
 
             {/* Terms Section */}
             <div className="pt-2 border-t">
-              <Field orientation="horizontal" className="pt-2 items-start">
+              <Field orientation="horizontal" className="pt-2 items-center">
                 <Checkbox
                   id="terms"
                   checked={agreeToTerms}

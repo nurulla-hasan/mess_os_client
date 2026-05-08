@@ -11,28 +11,20 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { format } from "date-fns";
+import { IUser } from "@/types/user.type";
 
-export type AdminUser = {
-  id: string;
-  name: string;
-  email: string;
-  globalRole: "user" | "super_admin";
-  status: "active" | "blocked" | "pending";
-  createdAt: string;
-};
-
-export const columns: ColumnDef<AdminUser>[] = [
+export const columns: ColumnDef<IUser>[] = [
   {
-    accessorKey: "user",
+    accessorKey: "fullName",
     header: "User",
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
-          {row.original.name.charAt(0)}
+        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs shrink-0">
+          {row.original.fullName.charAt(0)}
         </div>
-        <div className="flex flex-col">
-          <span className="text-sm font-bold">{row.original.name}</span>
-          <span className="text-xs text-muted-foreground uppercase">{row.original.email}</span>
+        <div className="flex flex-col overflow-hidden">
+          <span className="text-sm font-bold truncate">{row.original.fullName}</span>
+          <span className="text-xs text-muted-foreground truncate">{row.original.email}</span>
         </div>
       </div>
     ),
@@ -40,11 +32,17 @@ export const columns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: "globalRole",
     header: "Role",
-    cell: ({ row }) => (
-      <Badge variant={row.original.globalRole === "super_admin" ? "manager" : "secondary"} className="capitalize">
-        {row.original.globalRole.replace("_", " ")}
-      </Badge>
-    ),
+    cell: ({ row }) => {
+      const role = row.original.globalRole;
+      return (
+        <Badge 
+          variant={role === "super_admin" ? "manager" : role === "manager" ? "info" : "secondary"} 
+          className="capitalize text-xs py-0.5 px-2"
+        >
+          {role.replace("_", " ")}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "status",
@@ -52,7 +50,10 @@ export const columns: ColumnDef<AdminUser>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge variant={status === "active" ? "success" : status === "blocked" ? "rejected" : "pending"}>
+        <Badge 
+          variant={status === "active" ? "success" : "rejected"}
+          className="capitalize text-xs py-0.5 px-2"
+        >
           {status}
         </Badge>
       );
@@ -62,7 +63,7 @@ export const columns: ColumnDef<AdminUser>[] = [
     accessorKey: "createdAt",
     header: "Registered",
     cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
+      <span className="text-xs text-muted-foreground">
         {format(new Date(row.original.createdAt), "MMM dd, yyyy")}
       </span>
     ),
@@ -78,8 +79,8 @@ export const columns: ColumnDef<AdminUser>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Eye className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="h-7 w-7">
+                  <Eye className="h-3.5 w-3.5" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>User Details</TooltipContent>
@@ -89,8 +90,8 @@ export const columns: ColumnDef<AdminUser>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-blue-600">
-                  <Shield className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-600">
+                  <Shield className="h-3.5 w-3.5" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Update Global Role</TooltipContent>
@@ -101,8 +102,8 @@ export const columns: ColumnDef<AdminUser>[] = [
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-rose-600">
-                    <Ban className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="h-7 w-7 text-rose-600">
+                    <Ban className="h-3.5 w-3.5" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Block User</TooltipContent>
@@ -112,8 +113,8 @@ export const columns: ColumnDef<AdminUser>[] = [
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-emerald-600">
-                    <UserCheck className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="h-7 w-7 text-emerald-600">
+                    <UserCheck className="h-3.5 w-3.5" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>Unblock User</TooltipContent>

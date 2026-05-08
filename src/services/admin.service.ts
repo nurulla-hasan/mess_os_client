@@ -83,3 +83,20 @@ export const suspendMess = async (
     };
   }
 };
+/**
+ * List all users on the platform (Super Admin)
+ */
+export const getAllUsers = async (params: QueryParams = {}): Promise<any> => {
+  const qs = buildQueryString(params);
+  try {
+    return await serverFetch(`/admin/users${qs}`, {
+      method: "GET",
+      tags: ["users"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch users.",
+    };
+  }
+};
