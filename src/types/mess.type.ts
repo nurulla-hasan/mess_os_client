@@ -15,5 +15,5 @@ export interface IMess {
   createdAt: string;
   updatedAt: string;
   memberCount?: number;
-  managerId?: string | IUser;
+  manager?: IUser;
 }

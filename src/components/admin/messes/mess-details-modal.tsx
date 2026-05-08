@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Eye, UtensilsCrossed, CreditCard } from "lucide-react";
+import * as Icons from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
@@ -51,6 +52,28 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
             <div className="p-4 rounded-xl bg-muted/30 border border-primary/5 space-y-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Created On</span>
               <p className="text-sm font-bold">{format(new Date(mess.createdAt), "MMM dd, yyyy")}</p>
+            </div>
+          </div>
+
+          {/* Manager Details */}
+          <div className="p-5 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
+            <div className="flex items-center gap-2 text-primary">
+              <Icons.UserCog className="h-4 w-4" />
+              <h4 className="text-xs font-black uppercase tracking-widest">Manager Contact</h4>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Full Name</span>
+                <p className="text-sm font-bold text-foreground/90">{mess.manager?.fullName || "N/A"}</p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Phone Number</span>
+                <p className="text-sm font-bold text-foreground/90">{mess.manager?.phone || "N/A"}</p>
+              </div>
+              <div className="space-y-1 sm:col-span-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Email Address</span>
+                <p className="text-sm font-bold text-foreground/90">{mess.manager?.email || "N/A"}</p>
+              </div>
             </div>
           </div>
         </div>

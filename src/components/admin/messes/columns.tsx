@@ -7,21 +7,27 @@ import { ShieldAlert, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
 import React from "react";
 import { IMess } from "@/types/mess.type";
-import { IUser } from "@/types/user.type";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { suspendMess } from "@/services/admin.service";
-import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { SuccessToast, ErrorToast, cn } from "@/lib/utils";
 import { MessDetailsModal } from "./mess-details-modal";
+import { Textarea } from "@/components/ui/textarea";
 
 function ActionButtons({ mess }: { mess: IMess }) {
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [note, setNote] = React.useState("");
 
   const handleToggleStatus = async () => {
     setIsUpdating(true);
+    const newStatus = mess.status === "active" ? "suspended" : "active";
     try {
-      const response = await suspendMess(mess.id);
+      const response = await suspendMess(mess.id, {
+        status: newStatus,
+        suspensionNote: note || (newStatus === "suspended" ? "Violation of platform policies." : "Re-activated by Admin."),
+      });
       if (response?.success) {
         SuccessToast(response.message || `Mess status updated successfully!`);
+        setNote("");
       } else {
         ErrorToast(response?.message || "Failed to update mess status.");
       }
@@ -52,7 +58,22 @@ function ActionButtons({ mess }: { mess: IMess }) {
             {mess.status === "active" ? <ShieldAlert /> : <CheckCircle2 />}
           </Button>
         }
-      />
+      >
+        <div className="pt-4 space-y-3">
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            {mess.status === "active" ? "Suspension" : "Activation"} Note (Optional)
+          </p>
+          <Textarea 
+            placeholder={mess.status === "active" ? "Reason for suspension..." : "Note for activation..."}
+            className={cn(
+              "min-h-24 bg-muted/30 focus-visible:ring-offset-0",
+              mess.status === "active" ? "focus-visible:ring-rose-500" : "focus-visible:ring-emerald-500"
+            )}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+          />
+        </div>
+      </ConfirmationModal>
     </div>
   );
 }
@@ -65,11 +86,11 @@ export const columns: ColumnDef<IMess>[] = [
       <div className="flex flex-col">
         <div className="flex items-center gap-2">
           <span className="text-sm font-bold">{row.original.name}</span>
-          <Badge variant="outline" className="text-[10px] font-mono px-1.5 h-4 border-primary/20 text-primary">
+          <Badge variant="outline" className="text-xs font-mono px-1.5 h-4 border-primary/20 text-primary">
             {row.original.inviteCode}
           </Badge>
         </div>
-        <span className="text-[10px] text-muted-foreground uppercase font-medium tracking-tight truncate max-w-48">
+        <span className="text-xs text-muted-foreground uppercase font-medium tracking-tight truncate max-w-48">
           {row.original.address}
         </span>
       </div>
@@ -79,11 +100,11 @@ export const columns: ColumnDef<IMess>[] = [
     accessorKey: "manager",
     header: "Manager",
     cell: ({ row }) => {
-      const manager = row.original.managerId as IUser;
+      const manager = row.original.manager;
       return (
         <div className="flex flex-col">
           <span className="text-sm font-medium">{manager?.fullName || "N/A"}</span>
-          <span className="text-[10px] text-muted-foreground uppercase font-medium tracking-tight">
+          <span className="text-xs text-muted-foreground font-medium tracking-tight">
             {manager?.email}
           </span>
         </div>
@@ -94,8 +115,8 @@ export const columns: ColumnDef<IMess>[] = [
     accessorKey: "memberCount",
     header: "Members",
     cell: ({ row }) => (
-      <Badge variant="secondary" className="px-2 py-0.5 h-5 text-[10px] font-bold uppercase tracking-wider">
-        {row.original.memberCount || 0} Members
+      <Badge variant="secondary">
+        {row.original.memberCount || 0}
       </Badge>
     ),
   },

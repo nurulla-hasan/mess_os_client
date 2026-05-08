@@ -4,6 +4,7 @@
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams } from "@/types/global.type";
+import { MessStatus } from "@/types/mess.type";
 
 /**
  * List all manager access requests (Super Admin)
@@ -61,19 +62,24 @@ export const getAllMesses = async (params: QueryParams = {}): Promise<any> => {
   }
 };
 
+
 /**
  * Suspend/Unsuspend a mess (Super Admin)
  */
-export const suspendMess = async (messId: string): Promise<any> => {
+export const suspendMess = async (
+  messId: string, 
+  data: { status: MessStatus; suspensionNote?: string }
+): Promise<any> => {
   try {
     return await serverFetch(`/admin/messes/${messId}/suspend`, {
       method: "PATCH",
+      body: data,
       updateTag: ["messes"],
     });
   } catch (error: any) {
     return {
       success: false,
-      message: error?.message || "Failed to suspend mess.",
+      message: error?.message || "Failed to update mess status.",
     };
   }
 };
