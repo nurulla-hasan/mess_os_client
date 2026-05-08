@@ -27,6 +27,8 @@ interface ConfirmationModalProps {
   onConfirm: () => void;
   isLoading?: boolean;
   trigger?: ReactNode;
+  actionTrigger?: ReactNode;
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
   children?: ReactNode;
 }
 
@@ -41,13 +43,17 @@ export function ConfirmationModal({
   onConfirm,
   isLoading,
   trigger,
+  actionTrigger,
+  variant = "default",
   children,
 }: ConfirmationModalProps) {
+  const finalTrigger = actionTrigger || trigger;
+
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-     {trigger !== null && (
+     {finalTrigger !== null && (
         <AlertDialogTrigger asChild>
-          {trigger || (
+          {finalTrigger || (
             <Button
               variant="ghost"
               size="icon-sm"
@@ -73,6 +79,7 @@ export function ConfirmationModal({
               e.preventDefault();
               onConfirm();
             }}
+            variant={variant}
             disabled={isLoading}
           >
             {isLoading ? (

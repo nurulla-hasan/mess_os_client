@@ -16,6 +16,7 @@ export interface IMembership {
 
 export interface IUser {
   _id: string;
+  id?: string;
   fullName: string;
   email: string;
   phone?: string;

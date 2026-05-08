@@ -16,7 +16,6 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: P
         <DashboardPageHeader
           title="Platform Users"
           description="Manage all registered users, adjust global roles, and handle account suspensions."
-          length={meta?.total}
         />
         <UserFilters />
       </div>

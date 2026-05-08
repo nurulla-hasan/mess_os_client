@@ -100,3 +100,24 @@ export const getAllUsers = async (params: QueryParams = {}): Promise<any> => {
     };
   }
 };
+
+/**
+ * Update user status (Super Admin)
+ */
+export const updateUserStatus = async (
+  userId: string,
+  status: "active" | "blocked"
+): Promise<any> => {
+  try {
+    return await serverFetch(`/admin/users/${userId}/status`, {
+      method: "PATCH",
+      body: { status },
+      tags: ["users"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update user status.",
+    };
+  }
+};

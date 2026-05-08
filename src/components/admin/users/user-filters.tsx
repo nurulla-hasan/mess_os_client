@@ -7,7 +7,7 @@ export function UserFilters() {
     <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
       <SearchInput 
         filterKey="searchTerm" 
-        placeholder="Search users..." 
+        placeholder="Name, email, phone, role or status..." 
       />
     </div>
   );
