@@ -1,7 +1,5 @@
-"use client";
-
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   Users, 
   Building2, 
@@ -14,24 +12,57 @@ import {
   CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
+import { getPlatformStats, getAllMesses } from "@/services/admin.service";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { columns as messColumns } from "@/components/admin/messes/columns";
 
-const stats = [
-  { title: "Total Users", value: "1,284", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10", trend: "+12%" },
-  { title: "Total Messes", value: "156", icon: Building2, color: "text-primary", bg: "bg-primary/10", trend: "+5%" },
-  { title: "Active Messes", value: "142", icon: ShieldCheck, color: "text-emerald-500", bg: "bg-emerald-500/10", trend: "91%" },
-  { title: "Suspended", value: "14", icon: ShieldAlert, color: "text-rose-500", bg: "bg-rose-500/10", trend: "9%" },
-];
+export default async function AdminDashboardPage() {
+  const [statsResponse, messesResponse] = await Promise.all([
+    getPlatformStats(),
+    getAllMesses({ limit: "5" }),
+  ]);
 
-const recentMesses = [
-  { name: "Sky View Mess", manager: "Ariful Islam", status: "active", date: "2 hours ago" },
-  { name: "Comfort Living", manager: "Nasir Uddin", status: "pending", date: "5 hours ago" },
-  { name: "Green House", manager: "Mehedi Hasan", status: "active", date: "1 day ago" },
-];
+  const platformStats = statsResponse?.data || {};
+  const recentMesses = messesResponse?.data || [];
 
-export default function AdminDashboardPage() {
+
+  const stats = [
+    { 
+      title: "Total Users", 
+      value: platformStats.totalUsers || "0", 
+      icon: Users, 
+      color: "text-blue-500", 
+      bg: "bg-blue-500/10", 
+      trend: "Overall" 
+    },
+    { 
+      title: "Total Messes", 
+      value: platformStats.totalMesses || "0", 
+      icon: Building2, 
+      color: "text-primary", 
+      bg: "bg-primary/10", 
+      trend: "Platform wide" 
+    },
+    { 
+      title: "Active Messes", 
+      value: platformStats.activeMesses || "0", 
+      icon: ShieldCheck, 
+      color: "text-emerald-500", 
+      bg: "bg-emerald-500/10", 
+      trend: `${platformStats.totalMesses ? Math.round((platformStats.activeMesses / platformStats.totalMesses) * 100) : 0}% active` 
+    },
+    { 
+      title: "Suspended", 
+      value: platformStats.suspendedMesses || "0", 
+      icon: ShieldAlert, 
+      color: "text-rose-500", 
+      bg: "bg-rose-500/10", 
+      trend: "Action required" 
+    },
+  ];
+
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -85,26 +116,11 @@ export default function AdminDashboardPage() {
               <Button variant="ghost" size="sm" className="text-primary font-bold">View All</Button>
             </Link>
           </CardHeader>
-          <CardContent className="p-0">
-            <div className="divide-y">
-              {recentMesses.map((mess, i) => (
-                <div key={i} className="flex items-center justify-between p-4 hover:bg-accent/50 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-accent flex items-center justify-center font-bold text-primary">
-                      {mess.name.charAt(0)}
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold">{mess.name}</p>
-                      <p className="text-xs text-muted-foreground uppercase font-medium">Manager: {mess.manager}</p>
-                    </div>
-                  </div>
-                  <div className="text-right flex flex-col items-end gap-1">
-                    <Badge variant={mess.status === "active" ? "success" : "pending"}>{mess.status}</Badge>
-                    <p className="text-xs text-muted-foreground">{mess.date}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <CardContent>
+            <DataTable 
+              columns={messColumns} 
+              data={recentMesses} 
+            />
           </CardContent>
         </Card>
 

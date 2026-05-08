@@ -142,3 +142,20 @@ export const updateUserRole = async (
     };
   }
 };
+
+/**
+ * Get platform-wide statistics (Super Admin)
+ */
+export const getPlatformStats = async (): Promise<any> => {
+  try {
+    return await serverFetch("/admin/stats", {
+      method: "GET",
+      cache: "no-store",
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch platform stats.",
+    };
+  }
+};

@@ -16,8 +16,8 @@ export const columns: ColumnDef<IUser>[] = [
           {row.original.fullName.charAt(0)}
         </div>
         <div className="flex flex-col overflow-hidden">
-          <span className="text-sm font-bold truncate">{row.original.fullName}</span>
-          <span className="text-xs text-muted-foreground truncate">{row.original.email}</span>
+          <span >{row.original.fullName}</span>
+          <span className="text-sm text-muted-foreground truncate">{row.original.email}</span>
         </div>
       </div>
     ),
