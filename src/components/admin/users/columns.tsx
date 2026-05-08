@@ -1,104 +1,10 @@
 "use client";
 
-import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Eye, Shield, Ban, UserCheck } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { format } from "date-fns";
 import { IUser } from "@/types/user.type";
-import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
-import { updateUserStatus } from "@/services/admin.service";
-import { SuccessToast, ErrorToast } from "@/lib/utils";
-
-import { useRouter } from "next/navigation";
-
-function ActionButtons({ user }: { user: IUser }) {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const router = useRouter();
-
-  const handleStatusUpdate = async () => {
-    setIsLoading(true);
-    const newStatus = user.status === "active" ? "blocked" : "active";
-    
-    try {
-      const response = await updateUserStatus((user.id || user._id) as string, newStatus);
-      if (response?.success) {
-        SuccessToast(response.message || `User ${newStatus} successfully!`);
-        setIsModalOpen(false);
-        router.refresh();
-      } else {
-        ErrorToast(response?.message || "Failed to update status.");
-      }
-    } catch  {
-      ErrorToast("Something went wrong.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-end gap-1">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-7 w-7">
-              <Eye className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>User Details</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-600">
-              <Shield className="h-3.5 w-3.5" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Update Global Role</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-
-      <ConfirmationModal
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
-        title={user.status === "active" ? "Block User" : "Unblock User"}
-        description={
-          user.status === "active"
-            ? `Are you sure you want to block ${user.fullName}? They will lose access to the platform.`
-            : `Are you sure you want to unblock ${user.fullName}? They will regain access to the platform.`
-        }
-        confirmText={user.status === "active" ? "Block User" : "Unblock User"}
-        cancelText="Cancel"
-        onConfirm={handleStatusUpdate}
-        isLoading={isLoading}
-        variant={user.status === "active" ? "destructive" : "default"}
-        actionTrigger={
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className={user.status === "active" ? "h-7 w-7 text-rose-600" : "h-7 w-7 text-emerald-600"}
-          >
-            {user.status === "active" ? (
-              <Ban className="h-3.5 w-3.5" />
-            ) : (
-              <UserCheck className="h-3.5 w-3.5" />
-            )}
-          </Button>
-        }
-      />
-    </div>
-  );
-}
+import { ActionButtons } from "./user-actions";
 
 export const columns: ColumnDef<IUser>[] = [
   {

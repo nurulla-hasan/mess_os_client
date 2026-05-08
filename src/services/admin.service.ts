@@ -121,3 +121,24 @@ export const updateUserStatus = async (
     };
   }
 };
+
+/**
+ * Update user global role (Super Admin)
+ */
+export const updateUserRole = async (
+  userId: string,
+  globalRole: "user" | "manager" | "super_admin"
+): Promise<any> => {
+  try {
+    return await serverFetch(`/admin/users/${userId}/role`, {
+      method: "PATCH",
+      body: { globalRole },
+      tags: ["users"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update user role.",
+    };
+  }
+};

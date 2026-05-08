@@ -3,12 +3,31 @@
 import React from "react";
 import { Ban, ShieldAlert, LogOut, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { logout } from "@/services/auth.service";
+import { logout, getMe } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import { getPostLoginRoute } from "@/lib/auth-routing";
 
 export default function BlockedPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
+
+  // Background check to see if user is unblocked
+  React.useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        const response = await getMe();
+        if (response?.success && response.data?.status === "active") {
+          const redirectRoute = getPostLoginRoute(response.data);
+          router.replace(redirectRoute);
+        }
+      } catch {
+        // Silently ignore background check errors
+      }
+    };
+
+    const interval = setInterval(checkStatus, 5000); // Check every 5 seconds
+    return () => clearInterval(interval);
+  }, [router]);
 
   const handleLogout = async () => {
     setIsLoading(true);
