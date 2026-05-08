@@ -117,7 +117,7 @@ export default function AdminDashboardPage() {
                 Platform Controls
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="flex flex-col gap-2">
               <Link href="/admin/users">
                 <Button variant="outline" className="w-full justify-start text-xs font-bold bg-background">
                   <UserPlus className="mr-2 h-4 w-4" /> Manage Platform Users

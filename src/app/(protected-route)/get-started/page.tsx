@@ -136,9 +136,6 @@ export default function GetStartedPage() {
                       <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                     </a>
                   </Button>
-                  <Button variant="outline" size="lg" asChild className="hover:bg-primary/5 transition-colors">
-                    <a href="/browse-mess">Browse Mess</a>
-                  </Button>
                 </div>
               </CardContent>
             </Card>
