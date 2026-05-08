@@ -159,3 +159,20 @@ export const getPlatformStats = async (): Promise<any> => {
     };
   }
 };
+
+/**
+ * Get platform-wide analytics (Super Admin)
+ */
+export const getPlatformAnalytics = async (): Promise<any> => {
+  try {
+    return await serverFetch("/admin/analytics", {
+      method: "GET",
+      cache: "no-store",
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch platform analytics.",
+    };
+  }
+};
