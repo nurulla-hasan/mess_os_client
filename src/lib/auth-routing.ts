@@ -41,8 +41,14 @@ export function getPostLoginRoute(user: IUser | null | undefined): string {
   const activeMembership = user.activeMembership;
   const memberships = user.memberships ?? [];
  
-  // Helper to check if a membership is considered "active/approved"
-  const isApproved = (m: IMembership) => m.status === "approved" || m.status === "active";
+  // Helper to check if a membership is considered "active/approved" AND the mess itself is active
+  const isApproved = (m: IMembership) => {
+    const isActiveStatus = m.status === "approved" || m.status === "active";
+    const mess = m.messId;
+    const isMessActive = typeof mess !== "string" && mess?.status === "active";
+    return isActiveStatus && isMessActive;
+  };
+  
   const getRole = (m: IMembership) => m.role || m.messRole;
  
   // 1. Prefer activeMembership if present and approved/active

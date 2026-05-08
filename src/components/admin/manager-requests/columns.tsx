@@ -17,6 +17,8 @@ import { IUser } from "@/types/user.type";
 
 function ActionButtons({ request }: { request: IManagerRequest }) {
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [isApproveOpen, setIsApproveOpen] = React.useState(false);
+  const [isRejectOpen, setIsRejectOpen] = React.useState(false);
   const [note, setNote] = React.useState("");
   const user = request.userId as IUser;
 
@@ -34,6 +36,8 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
       if (response?.success) {
         SuccessToast(response.message || `Request ${newStatus} successfully!`);
         setNote(""); // Reset note
+        setIsApproveOpen(false);
+        setIsRejectOpen(false);
       } else {
         ErrorToast(response?.message || "Failed to update request.");
       }
@@ -50,6 +54,8 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
       {request.status === "pending" && (
         <>
           <ConfirmationModal
+            open={isApproveOpen}
+            onOpenChange={setIsApproveOpen}
             title="Approve Request?"
             description={`Are you sure you want to approve manager access for ${user.fullName}?`}
             confirmText="Approve"
@@ -80,6 +86,8 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
           </ConfirmationModal>
 
           <ConfirmationModal
+            open={isRejectOpen}
+            onOpenChange={setIsRejectOpen}
             title="Reject Request?"
             description={`Are you sure you want to reject manager access for ${user.fullName}?`}
             confirmText="Reject"

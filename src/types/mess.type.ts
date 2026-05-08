@@ -1,8 +1,9 @@
 import { IUser } from "./user.type";
 
-export type MessStatus = "active" | "suspended" | "pending";
+export type MessStatus = "active" | "suspended" | "closed";
 
 export interface IMess {
+  _id: string;
   id: string;
   name: string;
   address: string;
@@ -16,4 +17,7 @@ export interface IMess {
   updatedAt: string;
   memberCount?: number;
   manager?: IUser;
+  suspendedAt?: string;
+  suspendedBy?: string;
+  suspensionNote?: string;
 }

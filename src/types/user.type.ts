@@ -3,14 +3,11 @@ export type UserStatus = "active" | "blocked";
 export type MembershipRole = "manager" | "member";
 export type MembershipStatus = "pending" | "approved" | "rejected" | "active";
 
+import { IMess } from "./mess.type";
+
 export interface IMembership {
   _id?: string;
-  messId: string | {
-    _id: string;
-    name: string;
-    address?: string;
-    status: string;
-  };
+  messId: string | IMess;
   role?: MembershipRole; // Keep for backward compatibility
   messRole?: MembershipRole; // Backend uses this
   status: MembershipStatus;

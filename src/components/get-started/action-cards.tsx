@@ -24,22 +24,23 @@ function CardGlow() {
 
 interface ActionCardsProps {
   isUserOnly: boolean;
+  isSuspended?: boolean;
 }
 
-export function ActionCards({ isUserOnly }: ActionCardsProps) {
+export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-24">
       {/* Join a Mess Card */}
       <div className="group relative">
         <CardGlow />
-        <Card className="py-0 relative overflow-hidden border-2 border-transparent hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 bg-card/80 backdrop-blur-sm">
+        <Card className={`py-0 relative overflow-hidden border-2 border-transparent ${!isSuspended && "hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1"} transition-all duration-500 bg-card/80 backdrop-blur-sm ${isSuspended && "opacity-80 grayscale-[0.5]"}`}>
           <ShimmerEffect />
           
           <CardContent className="relative flex flex-col gap-8 p-8">
             <div className="flex items-start gap-5">
-              <div className="relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-primary/20">
-                <Users className="h-9 w-9 text-primary" />
-                <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />
+              <div className={`relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br ${isSuspended ? "from-muted to-muted/50" : "from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3"} transition-all duration-500 shadow-lg`}>
+                <Users className={`h-9 w-9 ${isSuspended ? "text-muted-foreground" : "text-primary"}`} />
+                {!isSuspended && <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />}
               </div>
               <div className="flex-1 pt-1">
                 <h2 className="text-3xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300">
@@ -57,7 +58,11 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <JoinMessModal />
+              {isSuspended ? (
+                <Button disabled size="lg" className="w-full sm:w-auto">Account Restricted</Button>
+              ) : (
+                <JoinMessModal />
+              )}
             </div>
           </CardContent>
         </Card>
@@ -66,14 +71,14 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
       {/* Create a Mess Card */}
       <div className="group relative">
         <CardGlow />
-        <Card className="py-0 relative overflow-hidden border-2 border-transparent hover:border-primary/30 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 bg-card/80 backdrop-blur-sm">
+        <Card className={`py-0 relative overflow-hidden border-2 border-transparent ${!isSuspended && "hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1"} transition-all duration-500 bg-card/80 backdrop-blur-sm ${isSuspended && "opacity-80 grayscale-[0.5]"}`}>
           <ShimmerEffect />
           
           <CardContent className="relative flex flex-col gap-8 p-8">
             <div className="flex items-start gap-5">
-              <div className="relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg shadow-primary/20">
-                <Utensils className="h-9 w-9 text-primary" />
-                <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />
+              <div className={`relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br ${isSuspended ? "from-muted to-muted/50" : "from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3"} transition-all duration-500 shadow-lg`}>
+                <Utensils className={`h-9 w-9 ${isSuspended ? "text-muted-foreground" : "text-primary"}`} />
+                {!isSuspended && <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />}
               </div>
               <div className="flex-1 pt-1">
                 <h2 className="text-3xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300">
@@ -91,7 +96,9 @@ export function ActionCards({ isUserOnly }: ActionCardsProps) {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              {isUserOnly ? (
+              {isSuspended ? (
+                <Button disabled size="lg" className="w-full sm:w-auto">Actions Disabled</Button>
+              ) : isUserOnly ? (
                 <RequestManagerModal />
               ) : (
                 <Button

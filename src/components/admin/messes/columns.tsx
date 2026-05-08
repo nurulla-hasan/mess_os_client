@@ -15,23 +15,32 @@ import { Textarea } from "@/components/ui/textarea";
 
 function ActionButtons({ mess }: { mess: IMess }) {
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [note, setNote] = React.useState("");
 
   const handleToggleStatus = async () => {
+    const messId = mess._id || mess.id;
+    if (!messId) {
+      ErrorToast("Mess ID is missing. Please refresh.");
+      return;
+    }
+
     setIsUpdating(true);
     const newStatus = mess.status === "active" ? "suspended" : "active";
     try {
-      const response = await suspendMess(mess.id, {
+      const response = await suspendMess(messId, {
         status: newStatus,
         suspensionNote: note || (newStatus === "suspended" ? "Violation of platform policies." : "Re-activated by Admin."),
       });
       if (response?.success) {
         SuccessToast(response.message || `Mess status updated successfully!`);
         setNote("");
+        setIsModalOpen(false);
       } else {
         ErrorToast(response?.message || "Failed to update mess status.");
       }
-    } catch {
+    } catch (error) {
+      console.error("Status Update Error:", error);
       ErrorToast("Something went wrong. Please try again.");
     } finally {
       setIsUpdating(false);
@@ -43,6 +52,8 @@ function ActionButtons({ mess }: { mess: IMess }) {
       <MessDetailsModal mess={mess} />
 
       <ConfirmationModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
         title={mess.status === "active" ? "Suspend Mess?" : "Activate Mess?"}
         description={`Are you sure you want to ${mess.status === "active" ? "suspend" : "activate"} ${mess.name}?`}
         confirmText={mess.status === "active" ? "Suspend" : "Activate"}
