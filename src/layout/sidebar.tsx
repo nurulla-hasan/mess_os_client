@@ -29,6 +29,7 @@ import {
   FileText,
   CreditCard,
   LucideIcon,
+  ShieldCheck,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -86,6 +87,7 @@ function getSidebarSections(role: UserRole): NavSection[] {
         items: [
           { name: "Users", icon: Users, href: `${prefix}/users` },
           { name: "Messes", icon: Home, href: `${prefix}/messes` },
+          { name: "Manager Requests", icon: ShieldCheck, href: `${prefix}/manager-requests` },
         ],
       },
       {
