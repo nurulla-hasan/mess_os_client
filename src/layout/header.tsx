@@ -1,5 +1,4 @@
-"use client";
-
+import * as React from "react";
 import { Menu, Bell } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -15,24 +14,36 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { ThemeToggle } from "../components/ui/custom/theme-toggle";
-import { logout } from "@/services/auth.service";
+import { logout, getMe } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import { IUser } from "@/types/user.type";
 
 const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
   const router = useRouter();
+  const [user, setUser] = React.useState<IUser | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchProfile = async () => {
+      setIsLoading(true);
+      try {
+        const response = await getMe();
+        if (response?.success) {
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching profile in header:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
 
   const handleLogout = async () => {
     await logout();
     router.replace("/auth/login");
   };
-
-  const admin = {
-    fullName: "Golap hasan",
-    email: "golaphasan@gmail.com",
-    role: "Admin",
-    image: "https://github.com/shadcn.png",
-  };
-  const isLoading = false;
 
   return (
     <header className="fixed top-0 right-0 left-0 lg:left-64 h-20 z-30 bg-sidebar border-b">
@@ -55,7 +66,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
           <ThemeToggle variant="outline" size="icon-sm" />
 
           {/* Notification icon */}
-          <Link href="/vendor/notifications">
+          <Link href="/notifications">
             <Button
               variant="outline"
               size="icon-sm"
@@ -78,19 +89,19 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
                     <>
                       <Avatar className="h-9 w-9">
                         <AvatarImage
-                          src={admin?.image}
-                          alt={admin?.fullName || "user"}
+                          src={user?.avatarUrl}
+                          alt={user?.fullName || "user"}
                         />
                         <AvatarFallback>
-                          {admin?.fullName?.charAt(0) || "U"}
+                          {user?.fullName?.charAt(0) || "U"}
                         </AvatarFallback>
                       </Avatar>
                       <div className="hidden lg:flex flex-col text-left">
                         <p className="text-sm font-medium leading-none">
-                          {admin?.fullName}
+                          {user?.fullName}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {admin?.role}
+                        <p className="text-xs text-muted-foreground mt-1 uppercase">
+                          {user?.globalRole}
                         </p>
                       </div>
                     </>
@@ -101,20 +112,20 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">
-                      {admin?.fullName}
+                      {user?.fullName}
                     </p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      {admin?.email}
+                      {user?.email}
                     </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard/profile">Profile</Link>
+                    <Link href="/manager/profile">Profile</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard/settings">Settings</Link>
+                    <Link href="/manager/settings">Settings</Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

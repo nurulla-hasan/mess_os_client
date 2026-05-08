@@ -78,7 +78,7 @@ export default function ManagerDashboardPage() {
         <Card className="relative overflow-hidden border-none bg-linear-to-br from-primary/10 via-background to-background ring-1 ring-primary/20">
           <CardContent>
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="space-y-2">
+              <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <div className="p-2 rounded-lg bg-primary/20">
                     <Building2 className="h-6 w-6 text-primary" />

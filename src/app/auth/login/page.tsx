@@ -51,20 +51,20 @@ export default function LoginPage() {
       if (response?.success) {
         SuccessToast(response.message || "Login successful!");
 
-        // Use user from login response if available
         let user: IUser | null = null;
 
-        if (response.data?.user) {
-          user = response.data.user as IUser;
-        } else {
-          // Fallback to getMe if user is missing from response
-          try {
-            const meResponse = await getMe();
-            if (meResponse?.success && meResponse.data) {
-              user = meResponse.data as IUser;
-            }
-          } catch {
-            // If getMe fails, user stays null and falls back to /get-started
+        // Always fetch full user profile including memberships for accurate routing
+        try {
+          const meResponse = await getMe();
+          if (meResponse?.success && meResponse.data) {
+            user = meResponse.data as IUser;
+          } else if (response.data?.user) {
+            // Fallback to partial user from login if getMe fails
+            user = response.data.user as IUser;
+          }
+        } catch {
+          if (response.data?.user) {
+            user = response.data.user as IUser;
           }
         }
 
