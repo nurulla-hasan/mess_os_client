@@ -43,3 +43,37 @@ export const updateManagerRequestStatus = async (
     };
   }
 };
+/**
+ * List all messes on the platform (Super Admin)
+ */
+export const getAllMesses = async (params: QueryParams = {}): Promise<any> => {
+  const qs = buildQueryString(params);
+  try {
+    return await serverFetch(`/admin/messes${qs}`, {
+      method: "GET",
+      tags: ["messes"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch messes.",
+    };
+  }
+};
+
+/**
+ * Suspend/Unsuspend a mess (Super Admin)
+ */
+export const suspendMess = async (messId: string): Promise<any> => {
+  try {
+    return await serverFetch(`/admin/messes/${messId}/suspend`, {
+      method: "PATCH",
+      updateTag: ["messes"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to suspend mess.",
+    };
+  }
+};

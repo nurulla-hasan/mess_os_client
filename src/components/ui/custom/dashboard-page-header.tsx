@@ -33,11 +33,11 @@ const DashboardPageHeader = ({
         )}
         <div className="flex flex-col">
           <div className="flex items-center gap-1">
-            <h1 className="text-lg md:text-2xl uppercase tracking-wider font-medium text-primary">
+            <h1 className="text-lg md:text-xl uppercase tracking-wider font-medium text-primary">
               {title}
             </h1>
             {length && (
-              <span className="text-xs inline-flex items-center justify-center rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary border border-primary/20">
+              <span className="text-sm inline-flex items-center justify-center rounded-full bg-primary/10 px-2.5 py-0.5 font-medium text-primary border border-primary/20">
                 {length}
               </span>
             )}

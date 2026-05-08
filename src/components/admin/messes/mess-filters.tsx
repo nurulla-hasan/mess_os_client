@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function ManagerRequestFilters() {
+export function MessFilters() {
   const { getFilter, updateFilter } = useSmartFilter();
   
   const statusFilter = getFilter("status", "all");
@@ -19,7 +19,7 @@ export function ManagerRequestFilters() {
     <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
       <SearchInput 
         filterKey="searchTerm" 
-        placeholder="Search user or reason..." 
+        placeholder="Search messes..." 
       />
       
       <Select 
@@ -31,9 +31,8 @@ export function ManagerRequestFilters() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="all">All Status</SelectItem>
-          <SelectItem value="pending">Pending</SelectItem>
-          <SelectItem value="approved">Approved</SelectItem>
-          <SelectItem value="rejected">Rejected</SelectItem>
+          <SelectItem value="active">Active</SelectItem>
+          <SelectItem value="suspended">Suspended</SelectItem>
         </SelectContent>
       </Select>
     </div>

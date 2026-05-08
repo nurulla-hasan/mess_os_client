@@ -1,62 +1,32 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/admin/messes/columns";
-import { mockAdminMesses } from "@/components/admin/messes/mockData";
-import { Button } from "@/components/ui/button";
-import * as Icons from "lucide-react";
+import { getAllMesses } from "@/services/admin.service";
+import { MessFilters } from "@/components/admin/messes/mess-filters";
+import { QueryParams, SearchParams } from "@/types/global.type";
 
-export default function AdminMessesPage() {
-  const activeMesses = mockAdminMesses.filter(m => m.status === "active");
-  const suspendedMesses = mockAdminMesses.filter(m => m.status === "suspended");
+export default async function AdminMessesPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const params = await searchParams as QueryParams;
+
+  const { data, meta } = await getAllMesses(params);
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/50">
         <DashboardPageHeader
           title="Platform Messes"
           description="Monitor all registered messes, track growth, and manage global mess statuses."
+          length={meta?.total}
         />
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
-            <Icons.Filter /> Filters
-          </Button>
-        </div>
+        <MessFilters />
       </div>
 
-      <div>
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="all" className="flex items-center gap-2">
-              <Icons.Building2 className="h-4 w-4" />
-              <span>All Messes</span>
-            </TabsTrigger>
-            <TabsTrigger value="active" className="flex items-center gap-2">
-              <Icons.ShieldCheck className="h-4 w-4" />
-              <span>Active</span>
-            </TabsTrigger>
-            <TabsTrigger value="suspended" className="flex items-center gap-2">
-              <Icons.ShieldAlert className="h-4 w-4" />
-              <span>Suspended</span>
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="all">
-            <DataTable columns={columns} data={mockAdminMesses} searchKey="name" />
-          </TabsContent>
-          
-          <TabsContent value="active">
-            <DataTable columns={columns} data={activeMesses} />
-          </TabsContent>
-
-          <TabsContent value="suspended">
-            <DataTable columns={columns} data={suspendedMesses} />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <DataTable 
+        columns={columns} 
+        data={data} 
+        meta={meta}
+      />
     </DashboardPageLayout>
   );
 }

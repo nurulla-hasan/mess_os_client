@@ -4,12 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { format } from "date-fns";
 import { ViewRequestModal } from "./view-request-modal";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
@@ -31,7 +25,11 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
     try {
       const response = await updateManagerRequestStatus(request._id, {
         status: newStatus,
-        adminNote: note || (newStatus === "approved" ? "Approved for mess creation." : "Your request was rejected."),
+        adminNote:
+          note ||
+          (newStatus === "approved"
+            ? "Approved for mess creation."
+            : "Your request was rejected."),
       });
       if (response?.success) {
         SuccessToast(response.message || `Request ${newStatus} successfully!`);
@@ -48,15 +46,7 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
 
   return (
     <div className="flex items-center justify-end gap-1">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <ViewRequestModal request={request} />
-          </TooltipTrigger>
-          <TooltipContent>View Details</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-
+      <ViewRequestModal request={request} />
       {request.status === "pending" && (
         <>
           <ConfirmationModal
@@ -67,9 +57,9 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
             onConfirm={() => handleStatusUpdate("approved")}
             isLoading={isUpdating}
             trigger={
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
               >
                 <CheckCircle2 />
@@ -80,8 +70,8 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
                 Approval Note (Optional)
               </p>
-              <Textarea 
-                placeholder="Type any note for this approval..." 
+              <Textarea
+                placeholder="Type any note for this approval..."
                 className="min-h-24 bg-muted/30 focus-visible:ring-emerald-500"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -97,9 +87,9 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
             onConfirm={() => handleStatusUpdate("rejected")}
             isLoading={isUpdating}
             trigger={
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
               >
                 <XCircle />
@@ -110,8 +100,8 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
               <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
                 Rejection Note (Optional)
               </p>
-              <Textarea 
-                placeholder="Type your reason for rejection..." 
+              <Textarea
+                placeholder="Type your reason for rejection..."
                 className="min-h-24 bg-muted/30 focus-visible:ring-rose-500"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -163,12 +153,12 @@ export const columns: ColumnDef<IManagerRequest>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge 
+        <Badge
           variant={
-            status === "approved" 
-              ? "success" 
-              : status === "rejected" 
-                ? "rejected" 
+            status === "approved"
+              ? "success"
+              : status === "rejected"
+                ? "rejected"
                 : "pending"
           }
           className="uppercase text-[10px]"
