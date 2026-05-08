@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -21,7 +21,7 @@ import { Separator } from "@/components/ui/separator";
 export default function ManagerMessSettingsPage() {
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Mess Settings"
         description="Manage your mess profile, member access codes, and administrative settings."
       />
@@ -136,3 +136,4 @@ export default function ManagerMessSettingsPage() {
     </DashboardPageLayout>
   );
 }
+

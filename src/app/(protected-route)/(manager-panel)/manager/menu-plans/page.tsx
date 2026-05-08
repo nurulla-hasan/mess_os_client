@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
@@ -22,7 +22,7 @@ export default function ManagerMenuPlansPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="Menu Plans"
           description="Design and publish daily meal menus. Use AI to generate healthy meal ideas."
         />
@@ -69,3 +69,4 @@ export default function ManagerMenuPlansPage() {
     </DashboardPageLayout>
   );
 }
+

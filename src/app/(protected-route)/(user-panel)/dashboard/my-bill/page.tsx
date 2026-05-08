@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
@@ -26,7 +26,7 @@ export default function MemberMyBillPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="My Personal Bill"
           description="View your detailed meal charges, share costs, and final payment status for each cycle."
         />
@@ -173,3 +173,4 @@ export default function MemberMyBillPage() {
     </DashboardPageLayout>
   );
 }
+

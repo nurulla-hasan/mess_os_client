@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/custom/data-table";
@@ -28,7 +28,7 @@ export default function ManagerBillingPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="Billing Management"
           description="Finalize monthly billing, calculate meal rates, and manage member invoices."
         />
@@ -127,3 +127,4 @@ export default function ManagerBillingPage() {
 // Add missing icons and component for Billing
 import { Calendar } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+

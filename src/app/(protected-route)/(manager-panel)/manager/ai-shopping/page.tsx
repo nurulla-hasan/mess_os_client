@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,7 +29,7 @@ export default function ManagerAiShoppingPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="AI Shopping Assistant"
           description="Generate automated shopping lists from your meal plans and convert them to market schedules."
         />
@@ -117,3 +117,4 @@ export default function ManagerAiShoppingPage() {
     </DashboardPageLayout>
   );
 }
+

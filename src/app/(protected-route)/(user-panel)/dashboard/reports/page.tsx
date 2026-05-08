@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
@@ -26,7 +26,7 @@ export default function MemberReportsPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="My Statements & Reports"
           description="View your personal financial statements and overall mess operational summaries."
         />
@@ -142,3 +142,4 @@ export default function MemberReportsPage() {
     </DashboardPageLayout>
   );
 }
+

@@ -1,13 +1,13 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { ProfileView } from "@/components/profile/profile-view";
 
 export default function ManagerProfilePage() {
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="My Profile"
         description="Manage your personal information, account security, and notification preferences."
       />
@@ -18,3 +18,4 @@ export default function ManagerProfilePage() {
     </DashboardPageLayout>
   );
 }
+

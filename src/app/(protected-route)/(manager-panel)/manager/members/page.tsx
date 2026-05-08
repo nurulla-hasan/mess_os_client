@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, UserPlus, History } from "lucide-react";
@@ -11,7 +11,7 @@ import { activeMembers, pendingRequests, inactiveMembers } from "@/components/me
 export default function ManagerMembersPage() {
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Members Management"
         description="Oversee your community. Approve new join requests, manage active members, and view history."
       />
@@ -58,3 +58,4 @@ export default function ManagerMembersPage() {
     </DashboardPageLayout>
   );
 }
+

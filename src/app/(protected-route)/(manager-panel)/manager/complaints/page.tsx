@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
@@ -20,7 +20,7 @@ export default function ManagerComplaintsPage() {
 
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Member Complaints"
         description="Review and address issues raised by mess members. Maintain a healthy community environment."
       />
@@ -66,3 +66,4 @@ export default function ManagerComplaintsPage() {
     </DashboardPageLayout>
   );
 }
+

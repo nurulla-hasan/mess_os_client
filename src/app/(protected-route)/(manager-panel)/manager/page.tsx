@@ -29,7 +29,7 @@ import { Separator } from "@/components/ui/separator";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 
 // Mock Data for the Dashboard
 const summaryMetrics = [
@@ -68,7 +68,7 @@ export default function ManagerDashboardPage() {
 
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Manager Dashboard"
         description="Overview of your mess operations and pending management tasks"
       />
@@ -304,3 +304,4 @@ export default function ManagerDashboardPage() {
     </DashboardPageLayout>
   );
 }
+

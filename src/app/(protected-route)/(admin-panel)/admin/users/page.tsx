@@ -1,6 +1,5 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
@@ -13,6 +12,7 @@ import {
   Filter
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 
 export default function AdminUsersPage() {
   const blockedUsers = mockAdminUsers.filter(u => u.status === "blocked");
@@ -21,7 +21,7 @@ export default function AdminUsersPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="Platform Users"
           description="Manage all registered users, adjust global roles, and handle account suspensions."
         />

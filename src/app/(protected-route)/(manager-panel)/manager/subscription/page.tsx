@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { 
@@ -57,7 +57,7 @@ const mockHistory: SubsHistory[] = [
 export default function ManagerSubscriptionPage() {
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Subscription & Billing"
         description="Manage your mess subscription, view billing history, and upgrade your plan."
       />
@@ -173,3 +173,4 @@ export default function ManagerSubscriptionPage() {
     </DashboardPageLayout>
   );
 }
+

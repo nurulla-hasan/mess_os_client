@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/custom/data-table";
@@ -22,7 +22,7 @@ export default function ManagerMealsPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="Meals Management"
           description="Log daily meals for members and monitor monthly consumption patterns."
         />
@@ -112,3 +112,4 @@ export default function ManagerMealsPage() {
     </DashboardPageLayout>
   );
 }
+

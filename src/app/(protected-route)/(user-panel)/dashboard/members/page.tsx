@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { userColumns } from "@/components/members/user-columns";
@@ -15,7 +15,7 @@ export default function MemberMembersPage() {
 
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Mess Members"
         description="View all active members and managers in your mess."
       />
@@ -40,3 +40,4 @@ export default function MemberMembersPage() {
     </DashboardPageLayout>
   );
 }
+

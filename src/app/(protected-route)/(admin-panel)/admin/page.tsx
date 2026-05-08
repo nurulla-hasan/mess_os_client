@@ -1,6 +1,5 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
@@ -17,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 
 const stats = [
   { title: "Total Users", value: "1,284", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10", trend: "+12%" },
@@ -35,7 +35,7 @@ export default function AdminDashboardPage() {
   return (
     <DashboardPageLayout>
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <DashboardHeader
+        <DashboardPageHeader
           title="Super Admin Overview"
           description="Global platform statistics and system monitoring dashboard."
         />

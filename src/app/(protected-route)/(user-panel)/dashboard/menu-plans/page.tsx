@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/menu-plans/columns";
@@ -17,7 +17,7 @@ export default function MemberMenuPlansPage() {
 
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Weekly Menu Plan"
         description="View the published meal menus for the current and upcoming days."
       />
@@ -81,3 +81,4 @@ export default function MemberMenuPlansPage() {
 }
 
 import { Badge } from "@/components/ui/badge";
+

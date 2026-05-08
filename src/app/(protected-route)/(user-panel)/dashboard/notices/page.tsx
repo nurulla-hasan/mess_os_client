@@ -1,6 +1,6 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/custom/data-table";
@@ -18,7 +18,7 @@ export default function MemberNoticesPage() {
 
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="Mess Notices"
         description="Stay updated with the latest announcements and important updates from mess management."
       />
@@ -61,3 +61,4 @@ export default function MemberNoticesPage() {
     </DashboardPageLayout>
   );
 }
+

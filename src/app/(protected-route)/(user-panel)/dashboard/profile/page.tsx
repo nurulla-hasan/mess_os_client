@@ -1,13 +1,13 @@
 "use client";
 
-import DashboardHeader from "@/components/ui/custom/page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { ProfileView } from "@/components/profile/profile-view";
 
 export default function MemberProfilePage() {
   return (
     <DashboardPageLayout>
-      <DashboardHeader
+      <DashboardPageHeader
         title="My Profile"
         description="Update your personal details, manage security, and view account status."
       />
@@ -18,3 +18,4 @@ export default function MemberProfilePage() {
     </DashboardPageLayout>
   );
 }
+
