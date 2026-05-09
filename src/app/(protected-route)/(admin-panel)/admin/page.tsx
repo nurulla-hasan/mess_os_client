@@ -139,7 +139,7 @@ export default async function AdminDashboardPage() {
                   <UserPlus className="mr-2 h-4 w-4" /> Manage Platform Users
                 </Button>
               </Link>
-              <Link href="/admin/subscriptions">
+              <Link href="/admin/subscriptions/history">
                 <Button variant="outline" className="w-full justify-start text-xs font-bold bg-background">
                   <CreditCard className="mr-2 h-4 w-4" /> Subscriptions & Revenue
                 </Button>

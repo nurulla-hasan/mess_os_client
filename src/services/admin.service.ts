@@ -112,7 +112,7 @@ export const updateUserStatus = async (
     return await serverFetch(`/admin/users/${userId}/status`, {
       method: "PATCH",
       body: { status },
-      tags: ["users"],
+      updateTag: ["users"],
     });
   } catch (error: any) {
     return {
@@ -133,7 +133,7 @@ export const updateUserRole = async (
     return await serverFetch(`/admin/users/${userId}/role`, {
       method: "PATCH",
       body: { globalRole },
-      tags: ["users"],
+      updateTag: ["users"],
     });
   } catch (error: any) {
     return {
@@ -224,7 +224,7 @@ export const createSubscriptionPlan = async (data: any): Promise<any> => {
     return await serverFetch("/admin/subscription-plans", {
       method: "POST",
       body: data,
-      tags: ["subscription-plans"],
+      updateTag: ["subscription-plans", "all-subscriptions"],
     });
   } catch (error: any) {
     return {
@@ -242,7 +242,7 @@ export const updateSubscriptionPlan = async (id: string, data: any): Promise<any
     return await serverFetch(`/admin/subscription-plans/${id}`, {
       method: "PATCH",
       body: data,
-      tags: ["subscription-plans"],
+      updateTag: ["subscription-plans", "all-subscriptions"],
     });
   } catch (error: any) {
     return {
@@ -259,7 +259,7 @@ export const deleteSubscriptionPlan = async (id: string): Promise<any> => {
   try {
     return await serverFetch(`/admin/subscription-plans/${id}`, {
       method: "DELETE",
-      tags: ["subscription-plans"],
+      updateTag: ["subscription-plans", "all-subscriptions"],
     });
   } catch (error: any) {
     return {

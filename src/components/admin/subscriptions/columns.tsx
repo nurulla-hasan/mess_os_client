@@ -13,6 +13,7 @@ import { ISubscriptionPlan } from "@/types/subscription.type";
 
 const PlanActions = ({ plan }: { plan: ISubscriptionPlan }) => {
   const [isDeleting, setIsDeleting] = React.useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
 
   const handleDelete = async () => {
     setIsDeleting(true);
@@ -20,6 +21,7 @@ const PlanActions = ({ plan }: { plan: ISubscriptionPlan }) => {
       const response = await deleteSubscriptionPlan(plan._id);
       if (response?.success) {
         SuccessToast(response.message || "Plan deleted successfully!");
+        setIsConfirmOpen(false);
       } else {
         ErrorToast(response?.message || "Failed to delete plan.");
       }
@@ -40,8 +42,14 @@ const PlanActions = ({ plan }: { plan: ISubscriptionPlan }) => {
         variant="destructive"
         isLoading={isDeleting}
         onConfirm={handleDelete}
+        open={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
         trigger={
-          <Button variant="ghost" size="icon" className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 h-8 w-8">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 h-8 w-8"
+          >
             <Trash2 className="h-4 w-4" />
           </Button>
         }
