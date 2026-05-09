@@ -3,9 +3,9 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/custom/data-table";
-import { memberMealColumns } from "@/components/meals/member-columns";
-import { mockMeals } from "@/components/meals/mockData";
+// import { DataTable } from "@/components/ui/custom/data-table";
+// import { memberMealColumns } from "@/components/meals/member-columns";
+// import { mockMeals } from "@/components/meals/mockData";
 import { 
   Utensils, 
   Calendar, 
@@ -16,8 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function MemberMealsPage() {
-  const myMeals = mockMeals.filter(m => m.member.name === "Nasir Uddin"); // Mocking current user filter
-  const totalMeals = myMeals.reduce((acc, m) => acc + m.count, 0);
+  // const myMeals = mockMeals.filter(m => m.member.name === "Nasir Uddin"); // Mocking current user filter
+  // const totalMeals = myMeals.reduce((acc, m) => acc + m.count, 0);
 
   return (
     <DashboardPageLayout>
@@ -42,7 +42,7 @@ export default function MemberMealsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-black">{totalMeals}</p>
+              {/* <p className="text-3xl font-black">{totalMeals}</p> */}
               <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest mt-1">Total Meals Served</p>
             </CardContent>
           </Card>
@@ -55,7 +55,7 @@ export default function MemberMealsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-xl font-black">৳{(totalMeals * 45).toFixed(0)}</p>
+              {/* <p className="text-xl font-black">৳{(totalMeals * 45).toFixed(0)}</p> */}
               <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest mt-1">Based on ~৳45 rate</p>
             </CardContent>
           </Card>
@@ -73,11 +73,10 @@ export default function MemberMealsPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            <DataTable columns={memberMealColumns} data={myMeals} />
+            {/* <DataTable columns={memberMealColumns} data={myMeals} /> */}
           </CardContent>
         </Card>
       </div>
     </DashboardPageLayout>
   );
 }
-

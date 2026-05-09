@@ -1,6 +1,7 @@
-import { ActiveMember, PendingRequest } from "./columns";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const activeMembers: ActiveMember[] = [
+
+export const activeMembers: any[] = [
   {
     id: "1",
     name: "Golap Hasan",
@@ -58,7 +59,7 @@ export const activeMembers: ActiveMember[] = [
   },
 ];
 
-export const pendingRequests: PendingRequest[] = [
+export const pendingRequests: any[] = [
   {
     id: "101",
     name: "Tanvir Hasan",
@@ -82,7 +83,7 @@ export const pendingRequests: PendingRequest[] = [
   },
 ];
 
-export const inactiveMembers: ActiveMember[] = [
+export const inactiveMembers: any[] = [
   {
     id: "201",
     name: "Old Member 1",

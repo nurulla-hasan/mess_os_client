@@ -3,15 +3,15 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
-import { userColumns } from "@/components/members/user-columns";
-import { activeMembers } from "@/components/members/mockData";
+// import { userColumns } from "@/components/members/user-columns";
+// import { activeMembers } from "@/components/members/mockData";
 import { Users, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function MemberMembersPage() {
   // Members only see active members list
-  const members = activeMembers;
+  // const members = activeMembers;
 
   return (
     <DashboardPageLayout>
@@ -33,7 +33,7 @@ export default function MemberMembersPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <DataTable columns={userColumns} data={members} />
+            {/* <DataTable columns={userColumns} data={members} /> */}
           </CardContent>
         </Card>
       </div>

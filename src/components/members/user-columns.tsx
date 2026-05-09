@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -5,9 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { format } from "date-fns";
-import { ActiveMember } from "./columns";
 
-export const userColumns: ColumnDef<ActiveMember>[] = [
+export const userColumns: ColumnDef<any>[] = [
   {
     accessorKey: "member",
     header: "Member",
