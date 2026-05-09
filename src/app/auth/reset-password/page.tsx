@@ -12,13 +12,11 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { resetPassword } from "@/services/auth.service";
 
@@ -86,75 +84,57 @@ function ResetPasswordForm() {
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Password Fields */}
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field, fieldState }) => (
-                  <FormItem data-invalid={fieldState.invalid}>
-                    <FormLabel>New password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="password"
-                          placeholder="••••••••"
-                          className="pl-10"
-                          {...field}
-                          disabled={isLoading}
-                          aria-invalid={fieldState.invalid}
-                          autoComplete="new-password"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field, fieldState }) => (
-                  <FormItem data-invalid={fieldState.invalid}>
-                    <FormLabel>Confirm new password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="password"
-                          placeholder="••••••••"
-                          className="pl-10"
-                          {...field}
-                          disabled={isLoading}
-                          aria-invalid={fieldState.invalid}
-                          autoComplete="new-password"
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FieldGroup>
+            <Field data-invalid={!!form.formState.errors.password}>
+              <FieldLabel htmlFor="password">New password</FieldLabel>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  className="pl-10"
+                  {...form.register("password")}
+                  disabled={isLoading}
+                  autoComplete="new-password"
+                />
+              </div>
+              <FieldError errors={[form.formState.errors.password]} />
+            </Field>
+
+            <Field data-invalid={!!form.formState.errors.confirmPassword}>
+              <FieldLabel htmlFor="confirmPassword">Confirm new password</FieldLabel>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  className="pl-10"
+                  {...form.register("confirmPassword")}
+                  disabled={isLoading}
+                  autoComplete="new-password"
+                />
+              </div>
+              <FieldError errors={[form.formState.errors.confirmPassword]} />
+            </Field>
 
             {/* Password helper */}
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground mt-1">
               Must be at least 6 characters
             </p>
+          </FieldGroup>
 
-            <Button
-              type="submit"
-              loading={isLoading}
-              loadingText="Resetting..."
-              className="w-full"
-            >
-              Reset password
-            </Button>
-          </form>
-        </Form>
+          <Button
+            type="submit"
+            loading={isLoading}
+            loadingText="Resetting..."
+            className="w-full"
+          >
+            Reset password
+          </Button>
+        </form>
 
         {/* Footer */}
         <p className="text-center text-sm text-muted-foreground pt-2 border-t">

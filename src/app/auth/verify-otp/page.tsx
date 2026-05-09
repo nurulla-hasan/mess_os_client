@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { ArrowLeft, Timer } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCountdown } from "@/hooks/useUtilityHooks";
@@ -12,13 +12,12 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
 import {
   InputOTP,
   InputOTPGroup,
@@ -146,68 +145,65 @@ function VerifyOtpForm() {
         )}
       </CardHeader>
       <CardContent className="space-y-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* OTP Input */}
-            <FormField
-              control={form.control}
-              name="otp"
-              render={({ field, fieldState }) => (
-                <FormItem className="flex flex-col items-center" data-invalid={fieldState.invalid}>
-                  <FormLabel className="sr-only">One-Time Password</FormLabel>
-                  <FormControl>
-                    <InputOTP maxLength={6} {...field}>
-                      <InputOTPGroup>
-                        <InputOTPSlot index={0} />
-                        <InputOTPSlot index={1} />
-                        <InputOTPSlot index={2} />
-                      </InputOTPGroup>
-                      <InputOTPSeparator />
-                      <InputOTPGroup>
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
-                      </InputOTPGroup>
-                    </InputOTP>
-                  </FormControl>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Code expires in 10 minutes
-                  </p>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Resend Section */}
-            <div className="flex items-center justify-center gap-2 text-sm">
-              <span className="text-muted-foreground">Didn&apos;t receive a code?</span>
-              <button
-                type="button"
-                onClick={handleResend}
-                disabled={isRunning}
-                className="font-medium text-primary hover:underline underline-offset-4 disabled:opacity-50 disabled:no-underline"
-              >
-                {isRunning ? (
-                  <span className="flex items-center gap-1">
-                    <Timer className="h-3 w-3" />
-                    Resend in {secondsLeft}
-                  </span>
-                ) : (
-                  "Resend"
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FieldGroup>
+            <Field data-invalid={!!form.formState.errors.otp} className="flex flex-col items-center">
+              <FieldLabel className="sr-only">One-Time Password</FieldLabel>
+              <Controller
+                control={form.control}
+                name="otp"
+                render={({ field }) => (
+                  <InputOTP maxLength={6} {...field}>
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                    </InputOTPGroup>
+                    <InputOTPSeparator />
+                    <InputOTPGroup>
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
                 )}
-              </button>
-            </div>
+              />
+              <FieldDescription>
+                Code expires in 10 minutes
+              </FieldDescription>
+              <FieldError errors={[form.formState.errors.otp]} />
+            </Field>
+          </FieldGroup>
 
-            <Button
-              type="submit"
-              loading={isLoading}
-              loadingText="Verifying..."
-              className="w-full"
+          {/* Resend Section */}
+          <div className="flex items-center justify-center gap-2 text-sm">
+            <span className="text-muted-foreground">Didn&apos;t receive a code?</span>
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={isRunning}
+              className="font-medium text-primary hover:underline underline-offset-4 disabled:opacity-50 disabled:no-underline"
             >
-              {isRegister ? "Verify email" : "Verify code"}
-            </Button>
-          </form>
-        </Form>
+              {isRunning ? (
+                <span className="flex items-center gap-1">
+                  <Timer className="h-3 w-3" />
+                  Resend in {secondsLeft}
+                </span>
+              ) : (
+                "Resend"
+              )}
+            </button>
+          </div>
+
+          <Button
+            type="submit"
+            loading={isLoading}
+            loadingText="Verifying..."
+            className="w-full"
+          >
+            {isRegister ? "Verify email" : "Verify code"}
+          </Button>
+        </form>
 
         {/* Footer */}
         <p className="text-center text-sm text-muted-foreground pt-2 border-t">

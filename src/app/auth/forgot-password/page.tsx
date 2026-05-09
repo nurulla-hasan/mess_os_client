@@ -12,13 +12,12 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { forgotPassword } from "@/services/auth.service";
@@ -68,47 +67,38 @@ export default function ForgotPasswordPage() {
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            {/* Email */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field, fieldState }) => (
-                <FormItem data-invalid={fieldState.invalid}>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="email"
-                        placeholder="name@example.com"
-                        className="pl-10"
-                        {...field}
-                        disabled={isLoading}
-                        aria-invalid={fieldState.invalid}
-                        autoComplete="email"
-                      />
-                    </div>
-                  </FormControl>
-                  <p className="text-xs text-muted-foreground mt-1.5">
-                    We&apos;ll send a verification code to this email
-                  </p>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FieldGroup>
+            <Field data-invalid={!!form.formState.errors.email}>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  className="pl-10"
+                  {...form.register("email")}
+                  disabled={isLoading}
+                  autoComplete="email"
+                />
+              </div>
+              <FieldDescription>
+                We&apos;ll send a verification code to this email
+              </FieldDescription>
+              <FieldError errors={[form.formState.errors.email]} />
+            </Field>
+          </FieldGroup>
 
-            <Button
-              type="submit"
-              loading={isLoading}
-              loadingText="Sending..."
-              className="w-full"
-            >
-              Send OTP
-            </Button>
-          </form>
-        </Form>
+          <Button
+            type="submit"
+            loading={isLoading}
+            loadingText="Sending..."
+            className="w-full"
+          >
+            Send OTP
+          </Button>
+        </form>
 
         {/* Footer */}
         <p className="text-center text-sm text-muted-foreground pt-2 border-t">

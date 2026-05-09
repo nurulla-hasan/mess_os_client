@@ -10,10 +10,8 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField } from "@/components/ui/form";
 import {
   Field,
-  FieldContent,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -70,62 +68,55 @@ export default function JoinMessPage() {
             </p>
           </CardHeader>
           <CardContent className="p-8 pt-4 space-y-6">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FieldGroup>
-                  <FormField
-                    control={form.control}
-                    name="inviteCode"
-                    render={({ field, fieldState }) => (
-                      <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel>Invite Code</FieldLabel>
-                        <FieldContent>
-                          <div className="relative">
-                            <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder="e.g. MESS-1234"
-                              className="pl-10 uppercase"
-                              {...field}
-                              onChange={(e) => field.onChange(e.target.value.toUpperCase())}
-                              disabled={isLoading}
-                              aria-invalid={fieldState.invalid}
-                            />
-                          </div>
-                          <FieldError errors={[fieldState.error]} />
-                        </FieldContent>
-                      </Field>
-                    )}
-                  />
-                </FieldGroup>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FieldGroup>
+                <Field data-invalid={!!form.formState.errors.inviteCode}>
+                  <FieldLabel htmlFor="invite-code">Invite Code</FieldLabel>
+                  <div className="relative">
+                    <Key className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="invite-code"
+                      placeholder="e.g. MESS-1234"
+                      className="pl-10 uppercase"
+                      {...form.register("inviteCode", {
+                        onChange: (e) => {
+                          e.target.value = e.target.value.toUpperCase();
+                        }
+                      })}
+                      disabled={isLoading}
+                    />
+                  </div>
+                  <FieldError errors={[form.formState.errors.inviteCode]} />
+                </Field>
+              </FieldGroup>
 
-                <div className="flex items-start gap-3 p-4 rounded-xl bg-secondary/50 border border-border/50">
-                  <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    Once submitted, your request will be sent to the mess manager. You will gain access after they approve it.
-                  </p>
-                </div>
+              <div className="flex items-start gap-3 p-4 rounded-xl bg-secondary/50 border border-border/50">
+                <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Once submitted, your request will be sent to the mess manager. You will gain access after they approve it.
+                </p>
+              </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <Button
-                    type="submit"
-                    loading={isLoading}
-                    loadingText="Submitting..."
-                    className="flex-1 group"
-                  >
-                    Submit Request
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    type="button"
-                    className="flex-1"
-                    onClick={() => router.push("/get-started")}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </form>
-            </Form>
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Button
+                  type="submit"
+                  loading={isLoading}
+                  loadingText="Submitting..."
+                  className="flex-1 group"
+                >
+                  Submit Request
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="flex-1"
+                  onClick={() => router.push("/get-started")}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
           </CardContent>
         </Card>
       </div>

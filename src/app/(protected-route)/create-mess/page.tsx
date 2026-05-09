@@ -10,10 +10,8 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField } from "@/components/ui/form";
 import {
   Field,
-  FieldContent,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -99,160 +97,144 @@ export default function CreateMessPage() {
             </p>
           </div>
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <Card>
-                <CardContent >
-                  <FieldGroup>
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel>Mess Name</FieldLabel>
-                          <FieldContent>
-                            <div className="relative">
-                              <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input
-                                placeholder="e.g. Sunrise Hostel"
-                                className="pl-10"
-                                {...field}
-                                disabled={isLoading}
-                                aria-invalid={fieldState.invalid}
-                              />
-                            </div>
-                            <FieldDescription>This will be visible to all members.</FieldDescription>
-                            <FieldError errors={[fieldState.error]} />
-                          </FieldContent>
-                        </Field>
-                      )}
-                    />
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <Card>
+              <CardContent >
+                <FieldGroup>
+                  <Field data-invalid={!!form.formState.errors.name}>
+                    <FieldLabel htmlFor="mess-name">Mess Name</FieldLabel>
+                    <div className="relative">
+                      <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="mess-name"
+                        placeholder="e.g. Sunrise Hostel"
+                        className="pl-10"
+                        {...form.register("name")}
+                        disabled={isLoading}
+                      />
+                    </div>
+                    <FieldDescription>This will be visible to all members.</FieldDescription>
+                    <FieldError errors={[form.formState.errors.name]} />
+                  </Field>
 
-                    <FormField
-                      control={form.control}
-                      name="address"
-                      render={({ field, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid}>
-                          <FieldLabel>Address</FieldLabel>
-                          <FieldContent>
-                            <div className="relative">
-                              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                              <Input
-                                placeholder="e.g. 123 Main St, City"
-                                className="pl-10"
-                                {...field}
-                                disabled={isLoading}
-                                aria-invalid={fieldState.invalid}
-                              />
-                            </div>
-                            <FieldError errors={[fieldState.error]} />
-                          </FieldContent>
-                        </Field>
-                      )}
-                    />
-                  </FieldGroup>
-                </CardContent>
-              </Card>
+                  <Field data-invalid={!!form.formState.errors.address}>
+                    <FieldLabel htmlFor="mess-address">Address</FieldLabel>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="mess-address"
+                        placeholder="e.g. 123 Main St, City"
+                        className="pl-10"
+                        {...form.register("address")}
+                        disabled={isLoading}
+                      />
+                    </div>
+                    <FieldError errors={[form.formState.errors.address]} />
+                  </Field>
+                </FieldGroup>
+              </CardContent>
+            </Card>
 
-              {/* Meal Categories */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Meal Categories</CardTitle>
-                  <CardDescription>Define the daily meal types available for members.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {mealFields.map((field, index) => (
-                    <FormField
-                      key={field.id}
-                      control={form.control}
-                      name={`mealCategories.${index}.value`}
-                      render={({ field: inputField, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid} orientation="horizontal" className="space-y-3">
-                          <FieldContent>
-                            <Input {...inputField} disabled={isLoading} aria-invalid={fieldState.invalid} />
-                            <FieldError errors={[fieldState.error]} />
-                          </FieldContent>
-                          <Button 
-                            type="button" 
-                            variant="ghost" 
-                            size="icon" 
-                            onClick={() => removeMeal(index)}
-                            disabled={mealFields.length === 1 || isLoading}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </Field>
-                      )}
-                    />
-                  ))}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => appendMeal({ value: "" })}
-                    disabled={isLoading}
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Meal Category
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Equal Share Categories */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Equal Share Categories</CardTitle>
-                  <CardDescription>Fixed expenses divided equally among all active members.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {shareFields.map((field, index) => (
-                    <FormField
-                      key={field.id}
-                      control={form.control}
-                      name={`equalShareCategories.${index}.value`}
-                      render={({ field: inputField, fieldState }) => (
-                        <Field data-invalid={fieldState.invalid} orientation="horizontal" className="space-y-3">
-                          <FieldContent>
-                            <Input {...inputField} disabled={isLoading} aria-invalid={fieldState.invalid} />
-                            <FieldError errors={[fieldState.error]} />
-                          </FieldContent>
-                          <Button 
-                            type="button" 
-                            variant="ghost" 
-                            size="icon" 
-                            onClick={() => removeShare(index)}
-                            disabled={shareFields.length === 1 || isLoading}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </Field>
-                      )}
-                    />
-                  ))}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => appendShare({ value: "" })}
-                    disabled={isLoading}
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Expense Category
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <div className="flex gap-4">
-                <Button type="button" variant="outline" size="lg" onClick={() => router.push("/get-started")} disabled={isLoading}>
-                  Cancel
+            {/* Meal Categories */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Meal Categories</CardTitle>
+                <CardDescription>Define the daily meal types available for members.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {mealFields.map((field, index) => {
+                  const error = form.formState.errors.mealCategories?.[index]?.value;
+                  return (
+                    <Field key={field.id} data-invalid={!!error} orientation="horizontal" className="space-y-0">
+                      <div className="flex-1">
+                        <Input
+                          {...form.register(`mealCategories.${index}.value` as const)}
+                          disabled={isLoading}
+                          placeholder="e.g. Breakfast"
+                        />
+                        <FieldError errors={[error]} />
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeMeal(index)}
+                        disabled={mealFields.length === 1 || isLoading}
+                        className="shrink-0"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </Field>
+                  );
+                })}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendMeal({ value: "" })}
+                  disabled={isLoading}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Meal Category
                 </Button>
-                <Button type="submit" size="lg" loading={isLoading} loadingText="Creating...">
-                  Create Mess
-                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </CardContent>
+            </Card>
+
+            {/* Equal Share Categories */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Equal Share Categories</CardTitle>
+                <CardDescription>Fixed expenses divided equally among all active members.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {shareFields.map((field, index) => {
+                  const error = form.formState.errors.equalShareCategories?.[index]?.value;
+                  return (
+                    <Field key={field.id} data-invalid={!!error} orientation="horizontal" className="space-y-0">
+                      <div className="flex-1">
+                        <Input
+                          {...form.register(`equalShareCategories.${index}.value` as const)}
+                          disabled={isLoading}
+                          placeholder="e.g. Internet"
+                        />
+                        <FieldError errors={[error]} />
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeShare(index)}
+                        disabled={shareFields.length === 1 || isLoading}
+                        className="shrink-0"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </Field>
+                  );
+                })}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => appendShare({ value: "" })}
+                  disabled={isLoading}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Add Expense Category
                 </Button>
-              </div>
-            </form>
-          </Form>
+              </CardContent>
+            </Card>
+
+            <div className="flex gap-4">
+              <Button type="button" variant="outline" size="lg" onClick={() => router.push("/get-started")} disabled={isLoading}>
+                Cancel
+              </Button>
+              <Button type="submit" size="lg" loading={isLoading} loadingText="Creating...">
+                Create Mess
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </div>
+          </form>
         </div>
 
         {/* Right Column - Preview */}
