@@ -7,6 +7,8 @@ import { ISubscriptionHistory } from "@/types/subscription.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Home, Calendar } from "lucide-react";
 
+import { SubscriptionDetailsModal } from "./subscription-details-modal";
+
 export const columns: ColumnDef<ISubscriptionHistory>[] = [
   {
     accessorKey: "mess",
@@ -106,5 +108,14 @@ export const columns: ColumnDef<ISubscriptionHistory>[] = [
         </div>
       );
     },
+  },
+  {
+    id: "actions",
+    header: () => <div className="text-end">Actions</div>,
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <SubscriptionDetailsModal history={row.original} />
+      </div>
+    ),
   },
 ];

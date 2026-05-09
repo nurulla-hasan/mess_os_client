@@ -39,40 +39,40 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
                 {mess.address}
               </p>
             </div>
-            <Badge variant={mess.status === "active" ? "success" : "rejected"} className="uppercase">
+            <Badge variant={mess.status === "active" ? "success" : "rejected"} className="capitalize font-normal">
               {mess.status}
             </Badge>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-muted/30 border border-primary/5 space-y-1">
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Invite Code</span>
-              <p className="text-lg font-mono font-bold text-primary">{mess.inviteCode}</p>
+            <div className="p-4 rounded-xl bg-muted/30 border border-border/50 space-y-1">
+              <span className="text-xs text-muted-foreground">Invite Code</span>
+              <p className="text-sm font-mono font-medium text-primary">{mess.inviteCode}</p>
             </div>
-            <div className="p-4 rounded-xl bg-muted/30 border border-primary/5 space-y-1">
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Created On</span>
-              <p className="text-sm font-bold">{format(new Date(mess.createdAt), "MMM dd, yyyy")}</p>
+            <div className="p-4 rounded-xl bg-muted/30 border border-border/50 space-y-1">
+              <span className="text-xs text-muted-foreground">Created On</span>
+              <p className="text-sm font-medium">{format(new Date(mess.createdAt), "MMM dd, yyyy")}</p>
             </div>
           </div>
 
           {/* Manager Details */}
           <div className="p-5 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
-            <div className="flex items-center gap-2 text-primary">
+            <div className="flex items-center gap-2 text-primary font-medium">
               <Icons.UserCog className="h-4 w-4" />
-              <h4 className="text-xs font-black uppercase tracking-widest">Manager Contact</h4>
+              <h4 className="text-xs">Manager Contact</h4>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Full Name</span>
-                <p className="text-sm font-bold text-foreground/90">{mess.manager?.fullName || "N/A"}</p>
+                <span className="text-xs text-muted-foreground">Full Name</span>
+                <p className="text-sm font-medium">{mess.manager?.fullName || "N/A"}</p>
               </div>
               <div className="space-y-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Phone Number</span>
-                <p className="text-sm font-bold text-foreground/90">{mess.manager?.phone || "N/A"}</p>
+                <span className="text-xs text-muted-foreground">Phone Number</span>
+                <p className="text-sm font-medium">{mess.manager?.phone || "N/A"}</p>
               </div>
               <div className="space-y-1 sm:col-span-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Email Address</span>
-                <p className="text-sm font-bold text-foreground/90">{mess.manager?.email || "N/A"}</p>
+                <span className="text-xs text-muted-foreground">Email Address</span>
+                <p className="text-sm font-medium">{mess.manager?.email || "N/A"}</p>
               </div>
             </div>
           </div>
@@ -81,9 +81,9 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
         {/* Settings Section */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-primary">
+            <div className="flex items-center gap-2 text-primary font-medium">
               <UtensilsCrossed className="h-4 w-4" />
-              <h4 className="text-xs font-black uppercase tracking-widest">Meal Categories</h4>
+              <h4 className="text-xs">Meal Categories</h4>
             </div>
             <div className="flex flex-wrap gap-2">
               {mess.settings?.mealCategories.map((cat) => (
@@ -95,9 +95,9 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-primary">
+            <div className="flex items-center gap-2 text-primary font-medium">
               <CreditCard className="h-4 w-4" />
-              <h4 className="text-xs font-black uppercase tracking-widest">Equal Share Categories</h4>
+              <h4 className="text-xs">Equal Share Categories</h4>
             </div>
             <div className="flex flex-wrap gap-2">
               {mess.settings?.equalShareCategories.map((cat) => (
