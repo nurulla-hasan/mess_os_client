@@ -1,3 +1,10 @@
+export interface IMealBreakdown {
+  Breakfast: number;
+  Lunch: number;
+  Dinner: number;
+  Guest: number;
+}
+
 export interface IMeal {
   _id: string;
   messId: string;
@@ -14,6 +21,7 @@ export interface IMeal {
     messRole: string;
     status: string;
   };
+  meals: IMealBreakdown;
   mealCount: number;
   createdBy: string;
   createdAt: string;

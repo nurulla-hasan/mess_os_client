@@ -4,6 +4,7 @@
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams } from "@/types/global.type";
+import { IMealBreakdown } from "@/types/meal.type";
 
 /**
  * List all meals for a specific mess with optional filters
@@ -26,7 +27,7 @@ export const getMessMeals = async (messId: string, params: QueryParams = {}): Pr
 /**
  * Log a new meal
  */
-export const logMeal = async (messId: string, data: any): Promise<any> => {
+export const logMeal = async (messId: string, data: { messMemberId: string; date: string; meals: IMealBreakdown }): Promise<any> => {
   try {
     return await serverFetch(`/messes/${messId}/meals`, {
       method: "POST",
@@ -44,7 +45,7 @@ export const logMeal = async (messId: string, data: any): Promise<any> => {
 /**
  * Bulk log meals for multiple members
  */
-export const bulkLogMeals = async (messId: string, data: { date: string; entries: { messMemberId: string; mealCount: number }[] }): Promise<any> => {
+export const bulkLogMeals = async (messId: string, data: { date: string; entries: { messMemberId: string; meals: IMealBreakdown }[] }): Promise<any> => {
   try {
     return await serverFetch(`/messes/${messId}/meals/bulk`, {
       method: "POST",

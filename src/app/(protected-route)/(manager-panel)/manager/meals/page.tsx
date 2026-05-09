@@ -1,13 +1,13 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { AlertCircle, Plus } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/meals/columns";
 import { getMessMeals } from "@/services/meal.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MealFilters } from "@/components/meals/meal-filters";
-import { Button } from "@/components/ui/button";
+import { LogMealModal } from "@/components/meals/log-meal-modal";
 
 export default async function ManagerMealsPage({
   searchParams,
@@ -42,9 +42,7 @@ export default async function ManagerMealsPage({
         />
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <MealFilters />
-          <Button size="sm" className="w-full sm:w-auto h-9 font-bold">
-            <Plus className="mr-2 h-4 w-4" /> Log Meal
-          </Button>
+          <LogMealModal messId={activeMessId} />
         </div>
       </div>
 

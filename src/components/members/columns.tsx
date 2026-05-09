@@ -12,6 +12,7 @@ import { updateMemberStatus, removeMember } from "@/services/mess.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 import { ViewMemberModal } from "./view-member-modal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ActionButtonsProps {
   member: IMember;
@@ -125,9 +126,12 @@ export const columns: ColumnDef<IMember>[] = [
     header: "Member",
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        <div className="rounded-full bg-primary/5 flex items-center justify-center text-primary text-xs font-medium h-8 w-8 shrink-0 border border-primary/10">
-          {row.original.user.fullName.charAt(0)}
-        </div>
+        <Avatar className="h-8 w-8 border border-primary/10">
+          <AvatarImage src={row.original.user.avatarUrl} alt={row.original.user.fullName} />
+          <AvatarFallback className="bg-primary/5 text-primary text-xs font-medium">
+            {row.original.user.fullName.charAt(0)}
+          </AvatarFallback>
+        </Avatar>
         <div className="flex flex-col min-w-0">
           <span className="font-medium text-sm text-foreground truncate">{row.original.user.fullName}</span>
           <span className="text-xs text-muted-foreground truncate">{row.original.user.email}</span>

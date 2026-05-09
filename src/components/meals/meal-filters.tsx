@@ -59,7 +59,7 @@ export function MealFilters() {
                 {format(currentDate, "MMMM yyyy")}
               </span>
               {format(currentDate, "MM-yyyy") === format(new Date(), "MM-yyyy") && (
-                <div className="h-1.5 w-1.5 bg-emerald-500 animate-pulse" />
+                <div className="h-1.5 w-1.5 bg-emerald-500 rounded-full animate-pulse" />
               )}
             </Button>
           </DropdownMenuTrigger>
@@ -79,7 +79,7 @@ export function MealFilters() {
                   >
                     {format(monthDate, "MMMM")}
                     {format(monthDate, "MM-yyyy") === format(new Date(), "MM-yyyy") && (
-                      <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-full font-bold border border-emerald-500/20">TODAY</span>
+                      <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-sm font-bold border border-emerald-500/20">TODAY</span>
                     )}
                   </DropdownMenuItem>
                 );
@@ -91,7 +91,6 @@ export function MealFilters() {
         <Button 
           variant="ghost" 
           size="icon-sm" 
-          className="hover:bg-background hover:shadow-sm transition-all"
           onClick={nextMonth}
         >
           <ChevronRight className="h-4 w-4" />

@@ -3,22 +3,29 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { IMeal } from "@/types/meal.type";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const columns: ColumnDef<IMeal>[] = [
   {
     accessorKey: "messMemberId.userId.fullName",
     header: "Member",
-    cell: ({ row }) => (
-      <div className="flex items-center gap-3">
-        <div className="rounded-full bg-primary/5 flex items-center justify-center text-primary text-xs font-medium h-8 w-8 shrink-0 border border-primary/10">
-          {row.original.messMemberId.userId.fullName.charAt(0)}
+    cell: ({ row }) => {
+      const user = row.original.messMemberId.userId;
+      return (
+        <div className="flex items-center gap-3">
+          <Avatar className="h-8 w-8 border border-primary/10">
+            <AvatarImage src={user.avatarUrl} alt={user.fullName} />
+            <AvatarFallback className="bg-primary/5 text-primary text-xs font-medium">
+              {user.fullName.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm font-medium text-foreground truncate">{user.fullName}</span>
+            <span className="text-xs text-muted-foreground truncate">{user.email}</span>
+          </div>
         </div>
-        <div className="flex flex-col min-w-0">
-          <span className="text-sm font-medium text-foreground truncate">{row.original.messMemberId.userId.fullName}</span>
-          <span className="text-xs text-muted-foreground truncate">{row.original.messMemberId.userId.email}</span>
-        </div>
-      </div>
-    ),
+      );
+    },
   },
   {
     accessorKey: "date",
