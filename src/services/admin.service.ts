@@ -215,3 +215,56 @@ export const getAllSubscriptions = async (params: Record<string, any> = {}): Pro
     };
   }
 };
+
+/**
+ * Create a new subscription plan (Super Admin)
+ */
+export const createSubscriptionPlan = async (data: any): Promise<any> => {
+  try {
+    return await serverFetch("/admin/subscription-plans", {
+      method: "POST",
+      body: data,
+      tags: ["subscription-plans"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to create subscription plan.",
+    };
+  }
+};
+
+/**
+ * Update a subscription plan (Super Admin)
+ */
+export const updateSubscriptionPlan = async (id: string, data: any): Promise<any> => {
+  try {
+    return await serverFetch(`/admin/subscription-plans/${id}`, {
+      method: "PATCH",
+      body: data,
+      tags: ["subscription-plans"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update subscription plan.",
+    };
+  }
+};
+
+/**
+ * Delete a subscription plan (Super Admin)
+ */
+export const deleteSubscriptionPlan = async (id: string): Promise<any> => {
+  try {
+    return await serverFetch(`/admin/subscription-plans/${id}`, {
+      method: "DELETE",
+      tags: ["subscription-plans"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to delete subscription plan.",
+    };
+  }
+};

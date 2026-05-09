@@ -5,6 +5,7 @@ export interface ISubscriptionPlan {
   price: number;
   currency: string;
   billingCycle: string;
+  durationDays?: number;
   maxMembers: number;
   features: Record<string, boolean>;
   isDefault: boolean;

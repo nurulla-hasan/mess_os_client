@@ -2,9 +2,53 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-import { Star } from "lucide-react";
-
+import { Star, Users, Trash2 } from "lucide-react";
+import { PlanModal } from "./plan-modal";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+import { deleteSubscriptionPlan } from "@/services/admin.service";
+import { SuccessToast, ErrorToast } from "@/lib/utils";
+import React from "react";
+import { Button } from "@/components/ui/button";
 import { ISubscriptionPlan } from "@/types/subscription.type";
+
+const PlanActions = ({ plan }: { plan: ISubscriptionPlan }) => {
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const response = await deleteSubscriptionPlan(plan._id);
+      if (response?.success) {
+        SuccessToast(response.message || "Plan deleted successfully!");
+      } else {
+        ErrorToast(response?.message || "Failed to delete plan.");
+      }
+    } catch {
+      ErrorToast("Something went wrong.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <PlanModal plan={plan} />
+      <ConfirmationModal
+        title="Delete Plan?"
+        description={`Are you sure you want to delete the "${plan.name}" plan? This action cannot be undone.`}
+        confirmText="Delete"
+        variant="destructive"
+        isLoading={isDeleting}
+        onConfirm={handleDelete}
+        trigger={
+          <Button variant="ghost" size="icon" className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 h-8 w-8">
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        }
+      />
+    </div>
+  );
+};
 
 export const columns: ColumnDef<ISubscriptionPlan>[] = [
   {
@@ -74,12 +118,15 @@ export const columns: ColumnDef<ISubscriptionPlan>[] = [
     cell: ({ row }) => {
       const isActive = row.original.isActive;
       return (
-        <Badge variant={isActive ? "success" : "destructive"}>
+        <Badge variant={isActive ? "success" : "destructive"} className="font-normal">
           {isActive ? "Active" : "Inactive"}
         </Badge>
       );
     },
   },
+  {
+    id: "actions",
+    header: () => <div className="text-end">Actions</div>,
+    cell: ({ row }) => <PlanActions plan={row.original} />,
+  },
 ];
-
-import { Users } from "lucide-react";

@@ -4,9 +4,10 @@ import { getSubscriptionPlans } from "@/services/admin.service";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/admin/subscriptions/columns";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { CreditCard, Plus, Info } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CreditCard, Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+import { PlanModal } from "@/components/admin/subscriptions/plan-modal";
 
 export default async function AdminSubscriptionsPage() {
   const response = await getSubscriptionPlans();
@@ -19,9 +20,7 @@ export default async function AdminSubscriptionsPage() {
           title="Subscription Plans"
           description="Manage and configure the platform's subscription tiers, pricing, and feature limitations."
         />
-        <Button>
-          <Plus /> Create New Plan
-        </Button>
+        <PlanModal />
       </div>
 
       <div className="space-y-6">

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { ISubscriptionHistory } from "@/types/subscription.type";
 import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface SubscriptionDetailsModalProps {
   history: ISubscriptionHistory;
@@ -58,7 +59,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
             </div>
           </div>
           <div className="p-4 rounded-xl bg-muted/30 border border-border/50 space-y-1">
-            <span className="text-xs text-muted-foreground">Renewal Plan</span>
+            <span className="text-xs text-muted-foreground">Current Plan</span>
             <div className="flex items-center gap-1.5 text-sm font-medium">
               <CreditCard className="h-3.5 w-3.5 text-primary" />
               <span>{plan.name} ({plan.price} {plan.currency})</span>
@@ -125,8 +126,11 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
                 ) : (
                   <XCircle className="h-3.5 w-3.5 text-rose-500 opacity-50" />
                 )}
-                <span className={enabled ? "text-foreground" : "text-muted-foreground"}>
-                  {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                <span className={cn(
+                  enabled ? "text-foreground" : "text-muted-foreground",
+                  key === 'aiShopping' && enabled && "font-bold text-primary"
+                )}>
+                  {key === 'aiShopping' ? 'AI Shopping' : key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                 </span>
               </div>
             ))}
