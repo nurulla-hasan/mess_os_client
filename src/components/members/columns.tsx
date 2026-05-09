@@ -108,6 +108,7 @@ function ActionButtons({ member }: ActionButtonsProps) {
         <ConfirmationModal
           open={isConfirmOpen}
           onOpenChange={setIsConfirmOpen}
+          trigger={null}
           title={
             actionType === "approve" ? "Approve Member" : 
             actionType === "reject" ? "Reject Request" : "Remove Member"
