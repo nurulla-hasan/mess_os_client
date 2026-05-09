@@ -35,7 +35,7 @@ export function MealFilters() {
   return (
     <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
       <SearchInput 
-        filterKey="memberId" 
+        filterKey="searchTerm" 
         placeholder="Filter by Member ID..." 
       />
       

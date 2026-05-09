@@ -125,12 +125,12 @@ export const columns: ColumnDef<IMember>[] = [
     header: "Member",
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        <div className="rounded-full bg-primary/10 flex items-center justify-center text-primary text-[10px] font-bold h-8 w-8">
+        <div className="rounded-full bg-primary/5 flex items-center justify-center text-primary text-xs font-medium h-8 w-8 shrink-0 border border-primary/10">
           {row.original.user.fullName.charAt(0)}
         </div>
-        <div className="flex flex-col">
-          <span className="font-bold text-sm">{row.original.user.fullName}</span>
-          <span className="text-[10px] text-muted-foreground">{row.original.user.email}</span>
+        <div className="flex flex-col min-w-0">
+          <span className="font-medium text-sm text-foreground truncate">{row.original.user.fullName}</span>
+          <span className="text-xs text-muted-foreground truncate">{row.original.user.email}</span>
         </div>
       </div>
     ),
@@ -139,7 +139,7 @@ export const columns: ColumnDef<IMember>[] = [
     accessorKey: "messRole",
     header: "Role",
     cell: ({ row }) => (
-      <Badge variant={row.original.messRole === "manager" ? "manager" : "member"}>
+      <Badge variant={row.original.messRole === "manager" ? "manager" : "member"} className="font-medium">
         {row.original.messRole}
       </Badge>
     ),
@@ -150,7 +150,7 @@ export const columns: ColumnDef<IMember>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge variant={status === "active" ? "active" : status === "pending" ? "pending" : "rejected"}>
+        <Badge variant={status === "active" ? "active" : status === "pending" ? "pending" : "rejected"} className="font-medium">
           {status}
         </Badge>
       );
@@ -159,7 +159,7 @@ export const columns: ColumnDef<IMember>[] = [
   {
     accessorKey: "user.phone",
     header: "Phone",
-    cell: ({ row }) => <span className="text-sm font-medium">{row.original.user.phone}</span>,
+    cell: ({ row }) => <span className="text-sm text-muted-foreground">{row.original.user.phone}</span>,
   },
   {
     accessorKey: "createdAt",
