@@ -2,6 +2,8 @@
 "use server";
 
 import { serverFetch } from "@/lib/fetcher";
+import { buildQueryString } from "@/lib/buildQueryString";
+import { QueryParams } from "@/types/global.type";
 
 export const createMess = async (data: any): Promise<any> => {
   try {
@@ -35,40 +37,55 @@ export const joinMess = async (data: any): Promise<any> => {
   }
 };
 
-import { buildQueryString } from "@/lib/buildQueryString";
-
 /**
  * Get members of a specific mess with optional status filtering
  */
-export const getMessMembers = async (messId: string, params: Record<string, any> = {}): Promise<any> => {
+export const getMessMembers = async (messId: string, params: QueryParams = {}): Promise<any> => {
   const qs = buildQueryString(params);
-  const url = `/messes/${messId}/members${qs}`;
-  return await serverFetch(url);
+  try {
+    return await serverFetch(`/messes/${messId}/members${qs}`, {
+      method: "GET",
+      tags: ["mess-members"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch mess members.",
+    };
+  }
 };
 
 /**
- * Approve a pending member request
+ * Update member status (approve/reject)
  */
-export const approveMember = async (messId: string, memberId: string): Promise<any> => {
-  return await serverFetch(`/messes/${messId}/members/${memberId}/approve`, {
-    method: "POST",
-  });
-};
-
-/**
- * Reject a pending member request
- */
-export const rejectMember = async (messId: string, memberId: string): Promise<any> => {
-  return await serverFetch(`/messes/${messId}/members/${memberId}/reject`, {
-    method: "POST",
-  });
+export const updateMemberStatus = async (messId: string, memberId: string, status: "active" | "rejected"): Promise<any> => {
+  try {
+    return await serverFetch(`/messes/${messId}/members/${memberId}/status`, {
+      method: "PATCH",
+      body: { status },
+      updateTag: ["mess-members"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update member status.",
+    };
+  }
 };
 
 /**
  * Remove a member from the mess
  */
 export const removeMember = async (messId: string, memberId: string): Promise<any> => {
-  return await serverFetch(`/messes/${messId}/members/${memberId}/remove`, {
-    method: "POST",
-  });
+  try {
+    return await serverFetch(`/messes/${messId}/members/${memberId}/remove`, {
+      method: "POST",
+      updateTag: ["mess-members"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to remove member.",
+    };
+  }
 };
