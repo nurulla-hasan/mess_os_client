@@ -12,7 +12,7 @@ export const columns: ColumnDef<IUser>[] = [
     header: "User",
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs shrink-0">
+        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs shrink-0">
           {row.original.fullName.charAt(0)}
         </div>
         <div className="flex flex-col overflow-hidden">

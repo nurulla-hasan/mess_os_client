@@ -73,7 +73,7 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
             }
           >
             <div className="py-4 space-y-2">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            <p className="text-xs text-muted-foreground">
                 Approval Note (Optional)
               </p>
               <Textarea
@@ -105,7 +105,7 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
             }
           >
             <div className="py-4 space-y-2">
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+            <p className="text-xs text-muted-foreground">
                 Rejection Note (Optional)
               </p>
               <Textarea
@@ -130,7 +130,7 @@ export const columns: ColumnDef<IManagerRequest>[] = [
       const user = row.original.userId as IUser;
       return (
         <div className="flex flex-col">
-          <span className="text-sm font-bold">{user.fullName}</span>
+          <span className="text-sm">{user.fullName}</span>
           <span className="text-xs text-muted-foreground">{user.email}</span>
         </div>
       );
@@ -141,7 +141,7 @@ export const columns: ColumnDef<IManagerRequest>[] = [
     header: "Phone",
     cell: ({ row }) => {
       const user = row.original.userId as IUser;
-      return <span className="text-sm font-medium">{user.phone}</span>;
+      return <span className="text-sm">{user.phone}</span>;
     },
   },
   {
@@ -169,7 +169,7 @@ export const columns: ColumnDef<IManagerRequest>[] = [
                 ? "rejected"
                 : "pending"
           }
-          className="uppercase text-[10px]"
+          className="font-normal"
         >
           {status}
         </Badge>

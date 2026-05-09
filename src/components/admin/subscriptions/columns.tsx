@@ -2,110 +2,84 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Eye, Settings2, History } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { format } from "date-fns";
+import { Star } from "lucide-react";
 
-export type AdminSubscription = {
-  id: string;
-  messName: string;
-  plan: "Starter" | "Standard" | "Premium";
-  status: "active" | "expired" | "canceled" | "trial";
-  nextRenewal: string;
-  totalRevenue: number;
-};
+import { ISubscriptionPlan } from "@/types/subscription.type";
 
-export const columns: ColumnDef<AdminSubscription>[] = [
+export const columns: ColumnDef<ISubscriptionPlan>[] = [
   {
-    accessorKey: "messName",
-    header: "Mess",
-    cell: ({ row }) => (
-      <span className="text-sm font-bold">{row.original.messName}</span>
-    ),
-  },
-  {
-    accessorKey: "plan",
-    header: "Current Plan",
-    cell: ({ row }) => (
-      <Badge variant={row.original.plan === "Premium" ? "manager" : row.original.plan === "Standard" ? "info" : "secondary"}>
-        {row.original.plan}
-      </Badge>
-    ),
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "name",
+    header: "Plan Name",
     cell: ({ row }) => {
-      const status = row.original.status;
+      const isDefault = row.original.isDefault;
       return (
-        <Badge variant={status === "active" ? "success" : status === "trial" ? "info" : "rejected"}>
-          {status}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "nextRenewal",
-    header: "Next Renewal",
-    cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {format(new Date(row.original.nextRenewal), "MMM dd, yyyy")}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "totalRevenue",
-    header: "Total Revenue",
-    cell: ({ row }) => (
-      <span className="text-sm font-black">৳{row.original.totalRevenue}</span>
-    ),
-  },
-  {
-    id: "actions",
-    header: () => <div className="text-end">Actions</div>,
-    cell: () => {
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Mess Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-primary">
-                  <History className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Billing History</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-amber-600">
-                  <Settings2 className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Adjust Subscription</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+        <div className="flex items-center gap-2">
+          <span className="text-sm">{row.original.name}</span>
+          {isDefault && (
+            <Badge variant="outline" className="text-xs h-4 px-1.5 bg-primary/10 text-primary border-primary/20 font-normal">
+              <Star className="h-2 w-2 mr-1 fill-primary" /> Default
+            </Badge>
+          )}
         </div>
       );
     },
   },
+  {
+    accessorKey: "code",
+    header: "Code",
+    cell: ({ row }) => <span className="text-xs bg-accent px-1.5 py-0.5 rounded">{row.original.code}</span>,
+  },
+  {
+    accessorKey: "price",
+    header: "Pricing",
+    cell: ({ row }) => {
+      const price = row.original.price;
+      const currency = row.original.currency;
+      return (
+        <div className="flex flex-col">
+          <span className="text-sm">{price === 0 ? "Free" : `${price} ${currency}`}</span>
+          <span className="text-xs text-muted-foreground">{row.original.billingCycle}</span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "maxMembers",
+    header: "Max Members",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-1.5">
+        <Users className="h-3 w-3 text-muted-foreground" />
+        <span className="text-sm">{row.original.maxMembers}</span>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "features",
+    header: "Features",
+    cell: ({ row }) => {
+      const features = row.original.features;
+      const activeCount = Object.values(features).filter(Boolean).length;
+      return (
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary" className="text-xs font-normal">
+            {activeCount} Enabled
+          </Badge>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "isActive",
+    header: "Status",
+    cell: ({ row }) => {
+      const isActive = row.original.isActive;
+      return (
+        <Badge variant={isActive ? "success" : "destructive"}>
+          {isActive ? "Active" : "Inactive"}
+        </Badge>
+      );
+    },
+  },
 ];
+
+import { Users } from "lucide-react";

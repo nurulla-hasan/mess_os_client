@@ -176,3 +176,42 @@ export const getPlatformAnalytics = async (): Promise<any> => {
     };
   }
 };
+
+/**
+ * Get all subscription plans (Super Admin)
+ */
+export const getSubscriptionPlans = async (): Promise<any> => {
+  try {
+    return await serverFetch("/admin/subscription-plans", {
+      method: "GET",
+      tags: ["subscription-plans"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch subscription plans.",
+    };
+  }
+};
+
+/**
+ * Get all platform subscriptions history (Super Admin)
+ */
+export const getAllSubscriptions = async (params: Record<string, any> = {}): Promise<any> => {
+  const queryParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) queryParams.append(key, value.toString());
+  });
+
+  try {
+    return await serverFetch(`/admin/subscriptions?${queryParams.toString()}`, {
+      method: "GET",
+      tags: ["all-subscriptions"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch platform subscriptions.",
+    };
+  }
+};

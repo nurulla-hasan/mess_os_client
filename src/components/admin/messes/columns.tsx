@@ -71,7 +71,7 @@ function ActionButtons({ mess }: { mess: IMess }) {
         }
       >
         <div className="pt-4 space-y-3">
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
+          <p className="text-xs text-muted-foreground">
             {mess.status === "active" ? "Suspension" : "Activation"} Note (Optional)
           </p>
           <Textarea 
@@ -97,11 +97,11 @@ export const columns: ColumnDef<IMess>[] = [
       <div className="flex flex-col">
         <div className="flex items-center gap-2">
           <span className="text-sm">{row.original.name}</span>
-          <Badge variant="outline" className="text-xs font-mono px-1.5 h-4 border-primary/20 text-primary">
+          <Badge variant="outline" className="text-[10px] px-1.5 h-4 border-primary/20 text-primary font-normal">
             {row.original.inviteCode}
           </Badge>
         </div>
-        <span className="text-xs text-muted-foreground uppercase font-medium tracking-tight truncate max-w-48">
+        <span className="text-xs text-muted-foreground truncate max-w-48">
           {row.original.address}
         </span>
       </div>
@@ -115,7 +115,7 @@ export const columns: ColumnDef<IMess>[] = [
       return (
         <div className="flex flex-col">
           <span className="text-sm">{manager?.fullName || "N/A"}</span>
-          <span className="text-xs text-muted-foreground font-medium tracking-tight">
+          <span className="text-xs text-muted-foreground">
             {manager?.email}
           </span>
         </div>
@@ -147,7 +147,7 @@ export const columns: ColumnDef<IMess>[] = [
     accessorKey: "createdAt",
     header: "Created",
     cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground font-medium">
+      <span className="text-sm text-muted-foreground">
         {format(new Date(row.original.createdAt), "MMM dd, yyyy")}
       </span>
     ),
