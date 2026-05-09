@@ -4,18 +4,14 @@ import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, X, UserMinus, Eye } from "lucide-react";
+import { Check, X, UserMinus } from "lucide-react";
 import { format } from "date-fns";
 import { IMember } from "@/types/member.type";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { updateMemberStatus, removeMember } from "@/services/mess.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
+import { ViewMemberModal } from "./view-member-modal";
 
 interface ActionButtonsProps {
   member: IMember;
@@ -61,16 +57,7 @@ function ActionButtons({ member }: ActionButtonsProps) {
 
   return (
     <div className="flex items-center justify-end gap-1">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Eye className="h-4 w-4" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>View Details</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <ViewMemberModal member={member} />
 
       {member.status === "pending" && (
         <>
@@ -103,6 +90,7 @@ function ActionButtons({ member }: ActionButtonsProps) {
           <UserMinus className="h-4 w-4" />
         </Button>
       )}
+
 
       {actionType && (
         <ConfirmationModal
