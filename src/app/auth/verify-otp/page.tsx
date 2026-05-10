@@ -153,7 +153,7 @@ function VerifyOtpForm() {
                 control={form.control}
                 name="otp"
                 render={({ field }) => (
-                  <InputOTP maxLength={6} {...field}>
+                  <InputOTP maxLength={6} containerClassName="justify-center" {...field}>
                     <InputOTPGroup>
                       <InputOTPSlot index={0} />
                       <InputOTPSlot index={1} />
@@ -168,7 +168,7 @@ function VerifyOtpForm() {
                   </InputOTP>
                 )}
               />
-              <FieldDescription>
+              <FieldDescription className="text-center">
                 Code expires in 10 minutes
               </FieldDescription>
               <FieldError errors={[form.formState.errors.otp]} />

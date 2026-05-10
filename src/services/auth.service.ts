@@ -73,10 +73,12 @@ export const login = async (data: FieldValues): Promise<any> => {
       isPublic: true,
       persistCookies: true,
     });
+    console.log(response)
 
     if (response && (response as any).success) {
       const cookieStore = await cookies();
-      const accessToken = (response as any).data?.accessToken;
+      const responseData = (response as any).data;
+      const accessToken = responseData?.accessToken;
 
       if (accessToken) {
         cookieStore.set("accessToken", accessToken, {
@@ -86,6 +88,24 @@ export const login = async (data: FieldValues): Promise<any> => {
           path: "/",
           maxAge: 60 * 60 * 24 * 7,
         });
+
+        // Get memberships from login response
+        
+        const memberships = responseData?.user?.memberships || [];
+        const approved = memberships.find((m: any) => m.status === "approved" || m.status === "active");
+        
+        if (approved) {
+          const mId = typeof approved.messId === "string" ? approved.messId : approved.messId?._id;
+          if (mId) {
+            cookieStore.set("activeMessId", mId, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              path: "/",
+              maxAge: 60 * 60 * 24 * 7,
+            });
+          }
+        }
       }
     }
 
@@ -107,29 +127,6 @@ export const getMe = async (): Promise<any> => {
     const response: any = await serverFetch("/users/me", {
       tags: ["user-profile"],
     });
-
-    // If getMe is successful and no activeMessId is set, set it from the first approved membership
-    if (response && response.success && response.data) {
-      try {
-        const userData = response.data;
-        const cookieStore = await cookies();
-        const currentMessId = cookieStore.get("activeMessId")?.value;
-
-        if (!currentMessId) {
-          const memberships = userData.memberships || [];
-          const approved = memberships.find((m: any) => m.status === "approved" || m.status === "active");
-          
-          if (approved) {
-            const mId = typeof approved.messId === "string" ? approved.messId : approved.messId?._id;
-            if (mId) {
-              await setActiveMessId(mId);
-            }
-          }
-        }
-      } catch (cookieError) {
-        console.error("Error setting activeMessId cookie:", cookieError);
-      }
-    }
 
     return response;
   } catch (error: any) {

@@ -72,7 +72,7 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
 
           <div className="absolute top-4 right-4 flex gap-2 z-10">
             <Button 
-              variant="ghost" 
+              variant="destructive" 
               size="icon" 
               onClick={onLogout}
               className="rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
