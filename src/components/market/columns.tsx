@@ -11,18 +11,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { format } from "date-fns";
+import { IMarketSchedule } from "@/types/market-schedule.type";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export type MarketSchedule = {
-  id: string;
-  targetDate: string;
-  assignedMembers: { name: string }[];
-  itemCount: number;
-  estimatedBudget: number;
-  actualSpent?: number;
-  status: "pending" | "completed" | "voided";
-};
-
-export const columns: ColumnDef<MarketSchedule>[] = [
+export const columns: ColumnDef<IMarketSchedule>[] = [
   {
     accessorKey: "targetDate",
     header: "Target Date",
@@ -33,16 +25,33 @@ export const columns: ColumnDef<MarketSchedule>[] = [
     ),
   },
   {
-    accessorKey: "assignedMembers",
+    accessorKey: "assignedTo",
     header: "Assignees",
     cell: ({ row }) => (
-      <div className="flex -space-x-2">
-        {row.original.assignedMembers.map((m, i) => (
-          <div key={i} className="h-7 w-7 rounded-full border-2 border-background bg-accent flex items-center justify-center text-xs font-bold">
-            {m.name.charAt(0)}
-          </div>
-        ))}
+      <div className="flex items-center gap-2">
+        <div className="flex -space-x-2">
+          {row.original.assignedTo.map((member) => (
+            <Avatar key={member._id} className="h-7 w-7 border-2 border-background ring-offset-background">
+              <AvatarImage src={member.user.avatarUrl} alt={member.user.fullName} />
+              <AvatarFallback className="text-[10px] bg-primary/10 text-primary">
+                {member.user.fullName.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          ))}
+        </div>
+        <span className="text-xs font-medium text-muted-foreground truncate max-w-37.5">
+          {row.original.assignedTo.map(m => m.user.fullName).join(", ")}
+        </span>
       </div>
+    ),
+  },
+  {
+    accessorKey: "shoppingItems",
+    header: "Items",
+    cell: ({ row }) => (
+      <Badge variant="outline" className="font-mono text-[10px]">
+        {row.original.shoppingItems.length} Items
+      </Badge>
     ),
   },
   {
@@ -51,8 +60,8 @@ export const columns: ColumnDef<MarketSchedule>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="text-sm font-bold">৳{row.original.estimatedBudget}</span>
-        {row.original.actualSpent && (
-          <span className="text-xs text-muted-foreground uppercase">Spent: ৳{row.original.actualSpent}</span>
+        {row.original.actualCost !== undefined && (
+          <span className="text-xs text-muted-foreground uppercase">Spent: ৳{row.original.actualCost}</span>
         )}
       </div>
     ),
@@ -63,7 +72,7 @@ export const columns: ColumnDef<MarketSchedule>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge variant={status === "completed" ? "success" : status === "voided" ? "rejected" : "pending"}>
+        <Badge variant={status === "completed" ? "success" : status === "void" ? "rejected" : "pending"}>
           {status}
         </Badge>
       );

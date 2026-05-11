@@ -1,75 +1,90 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/market/columns";
-import { mockSchedules } from "@/components/market/mockData";
-import { 
-  ShoppingCart, 
-  Clock, 
-  CheckCircle2, 
-  Plus,
-  UserCheck
-} from "lucide-react";
+import {
+  getMarketSchedules,
+  getMyMarketDuties,
+} from "@/services/market-schedule.service";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
+import { AlertCircle, Plus } from "lucide-react";
+import { SearchParams, QueryParams } from "@/types/global.type";
+import { MarketScheduleFilters } from "@/components/market/market-schedule-filters";
 import { Button } from "@/components/ui/button";
 
-export default function ManagerMarketSchedulesPage() {
-  const pendingSchedules = mockSchedules.filter(s => s.status === "pending");
-  const completedSchedules = mockSchedules.filter(s => s.status === "completed");
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ShoppingCart, UserCheck } from "lucide-react";
+import Link from "next/link";
+
+export default async function ManagerMarketSchedulesPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const activeMessId = await getActiveMessIdFromCookies();
+
+  if (!activeMessId) {
+    return (
+      <DashboardPageLayout>
+        <div className="flex flex-col items-center justify-center min-h-100 space-y-4 text-center">
+          <AlertCircle className="h-10 w-10 text-muted-foreground opacity-20" />
+          <h2 className="text-lg font-bold">No Active Mess</h2>
+          <p className="text-sm text-muted-foreground">
+            Select a mess to manage market schedules.
+          </p>
+        </div>
+      </DashboardPageLayout>
+    );
+  }
+
+  const params = (await searchParams) as QueryParams;
+  const view =
+    (typeof params.view === "string" ? params.view : params.view?.[0]) || "all";
+
+  // Filter out UI-only params before sending to API
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { view: _view, ...apiParams } = params;
+
+  const { data, meta } =
+    view === "my"
+      ? await getMyMarketDuties(activeMessId, apiParams)
+      : await getMarketSchedules(activeMessId, apiParams);
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <DashboardPageHeader
           title="Market Schedules"
           description="Plan and assign bazaar/shopping duties to mess members."
         />
-        <Button size="sm">
-          <Plus className="mr-2 h-4 w-4" /> Create Schedule
-        </Button>
+        <div className="flex items-center gap-3">
+          <MarketScheduleFilters />
+          <Button size="sm">
+            <Plus /> Create Schedule
+          </Button>
+        </div>
       </div>
 
-      <div>
-        <Tabs defaultValue="pending" className="w-full">
-          <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="pending" className="flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              <span>Pending</span>
+      <Tabs value={view}>
+        <TabsList
+          variant="line"
+        >
+          <Link href="?view=all">
+            <TabsTrigger value="all">
+              <ShoppingCart />
+              All History
             </TabsTrigger>
-            <TabsTrigger value="completed" className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4" />
-              <span>Completed</span>
+          </Link>
+          <Link href="?view=my">
+            <TabsTrigger value="my">
+              <UserCheck />
+              My Duties
             </TabsTrigger>
-            <TabsTrigger value="my-duties" className="flex items-center gap-2">
-              <UserCheck className="h-4 w-4" />
-              <span>My Duties</span>
-            </TabsTrigger>
-            <TabsTrigger value="all" className="flex items-center gap-2">
-              <ShoppingCart className="h-4 w-4" />
-              <span>All History</span>
-            </TabsTrigger>
-          </TabsList>
+          </Link>
+        </TabsList>
+      </Tabs>
 
-          <TabsContent value="pending">
-            <DataTable columns={columns} data={pendingSchedules} />
-          </TabsContent>
-          
-          <TabsContent value="completed">
-            <DataTable columns={columns} data={completedSchedules} />
-          </TabsContent>
-
-          <TabsContent value="my-duties">
-            <DataTable columns={columns} data={mockSchedules.filter(s => s.assignedMembers.some(m => m.name === "Golap Hasan"))} />
-          </TabsContent>
-
-          <TabsContent value="all">
-            <DataTable columns={columns} data={mockSchedules} searchKey="status" />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <DataTable columns={columns} data={data || []} meta={meta} />
     </DashboardPageLayout>
   );
 }
-
