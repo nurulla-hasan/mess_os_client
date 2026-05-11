@@ -16,7 +16,6 @@ export interface IMember {
     phone: string;
     avatarUrl?: string;
   };
-  // Optional for financial columns if they exist in other responses
   dueAmount?: number;
   advanceAmount?: number;
 }

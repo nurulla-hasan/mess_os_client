@@ -1,113 +1,199 @@
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, X, Eye } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { format } from "date-fns";
+import { Check, X, Calendar as CalendarIcon, Ban } from "lucide-react";
+import { format, differenceInDays } from "date-fns";
+import { IMealOffRequest, MealOffRequestStatus } from "@/types/meal-off-request.type";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+import { updateMealOffRequestStatus } from "@/services/meal-off-request.service";
+import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ViewOffRequestModal } from "./view-off-request-modal";
 
-export type MealOffRequest = {
-  id: string;
-  member: {
-    name: string;
-    email: string;
+interface ActionButtonsProps {
+  request: IMealOffRequest;
+}
+
+function ActionButtons({ request }: ActionButtonsProps) {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const [actionType, setActionType] = React.useState<MealOffRequestStatus | null>(null);
+
+  const handleAction = async () => {
+    if (!actionType) return;
+    setIsLoading(true);
+    try {
+      const res = await updateMealOffRequestStatus(request.messId, request.id, {
+        status: actionType,
+      });
+
+      if (res?.success) {
+        SuccessToast(res.message || "Request updated successfully.");
+        setIsConfirmOpen(false);
+      } else {
+        ErrorToast(res?.message || "Failed to update request.");
+      }
+    } catch {
+      ErrorToast("Something went wrong.");
+    } finally {
+      setIsLoading(false);
+    }
   };
-  startDate: string;
-  endDate: string;
-  reason: string;
-  status: "pending" | "approved" | "rejected";
-  submittedAt: string;
-};
 
-export const columns: ColumnDef<MealOffRequest>[] = [
+  const openModal = (type: MealOffRequestStatus) => {
+    setActionType(type);
+    setIsConfirmOpen(true);
+  };
+
+  const getModalInfo = () => {
+    switch (actionType) {
+      case "approved":
+        return { title: "Approve Request", confirm: "Approve", variant: "default" as const };
+      case "rejected":
+        return { title: "Reject Request", confirm: "Reject", variant: "destructive" as const };
+      case "canceled":
+        return { title: "Cancel Request", confirm: "Cancel Request", variant: "destructive" as const };
+      default:
+        return { title: "Update Status", confirm: "Confirm", variant: "default" as const };
+    }
+  };
+
+  const { title, confirm, variant } = getModalInfo();
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <ViewOffRequestModal request={request} />
+
+      {request.status === "pending" && (
+        <>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+            onClick={() => openModal("approved")}
+          >
+            <Check className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+            onClick={() => openModal("rejected")}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </>
+      )}
+
+      {request.status === "approved" && (
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+          onClick={() => openModal("canceled")}
+          title="Cancel Approved Request"
+        >
+          <Ban className="h-4 w-4" />
+        </Button>
+      )}
+
+      {actionType && (
+        <ConfirmationModal
+          open={isConfirmOpen}
+          onOpenChange={setIsConfirmOpen}
+          trigger={null}
+          title={title}
+          description={`Are you sure you want to ${actionType} the meal off request for ${request.messMemberId.user.fullName}?`}
+          confirmText={confirm}
+          variant={variant}
+          isLoading={isLoading}
+          onConfirm={handleAction}
+        />
+      )}
+    </div>
+  );
+}
+
+export const columns: ColumnDef<IMealOffRequest>[] = [
   {
-    accessorKey: "member",
+    accessorKey: "messMemberId.user.fullName",
     header: "Member",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="font-bold text-foreground">{row.original.member.name}</span>
-        <span className="text-xs text-muted-foreground">{row.original.member.email}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const user = row.original.messMemberId.user;
+      
+      if (!user) return <span className="text-xs text-muted-foreground">Unknown Member</span>;
+
+      return (
+        <div className="flex items-center gap-3">
+          <Avatar className="border border-primary/10">
+            <AvatarImage src={user.avatarUrl} alt={user.fullName} />
+            <AvatarFallback className="bg-primary/5 text-primary text-xs font-medium">
+              {user.fullName?.charAt(0) || "U"}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm font-medium text-foreground truncate">{user.fullName}</span>
+            <span className="text-xs text-muted-foreground truncate">{user.email}</span>
+          </div>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "dates",
-    header: "Date Range",
+    header: "Duration",
+    cell: ({ row }) => {
+      const start = new Date(row.original.startDate);
+      const end = new Date(row.original.endDate);
+      const days = differenceInDays(end, start) + 1;
+      
+      return (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-1.5 text-sm font-medium">
+            <CalendarIcon className="h-3 w-3 text-muted-foreground" />
+            <span>{format(start, "MMM dd")} - {format(end, "MMM dd")}</span>
+          </div>
+          <span className="text-xs text-muted-foreground">
+            {days} {days === 1 ? "Day" : "Days"} off
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "reason",
+    header: "Reason",
     cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="text-sm font-medium">
-          {format(new Date(row.original.startDate), "MMM dd")} - {format(new Date(row.original.endDate), "MMM dd")}
-        </span>
-        <span className="text-xs text-muted-foreground uppercase">
-          {Math.ceil((new Date(row.original.endDate).getTime() - new Date(row.original.startDate).getTime()) / (1000 * 60 * 60 * 24)) + 1} Days
-        </span>
-      </div>
+      <span className="text-xs text-muted-foreground line-clamp-1 max-w-50">
+        {row.original.reason || "No reason provided"}
+      </span>
     ),
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.original.status;
+      const { status, reviewedBy } = row.original;
       return (
-        <Badge variant={status === "approved" ? "success" : status === "rejected" ? "rejected" : "pending"}>
-          {status}
-        </Badge>
+        <div className="flex flex-col">
+          <Badge variant={status === "approved" ? "active" : status === "rejected" ? "rejected" : "pending"} className="w-fit">
+            {status}
+          </Badge>
+          {reviewedBy && reviewedBy.fullName && (
+            <span className="text-[10px] text-muted-foreground mt-1 font-medium">
+              Reviewed by {reviewedBy.fullName.split(" ")[0]}
+            </span>
+          )}
+        </div>
       );
     },
   },
   {
     id: "actions",
     header: () => <div className="text-end">Actions</div>,
-    cell: ({ row }) => {
-      const request = row.original;
-
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {request.status === "pending" && (
-            <>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-emerald-600">
-                      <Check className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Approve Request</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-rose-600">
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Reject Request</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <ActionButtons request={row.original} />,
   },
 ];
