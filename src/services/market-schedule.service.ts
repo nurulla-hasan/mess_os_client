@@ -58,3 +58,21 @@ export const getMyMarketDuties = async (messId: string, params: QueryParams = {}
     };
   }
 };
+
+/**
+ * Update an existing market schedule
+ */
+export const updateMarketSchedule = async (messId: string, scheduleId: string, data: any): Promise<any> => {
+  try {
+    return await serverFetch(`/messes/${messId}/market-schedules/${scheduleId}`, {
+      method: "PATCH",
+      body: data,
+      updateTag: ["market-schedules"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update market schedule.",
+    };
+  }
+};

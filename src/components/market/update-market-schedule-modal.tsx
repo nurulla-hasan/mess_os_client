@@ -4,29 +4,38 @@ import React from "react";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
 import { 
-  Plus, 
   Trash2, 
   Save, 
-  Calendar as CalendarIcon, 
   ShoppingCart, 
-  UserPlus,
-  PackagePlus
+  PackagePlus,
+  Edit2,
+  UserPlus
 } from "lucide-react";
-import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
-import { 
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-import { createMarketSchedule } from "@/services/market-schedule.service";
-import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { cn, SuccessToast, ErrorToast } from "@/lib/utils";
+import { updateMarketSchedule } from "@/services/market-schedule.service";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { IMarketSchedule, IShoppingItem } from "@/types/market-schedule.type";
 import { IMember } from "@/types/member.type";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+
+// ============================================
+// Types
+// ============================================
+
+interface LocalShoppingItem {
+  id: string;
+  name: string;
+  quantity: string;
+}
+
+import { useActiveMembers } from "@/store/use-member-store";
+
+interface UpdateMarketScheduleModalProps {
+  messId: string;
+  schedule: IMarketSchedule;
+}
 
 // ============================================
 // Sub-components (Memoized)
@@ -38,7 +47,7 @@ const ShoppingItemRow = React.memo(({
   onRemove, 
   canRemove 
 }: { 
-  item: ShoppingItem; 
+  item: LocalShoppingItem; 
   onUpdate: (id: string, field: "name" | "quantity", value: string) => void;
   onRemove: (id: string) => void;
   canRemove: boolean;
@@ -89,12 +98,12 @@ const MemberRow = React.memo(({
   return (
     <div className="flex items-center space-x-3 p-1 hover:bg-background/50 rounded transition-colors group">
       <Checkbox 
-        id={member._id} 
+        id={`edit-${member._id}`} 
         checked={isSelected}
         onCheckedChange={() => onToggle(member._id)}
       />
       <label 
-        htmlFor={member._id} 
+        htmlFor={`edit-${member._id}`} 
         className="text-sm cursor-pointer flex-1 py-1 group-hover:text-primary transition-colors"
       >
         {member.user.fullName}
@@ -105,43 +114,32 @@ const MemberRow = React.memo(({
 
 MemberRow.displayName = "MemberRow";
 
-import { useActiveMembers } from "@/store/use-member-store";
-
-// ============================================
-// Sub-components (Memoized)
-// ============================================
-
-// ... (Sub-components stay same)
-
-// ============================================
-// Types
-// ============================================
-
-interface CreateMarketScheduleModalProps {
-  messId: string;
-}
-
-interface ShoppingItem {
-  id: string;
-  name: string;
-  quantity: string;
-}
-
 // ============================================
 // Main Component
 // ============================================
 
-export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalProps) {
+export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketScheduleModalProps) {
   const members = useActiveMembers();
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [date, setDate] = React.useState<Date>(new Date());
   
-  const [assignedTo, setAssignedTo] = React.useState<string[]>([]);
-  const [estimatedBudget, setEstimatedBudget] = React.useState<string>("");
-  const [shoppingItems, setShoppingItems] = React.useState<ShoppingItem[]>([
-    { id: Math.random().toString(), name: "", quantity: "" }
-  ]);
+  const [assignedTo, setAssignedTo] = React.useState<string[]>(
+    schedule.assignedTo.map(m => m._id)
+  );
+  const [estimatedBudget, setEstimatedBudget] = React.useState<string>(
+    schedule.estimatedBudget?.toString() || ""
+  );
+  
+  const [shoppingItems, setShoppingItems] = React.useState<LocalShoppingItem[]>(() => {
+    if (schedule.shoppingItems && schedule.shoppingItems.length > 0) {
+      return schedule.shoppingItems.map((item: IShoppingItem) => ({
+        id: item._id,
+        name: item.name,
+        quantity: item.quantity
+      }));
+    }
+    return [{ id: Math.random().toString(), name: "", quantity: "" }];
+  });
 
   const addShoppingItem = React.useCallback(() => {
     setShoppingItems(prev => [...prev, { id: Math.random().toString(), name: "", quantity: "" }]);
@@ -181,21 +179,16 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
     try {
       const payload = {
         assignedTo,
-        targetDate: date.toISOString(),
         estimatedBudget: parseFloat(estimatedBudget) || 0,
         shoppingItems: validItems.map(({ name, quantity }) => ({ name, quantity }))
       };
 
-      const res = await createMarketSchedule(messId, payload);
+      const res = await updateMarketSchedule(messId, schedule._id, payload);
       if (res?.success) {
-        SuccessToast(res.message || "Market schedule created.");
+        SuccessToast(res.message || "Market schedule updated.");
         setOpen(false);
-        // Reset state
-        setAssignedTo([]);
-        setEstimatedBudget("");
-        setShoppingItems([{ id: Math.random().toString(), name: "", quantity: "" }]);
       } else {
-        ErrorToast(res?.message || "Failed to create schedule.");
+        ErrorToast(res?.message || "Failed to update schedule.");
       }
     } catch {
       ErrorToast("Something went wrong.");
@@ -208,45 +201,18 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
     <ModalWrapper
       open={open}
       onOpenChange={setOpen}
-      title="Create Market Schedule"
-      description="Plan bazaar duties and shopping lists for members."
+      title="Update Market Schedule"
+      description={`Editing schedule for ${new Date(schedule.targetDate).toLocaleDateString()}`}
       actionTrigger={
-        <Button>
-          <Plus /> Create Schedule
+        <Button variant="ghost" size="icon" className="text-amber-600">
+          <Edit2 className="h-4 w-4" />
         </Button>
       }
     >
       <div className="p-6 flex flex-col gap-6 max-h-[85vh] overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto pr-1 scrollbar-thin">
-          {/* Left Side: Assignees & Date */}
+          {/* Left Side: Assignees & Budget */}
           <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-bold flex items-center gap-2">
-                <CalendarIcon className="h-4 w-4 text-primary" /> Target Date
-              </label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal h-10",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    {date ? format(date, "PPP") : <span>Pick a date</span>}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={(d) => d && setDate(d)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-
             <div className="space-y-2">
               <label className="text-sm font-bold flex items-center justify-between">
                 <span className="flex items-center gap-2">
@@ -276,7 +242,7 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
               </label>
               <Input 
                 type="number" 
-                placeholder="e.g. 1500" 
+                placeholder="e.g. 2500" 
                 value={estimatedBudget}
                 onChange={(e) => setEstimatedBudget(e.target.value)}
                 className="h-10"
@@ -330,7 +296,7 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
             loading={isLoading}
             loadingText="Saving..."
           >
-            <Save className="mr-2 h-4 w-4" /> Save Schedule
+            <Save className="mr-2 h-4 w-4" /> Save Changes
           </Button>
         </div>
       </div>

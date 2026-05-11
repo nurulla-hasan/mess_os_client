@@ -11,9 +11,11 @@ import { AlertCircle } from "lucide-react";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MarketScheduleFilters } from "@/components/market/market-schedule-filters";
 import { CreateMarketScheduleModal } from "@/components/market/create-market-schedule-modal";
+import { MemberStoreInitializer } from "@/components/store-initializer/member-store-initializer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShoppingCart, UserCheck } from "lucide-react";
 import Link from "next/link";
+import { getMessMembers } from "@/services/mess.service";
 
 export default async function ManagerMarketSchedulesPage({
   searchParams,
@@ -44,13 +46,20 @@ export default async function ManagerMarketSchedulesPage({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { view: _view, ...apiParams } = params;
 
-  const { data, meta } =
+  // Fetch both schedules and members in parallel for performance
+  const [schedulesRes, membersRes] = await Promise.all([
     view === "my"
-      ? await getMyMarketDuties(activeMessId, apiParams)
-      : await getMarketSchedules(activeMessId, apiParams);
+      ? getMyMarketDuties(activeMessId, apiParams)
+      : getMarketSchedules(activeMessId, apiParams),
+    getMessMembers(activeMessId, { status: "active", limit: "500" }),
+  ]);
+
+  const { data, meta } = schedulesRes;
+  const members = membersRes?.success ? membersRes.data : [];
 
   return (
     <DashboardPageLayout>
+      <MemberStoreInitializer members={members} />
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <DashboardPageHeader
           title="Market Schedules"
@@ -81,7 +90,11 @@ export default async function ManagerMarketSchedulesPage({
         </TabsList>
       </Tabs>
 
-      <DataTable columns={columns} data={data || []} meta={meta} />
+      <DataTable 
+        columns={columns} 
+        data={data || []} 
+        meta={meta} 
+      />
     </DashboardPageLayout>
   );
 }

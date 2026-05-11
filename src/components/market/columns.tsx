@@ -13,6 +13,7 @@ import {
 import { format } from "date-fns";
 import { IMarketSchedule } from "@/types/market-schedule.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UpdateMarketScheduleModal } from "./update-market-schedule-modal";
 
 export const columns: ColumnDef<IMarketSchedule>[] = [
   {
@@ -31,8 +32,14 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
       <div className="flex items-center gap-2">
         <div className="flex -space-x-2">
           {row.original.assignedTo.map((member) => (
-            <Avatar key={member._id} className="h-7 w-7 border-2 border-background ring-offset-background">
-              <AvatarImage src={member.user.avatarUrl} alt={member.user.fullName} />
+            <Avatar
+              key={member._id}
+              className="h-7 w-7 border-2 border-background ring-offset-background"
+            >
+              <AvatarImage
+                src={member.user.avatarUrl}
+                alt={member.user.fullName}
+              />
               <AvatarFallback className="text-[10px] bg-primary/10 text-primary">
                 {member.user.fullName.charAt(0)}
               </AvatarFallback>
@@ -40,7 +47,7 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
           ))}
         </div>
         <span className="text-xs font-medium text-muted-foreground truncate max-w-37.5">
-          {row.original.assignedTo.map(m => m.user.fullName).join(", ")}
+          {row.original.assignedTo.map((m) => m.user.fullName).join(", ")}
         </span>
       </div>
     ),
@@ -59,9 +66,13 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
     header: "Budget",
     cell: ({ row }) => (
       <div className="flex flex-col">
-        <span className="text-sm font-bold">৳{row.original.estimatedBudget}</span>
+        <span className="text-sm font-bold">
+          ৳{row.original.estimatedBudget}
+        </span>
         {row.original.actualCost !== undefined && (
-          <span className="text-xs text-muted-foreground uppercase">Spent: ৳{row.original.actualCost}</span>
+          <span className="text-xs text-muted-foreground uppercase">
+            Spent: ৳{row.original.actualCost}
+          </span>
         )}
       </div>
     ),
@@ -72,7 +83,15 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge variant={status === "completed" ? "success" : status === "void" ? "rejected" : "pending"}>
+        <Badge
+          variant={
+            status === "completed"
+              ? "success"
+              : status === "void"
+                ? "rejected"
+                : "pending"
+          }
+        >
           {status}
         </Badge>
       );
@@ -99,10 +118,18 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
 
           {schedule.status === "pending" && (
             <>
+              <UpdateMarketScheduleModal
+                messId={schedule.messId}
+                schedule={schedule}
+              />
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-blue-600">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-blue-600"
+                    >
                       <UserPlus className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
@@ -113,7 +140,11 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-emerald-600">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-emerald-600"
+                    >
                       <Check className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
@@ -124,7 +155,11 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-rose-600">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-rose-600"
+                    >
                       <Ban className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
