@@ -35,7 +35,7 @@ export function RoleUpdateModal({ user }: RoleUpdateModalProps) {
     setIsLoading(true);
     try {
       const response = await updateUserRole(
-        (user.id || user._id) as string,
+        user._id as string,
         role,
       );
       if (response?.success) {

@@ -4,7 +4,6 @@ export type MessStatus = "active" | "suspended" | "closed";
 
 export interface IMess {
   _id: string;
-  id: string;
   name: string;
   address: string;
   inviteCode: string;

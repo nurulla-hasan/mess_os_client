@@ -4,7 +4,6 @@ export type MealOffRequestStatus = "pending" | "approved" | "rejected" | "cancel
 
 export interface IMealOffRequest {
   _id: string;
-  id: string;
   messId: string;
   messMemberId: IMember;
   startDate: string;

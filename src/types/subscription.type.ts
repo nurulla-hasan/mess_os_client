@@ -18,7 +18,6 @@ export interface ISubscriptionPlan {
 export interface ISubscriptionHistory {
   subscription: {
     _id: string;
-    id: string;
     messId: string;
     planId: string;
     status: "active" | "past_due" | "canceled" | "unpaid";
@@ -30,7 +29,6 @@ export interface ISubscriptionHistory {
   };
   mess: {
     _id: string;
-    id: string;
     name: string;
     address: string;
     inviteCode: string;

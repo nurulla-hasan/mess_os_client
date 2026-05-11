@@ -238,7 +238,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
                     </SelectTrigger>
                     <SelectContent>
                       {members.map((m) => (
-                        <SelectItem key={m.id} value={m.id}>
+                        <SelectItem key={m._id} value={m._id}>
                           {m.user.fullName}
                         </SelectItem>
                       ))}

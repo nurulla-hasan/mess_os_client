@@ -26,7 +26,7 @@ function ActionButtons({ request }: ActionButtonsProps) {
     if (!actionType) return;
     setIsLoading(true);
     try {
-      const res = await updateMealOffRequestStatus(request.messId, request.id, {
+      const res = await updateMealOffRequestStatus(request.messId, request._id, {
         status: actionType,
       });
 

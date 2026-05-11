@@ -19,7 +19,7 @@ function ActionButtons({ mess }: { mess: IMess }) {
   const [note, setNote] = React.useState("");
 
   const handleToggleStatus = async () => {
-    const messId = mess._id || mess.id;
+    const messId = mess._id;
     if (!messId) {
       ErrorToast("Mess ID is missing. Please refresh.");
       return;

@@ -28,7 +28,7 @@ export function ActionButtons({ user }: { user: IUser }) {
     const newStatus = user.status === "active" ? "blocked" : "active";
     
     try {
-      const response = await updateUserStatus((user.id || user._id) as string, newStatus);
+      const response = await updateUserStatus(user._id as string, newStatus);
       if (response?.success) {
         SuccessToast(response.message || `User ${newStatus} successfully!`);
         setIsStatusModalOpen(false);

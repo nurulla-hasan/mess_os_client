@@ -31,11 +31,11 @@ function ActionButtons({ member }: ActionButtonsProps) {
     try {
       let res;
       if (actionType === "approve") {
-        res = await updateMemberStatus(activeMessId, member.id, "active");
+        res = await updateMemberStatus(activeMessId, member._id, "active");
       } else if (actionType === "reject") {
-        res = await updateMemberStatus(activeMessId, member.id, "rejected");
+        res = await updateMemberStatus(activeMessId, member._id, "rejected");
       } else if (actionType === "remove") {
-        res = await removeMember(activeMessId, member.id);
+        res = await removeMember(activeMessId, member._id);
       }
 
       if (res?.success) {
