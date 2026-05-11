@@ -3,6 +3,7 @@ export interface IMealBreakdown {
   Lunch: number;
   Dinner: number;
   Guest: number;
+  [key: string]: number;
 }
 
 export interface IMeal {

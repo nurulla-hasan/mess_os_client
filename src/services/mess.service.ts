@@ -89,3 +89,20 @@ export const removeMember = async (messId: string, memberId: string): Promise<an
     };
   }
 };
+
+/**
+ * Get details of a specific mess
+ */
+export const getMessDetails = async (messId: string): Promise<any> => {
+  try {
+    return await serverFetch(`/messes/${messId}`, {
+      method: "GET",
+      tags: ["mess-details"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to fetch mess details.",
+    };
+  }
+};
