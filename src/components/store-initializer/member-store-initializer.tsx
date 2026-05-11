@@ -1,21 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { IMember } from "@/types/member.type";
 import { useMemberStore } from "@/store/use-member-store";
+import { IMember } from "@/types/member.type";
 
-export function MemberStoreInitializer({ members }: { members: IMember[] }) {
-  const isInitialized = useRef(false);
+interface MemberStoreInitializerProps {
+  members: IMember[];
+}
 
-  // Sync server data to global store on first render
-  if (!isInitialized.current) {
-    useMemberStore.getState().setMembers(members);
-    isInitialized.current = true;
-  }
+export function MemberStoreInitializer({ members }: MemberStoreInitializerProps) {
+  const initialized = useRef(false);
 
-  // Also update if members change (e.g. on soft refresh/navigation)
+  // Use useEffect to update the store safely after the initial render
   useEffect(() => {
-    useMemberStore.getState().setMembers(members);
+    if (!initialized.current) {
+      useMemberStore.getState().setMembers(members);
+      initialized.current = true;
+    }
   }, [members]);
 
   return null;

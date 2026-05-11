@@ -16,12 +16,15 @@ import Link from "next/link";
 import { ThemeToggle } from "../components/ui/custom/theme-toggle";
 import { logout, getMe } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
-import { IUser } from "@/types/user.type";
+import { useAuthStore } from "@/store/use-auth-store";
+import Cookies from "js-cookie";
+import { IMembership, IUser } from "@/types/user.type";
 
 const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
   const router = useRouter();
   const [user, setUser] = React.useState<IUser | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const { setAuth } = useAuthStore();
 
   React.useEffect(() => {
     const fetchProfile = async () => {
@@ -29,7 +32,17 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
       try {
         const response = await getMe();
         if (response?.success) {
-          setUser(response.data);
+          const userData = response.data;
+          setUser(userData);
+          
+          // Get active mess ID from cookies to find myMembership
+          const activeMessId = Cookies.get("active-mess-id");
+          const myMembership = userData?.memberships?.find(
+            (m: IMembership) => (typeof m.messId === 'string' ? m.messId : m.messId?._id) === activeMessId
+          ) || null;
+
+          // Set in global store
+          setAuth(userData, myMembership);
         }
       } catch (error) {
         console.error("Error fetching profile in header:", error);
@@ -38,7 +51,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
       }
     };
     fetchProfile();
-  }, []);
+  }, [setAuth]);
 
   const handleLogout = async () => {
     await logout();

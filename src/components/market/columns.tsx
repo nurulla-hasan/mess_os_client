@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, Ban } from "lucide-react";
+import { Ban } from "lucide-react";
 import { format } from "date-fns";
 import { IMarketSchedule } from "@/types/market-schedule.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UpdateMarketScheduleModal } from "./update-market-schedule-modal";
 import { ViewMarketScheduleModal } from "./view-market-schedule-modal";
+import { CompleteMarketScheduleModal } from "./complete-market-schedule-modal";
+import { updateMarketScheduleStatus } from "@/services/market-schedule.service";
+import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 export const columns: ColumnDef<IMarketSchedule>[] = [
   {
@@ -98,6 +102,24 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
     cell: ({ row }) => {
       const schedule = row.original;
 
+      const handleVoid = async () => {
+        if (!confirm("Are you sure you want to void this schedule? This action cannot be undone.")) return;
+        
+        try {
+          const res = await updateMarketScheduleStatus(schedule.messId, schedule._id, {
+            status: "void"
+          });
+          if (res?.success) {
+            SuccessToast(res.message || "Schedule voided successfully.");
+            window.location.reload(); 
+          } else {
+            ErrorToast(res?.message || "Failed to void schedule.");
+          }
+        } catch (error: any) {
+          ErrorToast(error?.message || "Something went wrong.");
+        }
+      };
+
       return (
         <div className="flex items-center justify-end gap-2 px-2">
           {/* View Details Modal */}
@@ -111,19 +133,17 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
                 schedule={schedule}
               />
 
-              {/* Complete Action */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-full"
-              >
-                <Check className="h-4 w-4" />
-              </Button>
+              {/* Complete Action Modal */}
+              <CompleteMarketScheduleModal
+                messId={schedule.messId}
+                schedule={schedule}
+              />
 
               {/* Void Action */}
               <Button
                 variant="ghost"
                 size="icon"
+                onClick={handleVoid}
                 className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-full"
               >
                 <Ban className="h-4 w-4" />

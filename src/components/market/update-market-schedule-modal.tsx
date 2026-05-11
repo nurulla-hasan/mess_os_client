@@ -210,17 +210,17 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
       }
     >
       <div className="p-6 flex flex-col gap-6 max-h-[85vh] overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto pr-1 scrollbar-thin">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto pr-1">
           {/* Left Side: Assignees & Budget */}
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-bold flex items-center justify-between">
+              <label className="text-sm font-medium flex items-center justify-between">
                 <span className="flex items-center gap-2">
-                  <UserPlus className="h-4 w-4 text-primary" /> Assign To
+                  <UserPlus className="h-4 w-4 text-muted-foreground" /> Assign To
                 </span>
-                <Badge variant="secondary" className="text-[10px]">{assignedTo.length} Selected</Badge>
+                <Badge variant="secondary" className="text-[10px] font-normal">{assignedTo.length} Selected</Badge>
               </label>
-              <div className="border rounded-lg p-3 bg-muted/20">
+              <div className="border rounded-md p-2">
                 <ScrollArea className="h-48">
                   <div className="space-y-1">
                     {members.map((m) => (
@@ -237,15 +237,14 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-bold flex items-center gap-2">
-                ৳ Estimated Budget
+              <label className="text-sm font-medium flex items-center gap-2">
+                <span className="text-muted-foreground">৳</span> Estimated Budget
               </label>
               <Input 
                 type="number" 
                 placeholder="e.g. 2500" 
                 value={estimatedBudget}
                 onChange={(e) => setEstimatedBudget(e.target.value)}
-                className="h-10"
               />
             </div>
           </div>
@@ -253,14 +252,14 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
           {/* Right Side: Shopping List */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-bold flex items-center gap-2">
-                <ShoppingCart className="h-4 w-4 text-primary" /> Shopping List
+              <label className="text-sm font-medium flex items-center gap-2">
+                <ShoppingCart className="h-4 w-4 text-muted-foreground" /> Shopping List
               </label>
               <Button 
                 variant="outline" 
                 size="sm" 
                 onClick={addShoppingItem}
-                className="h-8 text-xs gap-1"
+                className="text-xs gap-1"
               >
                 <PackagePlus className="h-3 w-3" /> Add Item
               </Button>

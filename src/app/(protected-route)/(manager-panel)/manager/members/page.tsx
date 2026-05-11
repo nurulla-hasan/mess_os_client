@@ -7,6 +7,7 @@ import { getMessMembers } from "@/services/mess.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MemberFilters } from "@/components/members/member-filters";
+import { MemberStoreInitializer } from "@/components/store-initializer/member-store-initializer";
 
 export default async function ManagerMembersPage({
   searchParams,
@@ -28,10 +29,16 @@ export default async function ManagerMembersPage({
   }
 
   const params = (await searchParams) as QueryParams;
-  const { data, meta } = await getMessMembers(activeMessId, params);
+  
+  // Fetch members for the table and to initialize the store
+  const { data, meta, success } = await getMessMembers(activeMessId, params);
+  const members = success ? data : [];
 
   return (
     <DashboardPageLayout>
+      {/* Initialize Member Store with the fetched data */}
+      <MemberStoreInitializer members={members} />
+      
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <DashboardPageHeader
           title="Members Management"
@@ -42,7 +49,7 @@ export default async function ManagerMembersPage({
 
       <DataTable 
         columns={columns} 
-        data={data || []} 
+        data={members} 
         meta={meta} 
       />
     </DashboardPageLayout>

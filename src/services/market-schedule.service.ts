@@ -76,3 +76,29 @@ export const updateMarketSchedule = async (messId: string, scheduleId: string, d
     };
   }
 };
+/**
+ * Update the status of a market schedule (completed/void)
+ */
+export const updateMarketScheduleStatus = async (
+  messId: string,
+  scheduleId: string,
+  data: {
+    status: "completed" | "void";
+    actualSpent?: number;
+    actorMessMemberId?: string;
+    fundSource?: string;
+  }
+): Promise<any> => {
+  try {
+    return await serverFetch(`/messes/${messId}/market-schedules/${scheduleId}/status`, {
+      method: "PATCH",
+      body: data,
+      updateTag: ["market-schedules"],
+    });
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error?.message || "Failed to update market schedule status.",
+    };
+  }
+};
