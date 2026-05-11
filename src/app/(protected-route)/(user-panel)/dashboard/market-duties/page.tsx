@@ -5,7 +5,6 @@ import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/market/columns";
-import { mockSchedules } from "@/components/market/mockData";
 import { 
   ShoppingCart, 
   Clock, 
@@ -14,7 +13,7 @@ import {
 } from "lucide-react";
 
 export default function MemberMarketDutiesPage() {
-  const myDuties = mockSchedules.filter(s => s.assignedMembers.some(a => a.name === "Nasir Uddin"));
+  const myDuties: any[] = [];
   const upcomingDuties = myDuties.filter(s => s.status === "pending");
   const completedDuties = myDuties.filter(s => s.status === "completed");
 

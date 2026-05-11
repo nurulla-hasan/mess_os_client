@@ -11,9 +11,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { format } from "date-fns";
-import { MealOffRequest } from "@/components/meals/off-requests-columns";
+import { IMealOffRequest } from "@/types/meal-off-request.type";
 
-export const userMealOffColumns: ColumnDef<MealOffRequest>[] = [
+export const userMealOffColumns: ColumnDef<IMealOffRequest>[] = [
   {
     accessorKey: "dateRange",
     header: "Dates",

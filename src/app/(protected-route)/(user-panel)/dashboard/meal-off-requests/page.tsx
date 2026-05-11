@@ -5,7 +5,6 @@ import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { userMealOffColumns } from "@/components/meal-off-requests/user-columns";
-import { mockOffRequests } from "@/components/meals/off-requests-mockData";
 import { 
   Calendar, 
   Clock, 
@@ -16,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function MemberMealOffRequestsPage() {
-  const myRequests = mockOffRequests.filter(r => r.member.name === "Nasir Uddin");
+  const myRequests: any[] = [];
   const pendingRequests = myRequests.filter(r => r.status === "pending");
 
   return (
