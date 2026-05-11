@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,79 @@ import { ViewMarketScheduleModal } from "./view-market-schedule-modal";
 import { CompleteMarketScheduleModal } from "./complete-market-schedule-modal";
 import { updateMarketScheduleStatus } from "@/services/market-schedule.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+import { useRouter } from "next/navigation";
+
+const MarketActionCell = ({ schedule }: { schedule: IMarketSchedule }) => {
+  const router = useRouter();
+  const [isVoidOpen, setIsVoidOpen] = React.useState(false);
+  const [isPending, setIsPending] = React.useState(false);
+
+  const handleVoid = async () => {
+    setIsPending(true);
+    try {
+      const res = await updateMarketScheduleStatus(schedule.messId, schedule._id, {
+        status: "void"
+      });
+      if (res?.success) {
+        SuccessToast(res.message || "Schedule voided successfully.");
+        setIsVoidOpen(false);
+        router.refresh();
+      } else {
+        ErrorToast(res?.message || "Failed to void schedule.");
+      }
+    } catch (error: any) {
+      ErrorToast(error?.message || "Something went wrong.");
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-end gap-2 px-2">
+      {/* View Details Modal */}
+      <ViewMarketScheduleModal schedule={schedule} />
+
+      {schedule.status === "pending" && (
+        <div className="flex items-center gap-1">
+          {/* Update Modal */}
+          <UpdateMarketScheduleModal
+            messId={schedule.messId}
+            schedule={schedule}
+          />
+
+          {/* Complete Action Modal */}
+          <CompleteMarketScheduleModal
+            messId={schedule.messId}
+            schedule={schedule}
+          />
+
+          {/* Void Action Trigger */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsVoidOpen(true)}
+            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-full"
+          >
+            <Ban className="h-4 w-4" />
+          </Button>
+
+          <ConfirmationModal
+            open={isVoidOpen}
+            onOpenChange={setIsVoidOpen}
+            trigger={null}
+            title="Void Market Schedule"
+            description="Are you sure you want to void this schedule? This action cannot be undone and will cancel this bazaar duty."
+            confirmText="Void Schedule"
+            variant="destructive"
+            isLoading={isPending}
+            onConfirm={handleVoid}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const columns: ColumnDef<IMarketSchedule>[] = [
   {
@@ -99,59 +173,6 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
   {
     id: "actions",
     header: () => <div className="text-end px-4">Actions</div>,
-    cell: ({ row }) => {
-      const schedule = row.original;
-
-      const handleVoid = async () => {
-        if (!confirm("Are you sure you want to void this schedule? This action cannot be undone.")) return;
-        
-        try {
-          const res = await updateMarketScheduleStatus(schedule.messId, schedule._id, {
-            status: "void"
-          });
-          if (res?.success) {
-            SuccessToast(res.message || "Schedule voided successfully.");
-            window.location.reload(); 
-          } else {
-            ErrorToast(res?.message || "Failed to void schedule.");
-          }
-        } catch (error: any) {
-          ErrorToast(error?.message || "Something went wrong.");
-        }
-      };
-
-      return (
-        <div className="flex items-center justify-end gap-2 px-2">
-          {/* View Details Modal */}
-          <ViewMarketScheduleModal schedule={schedule} />
-
-          {schedule.status === "pending" && (
-            <div className="flex items-center gap-1">
-              {/* Update Modal */}
-              <UpdateMarketScheduleModal
-                messId={schedule.messId}
-                schedule={schedule}
-              />
-
-              {/* Complete Action Modal */}
-              <CompleteMarketScheduleModal
-                messId={schedule.messId}
-                schedule={schedule}
-              />
-
-              {/* Void Action */}
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleVoid}
-                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-full"
-              >
-                <Ban className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <MarketActionCell schedule={row.original} />,
   },
 ];
