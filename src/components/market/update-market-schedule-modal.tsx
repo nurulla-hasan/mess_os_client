@@ -8,8 +8,8 @@ import {
   Save, 
   ShoppingCart, 
   PackagePlus,
-  Edit2,
-  UserPlus
+  UserPlus,
+  Edit
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn, SuccessToast, ErrorToast } from "@/lib/utils";
@@ -205,7 +205,7 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
       description={`Editing schedule for ${new Date(schedule.targetDate).toLocaleDateString()}`}
       actionTrigger={
         <Button variant="ghost" size="icon" className="text-amber-600">
-          <Edit2 className="h-4 w-4" />
+          <Edit className="h-4 w-4" />
         </Button>
       }
     >

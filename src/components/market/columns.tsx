@@ -3,17 +3,12 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, Eye, UserPlus, Ban } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Check, Ban } from "lucide-react";
 import { format } from "date-fns";
 import { IMarketSchedule } from "@/types/market-schedule.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UpdateMarketScheduleModal } from "./update-market-schedule-modal";
+import { ViewMarketScheduleModal } from "./view-market-schedule-modal";
 
 export const columns: ColumnDef<IMarketSchedule>[] = [
   {
@@ -99,74 +94,41 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
   },
   {
     id: "actions",
-    header: () => <div className="text-end">Actions</div>,
+    header: () => <div className="text-end px-4">Actions</div>,
     cell: ({ row }) => {
       const schedule = row.original;
 
       return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+        <div className="flex items-center justify-end gap-2 px-2">
+          {/* View Details Modal */}
+          <ViewMarketScheduleModal schedule={schedule} />
 
           {schedule.status === "pending" && (
-            <>
+            <div className="flex items-center gap-1">
+              {/* Update Modal */}
               <UpdateMarketScheduleModal
                 messId={schedule.messId}
                 schedule={schedule}
               />
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-blue-600"
-                    >
-                      <UserPlus className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Reassign Duty</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
 
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-emerald-600"
-                    >
-                      <Check className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Complete Duty</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              {/* Complete Action */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-full"
+              >
+                <Check className="h-4 w-4" />
+              </Button>
 
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-rose-600"
-                    >
-                      <Ban className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Void Schedule</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
+              {/* Void Action */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-full"
+              >
+                <Ban className="h-4 w-4" />
+              </Button>
+            </div>
           )}
         </div>
       );
