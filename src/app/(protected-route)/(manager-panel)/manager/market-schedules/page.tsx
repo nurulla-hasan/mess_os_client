@@ -7,11 +7,10 @@ import {
   getMyMarketDuties,
 } from "@/services/market-schedule.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
-import { AlertCircle, Plus } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MarketScheduleFilters } from "@/components/market/market-schedule-filters";
-import { Button } from "@/components/ui/button";
-
+import { CreateMarketScheduleModal } from "@/components/market/create-market-schedule-modal";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShoppingCart, UserCheck } from "lucide-react";
 import Link from "next/link";
@@ -59,9 +58,7 @@ export default async function ManagerMarketSchedulesPage({
         />
         <div className="flex items-center gap-3">
           <MarketScheduleFilters />
-          <Button size="sm">
-            <Plus /> Create Schedule
-          </Button>
+          <CreateMarketScheduleModal messId={activeMessId} />
         </div>
       </div>
 
