@@ -61,7 +61,7 @@ export default function ForgotPasswordPage() {
   return (
     <Card className="w-full">
       <CardHeader className="text-center space-y-1.5">
-        <h1 className="text-xl font-semibold tracking-tight">Forgot password?</h1>
+        <h1 className="text-xl font-semibold ">Forgot password?</h1>
         <p className="text-sm text-muted-foreground">
           Enter your email to receive a verification code
         </p>

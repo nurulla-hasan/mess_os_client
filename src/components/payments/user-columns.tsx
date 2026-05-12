@@ -17,13 +17,13 @@ export const userPaymentColumns: ColumnDef<Payment>[] = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => <span className="text-sm font-black text-primary">৳{row.original.amount}</span>,
+    cell: ({ row }) => <span className="text-sm font-bold text-primary">৳{row.original.amount}</span>,
   },
   {
     accessorKey: "method",
     header: "Method",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-tight">
+      <Badge variant="outline" className="text-xs uppercase font-bold ">
         {row.original.method}
       </Badge>
     ),

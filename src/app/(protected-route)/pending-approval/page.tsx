@@ -29,7 +29,7 @@ export default function PendingApprovalPage() {
 
           {/* Title Section */}
           <div className="text-center space-y-3">
-            <h1 className="text-3xl font-bold tracking-tight">Pending Approval</h1>
+            <h1 className="text-3xl font-bold ">Pending Approval</h1>
             <p className="text-muted-foreground text-lg max-w-sm mx-auto">
               Your request to join the mess is waiting for manager approval
             </p>

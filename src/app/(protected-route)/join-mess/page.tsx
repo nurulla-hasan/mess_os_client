@@ -62,7 +62,7 @@ export default function JoinMessPage() {
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-2">
               <Key className="h-8 w-8 text-primary" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight">Join a Mess</h1>
+            <h1 className="text-2xl font-bold ">Join a Mess</h1>
             <p className="text-sm text-muted-foreground">
               Enter the invite code provided by your mess manager
             </p>

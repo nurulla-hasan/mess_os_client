@@ -59,7 +59,7 @@ export default function BlockedPage() {
 
         {/* Content */}
         <div className="space-y-3">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-3xl font-bold  text-foreground">
             Account Restricted
           </h1>
           <p className="text-muted-foreground text-sm leading-relaxed px-4">
@@ -100,7 +100,7 @@ export default function BlockedPage() {
         </div>
 
         {/* Footer */}
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium pt-8">
+        <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium pt-8">
           MessManagerOS &bull; Security Enforcement
         </p>
       </div>

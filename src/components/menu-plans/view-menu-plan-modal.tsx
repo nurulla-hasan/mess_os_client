@@ -111,7 +111,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
                 <Sparkles className="h-4 w-4" />
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-widest text-sky-600/80 dark:text-sky-400/80 leading-none mb-1">
+                <span className="text-xs font-bold uppercase tracking-widest text-sky-600/80 dark:text-sky-400/80 leading-none mb-1">
                   AI Optimization
                 </span>
                 <p className="text-xs font-medium text-foreground/80">
@@ -164,7 +164,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
                   key={category}
                   className="flex flex-col p-4 rounded-xl border bg-muted border-muted/20 hover:border-primary/20 transition-all group"
                 >
-                  <span className="text-[10px] font-black text-primary/60 uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
+                  <span className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
                     {category}
                   </span>
                   <p className="text-sm font-medium leading-relaxed">

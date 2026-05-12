@@ -76,7 +76,7 @@ export default function MemberMyBillPage() {
           <Card className="bg-primary/5 border-primary/20">
             <CardContent className="p-6 text-center">
               <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Estimated Balance</h3>
-              <p className="text-3xl font-black text-primary">৳450</p>
+              <p className="text-3xl font-bold text-primary">৳450</p>
               <Badge variant="rejected" className="mt-2 h-5 text-xs uppercase">Pending Due</Badge>
               <p className="text-xs text-muted-foreground mt-4 italic">Final amount may change after cycle ends.</p>
             </CardContent>
@@ -117,7 +117,7 @@ export default function MemberMyBillPage() {
                     <span className="font-bold">৳1,500.00</span>
                   </div>
                   <Separator className="my-1 opacity-50" />
-                  <div className="flex justify-between text-sm font-black">
+                  <div className="flex justify-between text-sm font-bold">
                     <span>Total Billable Amount</span>
                     <span className="text-rose-600">৳3,390.00</span>
                   </div>
@@ -144,7 +144,7 @@ export default function MemberMyBillPage() {
                     <span className="font-bold text-emerald-600">৳940.00</span>
                   </div>
                   <Separator className="my-1 opacity-50" />
-                  <div className="flex justify-between text-sm font-black">
+                  <div className="flex justify-between text-sm font-bold">
                     <span>Total Credits Adjusted</span>
                     <span className="text-emerald-600">৳2,940.00</span>
                   </div>
@@ -159,7 +159,7 @@ export default function MemberMyBillPage() {
                   </div>
                   <div>
                     <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Net Payable Amount</p>
-                    <p className="text-lg font-black">৳450.00</p>
+                    <p className="text-lg font-bold">৳450.00</p>
                   </div>
                 </div>
                 <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">

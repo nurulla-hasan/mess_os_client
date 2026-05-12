@@ -138,7 +138,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
             <div className="grid grid-cols-1 gap-4 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20">
               {categories.map((category) => (
                 <div key={category} className="space-y-2">
-                  <Label className="text-xs font-black uppercase tracking-widest text-primary/70">
+                  <Label className="text-xs font-bold uppercase tracking-widest text-primary/70">
                     {category}
                   </Label>
                   <Textarea

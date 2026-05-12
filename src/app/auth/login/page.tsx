@@ -83,7 +83,7 @@ export default function LoginPage() {
   return (
     <Card className="w-full">
       <CardHeader className="text-center space-y-1.5">
-        <h1 className="text-xl font-semibold tracking-tight">Welcome back</h1>
+        <h1 className="text-xl font-semibold ">Welcome back</h1>
         <p className="text-sm text-muted-foreground">
           Login to continue managing your mess
         </p>

@@ -29,12 +29,12 @@ export default function AuthLayout({
             <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center shadow-lg">
               <Utensils className="h-4.5 w-4.5 text-primary-foreground" />
             </div>
-            <span className="text-lg font-semibold tracking-tight">Mess OS</span>
+            <span className="text-lg font-semibold ">Mess OS</span>
           </div>
 
           {/* Content */}
           <div className="space-y-5">
-            <h1 className="text-[2rem] xl:text-[2.25rem] font-semibold tracking-tight leading-[1.15]">
+            <h1 className="text-[2rem] xl:text-[2.25rem] font-semibold  leading-[1.15]">
               Simplify your{" "}
               <span className="text-primary">mess management</span>
             </h1>
@@ -93,7 +93,7 @@ export default function AuthLayout({
             <div className="h-9 w-9 rounded-lg bg-primary flex items-center justify-center shadow-lg">
               <Utensils className="h-4.5 w-4.5 text-primary-foreground" />
             </div>
-            <span className="text-lg font-semibold tracking-tight">Mess OS</span>
+            <span className="text-lg font-semibold ">Mess OS</span>
           </div>
 
           {children}

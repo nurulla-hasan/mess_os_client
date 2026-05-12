@@ -132,7 +132,7 @@ function VerifyOtpForm() {
   return (
     <Card className="w-full">
       <CardHeader className="text-center space-y-1.5">
-        <h1 className="text-xl font-semibold tracking-tight">
+        <h1 className="text-xl font-semibold ">
           {isRegister ? "Verify your email" : "Verify reset code"}
         </h1>
         <p className="text-sm text-muted-foreground">

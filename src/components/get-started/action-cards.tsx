@@ -43,7 +43,7 @@ export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProp
                 {!isSuspended && <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />}
               </div>
               <div className="flex-1 pt-1">
-                <h2 className="text-3xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300">
+                <h2 className="text-3xl font-bold  group-hover:text-primary transition-colors duration-300">
                   Join a Mess
                 </h2>
                 <p className="text-sm text-muted-foreground mt-2">
@@ -81,7 +81,7 @@ export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProp
                 {!isSuspended && <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />}
               </div>
               <div className="flex-1 pt-1">
-                <h2 className="text-3xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300">
+                <h2 className="text-3xl font-bold  group-hover:text-primary transition-colors duration-300">
                   Create a Mess
                 </h2>
                 <p className="text-sm text-muted-foreground mt-2">

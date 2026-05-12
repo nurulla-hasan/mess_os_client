@@ -23,13 +23,13 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
       {/* Mess Fund Stats */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <CardTitle className="text-xs font-black uppercase tracking-widest">Mess Fund</CardTitle>
+          <CardTitle className="text-xs font-bold uppercase tracking-widest">Mess Fund</CardTitle>
           <PiggyBank className="w-4 h-4 opacity-80" />
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-1">
             <p className="text-xs uppercase font-bold text-muted-foreground">Available Balance</p>
-            <h2 className="text-3xl font-black tabular-nums">৳{summary.totalMessFund.toLocaleString()}</h2>
+            <h2 className="text-3xl font-bold tabular-nums">৳{summary.totalMessFund.toLocaleString()}</h2>
           </div>
           
           <div className="grid grid-cols-2 gap-3">
@@ -40,7 +40,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
                 borderColor: `color-mix(in srgb, var(--chart-2), transparent 80%)`
               }}
             >
-              <p className="text-xs uppercase font-black opacity-70" style={{ color: 'var(--chart-2)' }}>Deposit</p>
+              <p className="text-xs uppercase font-bold opacity-70" style={{ color: 'var(--chart-2)' }}>Deposit</p>
               <p className="text-sm font-bold">৳{summary.totalDeposits.toLocaleString()}</p>
             </div>
             <div 
@@ -50,7 +50,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
                 borderColor: `color-mix(in srgb, var(--destructive), transparent 80%)`
               }}
             >
-              <p className="text-xs uppercase font-black opacity-70" style={{ color: 'var(--destructive)' }}>Out</p>
+              <p className="text-xs uppercase font-bold opacity-70" style={{ color: 'var(--destructive)' }}>Out</p>
               <p className="text-sm font-bold">৳{summary.totalCashOut.toLocaleString()}</p>
             </div>
           </div>

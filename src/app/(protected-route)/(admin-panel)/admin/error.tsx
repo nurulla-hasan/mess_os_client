@@ -26,7 +26,7 @@ export default function GlobalPanelError({
           </div>
         </div>
         
-        <h2 className="text-3xl font-black tracking-tight text-foreground mb-3 drop-shadow-sm">
+        <h2 className="text-3xl font-bold  text-foreground mb-3 drop-shadow-sm">
           Something went wrong!
         </h2>
         <p className="text-muted-foreground/80 max-w-md mx-auto mb-8 leading-relaxed font-medium">

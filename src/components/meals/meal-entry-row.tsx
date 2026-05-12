@@ -78,7 +78,7 @@ export const MealEntryRow = React.memo(({
         {Object.entries(visibleMeals).map(([cat, isVisible]) => (
           isVisible && (
             <div key={cat} className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold text-muted-foreground uppercase text-center tracking-tighter">
+              <span className="text-xs font-bold text-muted-foreground uppercase text-center er">
                 {cat.charAt(0)}
               </span>
               <Input 

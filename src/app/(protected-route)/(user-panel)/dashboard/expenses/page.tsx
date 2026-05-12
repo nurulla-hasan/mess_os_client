@@ -43,7 +43,7 @@ export default function MemberExpensesPage() {
               <Wallet className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Total Approved</span>
             </div>
-            <p className="text-xl font-black">৳{totalApproved}</p>
+            <p className="text-xl font-bold">৳{totalApproved}</p>
           </CardContent>
         </Card>
         <Card className="bg-amber-500/5 border-amber-500/20">
@@ -52,7 +52,7 @@ export default function MemberExpensesPage() {
               <Clock className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Pending Approval</span>
             </div>
-            <p className="text-xl font-black">৳{pendingExpenses.reduce((acc, e) => acc + e.amount, 0)}</p>
+            <p className="text-xl font-bold">৳{pendingExpenses.reduce((acc, e) => acc + e.amount, 0)}</p>
           </CardContent>
         </Card>
         <Card className="bg-emerald-500/5 border-emerald-500/20">
@@ -61,7 +61,7 @@ export default function MemberExpensesPage() {
               <ArrowDownRight className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Reimbursed</span>
             </div>
-            <p className="text-xl font-black">৳0</p>
+            <p className="text-xl font-bold">৳0</p>
           </CardContent>
         </Card>
       </div>

@@ -299,7 +299,7 @@ export default function Sidebar({
             <Utensils className="h-5 w-5 text-primary-foreground" />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="text-lg font-extrabold tracking-tight text-foreground">
+            <span className="text-lg font-extrabold  text-foreground">
               Mess<span className="text-primary">Manager</span>
             </span>
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">

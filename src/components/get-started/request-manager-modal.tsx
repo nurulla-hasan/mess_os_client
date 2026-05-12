@@ -124,7 +124,7 @@ export function RequestManagerModal() {
                 {statusConfig?.icon}
                 <span className="font-bold uppercase tracking-wider text-xs">{statusConfig?.label}</span>
               </div>
-              <span className="text-[10px] opacity-70 font-medium uppercase">
+              <span className="text-xs opacity-70 font-medium uppercase">
                 Status Update
               </span>
             </div>
@@ -132,7 +132,7 @@ export function RequestManagerModal() {
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="reason" className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+              <Label htmlFor="reason" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                 Your Request Reason
               </Label>
               <Textarea
@@ -149,7 +149,7 @@ export function RequestManagerModal() {
               <div className="p-4 rounded-xl border border-destructive/20 bg-destructive/5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
                 <div className="flex items-center gap-2 text-destructive">
                   <XCircle className="h-4 w-4" />
-                  <span className="text-xs font-black uppercase tracking-widest">Admin Feedback</span>
+                  <span className="text-xs font-bold uppercase tracking-widest">Admin Feedback</span>
                 </div>
                 <p className="text-sm italic text-foreground/80 leading-relaxed">
                   &quot;{existingRequest.adminNote}&quot;

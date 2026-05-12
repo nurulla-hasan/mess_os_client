@@ -87,7 +87,7 @@ export default function MemberReportsPage() {
                   <Wallet className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-wider">Total Paid (Cycle)</span>
                 </div>
-                <p className="text-xl font-black">৳2,000</p>
+                <p className="text-xl font-bold">৳2,000</p>
               </CardContent>
             </Card>
             <Card className="bg-emerald-500/5 border-emerald-500/20">
@@ -96,7 +96,7 @@ export default function MemberReportsPage() {
                   <ArrowUpRight className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-wider">Meal Consumption</span>
                 </div>
-                <p className="text-xl font-black">42 Meals</p>
+                <p className="text-xl font-bold">42 Meals</p>
               </CardContent>
             </Card>
           </div>
@@ -122,7 +122,7 @@ export default function MemberReportsPage() {
                       <span className="font-bold text-rose-600">৳1,890.00</span>
                     </div>
                     <Separator className="my-2" />
-                    <div className="flex justify-between text-sm font-black">
+                    <div className="flex justify-between text-sm font-bold">
                       <span>Projected Balance</span>
                       <span className="text-emerald-600">৳110.00</span>
                     </div>

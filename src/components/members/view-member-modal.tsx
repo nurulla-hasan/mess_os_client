@@ -70,7 +70,7 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
     >
       <div className="p-6">
         <div className="flex flex-col items-center py-6 border-b">
-          <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl font-black mb-3 border-2 border-primary/20 shrink-0">
+          <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl font-bold mb-3 border-2 border-primary/20 shrink-0">
             {member.user.fullName.charAt(0)}
           </div>
           <h3 className="text-xl font-bold truncate max-w-full">
@@ -132,7 +132,7 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
               <Calendar className="h-4 w-4" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] font-bold text-rose-600 uppercase tracking-tighter">
+              <span className="text-xs font-bold text-rose-600 uppercase er">
                 Left On
               </span>
               <span className="text-sm font-bold text-rose-900 truncate">

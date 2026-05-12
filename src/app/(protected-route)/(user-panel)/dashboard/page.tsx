@@ -48,7 +48,7 @@ export default function MemberDashboardPage() {
               <CardContent>
                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Current Balance</p>
                 <div className="flex items-baseline gap-2 mt-1">
-                  <p className="text-3xl font-black">৳1,250</p>
+                  <p className="text-3xl font-bold">৳1,250</p>
                   <Badge variant="success" className="h-5 text-xs">ADVANCE</Badge>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">Last updated 2 hours ago</p>
@@ -62,7 +62,7 @@ export default function MemberDashboardPage() {
               <CardContent>
                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Meals This Month</p>
                 <div className="flex items-baseline gap-2 mt-1">
-                  <p className="text-3xl font-black">42</p>
+                  <p className="text-3xl font-bold">42</p>
                   <p className="text-xs text-muted-foreground">/ 90 expected</p>
                 </div>
                 <div className="h-1.5 w-full bg-emerald-500/10 rounded-full mt-3 overflow-hidden">

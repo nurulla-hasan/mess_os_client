@@ -47,9 +47,9 @@ export default async function GetStartedPage() {
                 <Icons.ShieldAlert className="h-8 w-8 text-white" />
               </div>
               <div className="flex-1 space-y-2 text-center md:text-left relative z-10">
-                <h2 className="text-xl font-bold text-rose-600 tracking-tight">Your mess has been suspended</h2>
+                <h2 className="text-xl font-bold text-rose-600 ">Your mess has been suspended</h2>
                 <div className="space-y-1">
-                  <p className="text-xs font-black uppercase tracking-widest text-rose-500/70">Reason from Admin</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-rose-500/70">Reason from Admin</p>
                   <p className="text-sm font-medium text-foreground/80 italic bg-rose-500/5 p-3 rounded-lg border border-rose-500/10">
                     &quot;{suspendedMess.suspensionNote || "Violation of platform terms and conditions."}&quot;
                   </p>

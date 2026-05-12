@@ -17,13 +17,13 @@ export const userExpenseColumns: ColumnDef<Expense>[] = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => <span className="text-sm font-black text-rose-600">৳{row.original.amount}</span>,
+    cell: ({ row }) => <span className="text-sm font-bold text-rose-600">৳{row.original.amount}</span>,
   },
   {
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => (
-      <Badge variant="outline" className="text-xs uppercase font-bold tracking-tight">
+      <Badge variant="outline" className="text-xs uppercase font-bold ">
         {row.original.category}
       </Badge>
     ),

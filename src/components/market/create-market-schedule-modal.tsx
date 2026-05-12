@@ -259,7 +259,7 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
                 <span className="flex items-center gap-2">
                   <UserPlus className="h-4 w-4 text-muted-foreground" /> Assign To
                 </span>
-                <Badge variant="secondary" className="text-[10px] font-normal">{assignedTo.length} Selected</Badge>
+                <Badge variant="secondary" className="text-xs font-normal">{assignedTo.length} Selected</Badge>
               </label>
               <div className="border rounded-md p-2">
                 <ScrollArea className="h-48">

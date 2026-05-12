@@ -113,7 +113,7 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
                 src={member.user.avatarUrl}
                 alt={member.user.fullName}
               />
-              <AvatarFallback className="text-[10px] bg-primary/10 text-primary">
+              <AvatarFallback className="text-xs bg-primary/10 text-primary">
                 {member.user.fullName.charAt(0)}
               </AvatarFallback>
             </Avatar>
@@ -129,7 +129,7 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
     accessorKey: "shoppingItems",
     header: "Items",
     cell: ({ row }) => (
-      <Badge variant="outline" className="font-mono text-[10px]">
+      <Badge variant="outline" className="font-mono text-xs">
         {row.original.shoppingItems.length} Items
       </Badge>
     ),

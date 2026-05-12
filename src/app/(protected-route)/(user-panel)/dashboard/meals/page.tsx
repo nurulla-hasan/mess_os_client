@@ -42,7 +42,7 @@ export default function MemberMealsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* <p className="text-3xl font-black">{totalMeals}</p> */}
+              {/* <p className="text-3xl font-bold">{totalMeals}</p> */}
               <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest mt-1">Total Meals Served</p>
             </CardContent>
           </Card>
@@ -55,7 +55,7 @@ export default function MemberMealsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* <p className="text-xl font-black">৳{(totalMeals * 45).toFixed(0)}</p> */}
+              {/* <p className="text-xl font-bold">৳{(totalMeals * 45).toFixed(0)}</p> */}
               <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest mt-1">Based on ~৳45 rate</p>
             </CardContent>
           </Card>

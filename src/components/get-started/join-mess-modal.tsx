@@ -58,7 +58,7 @@ export function JoinMessModal() {
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="inviteCode" className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+              <Label htmlFor="inviteCode" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
                 Invite Code
               </Label>
               <div className="relative">
@@ -71,7 +71,7 @@ export function JoinMessModal() {
                   onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
                 />
               </div>
-              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-tight">
+              <p className="text-xs text-muted-foreground font-medium uppercase ">
                 Codes are case-sensitive. Ask your manager if you don&apos;t have one.
               </p>
             </div>

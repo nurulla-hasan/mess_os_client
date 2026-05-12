@@ -53,42 +53,42 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
       <div className="flex flex-col h-full">
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Status Header */}
-          <div className={cn("p-4 rounded-xl border flex items-center justify-between", Config.class)}>
+          <div className={cn("p-4 rounded-lg border flex items-center justify-between", Config.class)}>
             <div className="flex items-center gap-3">
               <Config.icon className="h-5 w-5" />
               <span className="font-bold uppercase tracking-wider text-xs">{Config.label}</span>
             </div>
-            <span className="text-[10px] opacity-70 font-medium">
+            <span className="text-xs opacity-70 font-medium">
               ID: {request._id}
             </span>
           </div>
 
           {/* User Section */}
           <div className="space-y-4">
-            <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
               <UserIcon className="h-3 w-3" /> User Information
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="p-3 rounded-lg bg-muted border border-border/50">
-                <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Full Name</p>
+                <p className="text-xs uppercase font-bold text-muted-foreground mb-1">Full Name</p>
                 <p className="text-sm font-semibold">{user.fullName}</p>
               </div>
               <div className="p-3 rounded-lg bg-muted border border-border/50">
-                <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Email Address</p>
+                <p className="text-xs uppercase font-bold text-muted-foreground mb-1">Email Address</p>
                 <div className="flex items-center gap-2">
                   <Mail className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">{user.email}</p>
                 </div>
               </div>
               <div className="p-3 rounded-lg bg-muted border border-border/50">
-                <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Phone Number</p>
+                <p className="text-xs uppercase font-bold text-muted-foreground mb-1">Phone Number</p>
                 <div className="flex items-center gap-2">
                   <Phone className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">{user.phone}</p>
                 </div>
               </div>
               <div className="p-3 rounded-lg bg-muted border border-border/50">
-                <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Requested Date</p>
+                <p className="text-xs uppercase font-bold text-muted-foreground mb-1">Requested Date</p>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">
@@ -101,10 +101,10 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
 
           {/* Reason Section */}
           <div className="space-y-4 pb-4">
-            <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
               <MessageSquareQuote className="h-3 w-3" /> Reason for Elevation
             </h4>
-            <div className="p-5 rounded-2xl bg-primary/5 border border-primary/10 relative">
+            <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 relative">
               <MessageSquareQuote className="absolute top-4 right-4 h-8 w-8 text-primary/10 -rotate-12" />
               <p className="text-sm leading-relaxed text-foreground/90 italic">
                 &quot;{request.reason}&quot;

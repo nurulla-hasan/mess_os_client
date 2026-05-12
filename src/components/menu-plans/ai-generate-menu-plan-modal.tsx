@@ -108,7 +108,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label className="text-xs font-black uppercase tracking-widest text-primary">
+            <Label className="text-xs font-bold uppercase tracking-widest text-primary">
               Dietary Preference (Optional)
             </Label>
             <Input
@@ -121,7 +121,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="text-xs font-black uppercase tracking-widest text-primary">
+              <Label className="text-xs font-bold uppercase tracking-widest text-primary">
                 Budget Limit (Optional)
               </Label>
               <Input
@@ -134,7 +134,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
             </div>
             
             <div className="space-y-2">
-              <Label className="text-xs font-black uppercase tracking-widest text-primary" title="Avoid repeating meals from recent days">
+              <Label className="text-xs font-bold uppercase tracking-widest text-primary" title="Avoid repeating meals from recent days">
                 Avoid Recent (Days)
               </Label>
               <Input

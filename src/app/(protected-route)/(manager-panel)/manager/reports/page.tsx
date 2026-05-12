@@ -101,7 +101,7 @@ export default function ManagerReportsPage() {
                     Total Revenue
                   </span>
                 </div>
-                <p className="text-xl font-black">৳45,000</p>
+                <p className="text-xl font-bold">৳45,000</p>
               </CardContent>
             </Card>
             <Card className="bg-rose-500/5 border-rose-500/20">
@@ -112,7 +112,7 @@ export default function ManagerReportsPage() {
                     Total Expense
                   </span>
                 </div>
-                <p className="text-xl font-black">৳38,450</p>
+                <p className="text-xl font-bold">৳38,450</p>
               </CardContent>
             </Card>
             <Card className="bg-emerald-500/5 border-emerald-500/20">
@@ -123,7 +123,7 @@ export default function ManagerReportsPage() {
                     Net Balance
                   </span>
                 </div>
-                <p className="text-xl font-black">৳6,550</p>
+                <p className="text-xl font-bold">৳6,550</p>
               </CardContent>
             </Card>
           </div>
@@ -147,7 +147,7 @@ export default function ManagerReportsPage() {
                         Total meals served this month.
                       </p>
                     </div>
-                    <p className="text-2xl font-black">458 Meals</p>
+                    <p className="text-2xl font-bold">458 Meals</p>
                   </div>
                   <div className="h-2 w-full bg-accent rounded-full overflow-hidden">
                     <div className="h-full bg-primary w-[75%]" />

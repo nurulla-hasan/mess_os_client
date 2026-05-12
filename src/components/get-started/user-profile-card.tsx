@@ -51,9 +51,9 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
 
           <div className="flex-1 text-center md:text-left space-y-1.5 pr-8 md:pr-10">
             <div className="flex flex-col md:flex-row md:items-center gap-2">
-              <h4 className="text-xl font-bold tracking-tight text-foreground">{user.fullName}</h4>
+              <h4 className="text-xl font-bold  text-foreground">{user.fullName}</h4>
               <div className={cn(
-                "inline-flex items-center self-center md:self-auto px-2.5 py-0.5 rounded-full border text-[10px] font-bold uppercase tracking-wider transition-colors duration-300",
+                "inline-flex items-center self-center md:self-auto px-2.5 py-0.5 rounded-full border text-xs font-bold uppercase tracking-wider transition-colors duration-300",
                 user.globalRole === "super_admin" 
                   ? "bg-amber-500/10 border-amber-500/20 text-amber-500 shadow-sm shadow-amber-500/10" 
                   : user.globalRole === "manager"

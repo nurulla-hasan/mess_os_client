@@ -34,7 +34,7 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
         <div className="space-y-4">
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <h3 className="text-xl font-bold tracking-tight text-primary">{mess.name}</h3>
+              <h3 className="text-xl font-bold  text-primary">{mess.name}</h3>
               <p className="text-sm text-muted-foreground uppercase font-medium tracking-wide">
                 {mess.address}
               </p>

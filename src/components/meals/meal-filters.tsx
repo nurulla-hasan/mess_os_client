@@ -79,7 +79,7 @@ export function MealFilters() {
                   >
                     {format(monthDate, "MMMM")}
                     {format(monthDate, "MM-yyyy") === format(new Date(), "MM-yyyy") && (
-                      <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-sm font-bold border border-emerald-500/20">TODAY</span>
+                      <span className="text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-sm font-bold border border-emerald-500/20">TODAY</span>
                     )}
                   </DropdownMenuItem>
                 );

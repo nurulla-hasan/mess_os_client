@@ -24,7 +24,7 @@ export const memberMealColumns: ColumnDef<IMeal>[] = [
         <Badge variant="secondary" className="px-3 py-1 font-bold text-xs">
           {row.original.mealCount}
         </Badge>
-        <span className="text-xs text-muted-foreground uppercase font-bold tracking-tighter">Meals</span>
+        <span className="text-xs text-muted-foreground uppercase font-bold er">Meals</span>
       </div>
     ),
   },

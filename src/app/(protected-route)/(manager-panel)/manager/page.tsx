@@ -16,7 +16,7 @@ export default async function ManagerDashboardPage() {
       <DashboardPageLayout>
         <Alert variant="destructive" className="border-2">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle className="font-black uppercase tracking-wider">No Active Mess Found</AlertTitle>
+          <AlertTitle className="font-bold uppercase tracking-wider">No Active Mess Found</AlertTitle>
           <AlertDescription className="font-medium">
             You don&apos;t have an active mess associated with your account. Please create or join a mess first.
           </AlertDescription>
@@ -32,7 +32,7 @@ export default async function ManagerDashboardPage() {
       <DashboardPageLayout>
         <Alert className="border-2 border-primary/20">
           <Terminal className="h-4 w-4" />
-          <AlertTitle className="font-black uppercase tracking-wider">System Sync Required</AlertTitle>
+          <AlertTitle className="font-bold uppercase tracking-wider">System Sync Required</AlertTitle>
           <AlertDescription className="font-medium">
             {response?.message || "Unable to load dashboard data. Please try again later."}
           </AlertDescription>

@@ -78,7 +78,7 @@ function ResetPasswordForm() {
   return (
     <Card className="w-full">
       <CardHeader className="text-center space-y-1.5">
-        <h1 className="text-xl font-semibold tracking-tight">Set new password</h1>
+        <h1 className="text-xl font-semibold ">Set new password</h1>
         <p className="text-sm text-muted-foreground">
           Create a new password for your account
         </p>

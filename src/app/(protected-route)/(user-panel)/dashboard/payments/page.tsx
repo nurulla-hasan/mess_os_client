@@ -44,7 +44,7 @@ export default function MemberPaymentsPage() {
               <Wallet className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Total Approved</span>
             </div>
-            <p className="text-xl font-black">৳{totalApproved}</p>
+            <p className="text-xl font-bold">৳{totalApproved}</p>
           </CardContent>
         </Card>
         <Card className="bg-amber-500/5 border-amber-500/20">
@@ -53,7 +53,7 @@ export default function MemberPaymentsPage() {
               <Clock className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Pending Approval</span>
             </div>
-            <p className="text-xl font-black">৳{pendingPayments.reduce((acc, p) => acc + p.amount, 0)}</p>
+            <p className="text-xl font-bold">৳{pendingPayments.reduce((acc, p) => acc + p.amount, 0)}</p>
           </CardContent>
         </Card>
         <Card className="bg-emerald-500/5 border-emerald-500/20">
@@ -62,7 +62,7 @@ export default function MemberPaymentsPage() {
               <TrendingUp className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Total Submitted</span>
             </div>
-            <p className="text-xl font-black">৳{myPayments.reduce((acc, p) => acc + p.amount, 0)}</p>
+            <p className="text-xl font-bold">৳{myPayments.reduce((acc, p) => acc + p.amount, 0)}</p>
           </CardContent>
         </Card>
       </div>

@@ -12,7 +12,7 @@ export default function GlobalPanelLoading() {
           </div>
         </div>
         <div className="space-y-2 text-center">
-          <h3 className="text-xl font-bold tracking-tight text-foreground">
+          <h3 className="text-xl font-bold  text-foreground">
             Loading Data
           </h3>
           <p className="text-sm font-medium text-muted-foreground/70 animate-pulse">

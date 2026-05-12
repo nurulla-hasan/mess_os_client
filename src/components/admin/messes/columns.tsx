@@ -97,7 +97,7 @@ export const columns: ColumnDef<IMess>[] = [
       <div className="flex flex-col">
         <div className="flex items-center gap-2">
           <span className="text-sm">{row.original.name}</span>
-          <Badge variant="outline" className="text-[10px] px-1.5 h-4 border-primary/20 text-primary font-normal">
+          <Badge variant="outline" className="text-xs px-1.5 h-4 border-primary/20 text-primary font-normal">
             {row.original.inviteCode}
           </Badge>
         </div>

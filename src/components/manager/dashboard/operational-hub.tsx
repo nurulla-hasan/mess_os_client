@@ -101,7 +101,7 @@ export function OperationalHub({ pendingActions, today }: OperationalHubProps) {
             ))}
             
             <div className="pt-4 mt-2 border-t border-dashed flex items-center justify-between">
-              <span className="text-xs font-black uppercase text-foreground/70 tracking-wider">Total Meals</span>
+              <span className="text-xs font-bold uppercase text-foreground/70 tracking-wider">Total Meals</span>
               <Badge variant="secondary" className="font-bold px-3 py-0.5 text-xs bg-primary/10 text-primary border-none">
                 {totalTodayMeals.toLocaleString()} meals
               </Badge>

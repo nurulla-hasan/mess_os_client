@@ -31,9 +31,9 @@ export function ProfileView({ role }: { role: "manager" | "member" }) {
             </Button>
           </div>
           <div className="pb-4">
-            <h2 className="text-2xl font-black flex items-center gap-3">
+            <h2 className="text-2xl font-bold flex items-center gap-3">
               Golap Hasan
-              <Badge variant={role === "manager" ? "manager" : "member"} className="uppercase tracking-tighter h-5">
+              <Badge variant={role === "manager" ? "manager" : "member"} className="uppercase er h-5">
                 {role}
               </Badge>
             </h2>

@@ -87,7 +87,7 @@ export default async function AdminDashboardPage() {
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
                   <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">{stat.title}</p>
-                  <p className="text-2xl font-black">{stat.value}</p>
+                  <p className="text-2xl font-bold">{stat.value}</p>
                   <p className="text-xs font-bold text-emerald-500 flex items-center gap-1">
                     <ArrowUpRight className="h-3 w-3" /> {stat.trend} this month
                   </p>

@@ -94,7 +94,7 @@ export default function ManagerSubscriptionPage() {
             <CardHeader>
               <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Starter</CardTitle>
               <div className="flex items-baseline gap-1 mt-2">
-                <span className="text-3xl font-black">৳0</span>
+                <span className="text-3xl font-bold">৳0</span>
                 <span className="text-xs text-muted-foreground">/ month</span>
               </div>
             </CardHeader>
@@ -117,7 +117,7 @@ export default function ManagerSubscriptionPage() {
             <CardHeader>
               <CardTitle className="text-sm font-bold uppercase tracking-wider text-primary">Standard</CardTitle>
               <div className="flex items-baseline gap-1 mt-2">
-                <span className="text-3xl font-black text-primary">৳500</span>
+                <span className="text-3xl font-bold text-primary">৳500</span>
                 <span className="text-xs text-muted-foreground">/ month</span>
               </div>
             </CardHeader>
@@ -139,7 +139,7 @@ export default function ManagerSubscriptionPage() {
             <CardHeader>
               <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Premium</CardTitle>
               <div className="flex items-baseline gap-1 mt-2">
-                <span className="text-3xl font-black">৳1000</span>
+                <span className="text-3xl font-bold">৳1000</span>
                 <span className="text-xs text-muted-foreground">/ month</span>
               </div>
             </CardHeader>

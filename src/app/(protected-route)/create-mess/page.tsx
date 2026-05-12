@@ -91,7 +91,7 @@ export default function CreateMessPage() {
         {/* Left Column - Form */}
         <div className="lg:col-span-3 space-y-6">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">Create your Mess</h1>
+            <h1 className="text-3xl font-bold ">Create your Mess</h1>
             <p className="text-muted-foreground">
               Set up your mess details and customize your management categories.
             </p>

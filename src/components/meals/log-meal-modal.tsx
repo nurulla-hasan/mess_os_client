@@ -208,7 +208,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
                     key={cat}
                     variant={visibleMeals[cat] ? "default" : "outline"}
                     size="sm"
-                    className="h-7 text-[10px] px-2 gap-1 font-bold uppercase tracking-tight"
+                    className="h-7 text-xs px-2 gap-1 font-bold uppercase "
                     onClick={() => toggleMealVisibility(cat)}
                   >
                     {cat === "Breakfast" && <Coffee className="h-3 w-3" />}
@@ -218,7 +218,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
                 <Button 
                   variant={visibleMeals.Guest ? "default" : "outline"}
                   size="sm"
-                  className="h-7 text-[10px] px-2 gap-1 font-bold uppercase tracking-tight"
+                  className="h-7 text-xs px-2 gap-1 font-bold uppercase "
                   onClick={() => toggleMealVisibility("Guest")}
                 >
                   <Users className="h-3 w-3" /> Guest

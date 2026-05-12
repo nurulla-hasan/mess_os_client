@@ -183,7 +183,7 @@ export const columns: ColumnDef<IMealOffRequest>[] = [
             {status}
           </Badge>
           {reviewedBy && reviewedBy.fullName && (
-            <span className="text-[10px] text-muted-foreground mt-1 font-medium">
+            <span className="text-xs text-muted-foreground mt-1 font-medium">
               Reviewed by {reviewedBy.fullName.split(" ")[0]}
             </span>
           )}

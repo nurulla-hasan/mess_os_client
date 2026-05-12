@@ -154,7 +154,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
 
           {/* Reason Section */}
           <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-black text-primary uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-[0.2em]">
               <MessageSquare className="h-3 w-3" />
               Member&apos;s Reason
             </div>

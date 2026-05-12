@@ -42,37 +42,37 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Phone</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Phone</p>
               <p className="text-sm font-medium">{user.phone || "N/A"}</p>
             </div>
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Status</p>
-              <Badge variant={user.status === "active" ? "success" : "rejected"} className="h-5 px-1.5 text-[10px]">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Status</p>
+              <Badge variant={user.status === "active" ? "success" : "rejected"} className="h-5 px-1.5 text-xs">
                 {user.status}
               </Badge>
             </div>
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Role</p>
-              <Badge variant="secondary" className="h-5 px-1.5 text-[10px] capitalize">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Role</p>
+              <Badge variant="secondary" className="h-5 px-1.5 text-xs capitalize">
                 {user.globalRole.replace("_", " ")}
               </Badge>
             </div>
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Registered</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Registered</p>
               <p className="text-sm font-medium">{format(new Date(user.createdAt), "MMM dd, yyyy")}</p>
             </div>
           </div>
 
           {user.address && (
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Address</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Address</p>
               <p className="text-sm text-muted-foreground leading-relaxed">{user.address}</p>
             </div>
           )}
 
           {user.bio && (
             <div className="space-y-1">
-              <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Bio</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Bio</p>
               <p className="text-sm text-muted-foreground italic leading-relaxed">&quot;{user.bio}&quot;</p>
             </div>
           )}
@@ -106,7 +106,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
                         Role: <span className="text-foreground">{role}</span>
                       </span>
                       {membership.joinedAt && (
-                        <span className="text-[10px] text-muted-foreground font-mono">
+                        <span className="text-xs text-muted-foreground font-mono">
                           Joined: {format(new Date(membership.joinedAt), "MMM dd, yyyy")}
                         </span>
                       )}

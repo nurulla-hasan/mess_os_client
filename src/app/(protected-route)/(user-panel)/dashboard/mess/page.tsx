@@ -32,7 +32,7 @@ export default function MemberMessOverviewPage() {
                 <Building2 className="h-7 w-7 text-primary" />
               </div>
               <div className="space-y-1">
-                <CardTitle className="text-xl font-black">Green House Mess</CardTitle>
+                <CardTitle className="text-xl font-bold">Green House Mess</CardTitle>
                 <p className="text-sm text-muted-foreground flex items-center gap-1">
                   <MapPin className="h-3.5 w-3.5" /> Sector 10, Uttara, Dhaka
                 </p>

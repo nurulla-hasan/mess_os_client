@@ -131,11 +131,11 @@ export default async function AdminStatsPage() {
                     <div className="flex gap-6 text-right">
                       <div>
                         <p className="text-sm font-bold">{plan.count}</p>
-                        <p className="text-[10px] text-muted-foreground uppercase">Total</p>
+                        <p className="text-xs text-muted-foreground uppercase">Total</p>
                       </div>
                       <div>
                         <p className="text-sm font-bold text-emerald-600">{plan.active}</p>
-                        <p className="text-[10px] text-muted-foreground uppercase">Active</p>
+                        <p className="text-xs text-muted-foreground uppercase">Active</p>
                       </div>
                     </div>
                   </div>
@@ -223,7 +223,7 @@ export default async function AdminStatsPage() {
                 <ShieldCheck className="h-5 w-5 text-emerald-500" />
                 <div className="space-y-0.5">
                   <p className="text-xs font-semibold">System Operational</p>
-                  <p className="text-[10px] text-muted-foreground">All checks passed</p>
+                  <p className="text-xs text-muted-foreground">All checks passed</p>
                 </div>
               </div>
             </CardContent>
