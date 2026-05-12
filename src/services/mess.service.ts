@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams, ApiResponse } from "@/types/global.type";
@@ -11,7 +12,18 @@ import { IManagerDashboardData } from "@/types/dashboard.type";
 
 export const createMess = async (data: Record<string, unknown>): Promise<ApiResponse<IMess>> => {
   try {
-    return (await serverFetch("/messes", { method: "POST", body: data })) as ApiResponse<IMess>;
+    const res = (await serverFetch("/messes", { method: "POST", body: data })) as ApiResponse<IMess>;
+    if (res?.success && res.data?._id) {
+      const cookieStore = await cookies();
+      cookieStore.set("activeMessId", res.data._id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+    }
+    return res;
   } catch (error: unknown) {
     return {
       success: false,
