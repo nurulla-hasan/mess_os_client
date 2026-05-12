@@ -1,72 +1,67 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/menu-plans/columns";
-import { mockMenuPlans } from "@/components/menu-plans/mockData";
 import { 
   Sparkles, 
-  Calendar as CalendarIcon, 
-  Archive,
   Plus,
-  LayoutList
+  AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
+import { getMenuPlans } from "@/services/menu-plan.service";
+import { SearchParams, QueryParams } from "@/types/global.type";
+import { MenuPlanFilters } from "@/components/menu-plans/menu-plan-filters";
 
-export default function ManagerMenuPlansPage() {
-  const publishedPlans = mockMenuPlans.filter(p => p.status === "published");
-  const draftPlans = mockMenuPlans.filter(p => p.status === "draft");
+export default async function ManagerMenuPlansPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const activeMessId = await getActiveMessIdFromCookies();
+
+  if (!activeMessId) {
+    return (
+      <DashboardPageLayout>
+        <div className="flex flex-col items-center justify-center min-h-100 space-y-4 text-center">
+          <AlertCircle className="h-10 w-10 text-muted-foreground opacity-20" />
+          <h2 className="text-lg font-bold">No Active Mess</h2>
+          <p className="text-sm text-muted-foreground">Select a mess to manage menu plans.</p>
+        </div>
+      </DashboardPageLayout>
+    );
+  }
+
+  const params = (await searchParams) as QueryParams;
+  const { data, meta } = await getMenuPlans(activeMessId, params);
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <DashboardPageHeader
           title="Menu Plans"
           description="Design and publish daily meal menus. Use AI to generate healthy meal ideas."
         />
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="text-primary border-primary/20 bg-primary/5">
-            <Sparkles className="mr-2 h-4 w-4" /> AI Generate
-          </Button>
-          <Button size="sm">
-            <Plus className="mr-2 h-4 w-4" /> New Plan
-          </Button>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <MenuPlanFilters />
+          <div className="flex gap-2">
+            <Button variant="outline">
+              <Sparkles /> AI Generate
+            </Button>
+            <Button>
+              <Plus /> New Plan
+            </Button>
+          </div>
         </div>
       </div>
 
-      <div>
-        <Tabs defaultValue="published" className="w-full">
-          <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="published" className="flex items-center gap-2">
-              <CalendarIcon className="h-4 w-4" />
-              <span>Published</span>
-            </TabsTrigger>
-            <TabsTrigger value="drafts" className="flex items-center gap-2">
-              <LayoutList className="h-4 w-4" />
-              <span>Drafts ({draftPlans.length})</span>
-            </TabsTrigger>
-            <TabsTrigger value="archived" className="flex items-center gap-2">
-              <Archive className="h-4 w-4" />
-              <span>Archived</span>
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="published">
-            <DataTable columns={columns} data={publishedPlans} />
-          </TabsContent>
-          
-          <TabsContent value="drafts">
-            <DataTable columns={columns} data={draftPlans} />
-          </TabsContent>
-
-          <TabsContent value="archived">
-            <DataTable columns={columns} data={mockMenuPlans.filter(p => p.status === "archived")} />
-          </TabsContent>
-        </Tabs>
+      <div className="mt-6">
+        <DataTable 
+          columns={columns} 
+          data={data || []} 
+          meta={meta} 
+        />
       </div>
     </DashboardPageLayout>
   );
 }
-

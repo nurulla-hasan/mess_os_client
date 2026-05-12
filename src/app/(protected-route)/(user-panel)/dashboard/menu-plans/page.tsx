@@ -1,19 +1,36 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/menu-plans/columns";
-import { mockMenuPlans } from "@/components/menu-plans/mockData";
 import { 
   Calendar, 
   UtensilsCrossed,
-  Info
+  Info,
+  AlertCircle
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
+import { getMenuPlans } from "@/services/menu-plan.service";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export default function MemberMenuPlansPage() {
-  const publishedPlans = mockMenuPlans.filter(p => p.status === "published");
+export default async function MemberMenuPlansPage() {
+  const activeMessId = await getActiveMessIdFromCookies();
+
+  if (!activeMessId) {
+    return (
+      <DashboardPageLayout>
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>No Active Mess Found</AlertTitle>
+          <AlertDescription>You are not currently associated with any mess. Please join a mess to view menu plans.</AlertDescription>
+        </Alert>
+      </DashboardPageLayout>
+    );
+  }
+
+  const response = await getMenuPlans(activeMessId, { status: "published" });
+  const publishedPlans = response.data || [];
 
   return (
     <DashboardPageLayout>
@@ -79,6 +96,3 @@ export default function MemberMenuPlansPage() {
     </DashboardPageLayout>
   );
 }
-
-import { Badge } from "@/components/ui/badge";
-
