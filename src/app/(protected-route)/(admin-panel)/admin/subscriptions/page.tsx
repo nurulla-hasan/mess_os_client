@@ -15,7 +15,7 @@ export default async function AdminSubscriptionsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Subscription Plans"
           description="Manage and configure the platform's subscription tiers, pricing, and feature limitations."
@@ -35,7 +35,7 @@ export default async function AdminSubscriptionsPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0">
             <div className="space-y-1">
-              <CardTitle className="text-base font-bold flex items-center gap-2">
+              <CardTitle className="text-base font-bold flex items-center gap-3">
                 <CreditCard className="h-5 w-5 text-primary" />
                 Active Subscription Tiers
               </CardTitle>

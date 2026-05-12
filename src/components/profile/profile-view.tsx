@@ -50,7 +50,7 @@ export function ProfileView({ role }: { role: "manager" | "member" }) {
         <Card className="md:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <User className="h-4 w-4 text-primary" />
                 Personal Information
               </CardTitle>
@@ -89,7 +89,7 @@ export function ProfileView({ role }: { role: "manager" | "member" }) {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Lock className="h-4 w-4 text-primary" />
                 Security
               </CardTitle>

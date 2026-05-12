@@ -30,7 +30,7 @@ export default function ManagerMessSettingsPage() {
         {/* Mess Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <Building className="h-4 w-4 text-primary" />
               Mess Profile
             </CardTitle>
@@ -52,7 +52,7 @@ export default function ManagerMessSettingsPage() {
         {/* Invite Code */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <Key className="h-4 w-4 text-primary" />
               Member Access
             </CardTitle>
@@ -61,7 +61,7 @@ export default function ManagerMessSettingsPage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label>Current Invite Code</Label>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <div className="flex-1 bg-accent/50 rounded-md border border-dashed border-primary/30 flex items-center justify-center font-mono font-bold tracking-widest text-lg p-2">
                   MESS-XYZ-789
                 </div>
@@ -70,7 +70,7 @@ export default function ManagerMessSettingsPage() {
                 </Button>
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <Button variant="outline" size="sm" className="w-full">
                 <RefreshCw className="mr-2 h-4 w-4" /> Regenerate Code
               </Button>
@@ -81,7 +81,7 @@ export default function ManagerMessSettingsPage() {
         {/* Billing & Categories Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <Settings className="h-4 w-4 text-primary" />
               Operational Settings
             </CardTitle>
@@ -104,7 +104,7 @@ export default function ManagerMessSettingsPage() {
         {/* Ownership & Danger Zone */}
         <Card className="border-rose-500/20 bg-rose-500/5">
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2 text-rose-600">
+            <CardTitle className="text-sm font-bold flex items-center gap-3 text-rose-600">
               <ShieldAlert className="h-4 w-4" />
               Danger Zone
             </CardTitle>

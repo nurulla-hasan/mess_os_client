@@ -37,7 +37,7 @@ export function MenuPlanFilters() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
       <DatePickerWithRange 
         date={dateRange} 
         setDate={handleDateChange} 

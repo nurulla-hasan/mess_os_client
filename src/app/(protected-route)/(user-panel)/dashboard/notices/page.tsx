@@ -26,7 +26,7 @@ export default function MemberNoticesPage() {
       {/* Pinned Notices Summary */}
       {pinnedNotices.length > 0 && (
         <div className="grid grid-cols-1 gap-4 mb-2">
-          <div className="flex items-center gap-2 px-1">
+          <div className="flex items-center gap-3 px-1">
             <Pin className="h-4 w-4 text-primary fill-primary" />
             <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pinned Announcements</span>
           </div>
@@ -49,7 +49,7 @@ export default function MemberNoticesPage() {
       {/* Main Notices Table */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-bold flex items-center gap-2">
+          <CardTitle className="text-sm font-bold flex items-center gap-3">
             <Megaphone className="h-4 w-4 text-muted-foreground" />
             Latest Announcements
           </CardTitle>

@@ -81,7 +81,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
         <Separator />
 
         <div className="space-y-4">
-          <h4 className="text-sm font-bold flex items-center gap-2">
+          <h4 className="text-sm font-bold flex items-center gap-3">
             Mess Memberships
             <Badge variant="outline" className="h-5 px-1 font-mono">{user.memberships?.length || 0}</Badge>
           </h4>
@@ -94,8 +94,8 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
                 const role = membership.messRole || membership.role;
 
                 return (
-                  <div key={membership._id} className="p-3 rounded-lg border bg-muted flex flex-col gap-2">
-                    <div className="flex items-center justify-between gap-2">
+                  <div key={membership._id} className="p-3 rounded-lg border bg-muted flex flex-col gap-3">
+                    <div className="flex items-center justify-between gap-3">
                       <span className="text-sm font-bold truncate">{messName}</span>
                       <Badge variant={membership.status === "active" || membership.status === "approved" ? "success" : "rejected"} className="h-4 px-1 text-[9px] uppercase">
                         {membership.status}

@@ -172,7 +172,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
       }
     >
       <div className="p-6 flex flex-col gap-6 max-h-[85vh] overflow-hidden">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <label className="text-sm font-medium">Select Date</label>
           <Popover>
             <PopoverTrigger asChild>
@@ -202,7 +202,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium">Member Breakdown</label>
-              <div className="flex flex-wrap items-center gap-2">
+              <div className="flex flex-wrap items-center gap-3">
                 {mealCategories.map((cat) => (
                   <Button 
                     key={cat}
@@ -225,7 +225,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
                 </Button>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Button 
                 variant="outline" 
                 size="sm" 

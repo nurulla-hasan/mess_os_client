@@ -20,7 +20,7 @@ export const memberMealColumns: ColumnDef<IMeal>[] = [
     accessorKey: "mealCount",
     header: "Meal Count",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <Badge variant="secondary" className="px-3 py-1 font-bold text-xs">
           {row.original.mealCount}
         </Badge>

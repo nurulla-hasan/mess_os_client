@@ -79,7 +79,7 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
           <p className="text-sm text-muted-foreground truncate max-w-full">
             {member.user.email}
           </p>
-          <div className="mt-4 flex gap-2 items-center">
+          <div className="mt-4 flex gap-3 items-center">
             <Badge
               variant={member.messRole === "manager" ? "manager" : "member"}
               className="px-3"

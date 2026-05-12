@@ -28,15 +28,15 @@ export default function MemberMarketDutiesPage() {
       <div className="mt-2">
         <Tabs defaultValue="upcoming" className="w-full">
           <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="upcoming" className="flex items-center gap-2">
+            <TabsTrigger value="upcoming" className="flex items-center gap-3">
               <Clock className="h-4 w-4" />
               <span>Upcoming ({upcomingDuties.length})</span>
             </TabsTrigger>
-            <TabsTrigger value="completed" className="flex items-center gap-2">
+            <TabsTrigger value="completed" className="flex items-center gap-3">
               <CheckCircle2 className="h-4 w-4" />
               <span>Completed</span>
             </TabsTrigger>
-            <TabsTrigger value="all" className="flex items-center gap-2">
+            <TabsTrigger value="all" className="flex items-center gap-3">
               <ShoppingCart className="h-4 w-4" />
               <span>All History</span>
             </TabsTrigger>

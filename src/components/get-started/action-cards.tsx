@@ -106,7 +106,7 @@ export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProp
                   size="lg"
                   className="group/btn shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
                 >
-                  <Link href="/create-mess" className="gap-2">
+                  <Link href="/create-mess" className="gap-3">
                     Create Mess
                     <ArrowRight className="h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                   </Link>

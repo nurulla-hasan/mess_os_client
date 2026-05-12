@@ -103,7 +103,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
           </Avatar>
           
           <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
               <h3 className="text-lg font-bold text-foreground truncate">{user.fullName}</h3>
               <Badge
                 variant={
@@ -154,7 +154,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
 
           {/* Reason Section */}
           <div className="p-4 rounded-lg bg-primary/5 border border-primary/10 space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-[0.2em]">
+            <div className="flex items-center gap-3 text-xs font-bold text-primary uppercase tracking-[0.2em]">
               <MessageSquare className="h-3 w-3" />
               Member&apos;s Reason
             </div>

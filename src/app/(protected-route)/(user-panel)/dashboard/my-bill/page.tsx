@@ -25,12 +25,12 @@ import { Separator } from "@/components/ui/separator";
 export default function MemberMyBillPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Personal Bill"
           description="View your detailed meal charges, share costs, and final payment status for each cycle."
         />
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Button variant="outline" size="sm">
             <Download className="mr-2 h-4 w-4" /> Download PDF
           </Button>
@@ -42,7 +42,7 @@ export default function MemberMyBillPage() {
         <div className="lg:col-span-1 space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Calendar className="h-4 w-4 text-primary" />
                 Select Cycle
               </CardTitle>
@@ -87,7 +87,7 @@ export default function MemberMyBillPage() {
         <Card className="lg:col-span-3">
           <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
             <div className="space-y-1">
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <FileText className="h-4 w-4 text-primary" />
                 Detailed Bill Breakdown
               </CardTitle>
@@ -99,19 +99,19 @@ export default function MemberMyBillPage() {
             <div className="p-6 space-y-8">
               {/* Consumption Section */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                   <ArrowUpRight className="h-3.5 w-3.5" />
                   Consumption & Shares
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-3">
                       Meal Charges <span className="text-xs text-muted-foreground">(42 meals × ৳45.00)</span>
                     </span>
                     <span className="font-bold">৳1,890.00</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-3">
                       Equal Shares <span className="text-xs text-muted-foreground">(Rent, Internet, Maid)</span>
                     </span>
                     <span className="font-bold">৳1,500.00</span>
@@ -126,19 +126,19 @@ export default function MemberMyBillPage() {
 
               {/* Credits & Payments Section */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                   <ArrowDownRight className="h-3.5 w-3.5 text-emerald-500" />
                   Credits & Payments
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-3">
                       Total Payments <span className="text-xs text-muted-foreground">(Submitted Deposits)</span>
                     </span>
                     <span className="font-bold text-emerald-600">৳2,000.00</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-3">
                       Personal Expenses <span className="text-xs text-muted-foreground">(Adjusted from bazar)</span>
                     </span>
                     <span className="font-bold text-emerald-600">৳940.00</span>

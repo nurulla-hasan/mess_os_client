@@ -95,7 +95,7 @@ export const columns: ColumnDef<IMess>[] = [
     header: "Mess",
     cell: ({ row }) => (
       <div className="flex flex-col">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <span className="text-sm">{row.original.name}</span>
           <Badge variant="outline" className="text-xs px-1.5 h-4 border-primary/20 text-primary font-normal">
             {row.original.inviteCode}

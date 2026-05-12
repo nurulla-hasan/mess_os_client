@@ -55,11 +55,11 @@ export default function MemberMessOverviewPage() {
               <Separator />
 
               <div className="space-y-4">
-                <h3 className="text-sm font-bold flex items-center gap-2">
+                <h3 className="text-sm font-bold flex items-center gap-3">
                   <Utensils className="h-4 w-4 text-primary" />
                   Meal Categories
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                   <Badge variant="secondary">Breakfast</Badge>
                   <Badge variant="secondary">Lunch</Badge>
                   <Badge variant="secondary">Dinner</Badge>
@@ -70,7 +70,7 @@ export default function MemberMessOverviewPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Info className="h-4 w-4 text-primary" />
                 Operational Policies
               </CardTitle>
@@ -96,7 +96,7 @@ export default function MemberMessOverviewPage() {
         <div className="space-y-6">
           <Card className="border-primary/20 bg-primary/5">
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Key className="h-4 w-4 text-primary" />
                 Mess Access
               </CardTitle>
@@ -112,13 +112,13 @@ export default function MemberMessOverviewPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <ShieldCheck className="h-4 w-4 text-emerald-500" />
                 Your Role
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 <Badge variant="member" className="w-fit uppercase">Member</Badge>
                 <p className="text-xs text-muted-foreground">You have standard access to view meals, submit payments, and track your personal billing.</p>
               </div>

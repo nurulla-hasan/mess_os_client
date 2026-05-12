@@ -26,7 +26,7 @@ export default function MemberPaymentsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Payments"
           description="View your deposit history and submit new payment records for approval."
@@ -40,7 +40,7 @@ export default function MemberPaymentsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <Card className="bg-primary/5 border-primary/20">
           <CardContent className="flex flex-col gap-1">
-            <div className="flex items-center gap-2 text-primary">
+            <div className="flex items-center gap-3 text-primary">
               <Wallet className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Total Approved</span>
             </div>
@@ -49,7 +49,7 @@ export default function MemberPaymentsPage() {
         </Card>
         <Card className="bg-amber-500/5 border-amber-500/20">
           <CardContent className="flex flex-col gap-1">
-            <div className="flex items-center gap-2 text-amber-500">
+            <div className="flex items-center gap-3 text-amber-500">
               <Clock className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Pending Approval</span>
             </div>
@@ -58,7 +58,7 @@ export default function MemberPaymentsPage() {
         </Card>
         <Card className="bg-emerald-500/5 border-emerald-500/20">
           <CardContent className="flex flex-col gap-1">
-            <div className="flex items-center gap-2 text-emerald-500">
+            <div className="flex items-center gap-3 text-emerald-500">
               <TrendingUp className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Total Submitted</span>
             </div>
@@ -70,19 +70,19 @@ export default function MemberPaymentsPage() {
       <div>
         <Tabs defaultValue="all" className="w-full">
           <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="all" className="flex items-center gap-2">
+            <TabsTrigger value="all" className="flex items-center gap-3">
               <CreditCard className="h-4 w-4" />
               <span>All History</span>
             </TabsTrigger>
-            <TabsTrigger value="pending" className="flex items-center gap-2">
+            <TabsTrigger value="pending" className="flex items-center gap-3">
               <Clock className="h-4 w-4" />
               <span>Pending</span>
             </TabsTrigger>
-            <TabsTrigger value="approved" className="flex items-center gap-2">
+            <TabsTrigger value="approved" className="flex items-center gap-3">
               <CheckCircle2 className="h-4 w-4" />
               <span>Approved</span>
             </TabsTrigger>
-            <TabsTrigger value="rejected" className="flex items-center gap-2">
+            <TabsTrigger value="rejected" className="flex items-center gap-3">
               <XCircle className="h-4 w-4" />
               <span>Rejected</span>
             </TabsTrigger>

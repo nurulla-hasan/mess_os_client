@@ -51,11 +51,11 @@ export function DashboardHeader({ mess, subscription }: DashboardHeaderProps) {
             </div>
             
             <div className="flex flex-wrap gap-y-2 gap-x-6 text-sm text-muted-foreground font-medium">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-primary/60" />
                 {mess.address}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Calendar className="w-4 h-4 text-primary/60" />
                 Started {formatDate(mess.createdAt)}
               </div>
@@ -67,7 +67,7 @@ export function DashboardHeader({ mess, subscription }: DashboardHeaderProps) {
             <div className="bg-muted border px-3 py-1.5 rounded-lg flex items-center gap-4">
               <div className="space-y-0.5">
                 <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Plan</p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <span className="font-bold text-sm text-primary">{subscription.plan.name}</span>
                   <Badge variant="outline" className="text-xs h-4 px-1 leading-none uppercase font-bold bg-background/50">
                     {subscription.plan.billingCycle}
@@ -77,7 +77,7 @@ export function DashboardHeader({ mess, subscription }: DashboardHeaderProps) {
               <div className="w-px h-6 bg-border/60 mx-1" />
               <div className="space-y-0.5">
                 <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Invite</p>
-                <div className="flex items-center gap-2 group cursor-pointer" onClick={copyInviteCode}>
+                <div className="flex items-center gap-3 group cursor-pointer" onClick={copyInviteCode}>
                   <code className="font-mono font-bold text-sm tracking-widest">{mess.inviteCode}</code>
                   <Copy className={`w-3.5 h-3.5 transition-colors ${copied ? "text-emerald-500" : "text-muted-foreground group-hover:text-primary"}`} />
                 </div>

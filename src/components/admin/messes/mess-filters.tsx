@@ -16,7 +16,7 @@ export function MessFilters() {
   const statusFilter = getFilter("status", "all");
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
       <SearchInput 
         filterKey="searchTerm" 
         placeholder="Search messes..." 
@@ -26,7 +26,7 @@ export function MessFilters() {
         value={statusFilter} 
         onValueChange={(val) => updateFilter("status", val === "all" ? null : val)}
       >
-        <SelectTrigger className="w-full sm:w-40">
+        <SelectTrigger className="w-full xl:w-40">
           <SelectValue placeholder="Filter by Status" />
         </SelectTrigger>
         <SelectContent>

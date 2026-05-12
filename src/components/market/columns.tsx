@@ -43,7 +43,7 @@ const MarketActionCell = ({ schedule }: { schedule: IMarketSchedule }) => {
   };
 
   return (
-    <div className="flex items-center justify-end gap-2 px-2">
+    <div className="flex items-center justify-end gap-3 px-2">
       {/* View Details Modal */}
       <ViewMarketScheduleModal schedule={schedule} />
 
@@ -102,7 +102,7 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
     accessorKey: "assignedTo",
     header: "Assignees",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <div className="flex -space-x-2">
           {row.original.assignedTo.map((member) => (
             <Avatar

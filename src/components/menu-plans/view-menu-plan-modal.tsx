@@ -82,7 +82,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
               <h3 className="text-lg font-bold leading-none">
                 {formatDate(plan.date)}
               </h3>
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-3 items-center">
                 <Badge
                   variant={
                     plan.status === "published"
@@ -150,7 +150,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
         </div>
 
         <div className="mt-8 space-y-4">
-          <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+          <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-3">
             <Utensils className="h-4 w-4" /> Meal Menu
           </h4>
           <div className="grid grid-cols-1 gap-3">

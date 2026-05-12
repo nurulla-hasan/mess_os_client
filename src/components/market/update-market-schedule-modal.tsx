@@ -53,7 +53,7 @@ const ShoppingItemRow = React.memo(({
   canRemove: boolean;
 }) => {
   return (
-    <div className="flex gap-2 items-start group relative bg-muted p-2 rounded-md border border-dashed border-muted-foreground/20">
+    <div className="flex gap-3 items-start group relative bg-muted p-2 rounded-md border border-dashed border-muted-foreground/20">
       <div className="flex-1 space-y-2">
         <Input 
           placeholder="Item name (e.g. Rice)" 
@@ -227,7 +227,7 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
           <div className="space-y-6">
             <div className="space-y-2">
               <label className="text-sm font-medium flex items-center justify-between">
-                <span className="flex items-center gap-2">
+                <span className="flex items-center gap-3">
                   <UserPlus className="h-4 w-4 text-muted-foreground" /> Assign To
                 </span>
                 <Badge variant="secondary" className="text-xs font-normal">{assignedTo.length} Selected</Badge>
@@ -249,7 +249,7 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium flex items-center gap-2">
+              <label className="text-sm font-medium flex items-center gap-3">
                 <span className="text-muted-foreground">৳</span> Estimated Budget
               </label>
               <Input 
@@ -264,7 +264,7 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
           {/* Right Side: Shopping List */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium flex items-center gap-2">
+              <label className="text-sm font-medium flex items-center gap-3">
                 <ShoppingCart className="h-4 w-4 text-muted-foreground" /> Shopping List
               </label>
               <Button 

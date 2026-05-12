@@ -240,7 +240,7 @@ export default function CreateMessPage() {
         {/* Right Column - Preview */}
         <div className="lg:col-span-2 space-y-6">
           <div className="sticky top-6">
-            <h3 className="font-semibold text-lg flex items-center gap-2 mb-4">
+            <h3 className="font-semibold text-lg flex items-center gap-3 mb-4">
               <Sparkles className="h-4 w-4 text-primary" />
               Preview Workspace
             </h3>
@@ -276,7 +276,7 @@ export default function CreateMessPage() {
                 <div className="space-y-4">
                   <div>
                     <p className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Meals Tracked</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                       {watchedMeals.filter(m => m.value).length > 0 ? (
                         watchedMeals.filter(m => m.value).map((meal, i) => (
                           <Badge key={i} variant="secondary">{meal.value}</Badge>
@@ -289,7 +289,7 @@ export default function CreateMessPage() {
                   
                   <div>
                     <p className="text-xs font-medium text-muted-foreground mb-2 uppercase tracking-wider">Shared Expenses</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-3">
                       {watchedShares.filter(s => s.value).length > 0 ? (
                         watchedShares.filter(s => s.value).map((share, i) => (
                           <Badge key={i} variant="secondary">{share.value}</Badge>

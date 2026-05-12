@@ -17,7 +17,7 @@ export function SubscriptionHistoryFilters() {
   const planFilter = getFilter("planId", "all");
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
       <SearchInput 
         filterKey="searchTerm" 
         placeholder="Search Mess, Manager or Plan..." 
@@ -27,7 +27,7 @@ export function SubscriptionHistoryFilters() {
         value={planFilter} 
         onValueChange={(val) => updateFilter("planId", val === "all" ? null : val)}
       >
-        <SelectTrigger className="w-full sm:w-40">
+        <SelectTrigger className="w-full xl:w-40">
           <SelectValue placeholder="All Plans" />
         </SelectTrigger>
         <SelectContent>
@@ -42,7 +42,7 @@ export function SubscriptionHistoryFilters() {
         value={statusFilter} 
         onValueChange={(val) => updateFilter("status", val === "all" ? null : val)}
       >
-        <SelectTrigger className="w-full sm:w-40">
+        <SelectTrigger className="w-full xl:w-40">
           <SelectValue placeholder="All Status" />
         </SelectTrigger>
         <SelectContent>

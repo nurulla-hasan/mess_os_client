@@ -43,7 +43,7 @@ export default async function MemberMenuPlansPage() {
         {/* Weekly Overview Table */}
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <Calendar className="h-4 w-4 text-primary" />
               Published Menu
             </CardTitle>
@@ -57,7 +57,7 @@ export default async function MemberMenuPlansPage() {
         <div className="space-y-4">
           <Card className="bg-primary/5 border-primary/20">
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <UtensilsCrossed className="h-4 w-4 text-primary" />
                 Meal Legend
               </CardTitle>
@@ -80,7 +80,7 @@ export default async function MemberMenuPlansPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Info className="h-4 w-4 text-primary" />
                 Special Notes
               </CardTitle>

@@ -18,7 +18,7 @@ export const columns: ColumnDef<ISubscriptionHistory>[] = [
       const mess = row.original.mess;
       return (
         <div className="flex flex-col">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div className="h-7 w-7 rounded bg-primary/10 flex items-center justify-center">
               <Home className="h-4 w-4 text-primary" />
             </div>
@@ -57,7 +57,7 @@ export const columns: ColumnDef<ISubscriptionHistory>[] = [
       const plan = row.original.plan;
       return (
         <div className="flex flex-col">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Badge variant="outline" className="text-xs border-primary/20 text-primary">
               {plan.name}
             </Badge>

@@ -66,20 +66,20 @@ export default function ManagerSubscriptionPage() {
         {/* Current Subscription Status */}
         <Card className="border-primary/20 bg-primary/5">
           <CardContent>
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-lg bg-primary/20 flex items-center justify-center">
                   <ShieldCheck className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold flex items-center gap-2">
+                  <h3 className="text-lg font-bold flex items-center gap-3">
                     Standard Monthly Plan
                     <Badge variant="success" className="h-5 text-xs">ACTIVE</Badge>
                   </h3>
                   <p className="text-sm text-muted-foreground">Your mess is currently on the standard plan. Renewing on June 01, 2024.</p>
                 </div>
               </div>
-              <div className="flex gap-2 w-full md:w-auto">
+              <div className="flex gap-3 w-full md:w-auto">
                 <Button variant="outline" size="sm" className="flex-1 md:flex-none text-rose-600 border-rose-500/20">Cancel Subscription</Button>
                 <Button size="sm" className="flex-1 md:flex-none">Upgrade Plan</Button>
               </div>
@@ -100,7 +100,7 @@ export default function ManagerSubscriptionPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {[ "Up to 5 Members", "Basic Meal Tracking", "Standard Reports"].map((feature, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs">
+                <div key={i} className="flex items-center gap-3 text-xs">
                   <Check className="h-3.5 w-3.5 text-emerald-500" />
                   <span>{feature}</span>
                 </div>
@@ -123,7 +123,7 @@ export default function ManagerSubscriptionPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {[ "Up to 20 Members", "AI Shopping Assistant", "Advanced Billing", "Priority Support"].map((feature, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs">
+                <div key={i} className="flex items-center gap-3 text-xs">
                   <Zap className="h-3.5 w-3.5 text-primary fill-primary/20" />
                   <span>{feature}</span>
                 </div>
@@ -145,7 +145,7 @@ export default function ManagerSubscriptionPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {[ "Unlimited Members", "Custom Branding", "Financial Auditing", "Multi-Manager Support"].map((feature, i) => (
-                <div key={i} className="flex items-center gap-2 text-xs">
+                <div key={i} className="flex items-center gap-3 text-xs">
                   <Check className="h-3.5 w-3.5 text-emerald-500" />
                   <span>{feature}</span>
                 </div>
@@ -160,7 +160,7 @@ export default function ManagerSubscriptionPage() {
         {/* Billing History */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <History className="h-4 w-4 text-muted-foreground" />
               Billing History
             </CardTitle>

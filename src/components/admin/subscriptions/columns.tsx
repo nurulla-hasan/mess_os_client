@@ -65,7 +65,7 @@ export const columns: ColumnDef<ISubscriptionPlan>[] = [
     cell: ({ row }) => {
       const isDefault = row.original.isDefault;
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <span className="text-sm">{row.original.name}</span>
           {isDefault && (
             <Badge variant="outline" className="text-xs h-4 px-1.5 bg-primary/10 text-primary border-primary/20 font-normal">
@@ -112,7 +112,7 @@ export const columns: ColumnDef<ISubscriptionPlan>[] = [
       const features = row.original.features;
       const activeCount = Object.values(features).filter(Boolean).length;
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Badge variant="secondary" className="text-xs font-normal">
             {activeCount} Enabled
           </Badge>

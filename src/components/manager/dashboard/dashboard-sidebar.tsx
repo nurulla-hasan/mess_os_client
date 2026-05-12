@@ -87,7 +87,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
       {/* Recent Notices */}
       <Card className="flex flex-col">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-sm font-bold flex items-center gap-2 text-muted-foreground">
+          <CardTitle className="text-sm font-bold flex items-center gap-3 text-muted-foreground">
             <Bell className="w-4 h-4 text-primary" />
             Notices
           </CardTitle>
@@ -102,7 +102,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
             ) : (
               notices.map((notice) => (
                 <div key={notice._id} className="group relative pl-4 border-l-2 border-muted hover:border-primary transition-all py-0.5">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-3 mb-1">
                     <h5 className="text-xs font-bold truncate group-hover:text-primary transition-colors">
                       {notice.title}
                     </h5>
@@ -111,7 +111,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
                   <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed font-medium">
                     {notice.content}
                   </p>
-                  <div className="flex items-center gap-2 mt-2 text-xs font-bold text-muted-foreground uppercase">
+                  <div className="flex items-center gap-3 mt-2 text-xs font-bold text-muted-foreground uppercase">
                     <CalendarDays className="w-3 h-3" />
                     {timeAgo(notice.createdAt)}
                   </div>

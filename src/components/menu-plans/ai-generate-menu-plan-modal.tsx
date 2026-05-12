@@ -74,13 +74,13 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
       title="AI Menu Optimization"
       description="Let AI generate the perfect menu based on your constraints and members' past meals."
       actionTrigger={
-        <Button variant="outline" className="gap-2">
+        <Button variant="outline" className="gap-3">
           <Sparkles className="h-4 w-4" /> AI Generate
         </Button>
       }
     >
       <div className="p-6 flex flex-col gap-6 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <Label className="text-sm font-medium">Target Date</Label>
           <Popover>
             <PopoverTrigger asChild>
@@ -154,7 +154,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
           <Button variant="outline" onClick={() => setOpen(false)} disabled={isGenerating}>
             Cancel
           </Button>
-          <Button onClick={handleGenerate} disabled={isGenerating} className="gap-2 px-8">
+          <Button onClick={handleGenerate} disabled={isGenerating} className="gap-3 px-8">
             {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             Generate with AI
           </Button>

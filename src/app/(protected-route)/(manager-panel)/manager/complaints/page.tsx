@@ -28,19 +28,19 @@ export default function ManagerComplaintsPage() {
       <div>
         <Tabs defaultValue="open" className="w-full">
           <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="open" className="flex items-center gap-2">
+            <TabsTrigger value="open" className="flex items-center gap-3">
               <AlertCircle className="h-4 w-4" />
               <span>Open ({openComplaints.length})</span>
             </TabsTrigger>
-            <TabsTrigger value="in_progress" className="flex items-center gap-2">
+            <TabsTrigger value="in_progress" className="flex items-center gap-3">
               <Clock className="h-4 w-4" />
               <span>In Progress</span>
             </TabsTrigger>
-            <TabsTrigger value="resolved" className="flex items-center gap-2">
+            <TabsTrigger value="resolved" className="flex items-center gap-3">
               <CheckCircle2 className="h-4 w-4" />
               <span>Resolved</span>
             </TabsTrigger>
-            <TabsTrigger value="all" className="flex items-center gap-2">
+            <TabsTrigger value="all" className="flex items-center gap-3">
               <MessageSquare className="h-4 w-4" />
               <span>All History</span>
             </TabsTrigger>

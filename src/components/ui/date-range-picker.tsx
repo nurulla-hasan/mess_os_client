@@ -27,7 +27,7 @@ export function DatePickerWithRange({
   placeholder = "Pick a date",
 }: DatePickerWithRangeProps) {
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("grid gap-3", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button

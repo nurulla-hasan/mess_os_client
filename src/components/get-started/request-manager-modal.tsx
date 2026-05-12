@@ -109,7 +109,7 @@ export function RequestManagerModal() {
         <Button 
           size="lg" 
           variant={isPending ? "outline" : isApproved ? "secondary" : "default"}
-          className="gap-2"
+          className="gap-3"
         >
           {isPending ? "Request Pending" : isApproved ? "Access Approved" : "Request Manager Access"}
           <ArrowRight className="h-4 w-4" />
@@ -147,7 +147,7 @@ export function RequestManagerModal() {
 
             {existingRequest?.status === "rejected" && existingRequest.adminNote && (
               <div className="p-4 rounded-lg border border-destructive/20 bg-destructive/5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
-                <div className="flex items-center gap-2 text-destructive">
+                <div className="flex items-center gap-3 text-destructive">
                   <XCircle className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-widest">Admin Feedback</span>
                 </div>

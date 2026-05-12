@@ -72,7 +72,7 @@ export const MealEntryRow = React.memo(({
       </div>
 
       <div 
-        className="grid gap-2" 
+        className="grid gap-3" 
         style={{ gridTemplateColumns: `repeat(${activeCount}, minmax(0, 1fr))` }}
       >
         {Object.entries(visibleMeals).map(([cat, isVisible]) => (

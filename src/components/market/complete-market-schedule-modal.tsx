@@ -86,7 +86,7 @@ export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarket
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-2">
+            <label className="text-sm font-medium flex items-center gap-3">
               <Banknote className="h-4 w-4" /> Actual Spent Amount
             </label>
             <Input 
@@ -98,7 +98,7 @@ export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarket
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-2">
+            <label className="text-sm font-medium flex items-center gap-3">
               <Landmark className="h-4 w-4" /> Fund Source
             </label>
             <Select value={fundSource} onValueChange={setFundSource}>

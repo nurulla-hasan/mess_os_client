@@ -26,7 +26,7 @@ export default function MemberAiShoppingPage() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <ShoppingCart className="h-4 w-4 text-primary" />
               Approved Market Lists
             </CardTitle>
@@ -39,7 +39,7 @@ export default function MemberAiShoppingPage() {
         <div className="space-y-4">
           <Card className="bg-primary/5 border-primary/20">
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2 text-primary">
+              <CardTitle className="text-sm font-bold flex items-center gap-3 text-primary">
                 <Sparkles className="h-4 w-4" />
                 AI Assistant
               </CardTitle>
@@ -53,7 +53,7 @@ export default function MemberAiShoppingPage() {
           
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Info className="h-4 w-4 text-primary" />
                 Member Access
               </CardTitle>

@@ -47,7 +47,7 @@ export default function MemberDashboardPage() {
               </div>
               <CardContent>
                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Current Balance</p>
-                <div className="flex items-baseline gap-2 mt-1">
+                <div className="flex items-baseline gap-3 mt-1">
                   <p className="text-3xl font-bold">৳1,250</p>
                   <Badge variant="success" className="h-5 text-xs">ADVANCE</Badge>
                 </div>
@@ -61,7 +61,7 @@ export default function MemberDashboardPage() {
               </div>
               <CardContent>
                 <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Meals This Month</p>
-                <div className="flex items-baseline gap-2 mt-1">
+                <div className="flex items-baseline gap-3 mt-1">
                   <p className="text-3xl font-bold">42</p>
                   <p className="text-xs text-muted-foreground">/ 90 expected</p>
                 </div>
@@ -74,7 +74,7 @@ export default function MemberDashboardPage() {
 
           {/* Quick Access Tiles */}
           <div>
-            <h3 className="text-sm font-bold mb-4 flex items-center gap-2">
+            <h3 className="text-sm font-bold mb-4 flex items-center gap-3">
               <CheckCircle2 className="h-4 w-4 text-primary" />
               Quick Actions
             </h3>
@@ -99,7 +99,7 @@ export default function MemberDashboardPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Clock className="h-4 w-4 text-primary" />
                 Recent Activity
               </CardTitle>
@@ -126,7 +126,7 @@ export default function MemberDashboardPage() {
 
           <Card className="bg-amber-500/5 border-amber-500/20">
             <CardContent className="p-6 space-y-3">
-              <div className="flex items-center gap-2 text-amber-600">
+              <div className="flex items-center gap-3 text-amber-600">
                 <ShoppingCart className="h-4 w-4" />
                 <span className="text-xs font-bold uppercase tracking-widest">Next Market Duty</span>
               </div>

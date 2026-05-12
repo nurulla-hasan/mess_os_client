@@ -22,7 +22,7 @@ export default function MemberMembersPage() {
       <div className="mt-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <Users className="h-4 w-4 text-primary" />
               Active Members List
             </CardTitle>

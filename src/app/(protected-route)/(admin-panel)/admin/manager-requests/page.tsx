@@ -18,7 +18,7 @@ export default async function AdminManagerRequestsPage({
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Manager Access Requests"
           description="Review and manage requests from users who want to elevate their role to Manager."

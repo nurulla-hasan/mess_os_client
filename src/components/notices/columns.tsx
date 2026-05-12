@@ -26,7 +26,7 @@ export const columns: ColumnDef<Notice>[] = [
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         {row.original.isPinned && <Pin className="h-3 w-3 text-primary fill-primary" />}
         <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
       </div>

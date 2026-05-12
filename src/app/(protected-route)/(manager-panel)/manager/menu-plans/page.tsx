@@ -36,14 +36,14 @@ export default async function ManagerMenuPlansPage({
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Menu Plans"
           description="Design and publish daily meal menus. Use AI to generate healthy meal ideas."
         />
         <div className="flex flex-col sm:flex-row gap-3">
           <MenuPlanFilters />
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <AiGenerateMenuPlanModal messId={activeMessId} />
             <CreateMenuPlanModal messId={activeMessId} />
           </div>

@@ -28,7 +28,7 @@ import { Calendar } from "lucide-react";
 export default function ManagerAiShoppingPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="AI Shopping Assistant"
           description="Generate automated shopping lists from your meal plans and convert them to market schedules."
@@ -43,7 +43,7 @@ export default function ManagerAiShoppingPage() {
         <div className="lg:col-span-1 space-y-4">
           <Card className="border-primary/20 bg-primary/5">
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Plus className="h-4 w-4 text-primary" />
                 Quick Generate
               </CardTitle>
@@ -72,7 +72,7 @@ export default function ManagerAiShoppingPage() {
         {/* List Table */}
         <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <ShoppingCart className="h-4 w-4 text-muted-foreground" />
               Generated Shopping Lists
             </CardTitle>
@@ -81,15 +81,15 @@ export default function ManagerAiShoppingPage() {
             <Tabs defaultValue="all" className="w-full">
               <TabsList variant="line" className="mb-4">
                 <TabsTrigger value="all">All Lists</TabsTrigger>
-                <TabsTrigger value="draft" className="flex items-center gap-2">
+                <TabsTrigger value="draft" className="flex items-center gap-3">
                   <Clock className="h-4 w-4" />
                   <span>Drafts</span>
                 </TabsTrigger>
-                <TabsTrigger value="approved" className="flex items-center gap-2">
+                <TabsTrigger value="approved" className="flex items-center gap-3">
                   <CheckCircle2 className="h-4 w-4" />
                   <span>Approved</span>
                 </TabsTrigger>
-                <TabsTrigger value="converted" className="flex items-center gap-2">
+                <TabsTrigger value="converted" className="flex items-center gap-3">
                   <History className="h-4 w-4" />
                   <span>Converted</span>
                 </TabsTrigger>

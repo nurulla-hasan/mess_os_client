@@ -27,12 +27,12 @@ import { Badge } from "@/components/ui/badge";
 export default function ManagerReportsPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Operational Reports"
           description="View financial summaries, member statements, and operational performance metrics."
         />
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Button variant="outline" size="sm">
             <Download /> Export CSV
           </Button>
@@ -47,7 +47,7 @@ export default function ManagerReportsPage() {
         <div className="lg:col-span-1 space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Filter className="h-4 w-4 text-muted-foreground" />
                 Report Filters
               </CardTitle>
@@ -95,7 +95,7 @@ export default function ManagerReportsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Card className="bg-primary/5 border-primary/20">
               <CardContent className="p-4 flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-primary">
+                <div className="flex items-center gap-3 text-primary">
                   <TrendingUp className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-wider">
                     Total Revenue
@@ -106,7 +106,7 @@ export default function ManagerReportsPage() {
             </Card>
             <Card className="bg-rose-500/5 border-rose-500/20">
               <CardContent className="p-4 flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-rose-500">
+                <div className="flex items-center gap-3 text-rose-500">
                   <Wallet className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-wider">
                     Total Expense
@@ -117,7 +117,7 @@ export default function ManagerReportsPage() {
             </Card>
             <Card className="bg-emerald-500/5 border-emerald-500/20">
               <CardContent className="p-4 flex flex-col gap-1">
-                <div className="flex items-center gap-2 text-emerald-500">
+                <div className="flex items-center gap-3 text-emerald-500">
                   <LineChart className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-wider">
                     Net Balance
@@ -130,7 +130,7 @@ export default function ManagerReportsPage() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <BarChart3 className="h-4 w-4 text-muted-foreground" />
                 Report Preview: Operational Summary
               </CardTitle>

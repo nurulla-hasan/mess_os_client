@@ -23,7 +23,7 @@ export default function ManagerNoticesPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Mess Notices"
           description="Broadcast announcements and important updates to all mess members."
@@ -36,7 +36,7 @@ export default function ManagerNoticesPage() {
       {/* Pinned Notices Summary */}
       {pinnedNotices.length > 0 && (
         <div className="grid grid-cols-1 gap-4">
-          <div className="flex items-center gap-2 px-1">
+          <div className="flex items-center gap-3 px-1">
             <Pin className="h-4 w-4 text-primary fill-primary" />
             <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pinned Announcements</span>
           </div>
@@ -60,7 +60,7 @@ export default function ManagerNoticesPage() {
       <div className="mt-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <Megaphone className="h-4 w-4 text-muted-foreground" />
               Notice Board Management
             </CardTitle>
@@ -68,11 +68,11 @@ export default function ManagerNoticesPage() {
           <CardContent>
             <Tabs defaultValue="active" className="w-full">
               <TabsList variant="line" className="mb-4">
-                <TabsTrigger value="active" className="flex items-center gap-2">
+                <TabsTrigger value="active" className="flex items-center gap-3">
                   <LayoutList className="h-4 w-4" />
                   <span>Active Notices</span>
                 </TabsTrigger>
-                <TabsTrigger value="archived" className="flex items-center gap-2">
+                <TabsTrigger value="archived" className="flex items-center gap-3">
                   <Archive className="h-4 w-4" />
                   <span>Archive</span>
                 </TabsTrigger>

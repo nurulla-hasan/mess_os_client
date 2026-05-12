@@ -48,7 +48,7 @@ export function JoinMessModal() {
       description="Enter the unique invite code shared by your mess manager to join their community."
       showClose={false}
       actionTrigger={
-        <Button size="lg" className="gap-2">
+        <Button size="lg" className="gap-3">
           Join with Code
           <ArrowRight className="h-4 w-4" />
         </Button>

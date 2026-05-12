@@ -34,7 +34,7 @@ export function AnalyticsCharts({ userTrends, messTrends }: AnalyticsChartsProps
       {/* User Growth Chart */}
       <Card className="bg-primary/5 border-primary/20">
         <CardHeader>
-          <CardTitle className="text-base font-bold flex items-center gap-2 text-primary">
+          <CardTitle className="text-base font-bold flex items-center gap-3 text-primary">
             <Users className="h-5 w-5" />
             User Acquisition
           </CardTitle>
@@ -84,7 +84,7 @@ export function AnalyticsCharts({ userTrends, messTrends }: AnalyticsChartsProps
       {/* Mess Growth Chart */}
       <Card className="bg-emerald-500/5 border-emerald-500/20">
         <CardHeader>
-          <CardTitle className="text-base font-bold flex items-center gap-2 text-emerald-600">
+          <CardTitle className="text-base font-bold flex items-center gap-3 text-emerald-600">
             <Building2 className="h-5 w-5" />
             Mess Onboarding
           </CardTitle>

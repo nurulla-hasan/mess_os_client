@@ -21,7 +21,7 @@ export default function MemberComplaintsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Complaints"
           description="Raise issues regarding mess facilities or services and track their resolution progress."
@@ -34,15 +34,15 @@ export default function MemberComplaintsPage() {
       <div>
         <Tabs defaultValue="all" className="w-full">
           <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="all" className="flex items-center gap-2">
+            <TabsTrigger value="all" className="flex items-center gap-3">
               <MessageSquare className="h-4 w-4" />
               <span>All My Issues</span>
             </TabsTrigger>
-            <TabsTrigger value="open" className="flex items-center gap-2">
+            <TabsTrigger value="open" className="flex items-center gap-3">
               <AlertCircle className="h-4 w-4" />
               <span>Open ({openComplaints.length})</span>
             </TabsTrigger>
-            <TabsTrigger value="resolved" className="flex items-center gap-2">
+            <TabsTrigger value="resolved" className="flex items-center gap-3">
               <CheckCircle2 className="h-4 w-4" />
               <span>Resolved</span>
             </TabsTrigger>

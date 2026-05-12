@@ -33,7 +33,7 @@ export function MealFilters() {
   const prevMonth = () => handleMonthChange(subMonths(currentDate, 1));
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
       <SearchInput 
         filterKey="searchTerm" 
         placeholder="Filter by Member ID..." 

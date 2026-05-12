@@ -73,7 +73,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
         {/* Mess & Manager Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 space-y-4">
-            <div className="flex items-center gap-2 text-primary font-medium">
+            <div className="flex items-center gap-3 text-primary font-medium">
               <Home className="h-4 w-4" />
               <h4 className="text-xs">Mess Details</h4>
             </div>
@@ -94,7 +94,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
           </div>
 
           <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 space-y-4">
-            <div className="flex items-center gap-2 text-primary font-medium">
+            <div className="flex items-center gap-3 text-primary font-medium">
               <User className="h-4 w-4" />
               <h4 className="text-xs">Manager Details</h4>
             </div>
@@ -117,13 +117,13 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
 
         {/* Plan Features Section */}
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-primary font-medium">
+          <div className="flex items-center gap-3 text-primary font-medium">
             <CreditCard className="h-4 w-4" />
             <h4 className="text-xs">Plan Features ({plan.name})</h4>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {Object.entries(plan.features).map(([key, enabled]) => (
-              <div key={key} className="flex items-center gap-2 text-xs">
+              <div key={key} className="flex items-center gap-3 text-xs">
                 {enabled ? (
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
                 ) : (

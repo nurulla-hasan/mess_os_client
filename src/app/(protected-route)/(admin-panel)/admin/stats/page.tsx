@@ -68,7 +68,7 @@ export default async function AdminStatsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
         <DashboardPageHeader
           title="Platform Analytics"
           description="Overview of platform performance and growth metrics."

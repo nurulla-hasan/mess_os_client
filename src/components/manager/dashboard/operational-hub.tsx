@@ -37,7 +37,7 @@ export function OperationalHub({ pendingActions, today }: OperationalHubProps) {
       {/* Quick Actions Hub */}
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle className="text-sm font-bold flex items-center gap-2">
+          <CardTitle className="text-sm font-bold flex items-center gap-3">
             <LayoutGrid className="w-4 h-4 text-primary" />
             Operational Hub
           </CardTitle>
@@ -80,7 +80,7 @@ export function OperationalHub({ pendingActions, today }: OperationalHubProps) {
       {/* Today's Meal Breakdown */}
       <Card className="flex flex-col">
         <CardHeader>
-          <CardTitle className="text-sm font-bold flex items-center gap-2">
+          <CardTitle className="text-sm font-bold flex items-center gap-3">
             <UtensilsCrossed className="w-4 h-4 text-primary" />
             Today&apos;s Status
           </CardTitle>

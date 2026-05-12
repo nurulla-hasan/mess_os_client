@@ -21,7 +21,7 @@ export default function MemberMealsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Meal Logs"
           description="View your personal meal consumption history and monthly totals."
@@ -36,7 +36,7 @@ export default function MemberMealsPage() {
         <div className="lg:col-span-1 space-y-4">
           <Card className="bg-primary/5 border-primary/20">
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Utensils className="h-4 w-4 text-primary" />
                 This Month
               </CardTitle>
@@ -49,7 +49,7 @@ export default function MemberMealsPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <TrendingUp className="h-4 w-4 text-emerald-500" />
                 Estimated Cost
               </CardTitle>
@@ -64,7 +64,7 @@ export default function MemberMealsPage() {
         {/* Meal History Table */}
         <Card className="lg:col-span-3">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-sm font-bold flex items-center gap-2">
+            <CardTitle className="text-sm font-bold flex items-center gap-3">
               <CheckCircle2 className="h-4 w-4 text-primary" />
               Detailed History
             </CardTitle>

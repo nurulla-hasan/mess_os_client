@@ -13,7 +13,7 @@ export default async function AdminMessesPage({ searchParams }: { searchParams: 
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Platform Messes"
           description="Monitor all registered messes, track growth, and manage global mess statuses."

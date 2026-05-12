@@ -72,7 +72,7 @@ export default function PendingApprovalPage() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Button 
               size="lg" 
-              className="flex-1 gap-2 group"
+              className="flex-1 gap-3 group"
               onClick={() => window.location.reload()}
             >
               <RotateCw className="h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
@@ -81,7 +81,7 @@ export default function PendingApprovalPage() {
             <Button 
               variant="outline" 
               size="lg" 
-              className="flex-1 gap-2"
+              className="flex-1 gap-3"
               asChild
             >
               <a href="/get-started">

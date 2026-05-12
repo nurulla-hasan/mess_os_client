@@ -9,7 +9,7 @@ export function HowItWorks() {
     <div className="relative">
       {/* Section header */}
       <div className="text-center space-y-4 mb-14">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/50 border border-border/50">
+        <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-secondary/50 border border-border/50">
           <Zap className="h-4 w-4 text-primary" />
           <span className="text-xs font-medium text-muted-foreground">Simple & Easy</span>
         </div>

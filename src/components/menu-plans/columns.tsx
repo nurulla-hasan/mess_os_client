@@ -144,7 +144,7 @@ export const columns: ColumnDef<IMenuPlan>[] = [
             </span>
           ) : (
             mealEntries.slice(0, 3).map(([category, content]) => (
-              <div key={category} className="flex items-center gap-2">
+              <div key={category} className="flex items-center gap-3">
                 <span className="text-xs font-bold text-primary/60 w-3 uppercase">
                   {category.charAt(0)}
                 </span>

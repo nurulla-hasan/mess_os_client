@@ -57,7 +57,7 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
 
           {/* Manager Details */}
           <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 space-y-4">
-            <div className="flex items-center gap-2 text-primary font-medium">
+            <div className="flex items-center gap-3 text-primary font-medium">
               <Icons.UserCog className="h-4 w-4" />
               <h4 className="text-xs">Manager Contact</h4>
             </div>
@@ -81,11 +81,11 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
         {/* Settings Section */}
         <div className="space-y-6">
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-primary font-medium">
+            <div className="flex items-center gap-3 text-primary font-medium">
               <UtensilsCrossed className="h-4 w-4" />
               <h4 className="text-xs">Meal Categories</h4>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {mess.settings?.mealCategories.map((cat) => (
                 <Badge key={cat} variant="secondary" className="px-3 py-1 text-xs font-medium">
                   {cat}
@@ -95,11 +95,11 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-center gap-2 text-primary font-medium">
+            <div className="flex items-center gap-3 text-primary font-medium">
               <CreditCard className="h-4 w-4" />
               <h4 className="text-xs">Equal Share Categories</h4>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {mess.settings?.equalShareCategories.map((cat) => (
                 <Badge key={cat} variant="outline" className="px-3 py-1 text-xs font-medium border-primary/10 bg-primary/5 text-primary">
                   {cat}

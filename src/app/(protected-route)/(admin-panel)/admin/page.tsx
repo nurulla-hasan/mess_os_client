@@ -65,12 +65,12 @@ export default async function AdminDashboardPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Super Admin Overview"
           description="Global platform statistics and system monitoring dashboard."
         />
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Link href="/admin/stats">
             <Button variant="outline" size="sm">
               <TrendingUp /> Full Analytics
@@ -106,7 +106,7 @@ export default async function AdminDashboardPage() {
         <Card className="lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
             <div className="space-y-1">
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Building2 className="h-4 w-4 text-primary" />
                 Recent Mess Onboarding
               </CardTitle>
@@ -128,12 +128,12 @@ export default async function AdminDashboardPage() {
         <div className="space-y-6">
           <Card className="border-primary/20 bg-primary/5">
             <CardHeader>
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <ShieldCheck className="h-4 w-4 text-primary" />
                 Platform Controls
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-2">
+            <CardContent className="flex flex-col gap-3">
               <Link href="/admin/users">
                 <Button variant="outline" className="w-full justify-start text-xs font-bold bg-background">
                   <UserPlus className="mr-2 h-4 w-4" /> Manage Platform Users

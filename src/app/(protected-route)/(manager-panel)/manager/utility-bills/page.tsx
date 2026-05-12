@@ -23,12 +23,12 @@ export default function ManagerUtilityBillsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Utility Bills"
           description="Manage shared mess utilities like rent, electricity, and internet bills."
         />
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Button variant="outline" size="sm">
             <Filter className="mr-2 h-4 w-4" /> Filter
           </Button>

@@ -65,7 +65,7 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
 
           {/* User Section */}
           <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-3">
               <UserIcon className="h-3 w-3" /> User Information
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -75,21 +75,21 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
               </div>
               <div className="p-3 rounded-lg bg-muted border border-border/50">
                 <p className="text-xs uppercase font-bold text-muted-foreground mb-1">Email Address</p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <Mail className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">{user.email}</p>
                 </div>
               </div>
               <div className="p-3 rounded-lg bg-muted border border-border/50">
                 <p className="text-xs uppercase font-bold text-muted-foreground mb-1">Phone Number</p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <Phone className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">{user.phone}</p>
                 </div>
               </div>
               <div className="p-3 rounded-lg bg-muted border border-border/50">
                 <p className="text-xs uppercase font-bold text-muted-foreground mb-1">Requested Date</p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <Calendar className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">
                     {format(new Date(request.createdAt), "PPP")}
@@ -101,7 +101,7 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
 
           {/* Reason Section */}
           <div className="space-y-4 pb-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-3">
               <MessageSquareQuote className="h-3 w-3" /> Reason for Elevation
             </h4>
             <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 relative">

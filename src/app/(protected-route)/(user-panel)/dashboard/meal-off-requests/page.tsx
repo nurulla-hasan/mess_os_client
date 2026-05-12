@@ -23,7 +23,7 @@ export default function MemberMealOffRequestsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Meal Off Requests"
           description="Request to skip meals for a specific date range. Manager approval is required."
@@ -36,19 +36,19 @@ export default function MemberMealOffRequestsPage() {
       <div className="mt-2">
         <Tabs defaultValue="all" className="w-full">
           <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="all" className="flex items-center gap-2">
+            <TabsTrigger value="all" className="flex items-center gap-3">
               <Calendar className="h-4 w-4" />
               <span>My Requests</span>
             </TabsTrigger>
-            <TabsTrigger value="pending" className="flex items-center gap-2">
+            <TabsTrigger value="pending" className="flex items-center gap-3">
               <Clock className="h-4 w-4" />
               <span>Pending ({pendingRequests.length})</span>
             </TabsTrigger>
-            <TabsTrigger value="approved" className="flex items-center gap-2">
+            <TabsTrigger value="approved" className="flex items-center gap-3">
               <CheckCircle2 className="h-4 w-4" />
               <span>Approved</span>
             </TabsTrigger>
-            <TabsTrigger value="rejected" className="flex items-center gap-2">
+            <TabsTrigger value="rejected" className="flex items-center gap-3">
               <XCircle className="h-4 w-4" />
               <span>Rejected</span>
             </TabsTrigger>

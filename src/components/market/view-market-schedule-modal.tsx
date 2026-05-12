@@ -38,7 +38,7 @@ export function ViewMarketScheduleModal({ schedule }: ViewMarketScheduleModalPro
     >
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-3 text-sm">
             <Calendar className="h-4 w-4 text-muted-foreground" />
             <span className="font-medium">{format(new Date(schedule.targetDate), "PPP")}</span>
           </div>
@@ -53,12 +53,12 @@ export function ViewMarketScheduleModal({ schedule }: ViewMarketScheduleModalPro
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Assignees */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold flex items-center gap-2">
+            <h3 className="text-sm font-semibold flex items-center gap-3">
               <Users className="h-4 w-4" /> Assigned Members
             </h3>
             <div className="space-y-2">
               {schedule.assignedTo.map((assignee) => (
-                <div key={assignee._id} className="flex items-center gap-2 p-2 rounded-md border text-sm">
+                <div key={assignee._id} className="flex items-center gap-3 p-2 rounded-md border text-sm">
                   <Avatar className="h-6 w-6">
                     <AvatarImage src={assignee.user.avatarUrl} />
                     <AvatarFallback>{assignee.user.fullName[0]}</AvatarFallback>
@@ -71,7 +71,7 @@ export function ViewMarketScheduleModal({ schedule }: ViewMarketScheduleModalPro
 
           {/* Shopping List */}
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold flex items-center gap-2">
+            <h3 className="text-sm font-semibold flex items-center gap-3">
               <ShoppingCart className="h-4 w-4" /> Shopping Items
             </h3>
             <div className="rounded-md border">
@@ -92,7 +92,7 @@ export function ViewMarketScheduleModal({ schedule }: ViewMarketScheduleModalPro
         <Separator />
 
         <div className="flex items-center justify-between text-sm">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Wallet className="h-4 w-4 text-muted-foreground" />
             <span>Estimated Budget</span>
           </div>

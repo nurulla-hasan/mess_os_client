@@ -117,7 +117,7 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
               <Button variant="outline" onClick={() => setOpen(false)} disabled={isSaving}>
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={isSaving} className="gap-2 px-8">
+              <Button onClick={handleSave} disabled={isSaving} className="gap-3 px-8">
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                 Save Changes
               </Button>

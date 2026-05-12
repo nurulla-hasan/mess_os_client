@@ -100,7 +100,7 @@ export function KPICards({ summary }: KPICardsProps) {
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground/80">
                   {kpi.label}
                 </p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <h3 className="text-xl font-bold">{kpi.value}</h3>
                   {kpi.isWarning && (
                     <span className="h-1.5 w-1.5 rounded-full bg-destructive animate-pulse" />

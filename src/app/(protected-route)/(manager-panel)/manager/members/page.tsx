@@ -32,7 +32,7 @@ export default async function ManagerMembersPage({
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Members Management"
           description="Oversee your community members and requests."

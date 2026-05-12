@@ -96,13 +96,13 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
       title="Create New Menu Plan"
       description="Plan your meals for a specific date."
       actionTrigger={
-        <Button className="gap-2">
+        <Button className="gap-3">
           <Plus className="h-4 w-4" /> New Plan
         </Button>
       }
     >
       <div className="p-6 flex flex-col gap-6">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <Label className="text-sm font-medium">Select Date</Label>
           <Popover>
             <PopoverTrigger asChild>
@@ -155,7 +155,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
               <Button variant="outline" onClick={() => setOpen(false)} disabled={isSaving}>
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={isSaving} className="gap-2 px-8">
+              <Button onClick={handleSave} disabled={isSaving} className="gap-3 px-8">
                 {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                 Create Plan
               </Button>

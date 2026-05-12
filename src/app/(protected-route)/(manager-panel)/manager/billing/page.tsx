@@ -27,12 +27,12 @@ import {
 export default function ManagerBillingPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Billing Management"
           description="Finalize monthly billing, calculate meal rates, and manage member invoices."
         />
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Select defaultValue="may-2024">
             <SelectTrigger className="w-45">
               <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
@@ -54,7 +54,7 @@ export default function ManagerBillingPage() {
         {/* Billing Overview Card */}
         <Card className="lg:col-span-1 border-primary/20 bg-primary/5">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="text-lg flex items-center gap-3">
               <Calculator className="h-5 w-5 text-primary" />
               Cycle Preview
             </CardTitle>
@@ -83,7 +83,7 @@ export default function ManagerBillingPage() {
                 <span className="font-medium">৳2,400</span>
               </div>
             </div>
-            <div className="pt-2 flex flex-col gap-2">
+            <div className="pt-2 flex flex-col gap-3">
               <Button className="w-full shadow-lg shadow-primary/20">
                 <Save className="mr-2 h-4 w-4" /> Save Preview
               </Button>
@@ -97,11 +97,11 @@ export default function ManagerBillingPage() {
         {/* Member Bills Table */}
         <Card className="lg:col-span-2">
           <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="text-lg flex items-center gap-3">
               <FileText className="h-5 w-5 text-muted-foreground" />
               Member Bills
             </CardTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Badge variant="success" className="text-xs">3 Paid</Badge>
               <Badge variant="pending" className="text-xs">2 Pending</Badge>
             </div>
@@ -113,7 +113,7 @@ export default function ManagerBillingPage() {
       </div>
 
       {/* Operational Warnings/Notes */}
-      <div className="flex items-center gap-2 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-sm">
+      <div className="flex items-center gap-3 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-sm">
         <AlertTriangle className="h-4 w-4 shrink-0" />
         <p>
           Billing for **May 2024** is currently in **Preview Mode**. You can update meal rates or expenses before finalizing. 
