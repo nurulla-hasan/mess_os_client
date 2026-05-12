@@ -66,7 +66,7 @@ export function JoinMessModal() {
                 <Input
                   id="inviteCode"
                   placeholder="Ex: MESS-123-ABC"
-                  className="pl-10 h-12 bg-muted/30 border-primary/10 focus-visible:ring-primary"
+                  className="pl-10 h-12 bg-muted border-primary/10 focus-visible:ring-primary"
                   value={inviteCode}
                   onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
                 />
@@ -78,7 +78,7 @@ export function JoinMessModal() {
           </div>
         </div>
 
-        <div className="p-6 border-t bg-muted/20 flex items-center justify-end">
+        <div className="p-6 border-t bg-muted flex items-center justify-end">
           <Button 
             size="lg"
             onClick={handleJoinMess} 

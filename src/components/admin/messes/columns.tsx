@@ -62,9 +62,9 @@ function ActionButtons({ mess }: { mess: IMess }) {
         isLoading={isUpdating}
         trigger={
           <Button 
-            variant="ghost" 
-            size="icon" 
-            className={mess.status === "active" ? "text-rose-600 hover:bg-rose-50" : "text-emerald-600 hover:bg-emerald-50"}
+            variant="outline" 
+            size="icon-sm" 
+            className={mess.status === "active" ? "text-rose-600" : "text-emerald-600"}
           >
             {mess.status === "active" ? <ShieldAlert /> : <CheckCircle2 />}
           </Button>
@@ -77,7 +77,7 @@ function ActionButtons({ mess }: { mess: IMess }) {
           <Textarea 
             placeholder={mess.status === "active" ? "Reason for suspension..." : "Note for activation..."}
             className={cn(
-              "min-h-24 bg-muted/30 focus-visible:ring-offset-0",
+              "min-h-24 bg-muted focus-visible:ring-offset-0",
               mess.status === "active" ? "focus-visible:ring-rose-500" : "focus-visible:ring-emerald-500"
             )}
             value={note}

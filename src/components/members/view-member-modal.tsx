@@ -32,19 +32,19 @@ const DetailItem = ({
   value,
   subValue,
 }: DetailItemProps) => (
-  <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border border-muted">
+  <div className="flex items-start gap-3 p-3 rounded-lg bg-muted border border-muted">
     <div className="h-8 w-8 rounded-full bg-background flex items-center justify-center text-muted-foreground border shrink-0">
       <Icon className="h-4 w-4" />
     </div>
     <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
+      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
         {label}
       </span>
       <span className="text-sm font-bold text-foreground truncate">
         {value || "N/A"}
       </span>
       {subValue && (
-        <span className="text-[10px] text-muted-foreground truncate">
+        <span className="text-xs text-muted-foreground truncate">
           {subValue}
         </span>
       )}
@@ -63,7 +63,7 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
       description="Detailed view of the community member's information."
       showClose
       actionTrigger={
-        <Button variant="ghost" size="icon">
+        <Button variant="outline" size="icon-sm">
           <Eye />
         </Button>
       }

@@ -40,7 +40,7 @@ export const columns: ColumnDef<IMeal>[] = [
     accessorKey: "mealCount",
     header: "Count",
     cell: ({ row }) => (
-      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted/50 text-foreground text-sm font-medium border border-muted">
+      <div className="flex items-center justify-center h-8 w-8 rounded-full bg-muted text-foreground text-sm font-medium border border-muted">
         {row.original.mealCount}
       </div>
     ),

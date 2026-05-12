@@ -41,12 +41,12 @@ const DetailItem = ({
       case "warning": return "text-amber-600 dark:text-amber-500 bg-amber-500/10 border-amber-500/20";
       case "success": return "text-emerald-600 dark:text-emerald-500 bg-emerald-500/10 border-emerald-500/20";
       case "info": return "text-blue-600 dark:text-blue-500 bg-blue-500/10 border-blue-500/20";
-      default: return "text-muted-foreground bg-muted/20 border-muted/50";
+      default: return "text-muted-foreground bg-muted border-muted/50";
     }
   };
 
   return (
-    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 border border-muted/50">
+    <div className="flex items-start gap-3 p-3 rounded-lg bg-muted border border-muted/50">
       <div className={`h-8 w-8 rounded-full flex items-center justify-center border shrink-0 ${getIconColor()}`}>
         <Icon className="h-4 w-4" />
       </div>
@@ -82,15 +82,19 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
       description="Detailed view of the member's meal suspension request."
       showClose
       actionTrigger={
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-          <Eye className="h-4 w-4" />
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="text-muted-foreground"
+        >
+          <Eye />
         </Button>
       }
     >
       <div className="p-0">
         {/* Header Profile Section */}
         {/* Compact Header Section */}
-        <div className="flex items-center gap-5 p-5 bg-muted/30 dark:bg-muted/10 border-b">
+        <div className="flex items-center gap-5 p-5 bg-muted dark:bg-muted border-b">
           <Avatar className="h-14 w-14 border border-primary/10 shadow-sm">
             <AvatarImage src={user.avatarUrl} alt={user.fullName} />
             <AvatarFallback className="bg-primary/5 text-primary text-xl font-bold">
@@ -162,7 +166,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
           {/* Reviewer Section */}
           {request.status !== "pending" && (
             <div className="grid grid-cols-1 gap-4">
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/30 dark:bg-muted/10 border border-muted/50">
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-muted dark:bg-muted border border-muted/50">
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center shrink-0 border ${
                   request.status === 'approved' 
                     ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border-emerald-500/20' 

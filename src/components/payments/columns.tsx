@@ -84,8 +84,8 @@ export const columns: ColumnDef<Payment>[] = [
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button 
-                  variant="ghost" 
-                  size="icon" 
+                  variant="outline" 
+                  size="icon-sm" 
                   onClick={() => console.log("View Payment", payment)}
                 >
                   <Eye className="h-4 w-4" />
@@ -101,8 +101,8 @@ export const columns: ColumnDef<Payment>[] = [
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button 
-                      variant="ghost" 
-                      size="icon" 
+                      variant="outline" 
+                      size="icon-sm" 
                       className="text-emerald-600"
                       onClick={() => console.log("Approve Payment", payment)}
                     >
@@ -117,8 +117,8 @@ export const columns: ColumnDef<Payment>[] = [
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button 
-                      variant="ghost" 
-                      size="icon" 
+                      variant="outline" 
+                      size="icon-sm" 
                       className="text-rose-600"
                       onClick={() => console.log("Reject Payment", payment)}
                     >

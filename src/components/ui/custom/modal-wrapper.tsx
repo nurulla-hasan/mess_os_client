@@ -57,7 +57,7 @@ export function ModalWrapper({
         </div>
 
         {showClose && (
-          <div className="p-4 border-t bg-muted/20 flex justify-end shrink-0">
+          <div className="p-4 border-t bg-muted flex justify-end shrink-0">
             <DialogClose asChild>
               <Button type="button" variant="outline">
                 Close

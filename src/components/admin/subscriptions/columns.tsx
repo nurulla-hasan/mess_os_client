@@ -46,9 +46,9 @@ const PlanActions = ({ plan }: { plan: ISubscriptionPlan }) => {
         onOpenChange={setIsConfirmOpen}
         trigger={
           <Button
-            variant="ghost"
-            size="icon"
-            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 h-8 w-8"
+            variant="outline"
+            size="icon-sm"
+            className="text-rose-600"
           >
             <Trash2 className="h-4 w-4" />
           </Button>

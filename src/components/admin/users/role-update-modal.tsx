@@ -59,8 +59,12 @@ export function RoleUpdateModal({ user }: RoleUpdateModalProps) {
       title="Update Global Role"
       description={`Change platform-wide permissions for ${user.fullName}.`}
       actionTrigger={
-        <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-600">
-          <Shield className="h-3.5 w-3.5" />
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="text-blue-600"
+        >
+          <Shield />
         </Button>
       }
     >
@@ -70,7 +74,7 @@ export function RoleUpdateModal({ user }: RoleUpdateModalProps) {
             Select New Role
           </label>
           <Select value={role} onValueChange={(v) => setRole(v as GlobalRole)}>
-            <SelectTrigger className="w-full bg-muted/30">
+            <SelectTrigger className="w-full bg-muted">
               <SelectValue placeholder="Select a role" />
             </SelectTrigger>
             <SelectContent>

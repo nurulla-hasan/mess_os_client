@@ -64,7 +64,7 @@ export function DashboardHeader({ mess, subscription }: DashboardHeaderProps) {
 
           {/* Right: Subscription & Invite */}
           <div className="flex flex-wrap items-center gap-4 lg:justify-end">
-            <div className="bg-muted/40 border px-3 py-1.5 rounded-lg flex items-center gap-4">
+            <div className="bg-muted border px-3 py-1.5 rounded-lg flex items-center gap-4">
               <div className="space-y-0.5">
                 <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Plan</p>
                 <div className="flex items-center gap-2">

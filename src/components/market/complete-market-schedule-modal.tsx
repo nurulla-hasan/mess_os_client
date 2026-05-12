@@ -70,11 +70,11 @@ export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarket
       description="Enter the actual amount spent and the source of funds."
       actionTrigger={
         <Button
-          variant="ghost"
-          size="icon"
-          className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50 rounded-full"
+          variant="outline"
+          size="icon-sm"
+          className="text-emerald-600"
         >
-          <Check className="h-4 w-4" />
+          <Check />
         </Button>
       }
     >

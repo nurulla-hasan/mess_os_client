@@ -219,7 +219,7 @@ export default async function AdminStatsPage() {
                 <span className="text-sm text-muted-foreground">Blocked Accounts</span>
                 <span className="text-sm font-bold text-destructive">{summary.users.blocked}</span>
               </div>
-              <div className="p-3 bg-muted/50 rounded-lg border flex items-center gap-3">
+              <div className="p-3 bg-muted rounded-lg border flex items-center gap-3">
                 <ShieldCheck className="h-5 w-5 text-emerald-500" />
                 <div className="space-y-0.5">
                   <p className="text-xs font-semibold">System Operational</p>

@@ -31,8 +31,8 @@ export function ViewMarketScheduleModal({ schedule }: ViewMarketScheduleModalPro
       title="Bazaar Duty Details"
       description={`Schedule information for ${format(new Date(schedule.targetDate), "PPP")}`}
       actionTrigger={
-        <Button variant="ghost" size="icon">
-          <Eye className="h-4 w-4" />
+        <Button variant="outline" size="icon-sm">
+          <Eye />
         </Button>
       }
     >

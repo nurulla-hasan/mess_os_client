@@ -28,7 +28,7 @@ const badgeVariants = cva(
           "border-transparent bg-transparent hover:bg-muted text-foreground",
 
         muted:
-          "border-transparent bg-muted text-muted-foreground hover:bg-muted/80",
+          "border-transparent bg-muted text-muted-foreground hover:bg-muted",
 
 
         success:

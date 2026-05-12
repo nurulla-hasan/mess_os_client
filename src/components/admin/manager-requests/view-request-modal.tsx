@@ -45,8 +45,8 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
       description="Review the user's information and their reason for requesting manager access."
       showClose={true}
       actionTrigger={
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <Info className="h-4 w-4" />
+        <Button variant="outline" size="icon-sm">
+          <Info />
         </Button>
       }
     >
@@ -69,25 +69,25 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
               <UserIcon className="h-3 w-3" /> User Information
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+              <div className="p-3 rounded-lg bg-muted border border-border/50">
                 <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Full Name</p>
                 <p className="text-sm font-semibold">{user.fullName}</p>
               </div>
-              <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+              <div className="p-3 rounded-lg bg-muted border border-border/50">
                 <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Email Address</p>
                 <div className="flex items-center gap-2">
                   <Mail className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">{user.email}</p>
                 </div>
               </div>
-              <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+              <div className="p-3 rounded-lg bg-muted border border-border/50">
                 <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Phone Number</p>
                 <div className="flex items-center gap-2">
                   <Phone className="h-3 w-3 text-primary" />
                   <p className="text-sm font-semibold">{user.phone}</p>
                 </div>
               </div>
-              <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
+              <div className="p-3 rounded-lg bg-muted border border-border/50">
                 <p className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Requested Date</p>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-3 w-3 text-primary" />

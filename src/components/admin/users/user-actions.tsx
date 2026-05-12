@@ -68,14 +68,14 @@ export function ActionButtons({ user }: { user: IUser }) {
         variant={user.status === "active" ? "destructive" : "default"}
         actionTrigger={
           <Button 
-            variant="ghost" 
-            size="icon" 
-            className={user.status === "active" ? "h-7 w-7 text-rose-600" : "h-7 w-7 text-emerald-600"}
+            variant="outline" 
+            size="icon-sm" 
+            className={user.status === "active" ? "text-rose-600" : "text-emerald-600"}
           >
             {user.status === "active" ? (
-              <Ban className="h-3.5 w-3.5" />
+              <Ban />
             ) : (
-              <UserCheck className="h-3.5 w-3.5" />
+              <UserCheck />
             )}
           </Button>
         }

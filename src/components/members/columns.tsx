@@ -63,17 +63,17 @@ function ActionButtons({ member }: ActionButtonsProps) {
       {member.status === "pending" && (
         <>
           <Button 
-            variant="ghost" 
-            size="icon" 
-            className="h-8 w-8 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+            variant="outline" 
+            size="icon-sm" 
+            className="text-emerald-600"
             onClick={() => openModal("approve")}
           >
             <Check className="h-4 w-4" />
           </Button>
           <Button 
-            variant="ghost" 
-            size="icon" 
-            className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+            variant="outline" 
+            size="icon-sm" 
+            className="text-rose-600"
             onClick={() => openModal("reject")}
           >
             <X className="h-4 w-4" />
@@ -83,9 +83,9 @@ function ActionButtons({ member }: ActionButtonsProps) {
 
       {member.status === "active" && member.messRole !== "manager" && (
         <Button 
-          variant="ghost" 
-          size="icon" 
-          className="h-8 w-8 text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+          variant="outline" 
+          size="icon-sm" 
+          className="text-rose-600"
           onClick={() => openModal("remove")}
         >
           <UserMinus className="h-4 w-4" />

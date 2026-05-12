@@ -103,6 +103,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
             onClick={currentPage > 1 ? handleNavigate(currentPage - 1) : undefined}
             aria-disabled={currentPage <= 1}
             tabIndex={currentPage <= 1 ? -1 : undefined}
+            size="sm"
             className={
               currentPage <= 1
                 ? "pointer-events-none opacity-50"
@@ -127,6 +128,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
                 href={createPageUrl(pageNumber)}
                 isActive={currentPage === pageNumber}
                 onClick={handleNavigate(pageNumber as number)}
+                size="sm"
               >
                 {pageNumber}
               </PaginationLink>
@@ -141,6 +143,7 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
             onClick={currentPage < totalPages ? handleNavigate(currentPage + 1) : undefined}
             aria-disabled={currentPage >= totalPages}
             tabIndex={currentPage >= totalPages ? -1 : undefined}
+            size="sm"
             className={
               currentPage >= totalPages
                 ? "pointer-events-none opacity-50"

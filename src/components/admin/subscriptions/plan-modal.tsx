@@ -176,8 +176,8 @@ export function PlanModal({ plan, trigger }: PlanModalProps) {
       actionTrigger={
         trigger || (
           <Button
-            variant={plan ? "ghost" : "default"}
-            size={plan ? "icon" : "default"}
+            variant={plan ? "outline" : "default"}
+            size={plan ? "icon-sm" : "default"}
           >
             {plan ? (
               <Pencil className="h-4 w-4" />
@@ -319,7 +319,7 @@ export function PlanModal({ plan, trigger }: PlanModalProps) {
             <FieldGroup className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Field
                 orientation="horizontal"
-                className="justify-between rounded-lg border p-4 bg-muted/5"
+                className="justify-between rounded-lg border p-4 bg-muted"
               >
                 <div className="space-y-0.5">
                   <FieldLabel
@@ -346,7 +346,7 @@ export function PlanModal({ plan, trigger }: PlanModalProps) {
               </Field>
               <Field
                 orientation="horizontal"
-                className="justify-between rounded-lg border p-4 bg-muted/5"
+                className="justify-between rounded-lg border p-4 bg-muted"
               >
                 <div className="space-y-0.5">
                   <FieldLabel

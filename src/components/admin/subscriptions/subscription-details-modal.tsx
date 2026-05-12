@@ -32,8 +32,8 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
       description="Complete overview of this subscription, mess, and billing status."
       showClose={true}
       actionTrigger={
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <Eye className="h-4 w-4" />
+        <Button variant="outline" size="icon-sm">
+          <Eye />
         </Button>
       }
     >
@@ -51,14 +51,14 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
 
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-muted/30 border border-border/50 space-y-1">
+          <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
             <span className="text-xs text-muted-foreground">Current Period</span>
             <div className="flex items-center gap-1.5 text-sm font-medium">
               <Calendar className="h-3.5 w-3.5 text-primary" />
               <span>{format(new Date(subscription.currentPeriodStart), "MMM dd")} - {format(new Date(subscription.currentPeriodEnd), "MMM dd, yyyy")}</span>
             </div>
           </div>
-          <div className="p-4 rounded-xl bg-muted/30 border border-border/50 space-y-1">
+          <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
             <span className="text-xs text-muted-foreground">Current Plan</span>
             <div className="flex items-center gap-1.5 text-sm font-medium">
               <CreditCard className="h-3.5 w-3.5 text-primary" />

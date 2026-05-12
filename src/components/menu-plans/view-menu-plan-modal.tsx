@@ -35,7 +35,7 @@ const DetailItem = ({
   value,
   subValue,
 }: DetailItemProps) => (
-  <div className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 border border-muted">
+  <div className="flex items-start gap-3 p-3 rounded-lg bg-muted border border-muted">
     <div className="h-8 w-8 rounded-full bg-background flex items-center justify-center text-muted-foreground border shrink-0">
       <Icon className="h-4 w-4" />
     </div>
@@ -67,7 +67,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
       description="Detailed overview of the scheduled meal menu."
       showClose
       actionTrigger={
-        <Button variant="ghost" size="icon">
+        <Button variant="outline" size="icon-sm">
           <Eye />
         </Button>
       }
@@ -162,7 +162,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
               mealEntries.map(([category, content]) => (
                 <div
                   key={category}
-                  className="flex flex-col p-4 rounded-xl border bg-muted/5 border-muted/20 hover:border-primary/20 transition-all group"
+                  className="flex flex-col p-4 rounded-xl border bg-muted border-muted/20 hover:border-primary/20 transition-all group"
                 >
                   <span className="text-[10px] font-black text-primary/60 uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
                     {category}

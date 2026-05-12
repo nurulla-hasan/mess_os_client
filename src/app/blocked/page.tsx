@@ -69,7 +69,7 @@ export default function BlockedPage() {
         </div>
 
         {/* Support Card */}
-        <div className="bg-muted/50 border border-border/50 rounded-2xl p-6 space-y-4">
+        <div className="bg-muted border border-border/50 rounded-2xl p-6 space-y-4">
           <div className="flex items-center gap-3 text-left">
             <div className="bg-primary/10 p-2 rounded-lg">
               <Mail className="h-4 w-4 text-primary" />

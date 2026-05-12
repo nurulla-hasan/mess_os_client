@@ -39,7 +39,7 @@ export function MealFilters() {
         placeholder="Filter by Member ID..." 
       />
       
-      <div className="flex items-center gap-1.5 bg-muted/30 p-0.5 rounded-md border shadow-sm backdrop-blur-sm">
+      <div className="flex items-center gap-1.5 bg-muted p-0.5 rounded-md border shadow-sm backdrop-blur-sm">
         <Button 
           variant="ghost" 
           size="icon-sm" 

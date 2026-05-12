@@ -81,9 +81,9 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
       description="Update the meal details for this day."
       actionTrigger={
         <Button
-          variant="ghost"
-          size="icon"
-          className="text-amber-600 dark:text-amber-500 hover:bg-amber-500/10"
+          variant="outline"
+          size="icon-sm"
+          className="text-amber-600 dark:text-amber-500"
         >
           <Edit />
         </Button>

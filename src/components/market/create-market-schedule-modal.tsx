@@ -45,7 +45,7 @@ const ShoppingItemRow = React.memo(({
   canRemove: boolean;
 }) => {
   return (
-    <div className="flex gap-2 items-start group relative bg-muted/10 p-2 rounded-md border border-dashed border-muted-foreground/20">
+    <div className="flex gap-2 items-start group relative bg-muted p-2 rounded-md border border-dashed border-muted-foreground/20">
       <div className="flex-1 space-y-2">
         <Input 
           placeholder="Item name (e.g. Rice)" 

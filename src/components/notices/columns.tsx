@@ -64,7 +64,7 @@ export const columns: ColumnDef<Notice>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="outline" size="icon-sm">
                   <Eye className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -77,7 +77,7 @@ export const columns: ColumnDef<Notice>[] = [
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-amber-600">
+                    <Button variant="outline" size="icon-sm" className="text-amber-600">
                       <Edit className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Notice>[] = [
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className={notice.isPinned ? "text-primary" : "text-muted-foreground"}>
+                    <Button variant="outline" size="icon-sm" className={notice.isPinned ? "text-primary" : "text-muted-foreground"}>
                       <Pin className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
@@ -99,7 +99,7 @@ export const columns: ColumnDef<Notice>[] = [
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="text-rose-600">
+                    <Button variant="outline" size="icon-sm" className="text-rose-600">
                       <Archive className="h-4 w-4" />
                     </Button>
                   </TooltipTrigger>
@@ -113,7 +113,7 @@ export const columns: ColumnDef<Notice>[] = [
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-rose-700">
+                  <Button variant="outline" size="icon-sm" className="text-rose-700">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>

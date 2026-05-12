@@ -79,7 +79,7 @@ export const columns: ColumnDef<UtilityBill>[] = [
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="outline" size="icon-sm">
                   <Eye className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
@@ -91,7 +91,7 @@ export const columns: ColumnDef<UtilityBill>[] = [
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-emerald-600">
+                  <Button variant="outline" size="icon-sm" className="text-emerald-600">
                     <Check className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
@@ -104,7 +104,7 @@ export const columns: ColumnDef<UtilityBill>[] = [
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="text-sky-600">
+                  <Button variant="outline" size="icon-sm" className="text-sky-600">
                     <ReceiptText className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>

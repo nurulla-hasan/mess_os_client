@@ -42,7 +42,7 @@ export const MealEntryRow = React.memo(({
   onUpdateMeal 
 }: MealEntryRowProps) => {
   return (
-    <div className="flex flex-col gap-3 p-3 rounded-lg border bg-muted/20 relative animate-in fade-in slide-in-from-top-1 duration-200">
+    <div className="flex flex-col gap-3 p-3 rounded-lg border bg-muted relative animate-in fade-in slide-in-from-top-1 duration-200">
       <Button 
         variant="ghost" 
         size="icon" 

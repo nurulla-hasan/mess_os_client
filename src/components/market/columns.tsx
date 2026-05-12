@@ -63,12 +63,12 @@ const MarketActionCell = ({ schedule }: { schedule: IMarketSchedule }) => {
 
           {/* Void Action Trigger */}
           <Button
-            variant="ghost"
-            size="icon"
+            variant="outline"
+            size="icon-sm"
             onClick={() => setIsVoidOpen(true)}
-            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-full"
+            className="text-rose-600"
           >
-            <Ban className="h-4 w-4" />
+            <Ban />
           </Button>
 
           <ConfirmationModal

@@ -23,8 +23,8 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
       title="User Details"
       description={`Viewing full profile for ${user.fullName}.`}
       actionTrigger={
-        <Button variant="ghost" size="icon" className="h-7 w-7">
-          <Eye className="h-3.5 w-3.5" />
+        <Button variant="outline" size="icon-sm">
+          <Eye />
         </Button>
       }
     >
@@ -94,7 +94,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
                 const role = membership.messRole || membership.role;
 
                 return (
-                  <div key={membership._id} className="p-3 rounded-xl border bg-muted/20 flex flex-col gap-2">
+                  <div key={membership._id} className="p-3 rounded-xl border bg-muted flex flex-col gap-2">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-sm font-bold truncate">{messName}</span>
                       <Badge variant={membership.status === "active" || membership.status === "approved" ? "success" : "rejected"} className="h-4 px-1 text-[9px] uppercase">
@@ -123,7 +123,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
         </div>
       </div>
 
-      <div className="p-4 bg-muted/10 border-t flex justify-end">
+      <div className="p-4 bg-muted border-t flex justify-end">
         <Button variant="outline" size="sm" onClick={() => setIsOpen(false)}>
           Close
         </Button>

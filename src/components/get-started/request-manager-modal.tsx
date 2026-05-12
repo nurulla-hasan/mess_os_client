@@ -141,7 +141,7 @@ export function RequestManagerModal() {
                 value={requestReason}
                 onChange={(e) => setRequestReason(e.target.value)}
                 disabled={isPending || isApproved}
-                className="bg-muted/30 min-h-32"
+                className="bg-muted min-h-32"
               />
             </div>
 
@@ -160,7 +160,7 @@ export function RequestManagerModal() {
         </div>
 
         {!isPending && !isApproved && (
-          <div className="p-6 border-t bg-muted/20 flex items-center justify-end">
+          <div className="p-6 border-t bg-muted flex items-center justify-end">
             <Button 
               size="lg"
               onClick={handleRequestManager} 

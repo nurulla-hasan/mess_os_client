@@ -60,9 +60,9 @@ function ActionButtons({ plan }: ActionButtonsProps) {
         <>
           <EditMenuPlanModal plan={plan} />
           <Button
-            variant="ghost"
-            size="icon"
-            className="text-emerald-600 dark:text-emerald-500 hover:bg-emerald-500/10"
+            variant="outline"
+            size="icon-sm"
+            className="text-emerald-600 dark:text-emerald-500"
             onClick={() => openModal("published")}
           >
             <Send />
@@ -75,9 +75,9 @@ function ActionButtons({ plan }: ActionButtonsProps) {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant="ghost"
-                size="icon"
-                className="text-rose-600 dark:text-rose-500 hover:bg-rose-500/10"
+                variant="outline"
+                size="icon-sm"
+                className="text-rose-600 dark:text-rose-500"
                 onClick={() => openModal("archived")}
               >
                 <Archive />

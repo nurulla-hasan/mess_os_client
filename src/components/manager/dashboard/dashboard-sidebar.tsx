@@ -79,7 +79,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
           </CardContent>
         </Card>
       ) : (
-        <div className="bg-muted/10 border border-dashed rounded-lg p-4 text-center">
+        <div className="bg-muted border border-dashed rounded-lg p-4 text-center">
           <p className="text-xs font-bold text-muted-foreground/60 uppercase tracking-widest">No pending join requests</p>
         </div>
       )}

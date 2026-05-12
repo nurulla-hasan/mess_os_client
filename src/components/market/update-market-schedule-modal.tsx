@@ -53,7 +53,7 @@ const ShoppingItemRow = React.memo(({
   canRemove: boolean;
 }) => {
   return (
-    <div className="flex gap-2 items-start group relative bg-muted/10 p-2 rounded-md border border-dashed border-muted-foreground/20">
+    <div className="flex gap-2 items-start group relative bg-muted p-2 rounded-md border border-dashed border-muted-foreground/20">
       <div className="flex-1 space-y-2">
         <Input 
           placeholder="Item name (e.g. Rice)" 
@@ -212,8 +212,12 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
       title="Update Market Schedule"
       description={`Editing schedule for ${new Date(schedule.targetDate).toLocaleDateString()}`}
       actionTrigger={
-        <Button variant="ghost" size="icon" className="text-amber-600">
-          <Edit className="h-4 w-4" />
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="text-amber-600"
+        >
+          <Edit />
         </Button>
       }
     >

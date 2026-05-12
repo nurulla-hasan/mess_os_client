@@ -64,9 +64,9 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
             isLoading={isUpdating}
             trigger={
               <Button
-                variant="ghost"
-                size="icon"
-                className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+                variant="outline"
+                size="icon-sm"
+                className="text-emerald-600"
               >
                 <CheckCircle2 />
               </Button>
@@ -78,7 +78,7 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
               </p>
               <Textarea
                 placeholder="Type any note for this approval..."
-                className="min-h-24 bg-muted/30 focus-visible:ring-emerald-500"
+                className="min-h-24 bg-muted focus-visible:ring-emerald-500"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
               />
@@ -96,9 +96,9 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
             isLoading={isUpdating}
             trigger={
               <Button
-                variant="ghost"
-                size="icon"
-                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+                variant="outline"
+                size="icon-sm"
+                className="text-rose-600"
               >
                 <XCircle />
               </Button>
@@ -110,7 +110,7 @@ function ActionButtons({ request }: { request: IManagerRequest }) {
               </p>
               <Textarea
                 placeholder="Type your reason for rejection..."
-                className="min-h-24 bg-muted/30 focus-visible:ring-rose-500"
+                className="min-h-24 bg-muted focus-visible:ring-rose-500"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
               />

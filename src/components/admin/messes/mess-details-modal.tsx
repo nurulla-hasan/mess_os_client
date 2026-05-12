@@ -24,8 +24,8 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
       description="View complete configuration and status details for this mess."
       showClose={true}
       actionTrigger={
-        <Button variant="ghost" size="icon">
-          <Eye className="h-4.5 w-4.5" />
+        <Button variant="outline" size="icon-sm">
+          <Eye />
         </Button>
       }
     >
@@ -45,11 +45,11 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-muted/30 border border-border/50 space-y-1">
+            <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
               <span className="text-xs text-muted-foreground">Invite Code</span>
               <p className="text-sm font-mono font-medium text-primary">{mess.inviteCode}</p>
             </div>
-            <div className="p-4 rounded-xl bg-muted/30 border border-border/50 space-y-1">
+            <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
               <span className="text-xs text-muted-foreground">Created On</span>
               <p className="text-sm font-medium">{format(new Date(mess.createdAt), "MMM dd, yyyy")}</p>
             </div>
