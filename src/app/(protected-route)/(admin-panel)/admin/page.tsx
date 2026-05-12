@@ -8,7 +8,6 @@ import {
   TrendingUp, 
   ArrowUpRight,
   UserPlus,
-  History,
   CreditCard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,7 @@ import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import { getPlatformStats, getAllMesses } from "@/services/admin.service";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns as messColumns } from "@/components/admin/messes/columns";
+import { AuditLogButton } from "@/components/admin/audit-log-button";
 
 export default async function AdminDashboardPage() {
   const [statsResponse, messesResponse] = await Promise.all([
@@ -144,9 +144,7 @@ export default async function AdminDashboardPage() {
                   <CreditCard className="mr-2 h-4 w-4" /> Subscriptions & Revenue
                 </Button>
               </Link>
-              <Button variant="outline" className="w-full justify-start text-xs font-bold bg-background">
-                <History className="mr-2 h-4 w-4" /> View Audit Logs
-              </Button>
+              <AuditLogButton />
             </CardContent>
           </Card>
 
