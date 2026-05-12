@@ -62,10 +62,10 @@ function ActionButtons({ plan }: ActionButtonsProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+            className="text-emerald-600 dark:text-emerald-500 hover:bg-emerald-500/10"
             onClick={() => openModal("published")}
           >
-            <Send  />
+            <Send />
           </Button>
         </>
       )}
@@ -77,10 +77,10 @@ function ActionButtons({ plan }: ActionButtonsProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+                className="text-rose-600 dark:text-rose-500 hover:bg-rose-500/10"
                 onClick={() => openModal("archived")}
               >
-                <Archive  />
+                <Archive />
               </Button>
             </TooltipTrigger>
             <TooltipContent>Archive Plan</TooltipContent>

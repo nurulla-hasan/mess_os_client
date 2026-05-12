@@ -12,6 +12,7 @@ import {
   UtensilsCrossed,
   LucideIcon,
   Clock,
+  Utensils,
 } from "lucide-react";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
@@ -71,105 +72,113 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
         </Button>
       }
     >
-      <div className="p-6">
-        <div className="flex items-center gap-4 py-4 border-b">
-          <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
-            <UtensilsCrossed className="h-6 w-6" />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <h3 className="text-lg font-bold leading-none">
-              {formatDate(plan.date)}
-            </h3>
-            <div className="flex gap-2 items-center">
-              <Badge
-                variant={
-                  plan.status === "published"
-                    ? "active"
-                    : plan.status === "archived"
-                      ? "blocked"
-                      : "pending"
-                }
-                className="px-2 h-5 text-xs"
-              >
-                {plan.status.toUpperCase()}
-              </Badge>
-              {plan.isAiGenerated && (
-                <Badge variant="info" className="px-2 h-5 text-xs">
-                  AI GEN
+      <div className="p-6 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 py-4 border-b border-muted/20">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">
+              <UtensilsCrossed className="h-6 w-6" />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <h3 className="text-lg font-bold leading-none">
+                {formatDate(plan.date)}
+              </h3>
+              <div className="flex gap-2 items-center">
+                <Badge
+                  variant={
+                    plan.status === "published"
+                      ? "active"
+                      : plan.status === "archived"
+                        ? "blocked"
+                        : "pending"
+                  }
+                  className="px-2 h-5 text-xs font-bold"
+                >
+                  {plan.status.toUpperCase()}
                 </Badge>
-              )}
+                {plan.isAiGenerated && (
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-sky-600 dark:text-sky-400">
+                    <Sparkles className="h-3 w-3" />
+                    <span>AI OPTIMIZED</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+
+          {plan.isAiGenerated && (
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-sky-500/5 border border-sky-500/10 transition-colors lg:mt-0">
+              <div className="h-8 w-8 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400 shrink-0">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-widest text-sky-600/80 dark:text-sky-400/80 leading-none mb-1">
+                  AI Optimization
+                </span>
+                <p className="text-xs font-medium text-foreground/80">
+                  This menu was generated using AI.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
           <DetailItem
             icon={Calendar}
             label="Scheduled"
             value={formatDate(plan.date)}
+            subValue="Plan Date"
           />
-          <DetailItem icon={User} label="Created By" value="Manager" />
+          <DetailItem
+            icon={User}
+            label="Created By"
+            value="Manager"
+            subValue="System User"
+          />
           <DetailItem
             icon={Clock}
             label="Last Updated"
             value={formatDate(plan.updatedAt)}
+            subValue="Revision Time"
           />
           <DetailItem
             icon={Hash}
             label="Plan ID"
-            value={plan._id.slice(-8).toUpperCase()}
+            value={plan._id.substring(0, 8).toUpperCase()}
+            subValue="Unique Reference"
           />
         </div>
 
-        <div className="mt-6 space-y-3">
-          <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-1">
-            Meal Items
+        <div className="mt-8 space-y-4">
+          <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+            <Utensils className="h-4 w-4" /> Meal Menu
           </h4>
           <div className="grid grid-cols-1 gap-3">
             {mealEntries.length === 0 ? (
-              <p className="text-sm text-muted-foreground italic p-4 bg-muted/30 rounded-lg border border-dashed text-center">
-                No items defined.
-              </p>
+              <div className="py-10 flex flex-col items-center justify-center border border-dashed rounded-xl text-muted-foreground italic">
+                No items recorded for this plan.
+              </div>
             ) : (
               mealEntries.map(([category, content]) => (
                 <div
                   key={category}
-                  className="flex items-start gap-3 p-4 rounded-lg bg-background border shadow-sm group"
+                  className="flex flex-col p-4 rounded-xl border bg-muted/5 border-muted/20 hover:border-primary/20 transition-all group"
                 >
-                  <div className="h-8 w-8 rounded-full bg-primary/5 flex items-center justify-center text-primary border border-primary/10 shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <span className="text-xs font-black uppercase">
-                      {category.charAt(0)}
-                    </span>
-                  </div>
-                  <div className="flex flex-col gap-1 min-w-0">
-                    <span className="text-xs font-bold text-primary uppercase tracking-tighter">
-                      {category}
-                    </span>
-                    <p className="text-sm font-medium text-foreground leading-relaxed">
-                      {content || "No menu set"}
-                    </p>
-                  </div>
+                  <span className="text-[10px] font-black text-primary/60 uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
+                    {category}
+                  </span>
+                  <p className="text-sm font-medium leading-relaxed">
+                    {content || (
+                      <span className="text-muted-foreground/40 italic">
+                        No menu items set
+                      </span>
+                    )}
+                  </p>
                 </div>
               ))
             )}
           </div>
         </div>
-
-        {plan.isAiGenerated && (
-          <div className="mt-4 p-3 rounded-lg bg-sky-50 border border-sky-100 flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center text-sky-600 border shrink-0">
-              <Sparkles className="h-4 w-4" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-xs font-bold text-sky-600 uppercase tracking-tighter">
-                AI Optimization
-              </span>
-              <span className="text-sm font-medium text-sky-900 truncate">
-                This menu was generated using AI.
-              </span>
-            </div>
-          </div>
-        )}
       </div>
     </ModalWrapper>
   );

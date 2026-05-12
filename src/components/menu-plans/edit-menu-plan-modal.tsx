@@ -83,35 +83,37 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="text-amber-600 hover:text-amber-700 hover:bg-amber-50"
+          className="text-amber-600 dark:text-amber-500 hover:bg-amber-500/10"
         >
           <Edit />
         </Button>
       }
     >
-      <div className="p-6">
+      <div className="p-6 flex flex-col gap-5">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-10 space-y-4">
             <Loader2 className="h-8 w-8 animate-spin text-primary opacity-20" />
             <p className="text-sm text-muted-foreground italic">Loading categories...</p>
           </div>
         ) : (
-          <div className="space-y-5">
-            {categories.map((category) => (
-              <div key={category} className="space-y-2">
-                <Label className="text-xs font-black uppercase tracking-widest text-primary/70">
-                  {category}
-                </Label>
-                <Textarea
-                  placeholder={`What's for ${category.toLowerCase()}?`}
-                  value={meals[category] || ""}
-                  onChange={(e) => handleMealChange(category, e.target.value)}
-                  className="resize-none min-h-20 focus-visible:ring-primary/20 transition-all border-muted-foreground/20"
-                />
-              </div>
-            ))}
+          <>
+            <div className="space-y-5 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20">
+              {categories.map((category) => (
+                <div key={category} className="space-y-2">
+                  <Label className="text-xs font-black uppercase tracking-widest text-primary/70">
+                    {category}
+                  </Label>
+                  <Textarea
+                    placeholder={`What's for ${category.toLowerCase()}?`}
+                    value={meals[category] || ""}
+                    onChange={(e) => handleMealChange(category, e.target.value)}
+                    className="resize-none min-h-20 focus-visible:ring-primary/20 transition-all border-muted-foreground/20"
+                  />
+                </div>
+              ))}
+            </div>
 
-            <div className="pt-4 flex justify-end gap-3">
+            <div className="pt-4 flex justify-end gap-3 border-t">
               <Button variant="outline" onClick={() => setOpen(false)} disabled={isSaving}>
                 Cancel
               </Button>
@@ -120,7 +122,7 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
                 Save Changes
               </Button>
             </div>
-          </div>
+          </>
         )}
       </div>
     </ModalWrapper>

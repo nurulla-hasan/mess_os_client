@@ -135,7 +135,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
           </div>
         ) : (
           <div className="space-y-5">
-            <div className="grid grid-cols-1 gap-4 max-h-[40vh] overflow-y-auto pr-2 scrollbar-thin">
+            <div className="grid grid-cols-1 gap-4 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20">
               {categories.map((category) => (
                 <div key={category} className="space-y-2">
                   <Label className="text-xs font-black uppercase tracking-widest text-primary/70">
