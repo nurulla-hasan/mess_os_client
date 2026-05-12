@@ -70,7 +70,7 @@ export default function PaymentSuccessPage() {
                   </div>
                   <div className="text-right space-y-1">
                     <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Payment Date</p>
-                    <p className="text-sm font-bold">{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                    <p className="text-sm font-bold">{new Date().toLocaleString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}</p>
                   </div>
                 </div>
 

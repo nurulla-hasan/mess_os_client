@@ -58,7 +58,7 @@ export default function PaymentCancelPage() {
                   </div>
                   <div className="text-right space-y-1">
                     <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Transaction Time</p>
-                    <p className="text-sm font-bold">{new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</p>
+                    <p className="text-sm font-bold">{new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true })}</p>
                   </div>
                 </div>
 
