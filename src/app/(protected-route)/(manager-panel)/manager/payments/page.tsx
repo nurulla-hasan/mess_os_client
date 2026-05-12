@@ -26,7 +26,7 @@ export default function ManagerPaymentsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Payments Management"
           description="Track and review all member deposits and mess payments."

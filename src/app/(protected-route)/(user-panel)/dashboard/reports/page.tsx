@@ -25,7 +25,7 @@ import { Separator } from "@/components/ui/separator";
 export default function MemberReportsPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Statements & Reports"
           description="View your personal financial statements and overall mess operational summaries."

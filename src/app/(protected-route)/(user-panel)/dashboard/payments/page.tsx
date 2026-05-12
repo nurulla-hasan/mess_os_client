@@ -26,7 +26,7 @@ export default function MemberPaymentsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Payments"
           description="View your deposit history and submit new payment records for approval."

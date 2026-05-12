@@ -23,7 +23,7 @@ export default function ManagerUtilityBillsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Utility Bills"
           description="Manage shared mess utilities like rent, electricity, and internet bills."

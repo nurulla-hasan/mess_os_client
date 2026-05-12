@@ -12,7 +12,7 @@ export default async function AdminUsersPage({ searchParams }: { searchParams: P
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Platform Users"
           description="Manage all registered users, adjust global roles, and handle account suspensions."

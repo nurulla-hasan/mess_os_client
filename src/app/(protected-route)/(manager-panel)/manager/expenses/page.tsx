@@ -24,7 +24,7 @@ export default function ManagerExpensesPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Expenses Management"
           description="Manage all mess expenditures, bazar costs, and utility bills."

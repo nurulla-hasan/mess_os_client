@@ -21,7 +21,7 @@ export default function MemberComplaintsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Complaints"
           description="Raise issues regarding mess facilities or services and track their resolution progress."

@@ -25,7 +25,7 @@ import { Separator } from "@/components/ui/separator";
 export default function MemberMyBillPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Personal Bill"
           description="View your detailed meal charges, share costs, and final payment status for each cycle."

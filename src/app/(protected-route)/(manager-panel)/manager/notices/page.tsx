@@ -23,7 +23,7 @@ export default function ManagerNoticesPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Mess Notices"
           description="Broadcast announcements and important updates to all mess members."

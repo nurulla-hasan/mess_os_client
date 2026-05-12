@@ -15,7 +15,7 @@ export default async function AdminSubscriptionsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Subscription Plans"
           description="Manage and configure the platform's subscription tiers, pricing, and feature limitations."

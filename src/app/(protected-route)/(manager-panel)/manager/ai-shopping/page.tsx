@@ -28,7 +28,7 @@ import { Calendar } from "lucide-react";
 export default function ManagerAiShoppingPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="AI Shopping Assistant"
           description="Generate automated shopping lists from your meal plans and convert them to market schedules."

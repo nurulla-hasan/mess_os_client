@@ -36,7 +36,7 @@ export default async function ManagerMenuPlansPage({
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Menu Plans"
           description="Design and publish daily meal menus. Use AI to generate healthy meal ideas."

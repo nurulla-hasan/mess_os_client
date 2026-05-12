@@ -27,7 +27,7 @@ import {
 export default function ManagerBillingPage() {
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Billing Management"
           description="Finalize monthly billing, calculate meal rates, and manage member invoices."

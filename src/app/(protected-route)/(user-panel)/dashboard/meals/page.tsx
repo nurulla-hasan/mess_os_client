@@ -21,7 +21,7 @@ export default function MemberMealsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="My Meal Logs"
           description="View your personal meal consumption history and monthly totals."

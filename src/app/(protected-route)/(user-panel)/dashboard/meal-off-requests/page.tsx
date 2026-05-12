@@ -23,7 +23,7 @@ export default function MemberMealOffRequestsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Meal Off Requests"
           description="Request to skip meals for a specific date range. Manager approval is required."
