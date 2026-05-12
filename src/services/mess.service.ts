@@ -5,6 +5,7 @@ import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams, ApiResponse } from "@/types/global.type";
 import { IMember, IMemberOption } from "@/types/member.type";
 import { IMess } from "@/types/mess.type";
+import { IManagerDashboardData } from "@/types/dashboard.type";
 
 // ─── Service Functions ────────────────────────────────────────────────────────
 
@@ -133,6 +134,26 @@ export const getMessMemberOptions = async (
       success: false,
       message: (error as Error)?.message || "Failed to fetch member options.",
       data: [],
+    };
+  }
+};
+
+/**
+ * Get aggregated dashboard data for the manager
+ */
+export const getManagerDashboard = async (
+  messId: string
+): Promise<ApiResponse<IManagerDashboardData>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/dashboard`, {
+      method: "GET",
+      tags: ["dashboard-stats", "mess-details", "meals", "market-schedules", "meal-off-requests", "mess-members"],
+    })) as ApiResponse<IManagerDashboardData>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to fetch manager dashboard data.",
+      data: null as unknown as IManagerDashboardData,
     };
   }
 };
