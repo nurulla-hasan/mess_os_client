@@ -39,7 +39,7 @@ export default async function GetStartedPage() {
         {/* Suspension Banner */}
         {suspendedMess && (
           <div className="relative z-10 max-w-4xl mx-auto mb-12">
-            <div className="p-6 rounded-2xl bg-rose-500/10 border border-rose-500/20 backdrop-blur-md shadow-2xl shadow-rose-500/10 flex flex-col md:flex-row items-center gap-6 overflow-hidden">
+            <div className="p-6 rounded-lg bg-rose-500/10 border border-rose-500/20 backdrop-blur-md shadow-2xl shadow-rose-500/10 flex flex-col md:flex-row items-center gap-6 overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <Icons.ShieldAlert className="h-24 w-24 text-rose-500" />
               </div>

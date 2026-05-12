@@ -152,7 +152,7 @@ export default function MemberMyBillPage() {
               </div>
 
               {/* Final Summary Card */}
-              <div className="bg-accent/30 p-4 rounded-xl border border-dashed border-primary/20 flex justify-between items-center">
+              <div className="bg-accent/30 p-4 rounded-lg border border-dashed border-primary/20 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
                     <CreditCard className="h-5 w-5 text-primary" />

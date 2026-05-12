@@ -119,7 +119,7 @@ export function RequestManagerModal() {
       <div className="flex flex-col h-full">
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {existingRequest && (
-            <div className={cn("p-4 rounded-xl border flex items-center justify-between", statusConfig?.class)}>
+            <div className={cn("p-4 rounded-lg border flex items-center justify-between", statusConfig?.class)}>
               <div className="flex items-center gap-3">
                 {statusConfig?.icon}
                 <span className="font-bold uppercase tracking-wider text-xs">{statusConfig?.label}</span>
@@ -146,7 +146,7 @@ export function RequestManagerModal() {
             </div>
 
             {existingRequest?.status === "rejected" && existingRequest.adminNote && (
-              <div className="p-4 rounded-xl border border-destructive/20 bg-destructive/5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
+              <div className="p-4 rounded-lg border border-destructive/20 bg-destructive/5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
                 <div className="flex items-center gap-2 text-destructive">
                   <XCircle className="h-4 w-4" />
                   <span className="text-xs font-bold uppercase tracking-widest">Admin Feedback</span>

@@ -6,8 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { ISubscriptionHistory } from "@/types/subscription.type";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 interface SubscriptionDetailsModalProps {
   history: ISubscriptionHistory;
@@ -51,14 +50,18 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
 
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
+          <div className="p-4 rounded-lg bg-muted border border-border/50 space-y-1">
             <span className="text-xs text-muted-foreground">Current Period</span>
             <div className="flex items-center gap-1.5 text-sm font-medium">
               <Calendar className="h-3.5 w-3.5 text-primary" />
-              <span>{format(new Date(subscription.currentPeriodStart), "MMM dd")} - {format(new Date(subscription.currentPeriodEnd), "MMM dd, yyyy")}</span>
+              <span>
+                {subscription.currentPeriodStart ? formatDate(subscription.currentPeriodStart) : "N/A"}
+                {" - "}
+                {subscription.currentPeriodEnd ? formatDate(subscription.currentPeriodEnd) : "No Expiry"}
+              </span>
             </div>
           </div>
-          <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
+          <div className="p-4 rounded-lg bg-muted border border-border/50 space-y-1">
             <span className="text-xs text-muted-foreground">Current Plan</span>
             <div className="flex items-center gap-1.5 text-sm font-medium">
               <CreditCard className="h-3.5 w-3.5 text-primary" />
@@ -69,7 +72,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
 
         {/* Mess & Manager Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-5 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
+          <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 space-y-4">
             <div className="flex items-center gap-2 text-primary font-medium">
               <Home className="h-4 w-4" />
               <h4 className="text-xs">Mess Details</h4>
@@ -90,7 +93,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
+          <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 space-y-4">
             <div className="flex items-center gap-2 text-primary font-medium">
               <User className="h-4 w-4" />
               <h4 className="text-xs">Manager Details</h4>

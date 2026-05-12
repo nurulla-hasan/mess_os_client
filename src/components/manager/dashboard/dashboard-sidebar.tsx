@@ -63,7 +63,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
           <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
           <CardContent className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary rounded-xl shadow-lg shadow-primary/20">
+              <div className="p-2 bg-primary rounded-lg shadow-lg shadow-primary/20">
                 <UserPlus className="w-4 h-4 text-primary-foreground" />
               </div>
               <div>

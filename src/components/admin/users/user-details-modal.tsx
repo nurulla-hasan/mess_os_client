@@ -94,7 +94,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
                 const role = membership.messRole || membership.role;
 
                 return (
-                  <div key={membership._id} className="p-3 rounded-xl border bg-muted flex flex-col gap-2">
+                  <div key={membership._id} className="p-3 rounded-lg border bg-muted flex flex-col gap-2">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-sm font-bold truncate">{messName}</span>
                       <Badge variant={membership.status === "active" || membership.status === "approved" ? "success" : "rejected"} className="h-4 px-1 text-[9px] uppercase">
@@ -116,7 +116,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
               })}
             </div>
           ) : (
-            <div className="py-6 text-center border-2 border-dashed rounded-2xl">
+            <div className="py-6 text-center border-2 border-dashed rounded-lg">
               <p className="text-xs text-muted-foreground font-medium">No memberships found for this user.</p>
             </div>
           )}

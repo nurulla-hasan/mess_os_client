@@ -106,7 +106,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
           </div>
 
           {plan.isAiGenerated && (
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-sky-500/5 border border-sky-500/10 transition-colors lg:mt-0">
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-sky-500/5 border border-sky-500/10 transition-colors lg:mt-0">
               <div className="h-8 w-8 rounded-full bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400 shrink-0">
                 <Sparkles className="h-4 w-4" />
               </div>
@@ -155,14 +155,14 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
           </h4>
           <div className="grid grid-cols-1 gap-3">
             {mealEntries.length === 0 ? (
-              <div className="py-10 flex flex-col items-center justify-center border border-dashed rounded-xl text-muted-foreground italic">
+              <div className="py-10 flex flex-col items-center justify-center border border-dashed rounded-lg text-muted-foreground italic">
                 No items recorded for this plan.
               </div>
             ) : (
               mealEntries.map(([category, content]) => (
                 <div
                   key={category}
-                  className="flex flex-col p-4 rounded-xl border bg-muted border-muted/20 hover:border-primary/20 transition-all group"
+                  className="flex flex-col p-4 rounded-lg border bg-muted border-muted/20 hover:border-primary/20 transition-all group"
                 >
                   <span className="text-xs font-bold text-primary/60 uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">
                     {category}

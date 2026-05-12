@@ -68,7 +68,7 @@ export default async function AdminStatsPage() {
 
   return (
     <DashboardPageLayout>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <DashboardPageHeader
           title="Platform Analytics"
           description="Overview of platform performance and growth metrics."
@@ -79,7 +79,7 @@ export default async function AdminStatsPage() {
       </div>
 
       {/* Summary Statistics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {summaryCards.map((card, i) => (
           <Card key={i}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -103,7 +103,7 @@ export default async function AdminStatsPage() {
       </div>
 
       {/* Analytics Charts */}
-      <div className="mb-8">
+      <div>
         <AnalyticsCharts
           userTrends={trends.dailyNewUsers}
           messTrends={trends.dailyNewMesses}

@@ -153,7 +153,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
           </div>
 
           {/* Reason Section */}
-          <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 space-y-2">
+          <div className="p-4 rounded-lg bg-primary/5 border border-primary/10 space-y-2">
             <div className="flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-[0.2em]">
               <MessageSquare className="h-3 w-3" />
               Member&apos;s Reason
@@ -166,7 +166,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
           {/* Reviewer Section */}
           {request.status !== "pending" && (
             <div className="grid grid-cols-1 gap-4">
-              <div className="flex items-center gap-4 p-4 rounded-xl bg-muted dark:bg-muted border border-muted/50">
+              <div className="flex items-center gap-4 p-4 rounded-lg bg-muted dark:bg-muted border border-muted/50">
                 <div className={`h-10 w-10 rounded-full flex items-center justify-center shrink-0 border ${
                   request.status === 'approved' 
                     ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 border-emerald-500/20' 

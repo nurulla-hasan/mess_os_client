@@ -90,7 +90,7 @@ export default function JoinMessPage() {
                 </Field>
               </FieldGroup>
 
-              <div className="flex items-start gap-3 p-4 rounded-xl bg-secondary/50 border border-border/50">
+              <div className="flex items-start gap-3 p-4 rounded-lg bg-secondary/50 border border-border/50">
                 <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Once submitted, your request will be sent to the mess manager. You will gain access after they approve it.

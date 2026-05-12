@@ -45,18 +45,18 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
+            <div className="p-4 rounded-lg bg-muted border border-border/50 space-y-1">
               <span className="text-xs text-muted-foreground">Invite Code</span>
               <p className="text-sm font-mono font-medium text-primary">{mess.inviteCode}</p>
             </div>
-            <div className="p-4 rounded-xl bg-muted border border-border/50 space-y-1">
+            <div className="p-4 rounded-lg bg-muted border border-border/50 space-y-1">
               <span className="text-xs text-muted-foreground">Created On</span>
               <p className="text-sm font-medium">{format(new Date(mess.createdAt), "MMM dd, yyyy")}</p>
             </div>
           </div>
 
           {/* Manager Details */}
-          <div className="p-5 rounded-2xl bg-primary/5 border border-primary/10 space-y-4">
+          <div className="p-5 rounded-lg bg-primary/5 border border-primary/10 space-y-4">
             <div className="flex items-center gap-2 text-primary font-medium">
               <Icons.UserCog className="h-4 w-4" />
               <h4 className="text-xs">Manager Contact</h4>

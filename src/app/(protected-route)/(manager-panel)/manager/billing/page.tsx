@@ -113,7 +113,7 @@ export default function ManagerBillingPage() {
       </div>
 
       {/* Operational Warnings/Notes */}
-      <div className="flex items-center gap-2 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-sm">
+      <div className="flex items-center gap-2 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-sm">
         <AlertTriangle className="h-4 w-4 shrink-0" />
         <p>
           Billing for **May 2024** is currently in **Preview Mode**. You can update meal rates or expenses before finalizing. 

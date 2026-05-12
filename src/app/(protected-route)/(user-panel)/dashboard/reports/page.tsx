@@ -129,7 +129,7 @@ export default function MemberReportsPage() {
                   </div>
                 </div>
 
-                <div className="bg-accent/30 p-4 rounded-xl border border-dashed border-primary/20">
+                <div className="bg-accent/30 p-4 rounded-lg border border-dashed border-primary/20">
                   <p className="text-xs text-muted-foreground leading-relaxed italic text-center">
                     This report is for informational purposes. Final monthly statements are issued after the billing cycle is closed by the manager.
                   </p>

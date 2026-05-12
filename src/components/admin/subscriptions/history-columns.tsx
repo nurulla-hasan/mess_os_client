@@ -2,12 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
 import { ISubscriptionHistory } from "@/types/subscription.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Home, Calendar } from "lucide-react";
 
 import { SubscriptionDetailsModal } from "./subscription-details-modal";
+
+import { formatDate, formatDateShort, getInitials } from "@/lib/utils";
 
 export const columns: ColumnDef<ISubscriptionHistory>[] = [
   {
@@ -39,7 +40,7 @@ export const columns: ColumnDef<ISubscriptionHistory>[] = [
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8 border border-border">
             <AvatarImage src={manager.avatarUrl} alt={manager.fullName} />
-            <AvatarFallback>{manager.fullName.charAt(0)}</AvatarFallback>
+            <AvatarFallback className="text-xs">{getInitials(manager.fullName)}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <span className="text-sm font-medium">{manager.fullName}</span>
@@ -94,15 +95,19 @@ export const columns: ColumnDef<ISubscriptionHistory>[] = [
     accessorKey: "subscription.currentPeriod",
     header: "Billing Period",
     cell: ({ row }) => {
-      const start = new Date(row.original.subscription.currentPeriodStart);
-      const end = new Date(row.original.subscription.currentPeriodEnd);
+      const { currentPeriodStart, currentPeriodEnd, cancelAtPeriodEnd } = row.original.subscription;
+      
       return (
         <div className="flex flex-col">
           <div className="flex items-center gap-1.5 text-xs">
             <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-            <span>{format(start, "MMM dd")} - {format(end, "MMM dd, yyyy")}</span>
+            <span className="flex items-center gap-1">
+              <span>{formatDateShort(currentPeriodStart)}</span>
+              <span className="text-muted-foreground opacity-50">-</span>
+              <span>{currentPeriodEnd ? formatDate(currentPeriodEnd) : "No Expiry"}</span>
+            </span>
           </div>
-          {row.original.subscription.cancelAtPeriodEnd && (
+          {cancelAtPeriodEnd && (
             <span className="text-xs text-rose-500 mt-0.5">Cancels at end</span>
           )}
         </div>

@@ -51,7 +51,7 @@ export default function BlockedPage() {
             <Ban className="h-16 w-16 text-rose-600 animate-in zoom-in duration-500" />
           </div>
           <div className="absolute -top-2 -right-2">
-            <div className="bg-rose-600 p-2 rounded-xl shadow-lg animate-bounce">
+            <div className="bg-rose-600 p-2 rounded-lg shadow-lg animate-bounce">
               <ShieldAlert className="h-4 w-4 text-white" />
             </div>
           </div>
@@ -69,7 +69,7 @@ export default function BlockedPage() {
         </div>
 
         {/* Support Card */}
-        <div className="bg-muted border border-border/50 rounded-2xl p-6 space-y-4">
+        <div className="bg-muted border border-border/50 rounded-lg p-6 space-y-4">
           <div className="flex items-center gap-3 text-left">
             <div className="bg-primary/10 p-2 rounded-lg">
               <Mail className="h-4 w-4 text-primary" />

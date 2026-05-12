@@ -92,7 +92,7 @@ export default async function AdminDashboardPage() {
                     <ArrowUpRight className="h-3 w-3" /> {stat.trend} this month
                   </p>
                 </div>
-                <div className={`p-3 rounded-2xl ${stat.bg}`}>
+                <div className={`p-3 rounded-lg ${stat.bg}`}>
                   <stat.icon className={`h-6 w-6 ${stat.color}`} />
                 </div>
               </div>

@@ -83,7 +83,7 @@ export default function MemberDashboardPage() {
                 <Link key={i} href={action.href}>
                   <Card className="hover:border-primary/50 transition-all cursor-pointer group">
                     <CardContent className="flex flex-col items-center justify-center gap-3 text-center">
-                      <div className={`p-3 rounded-2xl ${action.bg} group-hover:scale-110 transition-transform`}>
+                      <div className={`p-3 rounded-lg ${action.bg} group-hover:scale-110 transition-transform`}>
                         <action.icon className={`h-5 w-5 ${action.color}`} />
                       </div>
                       <span className="text-xs font-bold">{action.title}</span>

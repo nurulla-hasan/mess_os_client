@@ -247,7 +247,7 @@ export default function CreateMessPage() {
             
             <Card className="pt-0 overflow-hidden">
               <div className="h-24 bg-linear-to-r from-primary/20 via-primary/10 to-transparent flex items-end p-4">
-                <div className="w-16 h-16 rounded-xl bg-background border shadow-sm flex items-center justify-center -mb-8 z-10">
+                <div className="w-16 h-16 rounded-lg bg-background border shadow-sm flex items-center justify-center -mb-8 z-10">
                   <LayoutDashboard className="h-8 w-8 text-primary" />
                 </div>
               </div>

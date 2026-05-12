@@ -68,7 +68,7 @@ export default function ManagerSubscriptionPage() {
           <CardContent>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-primary/20 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-lg bg-primary/20 flex items-center justify-center">
                   <ShieldCheck className="h-6 w-6 text-primary" />
                 </div>
                 <div>

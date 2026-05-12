@@ -18,7 +18,7 @@ function ShimmerEffect() {
 // Glow orb for cards
 function CardGlow() {
   return (
-    <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-primary/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+    <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-primary/10 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
   );
 }
 
@@ -38,9 +38,9 @@ export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProp
           
           <CardContent className="relative flex flex-col gap-8 p-8">
             <div className="flex items-start gap-5">
-              <div className={`relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br ${isSuspended ? "from-muted to-muted/50" : "from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3"} transition-all duration-500 shadow-lg`}>
+              <div className={`relative flex items-center justify-center w-18 h-18 rounded-lg bg-linear-to-br ${isSuspended ? "from-muted to-muted/50" : "from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3"} transition-all duration-500 shadow-lg`}>
                 <Users className={`h-9 w-9 ${isSuspended ? "text-muted-foreground" : "text-primary"}`} />
-                {!isSuspended && <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />}
+                {!isSuspended && <div className="absolute inset-0 rounded-lg bg-primary/10 animate-pulse" />}
               </div>
               <div className="flex-1 pt-1">
                 <h2 className="text-3xl font-bold  group-hover:text-primary transition-colors duration-300">
@@ -76,9 +76,9 @@ export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProp
           
           <CardContent className="relative flex flex-col gap-8 p-8">
             <div className="flex items-start gap-5">
-              <div className={`relative flex items-center justify-center w-18 h-18 rounded-2xl bg-linear-to-br ${isSuspended ? "from-muted to-muted/50" : "from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3"} transition-all duration-500 shadow-lg`}>
+              <div className={`relative flex items-center justify-center w-18 h-18 rounded-lg bg-linear-to-br ${isSuspended ? "from-muted to-muted/50" : "from-primary/30 to-primary/10 group-hover:scale-110 group-hover:rotate-3"} transition-all duration-500 shadow-lg`}>
                 <Utensils className={`h-9 w-9 ${isSuspended ? "text-muted-foreground" : "text-primary"}`} />
-                {!isSuspended && <div className="absolute inset-0 rounded-2xl bg-primary/10 animate-pulse" />}
+                {!isSuspended && <div className="absolute inset-0 rounded-lg bg-primary/10 animate-pulse" />}
               </div>
               <div className="flex-1 pt-1">
                 <h2 className="text-3xl font-bold  group-hover:text-primary transition-colors duration-300">

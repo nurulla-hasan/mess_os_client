@@ -28,7 +28,7 @@ export default function MemberMessOverviewPage() {
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardHeader className="flex flex-row items-center gap-4">
-              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+              <div className="h-14 w-14 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Building2 className="h-7 w-7 text-primary" />
               </div>
               <div className="space-y-1">

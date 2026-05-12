@@ -37,10 +37,22 @@ export const getInitials = (name: string) => {
   return (first + second).toUpperCase();
 };
 
-// Format Date
-export const formatDate = (dateString: string) => {
+// Format Date (e.g. 10 May 2026)
+export const formatDate = (dateString: string | Date) => {
   if (!dateString) return "N/A";
   return format(new Date(dateString), "dd MMM yyyy");
+};
+
+// Format Date Short (e.g. 10 May)
+export const formatDateShort = (dateString: string | Date) => {
+  if (!dateString) return "N/A";
+  return format(new Date(dateString), "dd MMM");
+};
+
+// Format Date with Time (e.g. 10 May 2026, 05:17 AM)
+export const formatDateTime = (dateString: string | Date) => {
+  if (!dateString) return "N/A";
+  return format(new Date(dateString), "dd MMM yyyy, hh:mm a");
 };
 
 // Time Ago

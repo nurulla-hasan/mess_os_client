@@ -295,7 +295,7 @@ export default function Sidebar({
       {/* Brand Logo */}
       <div className="flex items-center gap-3 px-6 border-b h-20">
         <Link href="/dashboard" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary shadow-lg shadow-primary/20 ring-1 ring-primary/20">
+          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary shadow-lg shadow-primary/20 ring-1 ring-primary/20">
             <Utensils className="h-5 w-5 text-primary-foreground" />
           </div>
           <div className="flex flex-col leading-tight">

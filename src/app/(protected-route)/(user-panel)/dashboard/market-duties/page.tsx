@@ -57,7 +57,7 @@ export default function MemberMarketDutiesPage() {
       </div>
 
       {/* Quick Tips */}
-      <div className="mt-6 p-4 rounded-xl border border-dashed border-amber-500/30 bg-amber-500/5 flex gap-3">
+      <div className="mt-6 p-4 rounded-lg border border-dashed border-amber-500/30 bg-amber-500/5 flex gap-3">
         <AlertCircle className="h-5 w-5 text-amber-500 shrink-0" />
         <div className="space-y-1">
           <p className="text-xs font-bold text-amber-700">Reporting Tip</p>
