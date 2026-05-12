@@ -105,7 +105,7 @@ const MemberRow = React.memo(({
 
 MemberRow.displayName = "MemberRow";
 
-import { useActiveMembers } from "@/store/use-member-store";
+import { getMessMembers } from "@/services/mess.service";
 
 // ============================================
 // Sub-components (Memoized)
@@ -132,11 +132,19 @@ interface ShoppingItem {
 // ============================================
 
 export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalProps) {
-  const members = useActiveMembers();
+  const [members, setMembers] = React.useState<IMember[]>([]);
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [date, setDate] = React.useState<Date>(new Date());
-  
+
+  // Fetch active members when modal opens
+  React.useEffect(() => {
+    if (!open) return;
+    getMessMembers(messId, { status: "active", limit: "100" }).then((res) => {
+      if (res?.success) setMembers(res.data);
+    });
+  }, [open, messId]);
+
   const [assignedTo, setAssignedTo] = React.useState<string[]>([]);
   const [estimatedBudget, setEstimatedBudget] = React.useState<string>("");
   const [shoppingItems, setShoppingItems] = React.useState<ShoppingItem[]>([

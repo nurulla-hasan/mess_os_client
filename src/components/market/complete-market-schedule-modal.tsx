@@ -17,21 +17,17 @@ import { updateMarketScheduleStatus } from "@/services/market-schedule.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { IMarketSchedule } from "@/types/market-schedule.type";
 import { useRouter } from "next/navigation";
-import { useMyMembership } from "@/store/use-auth-store";
-import { IMembership } from "@/types/user.type";
 
 interface CompleteMarketScheduleModalProps {
   messId: string;
   schedule: IMarketSchedule;
+  actorMessMemberId?: string;
 }
 
-export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarketScheduleModalProps) {
+export function CompleteMarketScheduleModal({ messId, schedule, actorMessMemberId }: CompleteMarketScheduleModalProps) {
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
-  
-  // Get current user's membership from global Zustand store
-  const myMembership: IMembership | null = useMyMembership();
 
   const [actualSpent, setActualSpent] = React.useState<string>(
     schedule.estimatedBudget?.toString() || ""
@@ -45,10 +41,6 @@ export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarket
       return;
     }
 
-    if (!myMembership?._id) {
-      ErrorToast("Authentication failed. Please reload the page.");
-      return;
-    }
 
     setIsLoading(true);
     try {
@@ -56,7 +48,7 @@ export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarket
         status: "completed",
         actualSpent: spent,
         fundSource: fundSource,
-        actorMessMemberId: myMembership._id
+        actorMessMemberId: actorMessMemberId
       });
 
       if (res?.success) {

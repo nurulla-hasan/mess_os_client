@@ -15,9 +15,9 @@ import { cn } from "@/lib/utils";
 import { getMessMembers, getMessDetails } from "@/services/mess.service";
 import { bulkLogMeals } from "@/services/meal.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
-import { IMember } from "@/types/member.type";
 import { IMealBreakdown } from "@/types/meal.type";
 import { MealEntryRow } from "./meal-entry-row";
+import { IMember } from "@/types/member.type";
 
 interface LogMealModalProps {
   messId: string;
@@ -61,6 +61,8 @@ export function LogMealModal({ messId }: LogMealModalProps) {
           getMessDetails(messId)
         ]);
 
+        if (membersRes?.success) setMembers(membersRes.data);
+
         if (messRes?.success) {
           const categories = messRes.data.settings?.mealCategories || ["Breakfast", "Lunch", "Dinner"];
           setMealCategories(categories);
@@ -83,10 +85,6 @@ export function LogMealModal({ messId }: LogMealModalProps) {
           setVisibleMeals(newVisible);
           setInitialMeals(newInitial);
           setEntries([{ id: Math.random().toString(), messMemberId: "", meals: { ...newInitial } }]);
-        }
-
-        if (membersRes?.success) {
-          setMembers(membersRes.data);
         }
       };
       fetchData();

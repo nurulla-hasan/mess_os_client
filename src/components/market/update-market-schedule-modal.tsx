@@ -30,7 +30,7 @@ interface LocalShoppingItem {
   quantity: string;
 }
 
-import { useActiveMembers } from "@/store/use-member-store";
+import { getMessMembers } from "@/services/mess.service";
 
 interface UpdateMarketScheduleModalProps {
   messId: string;
@@ -119,10 +119,18 @@ MemberRow.displayName = "MemberRow";
 // ============================================
 
 export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketScheduleModalProps) {
-  const members = useActiveMembers();
+  const [members, setMembers] = React.useState<IMember[]>([]);
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  
+
+  // Fetch active members when modal opens
+  React.useEffect(() => {
+    if (!open) return;
+    getMessMembers(messId, { status: "active", limit: "500" }).then((res) => {
+      if (res?.success) setMembers(res.data);
+    });
+  }, [open, messId]);
+
   const [assignedTo, setAssignedTo] = React.useState<string[]>(
     schedule.assignedTo.map(m => m._id)
   );
