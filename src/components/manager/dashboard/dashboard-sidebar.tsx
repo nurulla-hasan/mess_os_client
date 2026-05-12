@@ -58,7 +58,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
       </Card>
 
       {/* Join Requests Alert */}
-      {summary.pendingJoinRequests > 0 && (
+      {summary.pendingJoinRequests > 0 ? (
         <Card className="bg-primary/5 relative group">
           <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
           <CardContent className="flex items-center justify-between gap-4">
@@ -68,7 +68,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
               </div>
               <div>
                 <h4 className="text-sm font-bold text-foreground">Join Request</h4>
-                <p className="text-xs font-bold text-muted-foreground">{summary.pendingJoinRequests} user pending</p>
+                <p className="text-xs font-bold text-muted-foreground">{summary.pendingJoinRequests.toLocaleString()} user pending</p>
               </div>
             </div>
             <Link href="/manager/members?status=pending">
@@ -78,6 +78,10 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
             </Link>
           </CardContent>
         </Card>
+      ) : (
+        <div className="bg-muted/10 border border-dashed rounded-lg p-4 text-center">
+          <p className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-widest">No pending join requests</p>
+        </div>
       )}
 
       {/* Recent Notices */}

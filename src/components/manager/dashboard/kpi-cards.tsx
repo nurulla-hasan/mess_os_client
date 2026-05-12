@@ -19,44 +19,44 @@ export function KPICards({ summary }: KPICardsProps) {
   const kpis = [
     {
       label: "Active Members",
-      value: summary.activeMembers,
+      value: summary.activeMembers.toLocaleString(),
       icon: Users,
       subValue: "Approved users",
       colorVar: "var(--chart-1)"
     },
     {
       label: "Today's Meals",
-      value: summary.todayMeals,
+      value: summary.todayMeals.toLocaleString(),
       icon: Utensils,
-      subValue: `${summary.todayMealRecords} entries today`,
+      subValue: `${summary.todayMealRecords.toLocaleString()} entries today`,
       colorVar: "var(--chart-2)"
     },
     {
       label: "Pending Payments",
-      value: `৳${summary.pendingPaymentsAmount}`,
+      value: `৳${summary.pendingPaymentsAmount.toLocaleString()}`,
       icon: CreditCard,
-      subValue: `${summary.pendingPaymentsCount} pending`,
+      subValue: `${summary.pendingPaymentsCount.toLocaleString()} pending`,
       colorVar: "var(--chart-3)",
-      isWarning: summary.pendingPaymentsAmount > 0
+      // Dot removed as per user request
     },
     {
       label: "Monthly Expenses",
-      value: `৳${summary.monthlyExpensesAmount}`,
+      value: `৳${summary.monthlyExpensesAmount.toLocaleString()}`,
       icon: Wallet,
-      subValue: `${summary.monthlyExpensesCount} total`,
+      subValue: `${summary.monthlyExpensesCount.toLocaleString()} total`,
       colorVar: "var(--chart-4)"
     },
     {
       label: "Pending Expenses",
-      value: `৳${summary.pendingExpensesAmount}`,
+      value: `৳${summary.pendingExpensesAmount.toLocaleString()}`,
       icon: Clock,
-      subValue: `${summary.pendingExpensesCount} to approve`,
+      subValue: `${summary.pendingExpensesCount.toLocaleString()} to approve`,
       colorVar: "var(--destructive)",
       isWarning: summary.pendingExpensesCount > 0
     },
     {
       label: "Unpaid Utilities",
-      value: summary.unpaidUtilities,
+      value: summary.unpaidUtilities.toLocaleString(),
       icon: Zap,
       subValue: "Bills due",
       colorVar: "var(--chart-5)",
@@ -64,7 +64,7 @@ export function KPICards({ summary }: KPICardsProps) {
     },
     {
       label: "Open Complaints",
-      value: summary.openComplaints,
+      value: summary.openComplaints.toLocaleString(),
       icon: MessageSquare,
       subValue: "Active issues",
       colorVar: "var(--primary)",
@@ -72,9 +72,9 @@ export function KPICards({ summary }: KPICardsProps) {
     },
     {
       label: "Market Duties",
-      value: summary.pendingMarketDuties,
+      value: summary.pendingMarketDuties.toLocaleString(),
       icon: ShoppingCart,
-      subValue: "Upcoming tasks",
+      subValue: "Pending tasks",
       colorVar: "var(--secondary-foreground)",
       isWarning: summary.pendingMarketDuties > 0
     },

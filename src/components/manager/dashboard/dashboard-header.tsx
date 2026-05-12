@@ -57,7 +57,7 @@ export function DashboardHeader({ mess, subscription }: DashboardHeaderProps) {
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-primary/60" />
-                Joined {formatDate(mess.createdAt)}
+                Started {formatDate(mess.createdAt)}
               </div>
             </div>
           </div>

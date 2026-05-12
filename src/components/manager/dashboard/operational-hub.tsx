@@ -30,6 +30,8 @@ export function OperationalHub({ pendingActions, today }: OperationalHubProps) {
     { label: "Market", href: "/manager/market-schedules", icon: ShoppingCart, count: pendingActions.marketDuties, colorVar: "var(--primary)" },
   ];
 
+  const totalTodayMeals = Object.values(today.mealBreakdown).reduce((a, b) => a + b, 0);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Quick Actions Hub */}
@@ -64,7 +66,7 @@ export function OperationalHub({ pendingActions, today }: OperationalHubProps) {
                       variant="rejected" 
                       className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 rounded-full border-2 border-background text-xs font-bold shadow-sm"
                     >
-                      {shortcut.count}
+                      {shortcut.count.toLocaleString()}
                     </Badge>
                   )}
                   <ChevronRight className="w-3 h-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
@@ -92,16 +94,16 @@ export function OperationalHub({ pendingActions, today }: OperationalHubProps) {
                   <span className="text-sm font-semibold text-muted-foreground">{category}</span>
                 </div>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-lg font-bold">{count}</span>
-                  <span className="text-xs font-bold text-muted-foreground/60 uppercase">Units</span>
+                  <span className="text-lg font-bold">{count.toLocaleString()}</span>
+                  <span className="text-xs font-bold text-muted-foreground/60 uppercase">meals</span>
                 </div>
               </div>
             ))}
             
             <div className="pt-4 mt-2 border-t border-dashed flex items-center justify-between">
-              <span className="text-xs font-black uppercase text-foreground/70 tracking-wider">Total Feed</span>
+              <span className="text-xs font-black uppercase text-foreground/70 tracking-wider">Total Meals</span>
               <Badge variant="secondary" className="font-bold px-3 py-0.5 text-xs bg-primary/10 text-primary border-none">
-                {Object.values(today.mealBreakdown).reduce((a, b) => a + b, 0)} Units
+                {totalTodayMeals.toLocaleString()} meals
               </Badge>
             </div>
           </div>
