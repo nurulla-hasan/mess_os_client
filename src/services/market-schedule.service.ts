@@ -85,7 +85,6 @@ export const updateMarketScheduleStatus = async (
   data: {
     status: "completed" | "void";
     actualSpent?: number;
-    actorMessMemberId?: string;
     fundSource?: string;
   }
 ): Promise<any> => {
