@@ -19,3 +19,16 @@ export interface IMember {
   dueAmount?: number;
   advanceAmount?: number;
 }
+
+/**
+ * Lightweight type for the /members/options endpoint.
+ * Used in dropdowns/selects — no pagination, active members only.
+ */
+export interface IMemberOption {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  avatarUrl?: string;
+  messRole: MessRole;
+}

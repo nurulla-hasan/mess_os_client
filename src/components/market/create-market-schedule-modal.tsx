@@ -23,7 +23,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { createMarketSchedule } from "@/services/market-schedule.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
-import { IMember } from "@/types/member.type";
+import { getMessMemberOptions } from "@/services/mess.service";
+import { IMemberOption } from "@/types/member.type";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
@@ -82,7 +83,7 @@ const MemberRow = React.memo(({
   isSelected, 
   onToggle 
 }: { 
-  member: IMember; 
+  member: IMemberOption; 
   isSelected: boolean; 
   onToggle: (id: string) => void;
 }) => {
@@ -97,15 +98,13 @@ const MemberRow = React.memo(({
         htmlFor={member._id} 
         className="text-sm cursor-pointer flex-1 py-1 group-hover:text-primary transition-colors"
       >
-        {member.user.fullName}
+        {member.name}
       </label>
     </div>
   );
 });
 
 MemberRow.displayName = "MemberRow";
-
-import { getMessMembers } from "@/services/mess.service";
 
 // ============================================
 // Sub-components (Memoized)
@@ -132,7 +131,7 @@ interface ShoppingItem {
 // ============================================
 
 export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalProps) {
-  const [members, setMembers] = React.useState<IMember[]>([]);
+  const [members, setMembers] = React.useState<IMemberOption[]>([]);
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [date, setDate] = React.useState<Date>(new Date());
@@ -140,7 +139,7 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
   // Fetch active members when modal opens
   React.useEffect(() => {
     if (!open) return;
-    getMessMembers(messId, { status: "active", limit: "100" }).then((res) => {
+    getMessMemberOptions(messId).then((res) => {
       if (res?.success) setMembers(res.data);
     });
   }, [open, messId]);

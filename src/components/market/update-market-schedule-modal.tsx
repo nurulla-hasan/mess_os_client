@@ -16,7 +16,7 @@ import { cn, SuccessToast, ErrorToast } from "@/lib/utils";
 import { updateMarketSchedule } from "@/services/market-schedule.service";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { IMarketSchedule, IShoppingItem } from "@/types/market-schedule.type";
-import { IMember } from "@/types/member.type";
+import { IMemberOption } from "@/types/member.type";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 
@@ -30,7 +30,7 @@ interface LocalShoppingItem {
   quantity: string;
 }
 
-import { getMessMembers } from "@/services/mess.service";
+import { getMessMemberOptions } from "@/services/mess.service";
 
 interface UpdateMarketScheduleModalProps {
   messId: string;
@@ -91,7 +91,7 @@ const MemberRow = React.memo(({
   isSelected, 
   onToggle 
 }: { 
-  member: IMember; 
+  member: IMemberOption; 
   isSelected: boolean; 
   onToggle: (id: string) => void;
 }) => {
@@ -106,7 +106,7 @@ const MemberRow = React.memo(({
         htmlFor={`edit-${member._id}`} 
         className="text-sm cursor-pointer flex-1 py-1 group-hover:text-primary transition-colors"
       >
-        {member.user.fullName}
+        {member.name}
       </label>
     </div>
   );
@@ -119,14 +119,14 @@ MemberRow.displayName = "MemberRow";
 // ============================================
 
 export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketScheduleModalProps) {
-  const [members, setMembers] = React.useState<IMember[]>([]);
+  const [members, setMembers] = React.useState<IMemberOption[]>([]);
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
   // Fetch active members when modal opens
   React.useEffect(() => {
     if (!open) return;
-    getMessMembers(messId, { status: "active", limit: "500" }).then((res) => {
+    getMessMemberOptions(messId).then((res) => {
       if (res?.success) setMembers(res.data);
     });
   }, [open, messId]);

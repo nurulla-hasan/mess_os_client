@@ -12,12 +12,12 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { getMessMembers, getMessDetails } from "@/services/mess.service";
+import { getMessMemberOptions, getMessDetails } from "@/services/mess.service";
 import { bulkLogMeals } from "@/services/meal.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { IMemberOption } from "@/types/member.type";
 import { IMealBreakdown } from "@/types/meal.type";
 import { MealEntryRow } from "./meal-entry-row";
-import { IMember } from "@/types/member.type";
 
 interface LogMealModalProps {
   messId: string;
@@ -33,7 +33,7 @@ interface MealEntry {
 export function LogMealModal({ messId }: LogMealModalProps) {
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  const [members, setMembers] = React.useState<IMember[]>([]);
+  const [members, setMembers] = React.useState<IMemberOption[]>([]);
   const [date, setDate] = React.useState<Date>(new Date());
   const [mealCategories, setMealCategories] = React.useState<string[]>([]);
   
@@ -57,7 +57,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
     if (open && messId) {
       const fetchData = async () => {
         const [membersRes, messRes] = await Promise.all([
-          getMessMembers(messId, { status: "active" }),
+          getMessMemberOptions(messId),
           getMessDetails(messId)
         ]);
 

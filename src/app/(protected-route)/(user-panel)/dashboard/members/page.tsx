@@ -2,7 +2,6 @@
 
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { DataTable } from "@/components/ui/custom/data-table";
 // import { userColumns } from "@/components/members/user-columns";
 // import { activeMembers } from "@/components/members/mockData";
 import { Users, Search } from "lucide-react";

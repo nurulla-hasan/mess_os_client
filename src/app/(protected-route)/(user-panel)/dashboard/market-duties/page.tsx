@@ -11,9 +11,10 @@ import {
   CheckCircle2,
   AlertCircle
 } from "lucide-react";
+import { IMarketSchedule } from "@/types/market-schedule.type";
 
 export default function MemberMarketDutiesPage() {
-  const myDuties: any[] = [];
+  const myDuties: IMarketSchedule[] = [];
   const upcomingDuties = myDuties.filter(s => s.status === "pending");
   const completedDuties = myDuties.filter(s => s.status === "completed");
 

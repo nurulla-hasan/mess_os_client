@@ -11,7 +11,7 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { IMember } from "@/types/member.type";
+import { IMemberOption } from "@/types/member.type";
 import { IMealBreakdown } from "@/types/meal.type";
 
 interface MealEntry {
@@ -22,7 +22,7 @@ interface MealEntry {
 
 interface MealEntryRowProps {
   entry: MealEntry;
-  members: IMember[];
+  members: IMemberOption[];
   visibleMeals: Record<string, boolean>;
   activeCount: number;
   canRemove: boolean;
@@ -64,7 +64,7 @@ export const MealEntryRow = React.memo(({
           <SelectContent>
             {members.map((m) => (
               <SelectItem key={m._id} value={m._id} className="text-xs">
-                {m.user.fullName}
+                {m.name}
               </SelectItem>
             ))}
           </SelectContent>

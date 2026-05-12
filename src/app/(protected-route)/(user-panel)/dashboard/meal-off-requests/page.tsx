@@ -2,9 +2,11 @@
 
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "@/components/ui/custom/data-table";
-import { userMealOffColumns } from "@/components/meal-off-requests/user-columns";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// TODO: Uncomment when API is ready
+// import { TabsContent } from "@/components/ui/tabs";
+// import { DataTable } from "@/components/ui/custom/data-table";
+// import { userMealOffColumns } from "@/components/meal-off-requests/user-columns";
 import { 
   Calendar, 
   Clock, 
@@ -15,7 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function MemberMealOffRequestsPage() {
-  const myRequests: any[] = [];
+  // TODO: Replace with actual API data when meal-off-request endpoint is ready
+  const myRequests: { status: string }[] = [];
   const pendingRequests = myRequests.filter(r => r.status === "pending");
 
   return (
@@ -51,7 +54,7 @@ export default function MemberMealOffRequestsPage() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="all">
+          {/* <TabsContent value="all">
             <DataTable columns={userMealOffColumns} data={myRequests} />
           </TabsContent>
           
@@ -65,7 +68,7 @@ export default function MemberMealOffRequestsPage() {
 
           <TabsContent value="rejected">
             <DataTable columns={userMealOffColumns} data={myRequests.filter(r => r.status === "rejected")} />
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
       </div>
     </DashboardPageLayout>

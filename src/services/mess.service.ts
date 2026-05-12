@@ -106,3 +106,22 @@ export const getMessDetails = async (messId: string): Promise<any> => {
     };
   }
 };
+
+/**
+ * Get active member options for dropdowns/selects (no pagination).
+ * Endpoint: GET /messes/:messId/members/options
+ */
+export const getMessMemberOptions = async (messId: string): Promise<any> => {
+  try {
+    return await serverFetch(`/messes/${messId}/members/options`, {
+      method: "GET",
+      tags: ["member-options"],
+    });
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to fetch member options.",
+      data: [],
+    };
+  }
+};

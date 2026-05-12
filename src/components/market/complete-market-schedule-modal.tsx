@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from "react";
@@ -14,19 +13,22 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { updateMarketScheduleStatus } from "@/services/market-schedule.service";
+import { getMe } from "@/services/auth.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { IMarketSchedule } from "@/types/market-schedule.type";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { IMembership } from "@/types/user.type";
 
 interface CompleteMarketScheduleModalProps {
   messId: string;
   schedule: IMarketSchedule;
-  actorMessMemberId?: string;
 }
 
-export function CompleteMarketScheduleModal({ messId, schedule, actorMessMemberId }: CompleteMarketScheduleModalProps) {
+export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarketScheduleModalProps) {
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [actorMembershipId, setActorMembershipId] = React.useState<string | null>(null);
   const router = useRouter();
 
   const [actualSpent, setActualSpent] = React.useState<string>(
@@ -34,21 +36,39 @@ export function CompleteMarketScheduleModal({ messId, schedule, actorMessMemberI
   );
   const [fundSource, setFundSource] = React.useState<string>("mess_cash");
 
+  // Fetch current user's active mess membership ID when modal opens
+  React.useEffect(() => {
+    if (!open) return;
+    getMe().then((res) => {
+      if (res?.success) {
+        const activeMessId = Cookies.get("active-mess-id");
+        const myMembership = res.data?.memberships?.find(
+          (m: IMembership) =>
+            (typeof m.messId === "string" ? m.messId : m.messId?._id) === activeMessId
+        );
+        setActorMembershipId(myMembership?._id || null);
+      }
+    });
+  }, [open]);
+
   const handleComplete = async () => {
     const spent = parseFloat(actualSpent);
     if (isNaN(spent) || spent < 0) {
       ErrorToast("Please enter a valid amount.");
       return;
     }
-
+    if (!actorMembershipId) {
+      ErrorToast("Could not identify your membership. Please reload.");
+      return;
+    }
 
     setIsLoading(true);
     try {
       const res = await updateMarketScheduleStatus(messId, schedule._id, {
         status: "completed",
         actualSpent: spent,
-        fundSource: fundSource,
-        actorMessMemberId: actorMessMemberId
+        fundSource,
+        actorMessMemberId: actorMembershipId,
       });
 
       if (res?.success) {
@@ -58,8 +78,8 @@ export function CompleteMarketScheduleModal({ messId, schedule, actorMessMemberI
       } else {
         ErrorToast(res?.message || "Failed to complete duty.");
       }
-    } catch (error: any) {
-      ErrorToast(error?.message || "Something went wrong.");
+    } catch (error: unknown) {
+      ErrorToast((error as Error)?.message || "Something went wrong.");
     } finally {
       setIsLoading(false);
     }
@@ -130,7 +150,7 @@ export function CompleteMarketScheduleModal({ messId, schedule, actorMessMemberI
           </Button>
           <Button 
             onClick={handleComplete}
-            disabled={isLoading}
+            disabled={isLoading || !actorMembershipId}
           >
             {isLoading ? "Processing..." : "Mark as Completed"}
           </Button>
