@@ -1,34 +1,29 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";
-import { QueryParams } from "@/types/global.type";
+import { QueryParams, ApiResponse } from "@/types/global.type";
+import { IMember, IMemberOption } from "@/types/member.type";
+import { IMess } from "@/types/mess.type";
 
-export const createMess = async (data: any): Promise<any> => {
+// ─── Service Functions ────────────────────────────────────────────────────────
+
+export const createMess = async (data: Record<string, unknown>): Promise<ApiResponse<IMess>> => {
   try {
-    const response = await serverFetch("/messes", {
-      method: "POST",
-      body: data,
-    });
-    return response;
-  } catch (error) {
+    return (await serverFetch("/messes", { method: "POST", body: data })) as ApiResponse<IMess>;
+  } catch (error: unknown) {
     return {
       success: false,
       message: (error as Error).message || "An unexpected error occurred.",
-      data: null,
+      data: null as unknown as IMess,
     };
   }
 };
 
-export const joinMess = async (data: any): Promise<any> => {
+export const joinMess = async (data: Record<string, unknown>): Promise<ApiResponse<null>> => {
   try {
-    const response = await serverFetch("/messes/join", {
-      method: "POST",
-      body: data,
-    });
-    return response;
-  } catch (error) {
+    return (await serverFetch("/messes/join", { method: "POST", body: data })) as ApiResponse<null>;
+  } catch (error: unknown) {
     return {
       success: false,
       message: (error as Error).message || "An unexpected error occurred.",
@@ -38,37 +33,46 @@ export const joinMess = async (data: any): Promise<any> => {
 };
 
 /**
- * Get members of a specific mess with optional status filtering
+ * Get members of a specific mess with optional status/pagination filtering
  */
-export const getMessMembers = async (messId: string, params: QueryParams = {}): Promise<any> => {
+export const getMessMembers = async (
+  messId: string,
+  params: QueryParams = {}
+): Promise<ApiResponse<IMember[]>> => {
   const qs = buildQueryString(params);
   try {
-    return await serverFetch(`/messes/${messId}/members${qs}`, {
+    return (await serverFetch(`/messes/${messId}/members${qs}`, {
       method: "GET",
       tags: ["mess-members"],
-    });
-  } catch (error: any) {
+    })) as ApiResponse<IMember[]>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Failed to fetch mess members.",
+      message: (error as Error)?.message || "Failed to fetch mess members.",
+      data: [],
     };
   }
 };
 
 /**
- * Update member status (approve/reject)
+ * Update member status (approve / reject)
  */
-export const updateMemberStatus = async (messId: string, memberId: string, status: "active" | "rejected"): Promise<any> => {
+export const updateMemberStatus = async (
+  messId: string,
+  memberId: string,
+  status: "active" | "rejected"
+): Promise<ApiResponse<IMember>> => {
   try {
-    return await serverFetch(`/messes/${messId}/members/${memberId}/status`, {
+    return (await serverFetch(`/messes/${messId}/members/${memberId}/status`, {
       method: "PATCH",
       body: { status },
       updateTag: ["mess-members"],
-    });
-  } catch (error: any) {
+    })) as ApiResponse<IMember>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Failed to update member status.",
+      message: (error as Error)?.message || "Failed to update member status.",
+      data: null as unknown as IMember,
     };
   }
 };
@@ -76,16 +80,20 @@ export const updateMemberStatus = async (messId: string, memberId: string, statu
 /**
  * Remove a member from the mess
  */
-export const removeMember = async (messId: string, memberId: string): Promise<any> => {
+export const removeMember = async (
+  messId: string,
+  memberId: string
+): Promise<ApiResponse<null>> => {
   try {
-    return await serverFetch(`/messes/${messId}/members/${memberId}/remove`, {
+    return (await serverFetch(`/messes/${messId}/members/${memberId}/remove`, {
       method: "POST",
       updateTag: ["mess-members"],
-    });
-  } catch (error: any) {
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Failed to remove member.",
+      message: (error as Error)?.message || "Failed to remove member.",
+      data: null,
     };
   }
 };
@@ -93,16 +101,17 @@ export const removeMember = async (messId: string, memberId: string): Promise<an
 /**
  * Get details of a specific mess
  */
-export const getMessDetails = async (messId: string): Promise<any> => {
+export const getMessDetails = async (messId: string): Promise<ApiResponse<IMess>> => {
   try {
-    return await serverFetch(`/messes/${messId}`, {
+    return (await serverFetch(`/messes/${messId}`, {
       method: "GET",
       tags: ["mess-details"],
-    });
-  } catch (error: any) {
+    })) as ApiResponse<IMess>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Failed to fetch mess details.",
+      message: (error as Error)?.message || "Failed to fetch mess details.",
+      data: null as unknown as IMess,
     };
   }
 };
@@ -111,12 +120,14 @@ export const getMessDetails = async (messId: string): Promise<any> => {
  * Get active member options for dropdowns/selects (no pagination).
  * Endpoint: GET /messes/:messId/members/options
  */
-export const getMessMemberOptions = async (messId: string): Promise<any> => {
+export const getMessMemberOptions = async (
+  messId: string
+): Promise<ApiResponse<IMemberOption[]>> => {
   try {
-    return await serverFetch(`/messes/${messId}/members/options`, {
+    return (await serverFetch(`/messes/${messId}/members/options`, {
       method: "GET",
       tags: ["member-options"],
-    });
+    })) as ApiResponse<IMemberOption[]>;
   } catch (error: unknown) {
     return {
       success: false,

@@ -1,25 +1,32 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import { serverFetch } from "@/lib/fetcher";
 import { FieldValues } from "react-hook-form";
 import { cookies } from "next/headers";
+import { ApiResponse } from "@/types/global.type";
+import { IUser } from "@/types/user.type";
+
+interface AuthResponseData {
+  user: IUser;
+  accessToken: string;
+  refreshToken: string;
+}
 
 /**
  * Register a new user
  */
-export const register = async (data: FieldValues): Promise<any> => {
+export const register = async (data: FieldValues): Promise<ApiResponse<null>> => {
   try {
-    return await serverFetch("/auth/register", {
+    return (await serverFetch("/auth/register", {
       method: "POST",
       body: data,
       isPublic: true,
-    });
-  } catch (error: any) {
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Registration failed. Please try again.",
-      error: error?.data,
+      message: (error as Error)?.message || "Registration failed. Please try again.",
+      data: null,
     };
   }
 };
@@ -27,18 +34,18 @@ export const register = async (data: FieldValues): Promise<any> => {
 /**
  * Verify email OTP after registration
  */
-export const verifyOtp = async (data: FieldValues): Promise<any> => {
+export const verifyOtp = async (data: FieldValues): Promise<ApiResponse<null>> => {
   try {
-    return await serverFetch("/auth/verify-email", {
+    return (await serverFetch("/auth/verify-email", {
       method: "POST",
       body: data,
       isPublic: true,
-    });
-  } catch (error: any) {
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Verification failed. Please try again.",
-      error: error?.data,
+      message: (error as Error)?.message || "Verification failed. Please try again.",
+      data: null,
     };
   }
 };
@@ -46,18 +53,18 @@ export const verifyOtp = async (data: FieldValues): Promise<any> => {
 /**
  * Resend email verification OTP
  */
-export const resendVerifyOtp = async (data: FieldValues): Promise<any> => {
+export const resendVerifyOtp = async (data: FieldValues): Promise<ApiResponse<null>> => {
   try {
-    return await serverFetch("/auth/resend-otp", {
+    return (await serverFetch("/auth/resend-otp", {
       method: "POST",
       body: data,
       isPublic: true,
-    });
-  } catch (error: any) {
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Failed to resend OTP. Please try again.",
-      error: error?.data,
+      message: (error as Error)?.message || "Failed to resend OTP. Please try again.",
+      data: null,
     };
   }
 };
@@ -65,19 +72,19 @@ export const resendVerifyOtp = async (data: FieldValues): Promise<any> => {
 /**
  * Login user (Backend handles cookies automatically)
  */
-export const login = async (data: FieldValues): Promise<any> => {
+export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponseData>> => {
   try {
-    const response = await serverFetch("/auth/login", {
+    const response = (await serverFetch("/auth/login", {
       method: "POST",
       body: data,
       isPublic: true,
       persistCookies: true,
-    });
-    console.log(response)
+    })) as ApiResponse<AuthResponseData>;
+    console.log(response);
 
-    if (response && (response as any).success) {
+    if (response && response.success) {
       const cookieStore = await cookies();
-      const responseData = (response as any).data;
+      const responseData = response.data;
       const accessToken = responseData?.accessToken;
 
       if (accessToken) {
@@ -90,10 +97,12 @@ export const login = async (data: FieldValues): Promise<any> => {
         });
 
         // Get memberships from login response
-        
         const memberships = responseData?.user?.memberships || [];
-        const approved = memberships.find((m: any) => m.status === "approved" || m.status === "active");
-        
+        const approved = memberships.find(
+          (m: { status: string; messId: string | { _id: string } }) =>
+            m.status === "approved" || m.status === "active"
+        );
+
         if (approved) {
           const mId = typeof approved.messId === "string" ? approved.messId : approved.messId?._id;
           if (mId) {
@@ -110,11 +119,11 @@ export const login = async (data: FieldValues): Promise<any> => {
     }
 
     return response;
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       success: false,
       message: (error as Error).message || "An unexpected error occurred.",
-      data: null,
+      data: null as unknown as AuthResponseData,
     };
   }
 };
@@ -122,17 +131,16 @@ export const login = async (data: FieldValues): Promise<any> => {
 /**
  * Get current logged-in user profile
  */
-export const getMe = async (): Promise<any> => {
+export const getMe = async (): Promise<ApiResponse<IUser>> => {
   try {
-    const response: any = await serverFetch("/users/me", {
+    return (await serverFetch("/users/me", {
       tags: ["user-profile"],
-    });
-
-    return response;
-  } catch (error: any) {
+    })) as ApiResponse<IUser>;
+  } catch (error: unknown) {
     return {
       success: false,
-      message: error?.message || "Failed to fetch profile.",
+      message: (error as Error)?.message || "Failed to fetch profile.",
+      data: null as unknown as IUser,
     };
   }
 };
@@ -140,7 +148,7 @@ export const getMe = async (): Promise<any> => {
 /**
  * Set the active mess ID in cookies (Server Action)
  */
-export const setActiveMessId = async (messId: string) => {
+export const setActiveMessId = async (messId: string): Promise<void> => {
   const cookieStore = await cookies();
   cookieStore.set("activeMessId", messId, {
     httpOnly: true,
@@ -162,23 +170,39 @@ export const getActiveMessIdFromCookies = async (): Promise<string | null> => {
 /**
  * Update user profile (supports FieldValues for profile image)
  */
-export const updateProfile = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/update-profile", {
-    method: "PATCH",
-    body: data,
-    updateTag: "dashboard-stats",
-  });
+export const updateProfile = async (data: FieldValues): Promise<ApiResponse<IUser>> => {
+  try {
+    return (await serverFetch("/auth/update-profile", {
+      method: "PATCH",
+      body: data,
+      updateTag: "dashboard-stats",
+    })) as ApiResponse<IUser>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to update profile.",
+      data: null as unknown as IUser,
+    };
+  }
 };
 
 /**
  * Initiate forgot password process
  */
-export const forgotPassword = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/forgot-password", {
-    method: "POST",
-    body: data,
-    isPublic: true,
-  });
+export const forgotPassword = async (data: FieldValues): Promise<ApiResponse<null>> => {
+  try {
+    return (await serverFetch("/auth/forgot-password", {
+      method: "POST",
+      body: data,
+      isPublic: true,
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to request password reset.",
+      data: null,
+    };
+  }
 };
 
 /**
@@ -192,7 +216,7 @@ export const getCurrentUserRole = async (): Promise<string | null> => {
 
   try {
     const { jwtDecode } = await import("jwt-decode");
-    const decoded: any = jwtDecode(token);
+    const decoded: { globalRole?: string } = jwtDecode(token);
     return decoded.globalRole || null;
   } catch (error) {
     console.error("Error decoding token on server:", error);
@@ -203,39 +227,63 @@ export const getCurrentUserRole = async (): Promise<string | null> => {
 /**
  * Reset password using OTP
  */
-export const resetPassword = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/reset-password", {
-    method: "POST",
-    body: data,
-    isPublic: true,
-  });
+export const resetPassword = async (data: FieldValues): Promise<ApiResponse<null>> => {
+  try {
+    return (await serverFetch("/auth/reset-password", {
+      method: "POST",
+      body: data,
+      isPublic: true,
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to reset password.",
+      data: null,
+    };
+  }
 };
 
 /**
  * Verify OTP for password reset
  */
-export const verifyResetOtp = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/verify-reset-otp", {
-    method: "POST",
-    body: data,
-    isPublic: true,
-  });
+export const verifyResetOtp = async (data: FieldValues): Promise<ApiResponse<null>> => {
+  try {
+    return (await serverFetch("/auth/verify-reset-otp", {
+      method: "POST",
+      body: data,
+      isPublic: true,
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Verification failed.",
+      data: null,
+    };
+  }
 };
 
 /**
  * Change account password
  */
-export const changePassword = async (data: FieldValues): Promise<any> => {
-  return await serverFetch("/auth/change-password", {
-    method: "POST",
-    body: data,
-  });
+export const changePassword = async (data: FieldValues): Promise<ApiResponse<null>> => {
+  try {
+    return (await serverFetch("/auth/change-password", {
+      method: "POST",
+      body: data,
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to change password.",
+      data: null,
+    };
+  }
 };
 
 /**
  * Logout user by clearing cookies
  */
-export const logout = async () => {
+export const logout = async (): Promise<void> => {
   const cookieStore = await cookies();
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");

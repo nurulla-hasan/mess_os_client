@@ -19,6 +19,7 @@ import { IMarketSchedule, IShoppingItem } from "@/types/market-schedule.type";
 import { IMemberOption } from "@/types/member.type";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { getMessMemberOptions } from "@/services/mess.service";
 
 // ============================================
 // Types
@@ -30,7 +31,6 @@ interface LocalShoppingItem {
   quantity: string;
 }
 
-import { getMessMemberOptions } from "@/services/mess.service";
 
 interface UpdateMarketScheduleModalProps {
   messId: string;
