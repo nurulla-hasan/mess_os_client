@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useSmartFilter } from "@/hooks/useSmartFilter";
 import {
   Select,
@@ -8,17 +9,45 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
 
 export function MenuPlanFilters() {
-  const { getFilter, updateFilter } = useSmartFilter();
+  const { getFilter, updateBatch } = useSmartFilter();
   
   const statusFilter = getFilter("status", "all");
+  const startDate = getFilter("startDate", "");
+  const endDate = getFilter("endDate", "");
+
+  // Convert URL strings back to Date objects for the picker
+  const dateRange: DateRange | undefined = React.useMemo(() => {
+    const from = startDate ? new Date(startDate) : undefined;
+    const to = endDate ? new Date(endDate) : undefined;
+    
+    if (!from && !to) return undefined;
+    return { from, to };
+  }, [startDate, endDate]);
+
+  const handleDateChange = (range: DateRange | undefined) => {
+    updateBatch({
+      startDate: range?.from ? format(range.from, "yyyy-MM-dd") : null,
+      endDate: range?.to ? format(range.to, "yyyy-MM-dd") : null,
+    });
+  };
 
   return (
     <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+      <DatePickerWithRange 
+        date={dateRange} 
+        setDate={handleDateChange} 
+        placeholder="Filter by date range"
+        className="w-full sm:w-64"
+      />
+
       <Select 
         value={statusFilter} 
-        onValueChange={(val) => updateFilter("status", val === "all" ? null : val)}
+        onValueChange={(val) => updateBatch({ status: val === "all" ? null : val })}
       >
         <SelectTrigger className="w-full sm:w-44">
           <SelectValue placeholder="All Status" />

@@ -3,8 +3,7 @@ import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/menu-plans/columns";
 import { 
-  Sparkles, 
-  Plus,
+  Sparkles,
   AlertCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { getMenuPlans } from "@/services/menu-plan.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MenuPlanFilters } from "@/components/menu-plans/menu-plan-filters";
+import { CreateMenuPlanModal } from "@/components/menu-plans/create-menu-plan-modal";
 
 export default async function ManagerMenuPlansPage({
   searchParams,
@@ -48,9 +48,7 @@ export default async function ManagerMenuPlansPage({
             <Button variant="outline">
               <Sparkles /> AI Generate
             </Button>
-            <Button>
-              <Plus /> New Plan
-            </Button>
+            <CreateMenuPlanModal messId={activeMessId} />
           </div>
         </div>
       </div>

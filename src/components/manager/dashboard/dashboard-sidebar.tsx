@@ -80,7 +80,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
         </Card>
       ) : (
         <div className="bg-muted/10 border border-dashed rounded-lg p-4 text-center">
-          <p className="text-[11px] font-bold text-muted-foreground/60 uppercase tracking-widest">No pending join requests</p>
+          <p className="text-xs font-bold text-muted-foreground/60 uppercase tracking-widest">No pending join requests</p>
         </div>
       )}
 
@@ -108,7 +108,7 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
                     </h5>
                     {notice.isPinned && <Pin className="w-2.5 h-2.5 text-primary fill-primary" />}
                   </div>
-                  <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed font-medium">
+                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed font-medium">
                     {notice.content}
                   </p>
                   <div className="flex items-center gap-2 mt-2 text-xs font-bold text-muted-foreground uppercase">

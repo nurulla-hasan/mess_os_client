@@ -69,7 +69,7 @@ export function DashboardHeader({ mess, subscription }: DashboardHeaderProps) {
                 <p className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Plan</p>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-sm text-primary">{subscription.plan.name}</span>
-                  <Badge variant="outline" className="text-[9px] h-4 px-1 leading-none uppercase font-black bg-background/50">
+                  <Badge variant="outline" className="text-xs h-4 px-1 leading-none uppercase font-black bg-background/50">
                     {subscription.plan.billingCycle}
                   </Badge>
                 </div>

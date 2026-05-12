@@ -1,49 +1,151 @@
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Sparkles, Send, Archive } from "lucide-react";
+import { Sparkles, Send, Archive } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { format } from "date-fns";
 import { IMenuPlan } from "@/types/menu-plan.type";
+import { ViewMenuPlanModal } from "./view-menu-plan-modal";
+import { EditMenuPlanModal } from "./edit-menu-plan-modal";
+import { formatDate, SuccessToast, ErrorToast } from "@/lib/utils";
+import { updateMenuPlanStatus } from "@/services/menu-plan.service";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+
+interface ActionButtonsProps {
+  plan: IMenuPlan;
+}
+
+function ActionButtons({ plan }: ActionButtonsProps) {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const [actionType, setActionType] = React.useState<
+    "published" | "archived" | null
+  >(null);
+
+  const handleStatusUpdate = async () => {
+    if (!actionType) return;
+    setIsLoading(true);
+    try {
+      const res = await updateMenuPlanStatus(plan.messId, plan._id, actionType);
+      if (res.success) {
+        SuccessToast(res.message || `Plan ${actionType} successfully!`);
+        setIsConfirmOpen(false);
+      } else {
+        ErrorToast(res.message || "Failed to update status.");
+      }
+    } catch {
+      ErrorToast("Something went wrong.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const openModal = (type: "published" | "archived") => {
+    setActionType(type);
+    setIsConfirmOpen(true);
+  };
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <ViewMenuPlanModal plan={plan} />
+
+      {plan.status === "draft" && (
+        <>
+          <EditMenuPlanModal plan={plan} />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+            onClick={() => openModal("published")}
+          >
+            <Send  />
+          </Button>
+        </>
+      )}
+
+      {plan.status === "published" && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-xs text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+                onClick={() => openModal("archived")}
+              >
+                <Archive  />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Archive Plan</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+
+      {actionType && (
+        <ConfirmationModal
+          open={isConfirmOpen}
+          onOpenChange={setIsConfirmOpen}
+          trigger={null}
+          title={
+            actionType === "published"
+              ? "Publish Menu Plan"
+              : "Archive Menu Plan"
+          }
+          description={
+            actionType === "published"
+              ? "Are you sure you want to publish this menu plan? It will be visible to all members."
+              : "Are you sure you want to archive this menu plan? It will no longer be visible as active."
+          }
+          confirmText={actionType === "published" ? "Publish" : "Archive"}
+          variant={actionType === "published" ? "default" : "destructive"}
+          isLoading={isLoading}
+          onConfirm={handleStatusUpdate}
+        />
+      )}
+    </div>
+  );
+}
 
 export const columns: ColumnDef<IMenuPlan>[] = [
   {
     accessorKey: "date",
     header: "Date",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="text-sm font-bold">
-          {format(new Date(row.original.date), "EEEE")}
-        </span>
-        <span className="text-xs text-muted-foreground uppercase">
-          {format(new Date(row.original.date), "MMM dd, yyyy")}
-        </span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const date = row.original.date;
+      return (
+        <div className="flex flex-col">
+          <span className="text-sm font-bold">{formatDate(date)}</span>
+          <span className="text-xs text-muted-foreground uppercase">
+            Scheduled
+          </span>
+        </div>
+      );
+    },
   },
   {
     id: "menu",
     header: "Menu Summary",
     cell: ({ row }) => {
       const meals = row.original.meals;
-      // Convert meals object to array of [category, content]
       const mealEntries = Object.entries(meals);
 
       return (
         <div className="flex flex-col gap-0.5 max-w-50">
           {mealEntries.length === 0 ? (
-            <span className="text-xs text-muted-foreground italic">No items set</span>
+            <span className="text-xs text-muted-foreground italic">
+              No items set
+            </span>
           ) : (
             mealEntries.slice(0, 3).map(([category, content]) => (
               <div key={category} className="flex items-center gap-2">
-                <span className="text-[10px] font-black text-primary/60 w-3 uppercase">
+                <span className="text-xs font-black text-primary/60 w-3 uppercase">
                   {category.charAt(0)}
                 </span>
                 <span className="text-xs truncate font-medium max-w-37.5">
@@ -53,7 +155,7 @@ export const columns: ColumnDef<IMenuPlan>[] = [
             ))
           )}
           {mealEntries.length > 3 && (
-            <span className="text-[9px] text-muted-foreground ml-5">
+            <span className="text-xs text-muted-foreground ml-5">
               + {mealEntries.length - 3} more
             </span>
           )}
@@ -64,15 +166,16 @@ export const columns: ColumnDef<IMenuPlan>[] = [
   {
     accessorKey: "isAiGenerated",
     header: "Source",
-    cell: ({ row }) => (
+    cell: ({ row }) =>
       row.original.isAiGenerated ? (
-        <Badge variant="info" className="gap-1 px-2 py-0.5 h-5 text-[9px]">
+        <Badge variant="info" className="gap-1 px-2 py-0.5 h-5 text-xs">
           <Sparkles className="h-2 w-2" /> AI Gen
         </Badge>
       ) : (
-        <Badge variant="secondary" className="px-2 py-0.5 h-5 text-[9px]">Manual</Badge>
-      )
-    ),
+        <Badge variant="secondary" className="px-2 py-0.5 h-5 text-xs">
+          Manual
+        </Badge>
+      ),
   },
   {
     accessorKey: "status",
@@ -80,9 +183,15 @@ export const columns: ColumnDef<IMenuPlan>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge 
-          variant={status === "published" ? "active" : status === "archived" ? "blocked" : "pending"}
-          className="h-5 text-[9px] px-2"
+        <Badge
+          variant={
+            status === "published"
+              ? "active"
+              : status === "archived"
+                ? "blocked"
+                : "pending"
+          }
+          className="h-5 text-xs px-2"
         >
           {status}
         </Badge>
@@ -92,62 +201,6 @@ export const columns: ColumnDef<IMenuPlan>[] = [
   {
     id: "actions",
     header: () => <div className="text-end">Actions</div>,
-    cell: ({ row }) => {
-      const plan = row.original;
-
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {plan.status === "draft" && (
-            <>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-amber-600">
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Edit Plan</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600">
-                      <Send className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Publish Plan</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
-          )}
-
-          {plan.status === "published" && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8 text-rose-600">
-                    <Archive className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Archive Plan</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <ActionButtons plan={row.original} />,
   },
 ];
