@@ -71,7 +71,7 @@ function ActionButtons({ request }: ActionButtonsProps) {
         <>
           <Button 
             variant="ghost" 
-            size="icon" 
+            size="icon-sm" 
             className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
             onClick={() => openModal("approved")}
           >
@@ -79,7 +79,7 @@ function ActionButtons({ request }: ActionButtonsProps) {
           </Button>
           <Button 
             variant="ghost" 
-            size="icon" 
+            size="icon-sm" 
             className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
             onClick={() => openModal("rejected")}
           >
@@ -90,8 +90,8 @@ function ActionButtons({ request }: ActionButtonsProps) {
 
       {request.status === "approved" && (
         <Button 
-          variant="ghost" 
-          size="icon" 
+          variant="outline" 
+          size="icon-sm" 
           className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
           onClick={() => openModal("canceled")}
           title="Cancel Approved Request"
