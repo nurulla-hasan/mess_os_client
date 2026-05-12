@@ -34,8 +34,11 @@ export const createMenuPlan = async (
   messId: string,
   data: { 
     date: string; 
-    meals: Record<string, string>; 
-    isAiGenerated?: boolean 
+    meals?: Record<string, string>; 
+    isAiGenerated?: boolean;
+    aiPreference?: string;
+    aiBudget?: number;
+    avoidRecentDays?: number;
   }
 ): Promise<ApiResponse<IMenuPlan>> => {
   try {
