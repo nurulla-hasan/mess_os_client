@@ -50,13 +50,11 @@ export default async function ManagerMenuPlansPage({
         </div>
       </div>
 
-      <div className="mt-6">
-        <DataTable 
-          columns={columns} 
-          data={data || []} 
-          meta={meta} 
-        />
-      </div>
+      <DataTable 
+        columns={columns} 
+        data={data || []} 
+        meta={meta}
+      />
     </DashboardPageLayout>
   );
 }
