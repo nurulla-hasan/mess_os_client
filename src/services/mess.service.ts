@@ -66,7 +66,7 @@ export const updateMemberStatus = async (
     return (await serverFetch(`/messes/${messId}/members/${memberId}/status`, {
       method: "PATCH",
       body: { status },
-      updateTag: ["mess-members"],
+      updateTag: ["mess-members", "member-options"],
     })) as ApiResponse<IMember>;
   } catch (error: unknown) {
     return {
@@ -87,7 +87,7 @@ export const removeMember = async (
   try {
     return (await serverFetch(`/messes/${messId}/members/${memberId}/remove`, {
       method: "POST",
-      updateTag: ["mess-members"],
+      updateTag: ["mess-members", "member-options"],
     })) as ApiResponse<null>;
   } catch (error: unknown) {
     return {

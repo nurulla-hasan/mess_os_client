@@ -150,7 +150,7 @@ export const updateUserStatus = async (
     return (await serverFetch(`/admin/users/${userId}/status`, {
       method: "PATCH",
       body: payload,
-      updateTag: ["users"],
+      updateTag: ["users", "user-profile"],
     })) as ApiResponse<IUser>;
   } catch (error: unknown) {
     return {
@@ -173,7 +173,7 @@ export const updateUserRole = async (
     return (await serverFetch(`/admin/users/${userId}/role`, {
       method: "PATCH",
       body: payload,
-      updateTag: ["users"],
+      updateTag: ["users", "user-profile"],
     })) as ApiResponse<IUser>;
   } catch (error: unknown) {
     return {

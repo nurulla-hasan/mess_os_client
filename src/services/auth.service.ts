@@ -175,7 +175,7 @@ export const updateProfile = async (data: FieldValues): Promise<ApiResponse<IUse
     return (await serverFetch("/auth/update-profile", {
       method: "PATCH",
       body: data,
-      updateTag: "dashboard-stats",
+      updateTag: ["dashboard-stats", "user-profile"],
     })) as ApiResponse<IUser>;
   } catch (error: unknown) {
     return {
