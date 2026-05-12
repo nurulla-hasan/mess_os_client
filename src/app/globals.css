@@ -394,6 +394,7 @@
 }
 ::-webkit-scrollbar-thumb {
   @apply bg-primary transition-colors;
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-primary/60;
