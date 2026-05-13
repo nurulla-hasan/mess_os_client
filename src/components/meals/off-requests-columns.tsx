@@ -70,7 +70,7 @@ function ActionButtons({ request }: ActionButtonsProps) {
       {request.status === "pending" && (
         <>
           <Button 
-            variant="ghost" 
+            variant="outline" 
             size="icon-sm" 
             className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
             onClick={() => openModal("approved")}
@@ -78,7 +78,7 @@ function ActionButtons({ request }: ActionButtonsProps) {
             <Check className="h-4 w-4" />
           </Button>
           <Button 
-            variant="ghost" 
+            variant="outline" 
             size="icon-sm" 
             className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
             onClick={() => openModal("rejected")}

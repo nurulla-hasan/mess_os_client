@@ -32,6 +32,12 @@ export const getMessMealOffRequests = async (
   }
 };
 
+export interface CreateMealOffRequestPayload {
+  startDate: string;
+  endDate: string;
+  reason: string;
+}
+
 /**
  * Review/Update meal off request status
  */
@@ -51,6 +57,49 @@ export const updateMealOffRequestStatus = async (
       success: false,
       message: (error as Error)?.message || "Failed to update request status.",
       data: null as unknown as IMealOffRequest,
+    };
+  }
+};
+
+/**
+ * Create a new meal off request
+ */
+export const createMealOffRequest = async (
+  messId: string,
+  data: CreateMealOffRequestPayload
+): Promise<ApiResponse<IMealOffRequest>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/meal-off-requests`, {
+      method: "POST",
+      body: data,
+      updateTag: ["meal-off-requests"],
+    })) as ApiResponse<IMealOffRequest>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to create meal off request.",
+      data: null as unknown as IMealOffRequest,
+    };
+  }
+};
+/**
+ * Get meal off requests for the current user
+ */
+export const getMyMealOffRequests = async (
+  messId: string,
+  params: QueryParams = {}
+): Promise<ApiResponse<IMealOffRequest[]>> => {
+  const qs = buildQueryString({ ...params, scope: "my" });
+  try {
+    return (await serverFetch(`/messes/${messId}/meal-off-requests${qs}`, {
+      method: "GET",
+      tags: ["meal-off-requests"],
+    })) as ApiResponse<IMealOffRequest[]>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to fetch your meal off requests.",
+      data: [],
     };
   }
 };
