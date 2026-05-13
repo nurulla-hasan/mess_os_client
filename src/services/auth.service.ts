@@ -4,7 +4,9 @@ import { serverFetch } from "@/lib/fetcher";
 import { FieldValues } from "react-hook-form";
 import { cookies } from "next/headers";
 import { ApiResponse } from "@/types/global.type";
-import { IUser } from "@/types/user.type";
+import { IUser, IMembership } from "@/types/user.type";
+import { IMess } from "@/types/mess.type";
+import { getUsableMemberships } from "@/lib/auth-routing";
 
 interface AuthResponseData {
   user: IUser;
@@ -96,15 +98,14 @@ export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponse
           maxAge: 60 * 60 * 24 * 7,
         });
 
-        // Get memberships from login response
-        const memberships = responseData?.user?.memberships || [];
-        const approved = memberships.find(
-          (m: { status: string; messId: string | { _id: string } }) =>
-            m.status === "approved" || m.status === "active"
-        );
+        // Get usable memberships (membership.status active + mess.status active)
+        const memberships = (responseData?.user?.memberships || []) as IMembership[];
+        const usableMemberships = getUsableMemberships(memberships);
 
-        if (approved) {
-          const mId = typeof approved.messId === "string" ? approved.messId : approved.messId?._id;
+        // Only auto-set activeMessId when exactly one usable mess exists
+        if (usableMemberships.length === 1) {
+          const mess = usableMemberships[0].messId;
+          const mId = typeof mess === "string" ? mess : (mess as IMess)?._id;
           if (mId) {
             cookieStore.set("activeMessId", mId, {
               httpOnly: true,
@@ -115,6 +116,7 @@ export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponse
             });
           }
         }
+        // 0 or 2+ usable messes: do NOT set activeMessId cookie
       }
     }
 
@@ -145,8 +147,62 @@ export const getMe = async (): Promise<ApiResponse<IUser>> => {
   }
 };
 
+interface SwitchMessResponse {
+  messId: string;
+  messRole: "manager" | "member";
+  redirectTo: string;
+  mess: IMess;
+  membership: IMembership;
+}
+
 /**
- * Set the active mess ID in cookies (Server Action)
+ * Switch active mess via backend validation, then set cookie.
+ * Backend validates: user has active membership + mess is active.
+ * Returns the redirect path on success, null on failure.
+ */
+export const switchActiveMess = async (
+  messId: string
+): Promise<{ success: boolean; redirectTo: string | null; message?: string }> => {
+  try {
+    const response = (await serverFetch("/users/me/switch-mess", {
+      method: "POST",
+      body: { messId },
+    })) as ApiResponse<SwitchMessResponse>;
+
+    if (response?.success && response.data) {
+      const cookieStore = await cookies();
+      cookieStore.set("activeMessId", response.data.messId, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+
+      return {
+        success: true,
+        redirectTo: response.data.redirectTo,
+      };
+    }
+
+    return {
+      success: false,
+      redirectTo: null,
+      message: response?.message || "Failed to switch mess.",
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      redirectTo: null,
+      message: (error as Error)?.message || "Failed to switch mess.",
+    };
+  }
+};
+
+/**
+ * Set the active mess ID in cookies directly (Server Action)
+ * Use switchActiveMess() for validated switching.
+ * This is kept for internal/fallback use only.
  */
 export const setActiveMessId = async (messId: string): Promise<void> => {
   const cookieStore = await cookies();

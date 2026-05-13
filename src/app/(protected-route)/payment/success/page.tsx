@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState, Suspense } from "react";
 import Link from "next/link";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,10 +17,11 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useSmartFilter } from "@/hooks/useSmartFilter";
 
-export default function PaymentSuccessPage() {
-  const searchParams = useSearchParams();
-  const tranId = searchParams.get("tran_id") || "N/A";
+function PaymentSuccessContent() {
+  const { getFilter } = useSmartFilter();
+  const tranId = getFilter("tran_id") || "N/A";
   const [isCopied, setIsCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -132,5 +132,13 @@ export default function PaymentSuccessPage() {
         </div>
       </div>
     </DashboardPageLayout>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }

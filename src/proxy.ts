@@ -3,8 +3,9 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtDecode } from "jwt-decode";
 
-import { getPostLoginRoute } from "@/lib/auth-routing";
+import { getPostLoginRoute, getUsableMemberships } from "@/lib/auth-routing";
 import { IMembership, IUser } from "@/types/user.type";
+import { IMess } from "@/types/mess.type";
 
 const authRoutesToRedirect = [
   "/auth/login",
@@ -24,16 +25,8 @@ const protectedRoutes = [
   "/get-started",
   "/join-mess",
   "/blocked",
+  "/select-mess",
 ];
-
-/**
- * Use the same API base that your serverFetch uses.
- * Replace this line only if your env name is different.
- *
- * Examples:
- * - http://localhost:5000/api/v1
- * - https://api.example.com/api/v1
- */
 
 type DecodedToken = {
   exp: number;
@@ -86,6 +79,7 @@ export async function proxy(request: NextRequest) {
   const { nextUrl } = request;
   const pathname = nextUrl.pathname;
   const accessToken = request.cookies.get("accessToken")?.value;
+  const activeMessId = request.cookies.get("activeMessId")?.value;
 
   if (accessToken) {
     try {
@@ -98,6 +92,7 @@ export async function proxy(request: NextRequest) {
         );
         response.cookies.delete("accessToken");
         response.cookies.delete("refreshToken");
+        response.cookies.delete("activeMessId");
         return response;
       }
     } catch (error) {
@@ -105,6 +100,7 @@ export async function proxy(request: NextRequest) {
       const response = NextResponse.redirect(new URL("/auth/login", request.url));
       response.cookies.delete("accessToken");
       response.cookies.delete("refreshToken");
+      response.cookies.delete("activeMessId");
       return response;
     }
   }
@@ -127,7 +123,7 @@ export async function proxy(request: NextRequest) {
   // Strict Role-Based Route Protection
   if (accessToken && (isAuthRouteToRedirect || isVerifyOtpRoute || isProtectedRoute)) {
     const user = await fetchCurrentUserInProxy(request, accessToken);
-    let resolvedRoute = getPostLoginRoute(user);
+    let resolvedRoute = getPostLoginRoute(user, activeMessId);
 
     // Fallback: If backend fetch fails but token is valid, use token's globalRole
     if (!user) {
@@ -143,23 +139,40 @@ export async function proxy(request: NextRequest) {
       }
     }
 
-    // console.log("=== PROXY DEBUG ===");
-    // console.log("Pathname:", pathname);
-    // console.log("User Fetched:", !!user);
-    // console.log("Resolved Route:", resolvedRoute);
-    // console.log("Is Onboarding Route:", pathname.startsWith("/get-started") || pathname.startsWith("/join-mess") || pathname.startsWith("/create-mess") || pathname.startsWith("/pending-approval"));
+    // --- STALE COOKIE CLEANUP ---
+    // If we have an activeMessId but it's not in usableMemberships, clear it from cookies
+    let mustClearMessCookie = false;
+    if (user && activeMessId) {
+      const usable = getUsableMemberships(user.memberships || []);
+      const isValid = usable.some(m => {
+        const mId = typeof m.messId === "string" ? m.messId : (m.messId as IMess)?._id;
+        return mId === activeMessId;
+      });
+      if (!isValid) {
+        mustClearMessCookie = true;
+      }
+    }
 
     // 1. If user must go to blocked or verify-otp, force them there
     if (resolvedRoute === "/blocked" || resolvedRoute === "/auth/verify-otp") {
       if (pathname !== resolvedRoute) {
-        return NextResponse.redirect(new URL(resolvedRoute, request.url));
+        const res = NextResponse.redirect(new URL(resolvedRoute, request.url));
+        if (mustClearMessCookie) res.cookies.delete("activeMessId");
+        return res;
+      }
+      if (mustClearMessCookie) {
+         const res = NextResponse.next();
+         res.cookies.delete("activeMessId");
+         return res;
       }
       return NextResponse.next();
     }
 
     // 2. If they are trying to access an auth route (like /login), send them to their dashboard
     if (isAuthRouteToRedirect) {
-      return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      const res = NextResponse.redirect(new URL(resolvedRoute, request.url));
+      if (mustClearMessCookie) res.cookies.delete("activeMessId");
+      return res;
     }
 
     // 3. Strict checks for protected routes
@@ -167,40 +180,45 @@ export async function proxy(request: NextRequest) {
       const isAdminRoute = pathname.startsWith("/admin");
       const isManagerRoute = pathname.startsWith("/manager");
       const isMemberRoute = pathname.startsWith("/dashboard");
+      const isSelectMessRoute = pathname.startsWith("/select-mess");
       const isOnboardingRoute = 
         pathname.startsWith("/get-started") || 
         pathname.startsWith("/join-mess") || 
         pathname.startsWith("/create-mess") || 
         pathname.startsWith("/pending-approval");
 
-      // Block unauthorized access to specific role areas
-      if (isAdminRoute && resolvedRoute !== "/admin") {
-        return NextResponse.redirect(new URL(resolvedRoute, request.url));
-      }
+      // Redirect if current path doesn't match resolved route
+      const shouldRedirect = 
+        (isAdminRoute && resolvedRoute !== "/admin") ||
+        (isManagerRoute && resolvedRoute !== "/manager") ||
+        (isMemberRoute && resolvedRoute !== "/dashboard") ||
+        (isSelectMessRoute && resolvedRoute !== "/select-mess") ||
+        (isOnboardingRoute && (resolvedRoute === "/admin" || resolvedRoute === "/manager" || resolvedRoute === "/dashboard"));
 
-      if (isManagerRoute && resolvedRoute !== "/manager") {
-        return NextResponse.redirect(new URL(resolvedRoute, request.url));
-      }
-
-      if (isMemberRoute && resolvedRoute !== "/dashboard") {
-        return NextResponse.redirect(new URL(resolvedRoute, request.url));
-      }
-
-      // 4. Strict suspension check: If user has a suspended mess, they MUST stay on /get-started
+      // Special check: If user has a suspended mess, they MUST stay on /get-started
       const hasSuspendedMess = user?.memberships?.some(
         (m: IMembership) => typeof m.messId !== "string" && m.messId?.status === "suspended"
       );
 
       if (hasSuspendedMess && pathname !== "/get-started") {
-        return NextResponse.redirect(new URL("/get-started", request.url));
+        const res = NextResponse.redirect(new URL("/get-started", request.url));
+        if (mustClearMessCookie) res.cookies.delete("activeMessId");
+        return res;
       }
 
-      // If they have an active dashboard (admin, manager, member), block onboarding routes
-      if (isOnboardingRoute && (resolvedRoute === "/admin" || resolvedRoute === "/manager" || resolvedRoute === "/dashboard")) {
-        return NextResponse.redirect(new URL(resolvedRoute, request.url));
+      if (shouldRedirect) {
+        const res = NextResponse.redirect(new URL(resolvedRoute, request.url));
+        if (mustClearMessCookie) res.cookies.delete("activeMessId");
+        return res;
       }
       
-      // If none of the restrictions hit, let them pass
+      // No redirect needed, but check if we need to clear cookie
+      if (mustClearMessCookie) {
+        const res = NextResponse.next();
+        res.cookies.delete("activeMessId");
+        return res;
+      }
+
       return NextResponse.next();
     }
   }

@@ -1,7 +1,7 @@
 export type GlobalRole = "user" | "manager" | "super_admin";
 export type UserStatus = "active" | "blocked";
 export type MembershipRole = "manager" | "member";
-export type MembershipStatus = "pending" | "approved" | "rejected" | "active";
+export type MembershipStatus = "pending" | "active" | "rejected" | "removed";
 
 import { IMess } from "./mess.type";
 

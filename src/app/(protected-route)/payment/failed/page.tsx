@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useSearchParams } from "next/navigation";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,10 +13,11 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useSmartFilter } from "@/hooks/useSmartFilter";
 
-export default function PaymentCancelPage() {
-  const searchParams = useSearchParams();
-  const tranId = searchParams.get("tran_id") || "N/A";
+function PaymentCancelContent() {
+  const { getFilter } = useSmartFilter();
+  const tranId = getFilter("tran_id") || "N/A";
 
   return (
     <DashboardPageLayout>
@@ -99,5 +99,13 @@ export default function PaymentCancelPage() {
         </div>
       </div>
     </DashboardPageLayout>
+  );
+}
+
+export default function PaymentCancelPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentCancelContent />
+    </Suspense>
   );
 }
