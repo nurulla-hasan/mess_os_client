@@ -1,13 +1,15 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { AlertCircle, Plus } from "lucide-react";
+import { AlertCircle, History, UserCircle } from "lucide-react";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/payments/columns";
-import { getPayments } from "@/services/payment.service";
+import { getPayments, getMyPayments } from "@/services/payment.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { PaymentFilters } from "@/components/payments/payment-filters";
-import { Button } from "@/components/ui/button";
+import { CreatePaymentModal } from "@/components/payments/create-payment-modal";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 export default async function ManagerPaymentsPage({
   searchParams,
@@ -29,30 +31,48 @@ export default async function ManagerPaymentsPage({
   }
 
   const params = (await searchParams) as QueryParams;
+  const view = (typeof params.view === "string" ? params.view : params.view?.[0]) || "all";
+
+  // Filter out UI-only params before sending to API
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { view: _view, ...apiParams } = params;
   
-  // Fetch payments from server with filters
-  const { data, meta } = await getPayments(activeMessId, params);
+  // Fetch payments from server based on view
+  const { data, meta } = await (view === "my" 
+    ? getMyPayments(activeMessId, apiParams)
+    : getPayments(activeMessId, apiParams));
 
   return (
     <DashboardPageLayout>
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Mess Payments"
-          description="View and manage all member payments, approve pending deposits, and track financial history."
+          description="View all member deposits, approve pending payments, and track payment history."
         />
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <PaymentFilters />
-          <Button className="w-full sm:w-auto shadow-lg shadow-primary/20">
-            <Plus className="mr-2 h-4 w-4" /> Add Payment
-          </Button>
+          <CreatePaymentModal messId={activeMessId} mode="manager" />
         </div>
       </div>
 
-      <DataTable 
-        columns={columns} 
-        data={data || []} 
-        meta={meta} 
-      />
+      <Tabs value={view}>
+        <TabsList variant="line">
+          <Link href="?view=all">
+            <TabsTrigger value="all">
+              <History className="h-4 w-4" />
+              All History
+            </TabsTrigger>
+          </Link>
+          <Link href="?view=my">
+            <TabsTrigger value="my">
+              <UserCircle className="h-4 w-4" />
+              My Payments
+            </TabsTrigger>
+          </Link>
+        </TabsList>
+      </Tabs>
+
+      <DataTable columns={columns} data={data || []} meta={meta} />
     </DashboardPageLayout>
   );
 }

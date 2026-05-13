@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";
@@ -16,9 +16,6 @@ interface BulkLogMealPayload {
   entries: { messMemberId: string; meals: IMealBreakdown }[];
 }
 
-/**
- * List all meals for a specific mess with optional filters
- */
 export const getMessMeals = async (
   messId: string,
   params: QueryParams = {}
@@ -38,9 +35,13 @@ export const getMessMeals = async (
   }
 };
 
-/**
- * Log a new meal
- */
+export const getMyMeals = async (
+  messId: string,
+  params: QueryParams = {}
+): Promise<ApiResponse<IMeal[]>> => {
+  return getMessMeals(messId, { ...params, scope: "my" });
+};
+
 export const logMeal = async (
   messId: string,
   data: LogMealPayload
@@ -60,9 +61,6 @@ export const logMeal = async (
   }
 };
 
-/**
- * Bulk log meals for multiple members
- */
 export const bulkLogMeals = async (
   messId: string,
   data: BulkLogMealPayload

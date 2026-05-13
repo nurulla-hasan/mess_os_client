@@ -1,4 +1,4 @@
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
+﻿import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/market/columns";
@@ -7,12 +7,11 @@ import {
   getMyMarketDuties,
 } from "@/services/market-schedule.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, ShoppingCart, UserCheck } from "lucide-react";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MarketScheduleFilters } from "@/components/market/market-schedule-filters";
 import { CreateMarketScheduleModal } from "@/components/market/create-market-schedule-modal";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ShoppingCart, UserCheck } from "lucide-react";
 import Link from "next/link";
 
 export default async function ManagerMarketSchedulesPage({
@@ -37,18 +36,10 @@ export default async function ManagerMarketSchedulesPage({
   }
 
   const params = (await searchParams) as QueryParams;
-  const view =
-    (typeof params.view === "string" ? params.view : params.view?.[0]) || "all";
-
-  // Filter out UI-only params before sending to API
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { view: _view, ...apiParams } = params;
-
-  // Fetch only schedules data
-  // Member data and User data are now handled globally via Header -> Zustand Stores
-  const { data, meta } = await (view === "my"
-    ? getMyMarketDuties(activeMessId, apiParams)
-    : getMarketSchedules(activeMessId, apiParams));
+  const scope = (typeof params.scope === "string" ? params.scope : params.scope?.[0]) || "all";
+  const { data, meta } = await (scope === "my"
+    ? getMyMarketDuties(activeMessId, params)
+    : getMarketSchedules(activeMessId, params));
 
   return (
     <DashboardPageLayout>
@@ -63,17 +54,15 @@ export default async function ManagerMarketSchedulesPage({
         </div>
       </div>
 
-      <Tabs value={view}>
-        <TabsList
-          variant="line"
-        >
-          <Link href="?view=all">
+      <Tabs value={scope}>
+        <TabsList variant="line">
+          <Link href="?scope=all">
             <TabsTrigger value="all">
               <ShoppingCart />
               All History
             </TabsTrigger>
           </Link>
-          <Link href="?view=my">
+          <Link href="?scope=my">
             <TabsTrigger value="my">
               <UserCheck />
               My Duties
@@ -82,11 +71,7 @@ export default async function ManagerMarketSchedulesPage({
         </TabsList>
       </Tabs>
 
-      <DataTable 
-        columns={columns} 
-        data={data || []} 
-        meta={meta} 
-      />
+      <DataTable columns={columns} data={data || []} meta={meta} />
     </DashboardPageLayout>
   );
 }

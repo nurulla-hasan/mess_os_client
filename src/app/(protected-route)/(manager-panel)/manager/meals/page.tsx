@@ -1,13 +1,15 @@
-import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
+﻿import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Utensils, UserCircle } from "lucide-react";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/meals/columns";
-import { getMessMeals } from "@/services/meal.service";
+import { getMessMeals, getMyMeals } from "@/services/meal.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MealFilters } from "@/components/meals/meal-filters";
 import { LogMealModal } from "@/components/meals/log-meal-modal";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
 
 export default async function ManagerMealsPage({
   searchParams,
@@ -29,9 +31,9 @@ export default async function ManagerMealsPage({
   }
 
   const params = (await searchParams) as QueryParams;
-  
-  // Fetch meals from server with filters
-  const { data, meta } = await getMessMeals(activeMessId, params);
+  const scope = (typeof params.scope === "string" ? params.scope : params.scope?.[0]) || "all";
+
+  const { data, meta } = await (scope === "my" ? getMyMeals(activeMessId, params) : getMessMeals(activeMessId, params));
 
   return (
     <DashboardPageLayout>
@@ -46,6 +48,23 @@ export default async function ManagerMealsPage({
         </div>
       </div>
 
+      <Tabs value={scope}>
+        <TabsList variant="line">
+          <Link href="?scope=all">
+            <TabsTrigger value="all">
+              <Utensils className="h-4 w-4" />
+              All History
+            </TabsTrigger>
+          </Link>
+          <Link href="?scope=my">
+            <TabsTrigger value="my">
+              <UserCircle className="h-4 w-4" />
+              My Meals
+            </TabsTrigger>
+          </Link>
+        </TabsList>
+      </Tabs>
+
       <DataTable 
         columns={columns} 
         data={data || []} 
@@ -54,3 +73,4 @@ export default async function ManagerMealsPage({
     </DashboardPageLayout>
   );
 }
+

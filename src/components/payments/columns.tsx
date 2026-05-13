@@ -1,34 +1,130 @@
-"use client";
+﻿"use client";
 
+import React from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, X, Eye } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Check, X, XCircle } from "lucide-react";
 import { format } from "date-fns";
-import { IPayment } from "@/types/payment.type";
-import { IUser } from "@/types/user.type";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+import { ErrorToast, SuccessToast } from "@/lib/utils";
+import { updatePaymentStatus } from "@/services/payment.service";
+import { IPayment, IPaymentMember, PaymentStatus } from "@/types/payment.type";
+import { ViewPaymentModal } from "./view-payment-modal";
+
+const getMember = (payment: IPayment): IPaymentMember | null => {
+  return typeof payment.messMemberId === "object" ? payment.messMemberId : null;
+};
+
+interface ActionButtonsProps {
+  payment: IPayment;
+}
+
+function ActionButtons({ payment }: ActionButtonsProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const isManagerRoute = pathname.startsWith("/manager");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const [actionType, setActionType] = React.useState<Extract<PaymentStatus, "approved" | "rejected" | "canceled"> | null>(null);
+
+  const openModal = (type: Extract<PaymentStatus, "approved" | "rejected" | "canceled">) => {
+    setActionType(type);
+    setIsConfirmOpen(true);
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!actionType) return;
+    setIsLoading(true);
+    try {
+      const res = await updatePaymentStatus(payment.messId, payment._id, actionType);
+      if (res.success) {
+        SuccessToast(res.message || `Payment ${actionType}.`);
+        setIsConfirmOpen(false);
+        router.refresh();
+      } else {
+        ErrorToast(res.message || "Failed to update payment.");
+      }
+    } catch {
+      ErrorToast("Something went wrong.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const modalCopy = {
+    approved: {
+      title: "Approve Payment",
+      description: "Approve this payment and add it to the member ledger?",
+      confirmText: "Approve",
+      variant: "default" as const,
+    },
+    rejected: {
+      title: "Reject Payment",
+      description: "Reject this pending payment record?",
+      confirmText: "Reject",
+      variant: "destructive" as const,
+    },
+    canceled: {
+      title: "Cancel Payment",
+      description: "Cancel this pending payment record?",
+      confirmText: "Cancel Payment",
+      variant: "destructive" as const,
+    },
+  };
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <ViewPaymentModal payment={payment} />
+
+      {isManagerRoute && payment.status === "pending" && (
+        <>
+          <Button variant="outline" size="icon-sm" className="text-emerald-600" onClick={() => openModal("approved")}>
+            <Check />
+          </Button>
+          <Button variant="outline" size="icon-sm" className="text-rose-600" onClick={() => openModal("rejected")}>
+            <X />
+          </Button>
+        </>
+      )}
+
+      {!isManagerRoute && payment.status === "pending" && (
+        <Button variant="outline" size="icon-sm" className="text-rose-600" onClick={() => openModal("canceled")}>
+          <XCircle />
+        </Button>
+      )}
+
+      {actionType && (
+        <ConfirmationModal
+          open={isConfirmOpen}
+          onOpenChange={setIsConfirmOpen}
+          trigger={null}
+          title={modalCopy[actionType].title}
+          description={modalCopy[actionType].description}
+          confirmText={modalCopy[actionType].confirmText}
+          variant={modalCopy[actionType].variant}
+          isLoading={isLoading}
+          onConfirm={handleStatusUpdate}
+        />
+      )}
+    </div>
+  );
+}
 
 export const columns: ColumnDef<IPayment>[] = [
   {
     accessorKey: "messMemberId",
     header: "Member",
     cell: ({ row }) => {
-      const member = row.original.messMemberId;
-      const isExpanded = typeof member === "object" && member !== null;
+      const member = getMember(row.original);
+      const user = member?.user || member?.userId;
 
       return (
-        <div className="flex flex-col">
-          <span className="font-bold text-foreground">
-            {isExpanded ? (member as IUser).fullName : "Member"}
-          </span>
-          <span className="text-xs text-muted-foreground">
-            {isExpanded ? (member as IUser).email : (member as string)}
+        <div className="flex flex-col min-w-40">
+          <span className="font-bold text-foreground">{user?.fullName || "Member"}</span>
+          <span className="text-xs text-muted-foreground truncate max-w-48">
+            {user?.email || (typeof row.original.messMemberId === "string" ? row.original.messMemberId : "")}
           </span>
         </div>
       );
@@ -37,7 +133,7 @@ export const columns: ColumnDef<IPayment>[] = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => <span className="font-bold text-primary">৳{row.original.amount}</span>,
+    cell: ({ row }) => <span className="font-bold text-primary">BDT {row.original.amount.toLocaleString()}</span>,
   },
   {
     accessorKey: "method",
@@ -53,18 +149,14 @@ export const columns: ColumnDef<IPayment>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status;
-      const variantMap: Record<string, "success" | "rejected" | "pending" | "secondary"> = {
+      const variantMap: Record<PaymentStatus, "success" | "rejected" | "pending" | "secondary"> = {
         approved: "success",
         rejected: "rejected",
         pending: "pending",
         canceled: "secondary",
       };
 
-      return (
-        <Badge variant={variantMap[status] || "pending"}>
-          {status}
-        </Badge>
-      );
+      return <Badge variant={variantMap[status]}>{status}</Badge>;
     },
   },
   {
@@ -80,71 +172,15 @@ export const columns: ColumnDef<IPayment>[] = [
     accessorKey: "createdAt",
     header: "Date",
     cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {format(new Date(row.original.createdAt), "MMM dd, hh:mm a")}
-      </span>
+      <div className="flex flex-col">
+        <span className="text-sm font-medium">{format(new Date(row.original.createdAt), "MMM dd, yyyy")}</span>
+        <span className="text-xs text-muted-foreground">{format(new Date(row.original.createdAt), "hh:mm a")}</span>
+      </div>
     ),
   },
   {
     id: "actions",
     header: () => <div className="text-end">Actions</div>,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="icon-sm" 
-                  onClick={() => console.log("View Payment", payment)}
-                >
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {payment.status === "pending" && (
-            <>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      size="icon-sm" 
-                      className="text-emerald-600"
-                      onClick={() => console.log("Approve Payment", payment)}
-                    >
-                      <Check className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Approve Payment</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      size="icon-sm" 
-                      className="text-rose-600"
-                      onClick={() => console.log("Reject Payment", payment)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Reject Payment</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <ActionButtons payment={row.original} />,
   },
 ];

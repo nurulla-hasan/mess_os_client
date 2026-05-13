@@ -1,11 +1,11 @@
-"use server";
+﻿"use server";
 
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams, ApiResponse } from "@/types/global.type";
 import { IMarketSchedule } from "@/types/market-schedule.type";
 
-// ─── Request Payload Types ────────────────────────────────────────────────────
+// â”€â”€â”€ Request Payload Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 interface ShoppingItemPayload {
   name: string;
@@ -32,7 +32,7 @@ interface UpdateMarketScheduleStatusPayload {
   fundSource?: string;
 }
 
-// ─── Service Functions ────────────────────────────────────────────────────────
+// â”€â”€â”€ Service Functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 /**
  * Get market schedules of a specific mess
@@ -63,9 +63,9 @@ export const getMyMarketDuties = async (
   messId: string,
   params: QueryParams = {}
 ): Promise<ApiResponse<IMarketSchedule[]>> => {
-  const qs = buildQueryString(params);
+  const qs = buildQueryString({ ...params, scope: "my" });
   try {
-    return (await serverFetch(`/messes/${messId}/market-schedules/my-duties${qs}`, {
+    return (await serverFetch(`/messes/${messId}/market-schedules${qs}`, {
       method: "GET",
       tags: ["market-schedules"],
     })) as ApiResponse<IMarketSchedule[]>;
@@ -146,3 +146,4 @@ export const updateMarketScheduleStatus = async (
     };
   }
 };
+
