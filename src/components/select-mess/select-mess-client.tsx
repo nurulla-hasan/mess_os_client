@@ -85,7 +85,7 @@ export default function SelectMessClient({ usableMemberships }: SelectMessClient
                   onClick={() => !isDisabled && handleSelectMess(membership)}
                 >
                   {/* Hover gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/3 group-hover:via-primary/5 group-hover:to-primary/3 transition-all duration-500" />
+                  <div className="absolute inset-0 bg-linear-to-r from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/3 group-hover:via-primary/5 group-hover:to-primary/3 transition-all duration-500" />
 
                   <CardContent className="relative p-6">
                     <div className="flex items-center gap-5">

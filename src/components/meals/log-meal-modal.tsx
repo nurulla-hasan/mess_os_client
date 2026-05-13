@@ -61,7 +61,9 @@ export function LogMealModal({ messId }: LogMealModalProps) {
           getMessDetails(messId)
         ]);
 
-        if (membersRes?.success) setMembers(membersRes.data);
+        if (membersRes?.success) {
+          setMembers(membersRes.data.filter((member) => member.participation?.meals !== false));
+        }
 
         if (messRes?.success) {
           const categories = messRes.data.settings?.mealCategories || ["Breakfast", "Lunch", "Dinner"];

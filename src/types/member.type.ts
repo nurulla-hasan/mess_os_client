@@ -1,11 +1,17 @@
-export type MemberStatus = "active" | "pending" | "removed" | "inactive";
+export type MemberStatus = "active" | "pending" | "rejected" | "removed";
 export type MessRole = "manager" | "member";
+
+export interface IMemberParticipation {
+  meals: boolean;
+  sharedExpenses: boolean;
+}
 
 export interface IMember {
   _id: string;
   messId: string;
   messRole: MessRole;
   status: MemberStatus;
+  participation?: IMemberParticipation;
   joinedAt?: string;
   leftAt?: string;
   createdAt: string;
@@ -22,7 +28,7 @@ export interface IMember {
 
 /**
  * Lightweight type for the /members/options endpoint.
- * Used in dropdowns/selects — no pagination, active members only.
+ * Used in dropdowns/selects - no pagination, active members only.
  */
 export interface IMemberOption {
   _id: string;
@@ -31,4 +37,5 @@ export interface IMemberOption {
   phone?: string;
   avatarUrl?: string;
   messRole: MessRole;
+  participation?: IMemberParticipation;
 }

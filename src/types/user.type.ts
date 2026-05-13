@@ -1,9 +1,10 @@
+import type { IMemberParticipation } from "./member.type";
+import { IMess } from "./mess.type";
+
 export type GlobalRole = "user" | "manager" | "super_admin";
 export type UserStatus = "active" | "blocked";
 export type MembershipRole = "manager" | "member";
 export type MembershipStatus = "pending" | "active" | "rejected" | "removed";
-
-import { IMess } from "./mess.type";
 
 export interface IMembership {
   _id?: string;
@@ -11,6 +12,7 @@ export interface IMembership {
   role?: MembershipRole; // Keep for backward compatibility
   messRole?: MembershipRole; // Backend uses this
   status: MembershipStatus;
+  participation?: IMemberParticipation;
   joinedAt?: string;
 }
 

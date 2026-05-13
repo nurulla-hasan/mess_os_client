@@ -1,3 +1,5 @@
+import type { IMemberParticipation } from "./member.type";
+
 export interface IMealBreakdown {
   Breakfast: number;
   Lunch: number;
@@ -21,6 +23,7 @@ export interface IMeal {
     };
     messRole: string;
     status: string;
+    participation?: IMemberParticipation;
   };
   meals: IMealBreakdown;
   mealCount: number;
