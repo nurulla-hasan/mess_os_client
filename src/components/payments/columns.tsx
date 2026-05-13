@@ -11,36 +11,33 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { format } from "date-fns";
+import { IPayment } from "@/types/payment.type";
+import { IUser } from "@/types/user.type";
 
-export type Payment = {
-  id: string;
-  member: {
-    name: string;
-    email: string;
-  };
-  amount: number;
-  method: "bkash" | "nagad" | "rocket" | "cash" | "bank";
-  reference?: string;
-  status: "pending" | "approved" | "rejected";
-  submittedAt: string;
-  notes?: string;
-};
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<IPayment>[] = [
   {
-    accessorKey: "member",
+    accessorKey: "messMemberId",
     header: "Member",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="font-bold text-foreground">{row.original.member.name}</span>
-        <span className="text-xs text-muted-foreground">{row.original.member.email}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const member = row.original.messMemberId;
+      const isExpanded = typeof member === "object" && member !== null;
+
+      return (
+        <div className="flex flex-col">
+          <span className="font-bold text-foreground">
+            {isExpanded ? (member as IUser).fullName : "Member"}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            {isExpanded ? (member as IUser).email : (member as string)}
+          </span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => <span className="font-bold">৳{row.original.amount}</span>,
+    cell: ({ row }) => <span className="font-bold text-primary">৳{row.original.amount}</span>,
   },
   {
     accessorKey: "method",
@@ -56,19 +53,35 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status;
+      const variantMap: Record<string, "success" | "rejected" | "pending" | "secondary"> = {
+        approved: "success",
+        rejected: "rejected",
+        pending: "pending",
+        canceled: "secondary",
+      };
+
       return (
-        <Badge variant={status === "approved" ? "success" : status === "rejected" ? "rejected" : "pending"}>
+        <Badge variant={variantMap[status] || "pending"}>
           {status}
         </Badge>
       );
     },
   },
   {
-    accessorKey: "submittedAt",
+    accessorKey: "reference",
+    header: "Reference",
+    cell: ({ row }) => (
+      <span className="text-xs text-muted-foreground line-clamp-1 max-w-[150px]">
+        {row.original.reference || "N/A"}
+      </span>
+    ),
+  },
+  {
+    accessorKey: "createdAt",
     header: "Date",
     cell: ({ row }) => (
       <span className="text-sm text-muted-foreground">
-        {format(new Date(row.original.submittedAt), "MMM dd, hh:mm a")}
+        {format(new Date(row.original.createdAt), "MMM dd, hh:mm a")}
       </span>
     ),
   },

@@ -43,3 +43,12 @@ trigger: always_on
 - **Wait for Permission**: Explicitly ask for user permission: *"I will do [Plan]. Should I proceed?"*
 - **Execution**: Only after receiving explicit permission, provide the code immediately.
 - **Explanation**: Keep post-code explanations very brief and focused on implementation logic.
+## 7. Established API Integration Pattern
+- **Page Structure**: Integrated dashboard pages should be Server Components by default. Read `activeMessId` with `getActiveMessIdFromCookies()`, handle the no-active-mess empty state, fetch API data via service functions, then render `DashboardPageLayout`, `DashboardPageHeader`, filters, and `DataTable`.
+- **Services**: Put API calls in `src/services/*.service.ts` with `"use server"`, `serverFetch`, `ApiResponse<T>`, `try/catch`, `buildQueryString(params)` for list endpoints, `tags` for GET, and `updateTag` for mutations.
+- **Types**: Mirror backend response shapes in `src/types/*.type.ts`. Keep types explicit and close to the API contract; add optional fields only when backend data can vary.
+- **Tables**: Use one `columns` export per table file, e.g. `export const columns: ColumnDef<T>[] = [...]`. Keep `ActionButtons` as a separate function inside `columns.tsx`. Do not create column factories or multiple column exports unless the existing module already does that.
+- **Filtering & Pagination**: Use URL-driven filters with `useSmartFilter` and a small `*-filters.tsx` component. Pass backend `meta` into `DataTable` for server pagination. Do not use tabs for API status filtering when the backend supports query filters.
+- **Modals & Actions**: Use `ModalWrapper` for view/create/convert/edit flows and `ConfirmationModal` for approve/reject/remove/status actions. Client modals should fetch their own auxiliary options when needed, matching existing modal patterns.
+- **Cache Refresh**: Mutations should invalidate the relevant tags in services and call `router.refresh()` from client action components when the page data should update immediately.
+- **Role Differences**: Prefer using the same `columns` file and hiding/showing action buttons inside `ActionButtons` based on route/role instead of creating separate table structures for manager/member views.
