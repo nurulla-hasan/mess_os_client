@@ -57,7 +57,7 @@ export function BillingActions({ cycle, messId }: BillingActionsProps) {
 
   return (
     <div className="flex items-center gap-2">
-      {cycle.status === "active" ? (
+      {cycle.status === "draft" ? (
         <>
           <Button 
             variant="outline" 

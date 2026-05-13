@@ -49,6 +49,27 @@ export const getMemberBills = async (
 };
 
 /**
+ * Get specific bill for the currently logged-in user
+ */
+export const getMyBill = async (
+  messId: string,
+  billingCycleId: string
+): Promise<ApiResponse<IMemberBill>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/billing/${billingCycleId}/my-bill`, {
+      method: "GET",
+      tags: ["billing"],
+    })) as ApiResponse<IMemberBill>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to fetch your bill details.",
+      data: null as unknown as IMemberBill,
+    };
+  }
+};
+
+/**
  * Preview billing for a specific month/year
  */
 export const previewBilling = async (

@@ -1,7 +1,7 @@
 import { IPaymentUser } from "./payment.type";
 import { MessRole, MemberStatus } from "./member.type";
 
-export type BillingStatus = "active" | "finalized" | "archived";
+export type BillingStatus = "draft" | "finalized" | "archived";
 export type BillStatus = "unpaid" | "partially_paid" | "paid";
 
 export interface IBillingSummary {
