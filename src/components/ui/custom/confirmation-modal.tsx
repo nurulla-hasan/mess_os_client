@@ -55,7 +55,7 @@ export function ConfirmationModal({
         <AlertDialogTrigger asChild>
           {finalTrigger || (
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon-sm"
             >
               <Trash2 />

@@ -1,64 +1,68 @@
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Eye, Download, Printer } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitials } from "@/lib/utils";
+import { IMemberBill } from "@/types/billing.type";
 
-export type MemberBill = {
-  id: string;
-  member: {
-    name: string;
-    email: string;
-  };
-  meals: number;
-  mealCharge: number;
-  equalShare: number;
-  previousDue: number;
-  credits: number;
-  finalDue: number;
-  status: "pending" | "paid" | "partial";
-};
-
-export const columns: ColumnDef<MemberBill>[] = [
+export const columns: ColumnDef<IMemberBill>[] = [
   {
-    accessorKey: "member",
+    accessorKey: "messMemberId",
     header: "Member",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="font-bold text-foreground">{row.original.member.name}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const user = row.original.messMemberId.user;
+      return (
+        <div className="flex items-center gap-3">
+          <Avatar className="h-9 w-9 border border-primary/10">
+            <AvatarImage src={user?.avatarUrl} alt={user?.fullName} />
+            <AvatarFallback className="bg-primary/5 text-primary text-xs font-bold uppercase">
+              {getInitials(user?.fullName || "Unknown")}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col min-w-0">
+            <span className="font-bold text-foreground text-sm truncate max-w-[150px]">
+              {user?.fullName || "Member"}
+            </span>
+            <span className="text-[10px] text-muted-foreground uppercase font-medium">
+              {row.original.messMemberId.messRole}
+            </span>
+          </div>
+        </div>
+      );
+    },
   },
   {
-    accessorKey: "meals",
+    accessorKey: "summary.meals",
     header: "Meals",
-    cell: ({ row }) => <span className="font-medium">{row.original.meals}</span>,
+    cell: ({ row }) => <span className="font-medium">{row.original.summary.meals}</span>,
   },
   {
-    accessorKey: "mealCharge",
+    accessorKey: "summary.mealCharge",
     header: "Meal Charge",
-    cell: ({ row }) => <span className="text-sm">৳{row.original.mealCharge}</span>,
+    cell: ({ row }) => <span className="font-medium text-muted-foreground">৳{row.original.summary.mealCharge}</span>,
   },
   {
-    accessorKey: "equalShare",
+    accessorKey: "summary.equalShare",
     header: "Equal Share",
-    cell: ({ row }) => <span className="text-sm">৳{row.original.equalShare}</span>,
+    cell: ({ row }) => <span className="font-medium text-muted-foreground">৳{row.original.summary.equalShare}</span>,
   },
   {
-    accessorKey: "finalDue",
-    header: "Final Due",
-    cell: ({ row }) => (
-      <span className={`font-bold ${row.original.finalDue > 0 ? "text-rose-500" : "text-emerald-500"}`}>
-        ৳{row.original.finalDue}
-      </span>
-    ),
+    accessorKey: "summary.totalPaymentsAndCredits",
+    header: "Paid/Credit",
+    cell: ({ row }) => <span className="font-bold text-emerald-600">৳{row.original.summary.totalPaymentsAndCredits}</span>,
+  },
+  {
+    accessorKey: "summary.finalDue",
+    header: "Net Payable",
+    cell: ({ row }) => {
+      const { finalDue, finalAdvance } = row.original.summary;
+      if (finalAdvance > 0) {
+        return <span className="font-bold text-blue-600">Advance: ৳{finalAdvance}</span>;
+      }
+      return <span className="font-bold text-rose-600">Due: ৳{finalDue}</span>;
+    },
   },
   {
     accessorKey: "status",
@@ -66,51 +70,11 @@ export const columns: ColumnDef<MemberBill>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge variant={status === "paid" ? "success" : status === "partial" ? "pending" : "rejected"}>
-          {status}
+        <Badge 
+          variant={status === "paid" ? "success" : status === "partially_paid" ? "warning" : "pending"}
+        >
+          {status.replace("_", " ")}
         </Badge>
-      );
-    },
-  },
-  {
-    id: "actions",
-    header: () => <div className="text-end">Actions</div>,
-    cell: () => {
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon-sm">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Bill</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon-sm" className="text-sky-600">
-                  <Download className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Download PDF</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon-sm" className="text-slate-600">
-                  <Printer className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Print Bill</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
       );
     },
   },

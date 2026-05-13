@@ -1,130 +1,134 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/billing/columns";
-import { mockMemberBills } from "@/components/billing/mockData";
+import { getBillingCycles, getMemberBills } from "@/services/billing.service";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { 
+  AlertCircle, 
   Calculator, 
-  AlertTriangle,
-  History,
-  FileText,
-  Save,
-  Lock
+  Wallet, 
+  Utensils, 
+  Receipt, 
+  TrendingUp
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { SearchParams, QueryParams } from "@/types/global.type";
+import { CycleSelector } from "@/components/billing/cycle-selector";
+import { SummaryCard } from "@/components/billing/summary-card";
+import { BillingActions } from "@/components/billing/billing-actions";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
-export default function ManagerBillingPage() {
+export default async function ManagerBillingPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const activeMessId = await getActiveMessIdFromCookies();
+
+  if (!activeMessId) {
+    return (
+      <DashboardPageLayout>
+        <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 text-center">
+          <AlertCircle className="h-10 w-10 text-muted-foreground opacity-20" />
+          <h2 className="text-lg font-bold">No Active Mess</h2>
+          <p className="text-sm text-muted-foreground">Select a mess to manage billing.</p>
+        </div>
+      </DashboardPageLayout>
+    );
+  }
+
+  const params = (await searchParams) as QueryParams;
+  const cycleId = (typeof params.cycleId === "string" ? params.cycleId : params.cycleId?.[0]);
+
+  // Fetch cycles
+  const cyclesRes = await getBillingCycles(activeMessId);
+  const cycles = cyclesRes?.data || [];
+
+  if (cycles.length === 0) {
+    return (
+      <DashboardPageLayout>
+        <DashboardPageHeader
+          title="Billing Management"
+          description="Finalize monthly billing and manage member invoices."
+        />
+        <div className="flex flex-col items-center justify-center min-h-[40vh] space-y-4 text-center bg-muted/30 rounded-xl border border-dashed mt-6">
+          <Calculator className="h-10 w-10 text-muted-foreground opacity-20" />
+          <h2 className="text-lg font-bold">No Billing Cycles Found</h2>
+          <p className="text-sm text-muted-foreground max-w-xs">You haven&apos;t started any billing cycles yet. Cycles are usually generated at the start of each month.</p>
+        </div>
+      </DashboardPageLayout>
+    );
+  }
+
+  const activeCycle = cycleId 
+    ? cycles.find(c => c._id === cycleId) || cycles[0]
+    : cycles[0];
+
+  // Fetch member bills for active cycle
+  const billsRes = await getMemberBills(activeMessId, activeCycle._id);
+  const bills = billsRes?.data || [];
+
+  const summary = activeCycle.summary;
+
   return (
     <DashboardPageLayout>
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
           title="Billing Management"
-          description="Finalize monthly billing, calculate meal rates, and manage member invoices."
+          description="Review monthly summaries, finalize meal rates, and monitor member payments."
         />
-        <div className="flex items-center gap-3">
-          <Select defaultValue="may-2024">
-            <SelectTrigger className="w-45">
-              <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
-              <SelectValue placeholder="Select Month" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="may-2024">May 2024</SelectItem>
-              <SelectItem value="apr-2024">April 2024</SelectItem>
-              <SelectItem value="mar-2024">March 2024</SelectItem>
-            </SelectContent>
-          </Select>
-          <Button variant="outline" size="sm">
-            <History className="mr-2 h-4 w-4" /> History
-          </Button>
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <CycleSelector cycles={cycles} selectedId={activeCycle._id} />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Billing Overview Card */}
-        <Card className="lg:col-span-1 border-primary/20 bg-primary/5">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-3">
-              <Calculator className="h-5 w-5 text-primary" />
-              Cycle Preview
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-muted-foreground">Status</span>
-              <Badge variant="pending">Open</Badge>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Current Meal Rate</span>
-              <span className="text-lg font-bold text-primary">৳30.00</span>
-            </div>
-            <Separator className="bg-primary/10" />
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs">
-                <span>Total Meals</span>
-                <span className="font-medium">458</span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span>Total Meal Expenses</span>
-                <span className="font-medium">৳13,740</span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span>Equal Share Expenses</span>
-                <span className="font-medium">৳2,400</span>
-              </div>
-            </div>
-            <div className="pt-2 flex flex-col gap-3">
-              <Button className="w-full shadow-lg shadow-primary/20">
-                <Save className="mr-2 h-4 w-4" /> Save Preview
-              </Button>
-              <Button variant="outline" className="w-full">
-                <Lock className="mr-2 h-4 w-4" /> Finalize Cycle
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Member Bills Table */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="pb-2 flex flex-row items-center justify-between">
-            <CardTitle className="text-lg flex items-center gap-3">
-              <FileText className="h-5 w-5 text-muted-foreground" />
-              Member Bills
-            </CardTitle>
-            <div className="flex items-center gap-3">
-              <Badge variant="success" className="text-xs">3 Paid</Badge>
-              <Badge variant="pending" className="text-xs">2 Pending</Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <DataTable columns={columns} data={mockMemberBills} searchKey="member_name" />
-          </CardContent>
-        </Card>
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <SummaryCard 
+          icon={Utensils} 
+          label="Total Meals" 
+          value={summary.totalMeals} 
+          subValue="Consumed this month"
+          variant="info"
+        />
+        <SummaryCard 
+          icon={Wallet} 
+          label="Meal Expense" 
+          value={`৳${summary.totalMealExpense}`} 
+          subValue="Total grocery cost"
+          variant="warning"
+        />
+        <SummaryCard 
+          icon={TrendingUp} 
+          label="Meal Rate" 
+          value={`৳${summary.mealRate.toFixed(2)}`} 
+          subValue="Calculated rate"
+          variant="success"
+        />
+        <SummaryCard 
+          icon={Receipt} 
+          label="Shared Cost" 
+          value={`৳${summary.totalEqualShareExpense}`} 
+          subValue="Fixed costs per head"
+          variant="default"
+        />
       </div>
 
-      {/* Operational Warnings/Notes */}
-      <div className="flex items-center gap-3 p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-400 text-sm">
-        <AlertTriangle className="h-4 w-4 shrink-0" />
-        <p>
-          Billing for **May 2024** is currently in **Preview Mode**. You can update meal rates or expenses before finalizing. 
-          Once finalized, bills will be visible to members and cannot be edited without reopening the cycle.
-        </p>
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-bold text-foreground">Member Invoices</h3>
+            <Badge variant={activeCycle.status === "finalized" ? "success" : "pending"} className="h-5 text-[10px] uppercase font-bold px-1.5">
+              {activeCycle.status}
+            </Badge>
+          </div>
+          <BillingActions cycle={activeCycle} messId={activeMessId} />
+        </div>
+        <DataTable 
+          columns={columns} 
+          data={bills} 
+        />
       </div>
     </DashboardPageLayout>
   );
 }
-
-// Add missing icons and component for Billing
-import { Calendar } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-
