@@ -98,7 +98,7 @@ export function CreatePaymentModal({ messId, mode = "member" }: CreatePaymentMod
       }
       actionTrigger={
         <Button className="w-full sm:w-auto shadow-lg shadow-primary/20">
-          <Plus className="mr-2 h-4 w-4" /> {mode === "manager" ? "Add Payment" : "Submit Payment"}
+          <Plus className="h-4 w-4" /> {mode === "manager" ? "Add Payment" : "Submit Payment"}
         </Button>
       }
     >

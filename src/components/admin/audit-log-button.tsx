@@ -12,7 +12,7 @@ export function AuditLogButton() {
       onClick={() => InfoToast("Audit Logging system is under development. Coming soon!")}
     >
       <History className="mr-2 h-4 w-4" /> View Audit Logs
-      <span className="ml-auto text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded uppercase tracking-tighter font-black">Soon</span>
+      <span className="ml-auto text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded uppercaseer font-black">Soon</span>
     </Button>
   );
 }

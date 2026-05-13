@@ -21,7 +21,7 @@ export default async function MemberPaymentsPage({
       <DashboardPageLayout>
         <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 text-center">
           <AlertCircle className="h-10 w-10 text-muted-foreground opacity-20" />
-          <h2 className="text-lg font-bold tracking-tight">No Active Mess</h2>
+          <h2 className="text-lg font-bold">No Active Mess</h2>
           <p className="text-sm text-muted-foreground">Select a mess to view your payments.</p>
         </div>
       </DashboardPageLayout>

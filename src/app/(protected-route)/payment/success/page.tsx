@@ -51,7 +51,7 @@ function PaymentSuccessContent() {
             </div>
             
             <div className="mt-6 text-center space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <h1 className="text-3xl font-bold tracking-tight">Payment Successful!</h1>
+              <h1 className="text-3xl font-bold">Payment Successful!</h1>
               <p className="text-muted-foreground max-w-md mx-auto">
                 Thank you for your payment. Your transaction has been completed and your record is updated.
               </p>
@@ -86,21 +86,21 @@ function PaymentSuccessContent() {
                         {isCopied ? "COPIED" : "COPY"}
                       </button>
                     </div>
-                    <p className="font-mono text-sm break-all font-bold tracking-tight">
+                    <p className="font-mono text-sm break-all font-bold">
                       {tranId}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 rounded-xl border border-border/50 space-y-1">
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Payment Method</p>
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Payment Method</p>
                       <div className="flex items-center gap-2">
                         <CreditCard className="h-4 w-4 text-primary" />
                         <span className="text-sm font-bold">Online Transfer</span>
                       </div>
                     </div>
                     <div className="p-4 rounded-xl border border-border/50 space-y-1">
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Payment Type</p>
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Payment Type</p>
                       <span className="text-sm font-bold">Mess Deposit</span>
                     </div>
                   </div>

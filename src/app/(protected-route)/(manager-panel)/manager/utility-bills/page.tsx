@@ -33,7 +33,7 @@ export default function ManagerUtilityBillsPage() {
             <Filter className="mr-2 h-4 w-4" /> Filter
           </Button>
           <Button size="sm">
-            <Plus className="mr-2 h-4 w-4" /> Create Bill
+            <Plus className="h-4 w-4" /> Create Bill
           </Button>
         </div>
       </div>

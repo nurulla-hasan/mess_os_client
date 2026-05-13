@@ -1,126 +1,81 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/expenses/columns";
-import { mockExpenses } from "@/components/expenses/mockData";
-import { 
-  ReceiptText, 
-  Clock, 
-  CheckCircle2, 
-  XCircle, 
-  Plus,
-  Filter
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { getMessExpenses, getMyExpenses } from "@/services/expense.service";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
+import { AlertCircle, History, UserCircle } from "lucide-react";
+import { SearchParams, QueryParams } from "@/types/global.type";
+import { ExpenseFilters } from "@/components/expenses/expense-filters";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CreateExpenseModal } from "@/components/expenses/create-expense-modal";
+import Link from "next/link";
 
-export default function ManagerExpensesPage() {
-  const pendingExpenses = mockExpenses.filter(e => e.status === "pending");
-  const approvedExpenses = mockExpenses.filter(e => e.status === "approved");
-  const monthlyTotal = approvedExpenses.reduce((acc, e) => acc + e.amount, 0);
+export default async function ManagerExpensesPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const activeMessId = await getActiveMessIdFromCookies();
+
+  if (!activeMessId) {
+    return (
+      <DashboardPageLayout>
+        <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 text-center">
+          <AlertCircle className="h-10 w-10 text-muted-foreground opacity-20" />
+          <h2 className="text-lg font-bold">No Active Mess</h2>
+          <p className="text-sm text-muted-foreground">Select a mess to view and manage expenses.</p>
+        </div>
+      </DashboardPageLayout>
+    );
+  }
+
+  const params = (await searchParams) as QueryParams;
+  const view = (typeof params.view === "string" ? params.view : params.view?.[0]) || "all";
+
+  // Filter out UI-only params before sending to API
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { view: _view, ...apiParams } = params;
+  
+  const { data, meta } = await (view === "my" 
+    ? getMyExpenses(activeMessId, apiParams)
+    : getMessExpenses(activeMessId, apiParams));
 
   return (
     <DashboardPageLayout>
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
-          title="Expenses Management"
-          description="Manage all mess expenditures, bazar costs, and utility bills."
+          title="Mess Expenses"
+          description="Track and manage all mess expenditures, from daily bazaar to utility bills."
         />
-        <div className="flex gap-3">
-          <Button variant="outline" size="sm">
-            <Filter className="mr-2 h-4 w-4" /> Filter
-          </Button>
-          <Button size="sm">
-            <Plus className="mr-2 h-4 w-4" /> Create Expense
-          </Button>
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <ExpenseFilters />
+          <CreateExpenseModal messId={activeMessId} mode="manager" />
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-amber-500/5 border-amber-500/20">
-          <CardContent >
-            <div className="flex items-center gap-4">
-              <div className="p-2 rounded-lg bg-amber-500/20">
-                <Clock className="h-5 w-5 text-amber-500" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Pending</p>
-                <p className="text-2xl font-bold">{pendingExpenses.length}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-emerald-500/5 border-emerald-500/20">
-          <CardContent >
-            <div className="flex items-center gap-4">
-              <div className="p-2 rounded-lg bg-emerald-500/20">
-                <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Approved</p>
-                <p className="text-2xl font-bold">{approvedExpenses.length}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+      <Tabs value={view}>
+        <TabsList variant="line">
+          <Link href="?view=all">
+            <TabsTrigger value="all">
+              <History className="h-4 w-4" />
+              All History
+            </TabsTrigger>
+          </Link>
+          <Link href="?view=my">
+            <TabsTrigger value="my">
+              <UserCircle className="h-4 w-4" />
+              My Expenses
+            </TabsTrigger>
+          </Link>
+        </TabsList>
+      </Tabs>
 
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent >
-            <div className="flex items-center gap-4">
-              <div className="p-2 rounded-lg bg-primary/20">
-                <ReceiptText className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Monthly Total</p>
-                <p className="text-2xl font-bold">৳{monthlyTotal}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-rose-500/5 border-rose-500/20">
-          <CardContent >
-            <div className="flex items-center gap-4">
-              <div className="p-2 rounded-lg bg-rose-500/20">
-                <XCircle className="h-5 w-5 text-rose-500" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Rejected</p>
-                <p className="text-2xl font-bold">0</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Tabs & Table */}
-      <div className="mt-2">
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="all">All Expenses</TabsTrigger>
-            <TabsTrigger value="pending">Pending</TabsTrigger>
-            <TabsTrigger value="approved">Approved</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="all">
-            <DataTable columns={columns} data={mockExpenses} searchKey="paidBy_name" />
-          </TabsContent>
-          
-          <TabsContent value="pending">
-            <DataTable columns={columns} data={pendingExpenses} />
-          </TabsContent>
-
-          <TabsContent value="approved">
-            <DataTable columns={columns} data={approvedExpenses} />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <DataTable 
+        columns={columns} 
+        data={data || []} 
+        meta={meta}
+      />
     </DashboardPageLayout>
   );
 }
-

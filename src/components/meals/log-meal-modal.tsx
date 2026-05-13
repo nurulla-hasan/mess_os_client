@@ -235,7 +235,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
                 className="h-9 border-dashed"
                 title="Add all active members at once"
               >
-                <UserPlus className="mr-2 h-4 w-4" /> All Members
+                <UserPlus className="h-4 w-4" /> All Members
               </Button>
               <Button 
                 variant="outline" 
@@ -243,7 +243,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
                 onClick={addEntry}
                 className="h-9"
               >
-                <Plus className="mr-2 h-4 w-4" /> Row
+                <Plus className="h-4 w-4" /> Row
               </Button>
             </div>
           </div>

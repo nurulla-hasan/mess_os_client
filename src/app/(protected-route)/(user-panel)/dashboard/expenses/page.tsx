@@ -31,7 +31,7 @@ export default function MemberExpensesPage() {
           description="Track mess-related expenses you've paid and manage reimbursement status."
         />
         <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">
-          <Plus className="mr-2 h-4 w-4" /> Create Expense
+          <Plus className="h-4 w-4" /> Create Expense
         </Button>
       </div>
 

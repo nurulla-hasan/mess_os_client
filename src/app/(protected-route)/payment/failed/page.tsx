@@ -39,7 +39,7 @@ function PaymentCancelContent() {
             </div>
             
             <div className="mt-6 text-center space-y-2 animate-in fade-in slide-in-from-bottom-4 duration-700">
-              <h1 className="text-3xl font-bold tracking-tight">Payment Cancelled</h1>
+              <h1 className="text-3xl font-bold">Payment Cancelled</h1>
               <p className="text-muted-foreground max-w-md mx-auto">
                 The transaction was cancelled or could not be completed at this time. No funds have been deducted from your account.
               </p>
@@ -65,7 +65,7 @@ function PaymentCancelContent() {
                 <div className="space-y-4">
                   <div className="p-4 rounded-xl bg-secondary/50 border border-border/50 space-y-2">
                     <span className="text-sm font-medium text-muted-foreground">Reference ID</span>
-                    <p className="font-mono text-sm break-all font-bold tracking-tight">
+                    <p className="font-mono text-sm break-all font-bold">
                       {tranId}
                     </p>
                   </div>
@@ -73,7 +73,7 @@ function PaymentCancelContent() {
                   <div className="p-4 rounded-xl border border-border/50 bg-amber-500/5 flex gap-4 items-start">
                     <HelpCircle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
                     <div className="space-y-1">
-                      <p className="text-sm font-bold text-amber-900 dark:text-amber-400 tracking-tight">Need assistance?</p>
+                      <p className="text-sm font-bold text-amber-900 dark:text-amber-400">Need assistance?</p>
                       <p className="text-xs text-amber-800/70 dark:text-amber-400/70 leading-relaxed">
                         If you encountered an error during payment, please try again or contact your bank if the issue persists.
                       </p>

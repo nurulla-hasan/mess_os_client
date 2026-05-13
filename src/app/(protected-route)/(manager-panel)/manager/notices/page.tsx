@@ -29,7 +29,7 @@ export default function ManagerNoticesPage() {
           description="Broadcast announcements and important updates to all mess members."
         />
         <Button size="sm">
-          <Plus className="mr-2 h-4 w-4" /> Create Notice
+          <Plus className="h-4 w-4" /> Create Notice
         </Button>
       </div>
 

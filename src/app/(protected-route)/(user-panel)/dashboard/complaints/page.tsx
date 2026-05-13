@@ -27,7 +27,7 @@ export default function MemberComplaintsPage() {
           description="Raise issues regarding mess facilities or services and track their resolution progress."
         />
         <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">
-          <Plus className="mr-2 h-4 w-4" /> New Complaint
+          <Plus className="h-4 w-4" /> New Complaint
         </Button>
       </div>
 

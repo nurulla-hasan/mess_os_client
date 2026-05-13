@@ -1,39 +1,131 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, X, Eye, ReceiptText } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { format } from "date-fns";
+import { Check, X, HandCoins } from "lucide-react";
+import { IExpense } from "@/types/expense.type";
+import { updateExpenseStatus, reimburseExpense } from "@/services/expense.service";
+import { SuccessToast, ErrorToast, formatDate, getInitials } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ViewExpenseModal } from "./view-expense-modal";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+import { usePathname } from "next/navigation";
 
-export type Expense = {
-  id: string;
-  category: "bazar" | "utility" | "other";
-  amount: number;
-  date: string;
-  paidBy: {
-    name: string;
-    email: string;
+interface ActionButtonsProps {
+  expense: IExpense;
+}
+
+function ActionButtons({ expense }: ActionButtonsProps) {
+  const pathname = usePathname();
+  const isManager = pathname.includes("/manager/");
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
+  const [actionType, setActionType] = React.useState<"approved" | "rejected" | "reimburse" | null>(null);
+
+  const handleAction = async () => {
+    if (!actionType) return;
+    setIsLoading(true);
+    try {
+      let res;
+      if (actionType === "reimburse") {
+        res = await reimburseExpense(expense.messId, expense._id);
+      } else {
+        res = await updateExpenseStatus(expense.messId, expense._id, actionType);
+      }
+
+      if (res?.success) {
+        SuccessToast(res.message || "Action completed successfully.");
+        setIsConfirmOpen(false);
+      } else {
+        ErrorToast(res?.message || "Action failed.");
+      }
+    } catch {
+      ErrorToast("Something went wrong.");
+    } finally {
+      setIsLoading(false);
+    }
   };
-  fundSource: "mess_fund" | "manager_pocket" | "member_reimbursement";
-  status: "pending" | "approved" | "rejected";
-  reimbursementStatus?: "not_required" | "pending" | "completed";
-  notes?: string;
-  receiptUrl?: string;
-};
 
-export const columns: ColumnDef<Expense>[] = [
+  const openConfirm = (type: "approved" | "rejected" | "reimburse") => {
+    setActionType(type);
+    setIsConfirmOpen(true);
+  };
+
+  return (
+    <div className="flex items-center justify-end gap-1">
+      <ViewExpenseModal expense={expense} messId={expense.messId} isManager={isManager} />
+
+      {isManager && expense.status === "pending" && (
+        <>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
+            onClick={() => openConfirm("approved")}
+          >
+            <Check className="h-4 w-4" />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+            onClick={() => openConfirm("rejected")}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </>
+      )}
+
+      {isManager &&
+        expense.status === "approved" &&
+        expense.fundSource === "personal_cash" &&
+        expense.reimbursementStatus !== "reimbursed" && (
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+            onClick={() => openConfirm("reimburse")}
+          >
+            <HandCoins className="h-4 w-4" />
+          </Button>
+        )}
+
+      {actionType && (
+        <ConfirmationModal
+          open={isConfirmOpen}
+          onOpenChange={setIsConfirmOpen}
+          trigger={null}
+          title={actionType === "reimburse" ? "Confirm Reimbursement" : `Confirm ${actionType}`}
+          description={`Are you sure you want to mark this expense as ${actionType === "reimburse" ? "reimbursed" : actionType}?`}
+          confirmText={actionType === "reimburse" ? "Confirm Paid" : "Confirm"}
+          variant={actionType === "rejected" ? "destructive" : "default"}
+          isLoading={isLoading}
+          onConfirm={handleAction}
+        />
+      )}
+    </div>
+  );
+}
+
+export const columns: ColumnDef<IExpense>[] = [
+  {
+    accessorKey: "date",
+    header: "Date",
+    cell: ({ row }) => (
+      <span className="text-sm font-medium">
+        {formatDate(row.original.date)}
+      </span>
+    ),
+  },
   {
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => (
-      <Badge variant="secondary" className="capitalize">
+      <Badge variant="outline">
         {row.original.category}
       </Badge>
     ),
@@ -41,33 +133,57 @@ export const columns: ColumnDef<Expense>[] = [
   {
     accessorKey: "amount",
     header: "Amount",
-    cell: ({ row }) => <span className="font-bold">৳{row.original.amount}</span>,
-  },
-  {
-    accessorKey: "date",
-    header: "Date",
-    cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {format(new Date(row.original.date), "MMM dd, yyyy")}
-      </span>
-    ),
+    cell: ({ row }) => <span className="font-bold text-primary">৳{row.original.amount}</span>,
   },
   {
     accessorKey: "paidBy",
     header: "Paid By",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="font-medium text-sm">{row.original.paidBy.name}</span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const paidBy = row.original.paidBy;
+      const user = paidBy?.userId;
+
+      return (
+        <div className="flex items-center gap-2">
+          <Avatar className="h-8 w-8 border">
+            <AvatarImage src={user?.avatar} alt={user?.fullName} />
+            <AvatarFallback className="text-xs">
+              {getInitials(user?.fullName || "Unknown")}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="font-bold text-foreground leading-none text-xs truncate max-w-[120px]">
+              {user?.fullName || "Unknown"}
+            </span>
+            <span className="text-xs text-muted-foreground uppercase font-medium mt-1">
+              {paidBy?.messRole}
+            </span>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "fundSource",
+    header: "Fund Source",
+    cell: ({ row }) => {
+      const source = row.original.fundSource;
+      return (
+        <Badge
+          variant={source === "mess_cash" ? "processing" : "warning"}
+        >
+          {source?.replace("_", " ") || "N/A"}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status;
+      const badgeVariant = status === "approved" ? "success" : (status === "canceled" ? "muted" : status);
       return (
-        <Badge variant={status === "approved" ? "success" : status === "rejected" ? "rejected" : "pending"}>
+        <Badge variant={badgeVariant as any}>
           {status}
         </Badge>
       );
@@ -76,62 +192,6 @@ export const columns: ColumnDef<Expense>[] = [
   {
     id: "actions",
     header: () => <div className="text-end">Actions</div>,
-    cell: ({ row }) => {
-      const expense = row.original;
-
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon-sm">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {expense.receiptUrl && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon-sm" className="text-sky-600">
-                    <ReceiptText className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>View Receipt</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-
-          {expense.status === "pending" && (
-            <>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon-sm" className="text-emerald-600">
-                      <Check className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Approve Expense</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon-sm" className="text-rose-600">
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Reject Expense</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
-          )}
-        </div>
-      );
-    },
+    cell: ({ row }) => <ActionButtons expense={row.original} />,
   },
 ];

@@ -29,7 +29,7 @@ export default function MemberMealOffRequestsPage() {
           description="Request to skip meals for a specific date range. Manager approval is required."
         />
         <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">
-          <Plus className="mr-2 h-4 w-4" /> New Request
+          <Plus className="h-4 w-4" /> New Request
         </Button>
       </div>
 

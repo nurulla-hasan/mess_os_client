@@ -136,7 +136,7 @@ export default async function AdminDashboardPage() {
             <CardContent className="flex flex-col gap-3">
               <Link href="/admin/users">
                 <Button variant="outline" className="w-full justify-start text-xs font-bold bg-background">
-                  <UserPlus className="mr-2 h-4 w-4" /> Manage Platform Users
+                  <UserPlus className="h-4 w-4" /> Manage Platform Users
                 </Button>
               </Link>
               <Link href="/admin/subscriptions/history">
