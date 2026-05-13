@@ -59,6 +59,7 @@ interface SidebarProps {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (open: boolean) => void;
   userRole?: UserRole;
+  messName?: string;
 }
 
 // Helper to get role-based route prefix
@@ -268,6 +269,7 @@ export default function Sidebar({
   isSidebarOpen,
   setIsSidebarOpen,
   userRole = "member",
+  messName,
 }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -299,11 +301,11 @@ export default function Sidebar({
             <Utensils className="h-5 w-5 text-primary-foreground" />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="text-lg font-extrabold  text-foreground">
+            <span className="text-lg font-bold  text-foreground">
               Mess<span className="text-primary">Manager</span>
             </span>
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
-              Mess Management
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest truncate max-w-[150px]">
+              {messName || "Mess Management"}
             </span>
           </div>
         </Link>

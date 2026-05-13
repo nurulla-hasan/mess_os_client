@@ -9,9 +9,10 @@ type UserRole = "member" | "manager" | "admin";
 interface MainLayoutProps {
   children: React.ReactNode;
   userRole?: UserRole;
+  messName?: string;
 }
 
-const MainLayout = ({ children, userRole = "member" }: MainLayoutProps) => {
+const MainLayout = ({ children, userRole = "member", messName }: MainLayoutProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -21,6 +22,7 @@ const MainLayout = ({ children, userRole = "member" }: MainLayoutProps) => {
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         userRole={userRole}
+        messName={messName}
       />
 
       {/* Main Content */}

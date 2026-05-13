@@ -32,7 +32,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
       showClose={true}
       actionTrigger={
         <Button variant="outline" size="icon-sm">
-          <Eye />
+          <Eye className="h-4 w-4" />
         </Button>
       }
     >
@@ -41,11 +41,13 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
         <div className="flex items-start justify-between">
           <div className="space-y-1">
             <h3 className="text-lg font-medium text-primary">Subscription Info</h3>
-            <p className="text-xs text-muted-foreground font-mono">ID: {subscription._id}</p>
+            <p className="text-xs text-muted-foreground font-mono">ID: {subscription?._id || "N/A"}</p>
           </div>
-          <Badge variant={statusVariants[subscription.status] || "secondary"} className="capitalize font-normal">
-            {subscription.status.replace("_", " ")}
-          </Badge>
+          {subscription?.status && (
+            <Badge variant={statusVariants[subscription.status] || "secondary"} className="capitalize font-normal">
+              {subscription.status.replace("_", " ")}
+            </Badge>
+          )}
         </div>
 
         {/* Quick Stats Grid */}
@@ -55,9 +57,9 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
             <div className="flex items-center gap-1.5 text-sm font-medium">
               <Calendar className="h-3.5 w-3.5 text-primary" />
               <span>
-                {subscription.currentPeriodStart ? formatDate(subscription.currentPeriodStart) : "N/A"}
+                {subscription?.currentPeriodStart ? formatDate(subscription.currentPeriodStart) : "N/A"}
                 {" - "}
-                {subscription.currentPeriodEnd ? formatDate(subscription.currentPeriodEnd) : "No Expiry"}
+                {subscription?.currentPeriodEnd ? formatDate(subscription.currentPeriodEnd) : "No Expiry"}
               </span>
             </div>
           </div>
@@ -65,7 +67,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
             <span className="text-xs text-muted-foreground">Current Plan</span>
             <div className="flex items-center gap-1.5 text-sm font-medium">
               <CreditCard className="h-3.5 w-3.5 text-primary" />
-              <span>{plan.name} ({plan.price} {plan.currency})</span>
+              <span>{plan?.name || "N/A"} ({plan?.price ?? 0} {plan?.currency || "BDT"})</span>
             </div>
           </div>
         </div>
@@ -80,15 +82,15 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
             <div className="space-y-3">
               <div>
                 <span className="text-xs text-muted-foreground">Mess Name</span>
-                <p className="text-sm font-medium">{mess.name}</p>
+                <p className="text-sm font-medium">{mess?.name || "N/A"}</p>
               </div>
               <div>
                 <span className="text-xs text-muted-foreground">Invite Code</span>
-                <p className="text-xs font-mono">{mess.inviteCode}</p>
+                <p className="text-xs font-mono">{mess?.inviteCode || "N/A"}</p>
               </div>
               <div>
                 <span className="text-xs text-muted-foreground">Address</span>
-                <p className="text-xs text-muted-foreground leading-relaxed">{mess.address}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{mess?.address || "No address provided"}</p>
               </div>
             </div>
           </div>
@@ -101,15 +103,15 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
             <div className="space-y-3">
               <div>
                 <span className="text-xs text-muted-foreground">Full Name</span>
-                <p className="text-sm font-medium">{manager.fullName}</p>
+                <p className="text-sm font-medium">{manager?.fullName || "Not Available"}</p>
               </div>
               <div>
                 <span className="text-xs text-muted-foreground">Email Address</span>
-                <p className="text-xs">{manager.email}</p>
+                <p className="text-xs">{manager?.email || "N/A"}</p>
               </div>
               <div>
                 <span className="text-xs text-muted-foreground">Phone</span>
-                <p className="text-xs">{manager.phone}</p>
+                <p className="text-xs">{manager?.phone || "N/A"}</p>
               </div>
             </div>
           </div>
@@ -119,10 +121,10 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
         <div className="space-y-4">
           <div className="flex items-center gap-3 text-primary font-medium">
             <CreditCard className="h-4 w-4" />
-            <h4 className="text-xs">Plan Features ({plan.name})</h4>
+            <h4 className="text-xs">Plan Features ({plan?.name || "N/A"})</h4>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {Object.entries(plan.features).map(([key, enabled]) => (
+            {plan?.features && Object.entries(plan.features).map(([key, enabled]) => (
               <div key={key} className="flex items-center gap-3 text-xs">
                 {enabled ? (
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
