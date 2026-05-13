@@ -1,4 +1,4 @@
-﻿import type { IMemberParticipation, MessRole, MemberStatus } from "./member.type";
+import type { IMemberParticipation, MessRole, MemberStatus } from "./member.type";
 
 export type PaymentStatus = "pending" | "approved" | "rejected" | "canceled";
 export type PaymentMethod = "cash" | "bkash" | "nagad" | "rocket" | "bank" | string;
@@ -9,6 +9,7 @@ export interface IPaymentUser {
   email: string;
   phone?: string;
   avatarUrl?: string;
+  avatar?: string;
 }
 
 export interface IPaymentMember {

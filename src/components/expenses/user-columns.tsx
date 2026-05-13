@@ -11,9 +11,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { format } from "date-fns";
-import { Expense } from "./columns";
+import { IExpense } from "@/types/expense.type";
 
-export const userExpenseColumns: ColumnDef<Expense>[] = [
+export const userExpenseColumns: ColumnDef<IExpense>[] = [
   {
     accessorKey: "amount",
     header: "Amount",

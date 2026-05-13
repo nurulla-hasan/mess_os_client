@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Check, X, XCircle } from "lucide-react";
 import { format } from "date-fns";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
-import { ErrorToast, SuccessToast } from "@/lib/utils";
+import { ErrorToast, SuccessToast, getInitials } from "@/lib/utils";
 import { updatePaymentStatus } from "@/services/payment.service";
 import { IPayment, IPaymentMember, PaymentStatus } from "@/types/payment.type";
 import { ViewPaymentModal } from "./view-payment-modal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const getMember = (payment: IPayment): IPaymentMember | null => {
   return typeof payment.messMemberId === "object" ? payment.messMemberId : null;
@@ -121,11 +122,21 @@ export const columns: ColumnDef<IPayment>[] = [
       const user = member?.user || member?.userId;
 
       return (
-        <div className="flex flex-col min-w-40">
-          <span className="font-bold text-foreground">{user?.fullName || "Member"}</span>
-          <span className="text-xs text-muted-foreground truncate max-w-48">
-            {user?.email || (typeof row.original.messMemberId === "string" ? row.original.messMemberId : "")}
-          </span>
+        <div className="flex items-center gap-3">
+          <Avatar className="h-9 w-9 border border-primary/10">
+            <AvatarImage src={user?.avatar} alt={user?.fullName} />
+            <AvatarFallback className="bg-primary/5 text-primary text-xs font-bold uppercase">
+              {getInitials(user?.fullName || "Unknown")}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col min-w-0">
+            <span className="font-bold text-foreground text-sm truncate max-w-[150px]">
+              {user?.fullName || "Member"}
+            </span>
+            <span className="text-xs text-muted-foreground truncate max-w-[150px]">
+              {user?.email || (typeof row.original.messMemberId === "string" ? row.original.messMemberId : "N/A")}
+            </span>
+          </div>
         </div>
       );
     },
