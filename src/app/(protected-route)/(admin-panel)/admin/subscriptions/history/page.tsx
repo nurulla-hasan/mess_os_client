@@ -18,7 +18,7 @@ export default async function AdminSubscriptionHistoryPage({
     <DashboardPageLayout>
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
         <DashboardPageHeader
-          title="Subscription History"
+          title="Current Subscription History"
           description="Comprehensive log of all mess subscriptions, renewals, and billing cycles across the platform."
         />
         <SubscriptionHistoryFilters />
