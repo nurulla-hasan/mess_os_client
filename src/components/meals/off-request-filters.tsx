@@ -2,6 +2,7 @@
 
 import React from "react";
 import { SearchInput } from "@/components/ui/custom/search-input";
+import { format } from "date-fns";
 import { useSmartFilter } from "@/hooks/useSmartFilter";
 import {
   Select,
@@ -35,8 +36,8 @@ export function OffRequestFilters() {
     }
 
     updateBatch({
-      startDate: range.from ? range.from.toISOString() : null,
-      endDate: range.to ? range.to.toISOString() : null,
+      startDate: range.from ? format(range.from, "yyyy-MM-dd") : null,
+      endDate: range.to ? format(range.to, "yyyy-MM-dd") : null,
     });
   };
 

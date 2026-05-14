@@ -39,7 +39,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
     setIsGenerating(true);
     try {
       const payload: Parameters<typeof createMenuPlan>[1] = {
-        date: date.toISOString(),
+        date: format(date, "yyyy-MM-dd"),
         isAiGenerated: true,
       };
 

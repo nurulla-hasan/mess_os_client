@@ -64,8 +64,7 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
         amount: parseFloat(amount),
         billingMonth: parseInt(month),
         year: parseInt(year),
-        dueDate: date.toISOString(),
-        status: "unpaid"
+        dueDate: format(date, "yyyy-MM-dd")
       });
 
       if (res.success) {
@@ -101,7 +100,7 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
             <div className="space-y-2">
               <Label htmlFor="category" className="text-xs font-bold uppercase text-muted-foreground">Category</Label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger id="category" className="bg-muted/50 border-none shadow-none focus:ring-1 capitalize">
+                <SelectTrigger id="category" className="capitalize">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -125,7 +124,7 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
                 placeholder="2200" 
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="bg-muted/50 border-none shadow-none focus:ring-1"
+              
               />
             </div>
           </div>
@@ -134,7 +133,7 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
             <div className="space-y-2">
               <Label htmlFor="month" className="text-xs font-bold uppercase text-muted-foreground">Billing Month</Label>
               <Select value={month} onValueChange={setMonth}>
-                <SelectTrigger id="month" className="bg-muted/50 border-none shadow-none focus:ring-1">
+                <SelectTrigger id="month">
                   <SelectValue placeholder="Month" />
                 </SelectTrigger>
                 <SelectContent>
@@ -153,7 +152,7 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
                 type="number" 
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
-                className="bg-muted/50 border-none shadow-none focus:ring-1"
+              
               />
             </div>
           </div>
@@ -165,7 +164,7 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal bg-muted/50 border-none shadow-none focus:ring-1 h-10",
+                    "w-full justify-start text-left",
                     !date && "text-muted-foreground"
                   )}
                 >
@@ -186,11 +185,11 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
         </div>
 
         <div className="flex items-center justify-end gap-3 mt-8 border-t pt-4">
-          <Button variant="ghost" type="button" onClick={() => setOpen(false)} disabled={loading}>
+          <Button variant="outline" type="button" onClick={() => setOpen(false)} disabled={loading}>
             Cancel
           </Button>
-          <Button type="submit" disabled={loading} className="px-8 font-bold">
-            {loading ? "Creating..." : "Create Bill"}
+          <Button loading={loading} loadingText="Creating Bill..." type="submit" >
+            Create Bill
           </Button>
         </div>
       </form>

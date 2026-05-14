@@ -65,7 +65,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
     setIsSaving(true);
     try {
       const res = await createMenuPlan(messId, {
-        date: date.toISOString(),
+        date: format(date, "yyyy-MM-dd"),
         meals,
         isAiGenerated: false
       });

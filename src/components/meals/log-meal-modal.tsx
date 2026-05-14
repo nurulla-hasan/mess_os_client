@@ -137,7 +137,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
     setIsLoading(true);
     try {
       const payload = {
-        date: date.toISOString(),
+        date: format(date, "yyyy-MM-dd"),
         entries: validEntries.map(({ messMemberId, meals }) => ({
           messMemberId,
           meals

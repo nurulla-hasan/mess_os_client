@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { 
   Select,
@@ -38,7 +39,7 @@ export function CreateExpenseModal({ messId, mode = "manager" }: CreateExpenseMo
   const [formData, setFormData] = React.useState<CreateExpensePayload>({
     category: "",
     amount: 0,
-    date: new Date().toISOString(),
+    date: format(new Date(), "yyyy-MM-dd"),
     fundSource: "mess_cash",
     paidBy: "",
     receiptUrl: "",
@@ -84,7 +85,7 @@ export function CreateExpenseModal({ messId, mode = "manager" }: CreateExpenseMo
         setFormData({
           category: "",
           amount: 0,
-          date: new Date().toISOString(),
+          date: format(new Date(), "yyyy-MM-dd"),
           fundSource: "mess_cash",
           paidBy: "",
           receiptUrl: "",
@@ -154,7 +155,7 @@ export function CreateExpenseModal({ messId, mode = "manager" }: CreateExpenseMo
                 <Calendar
                   mode="single"
                   selected={new Date(formData.date)}
-                  onSelect={(d) => d && setFormData(prev => ({ ...prev, date: d.toISOString() }))}
+                  onSelect={(d) => d && setFormData(prev => ({ ...prev, date: format(d, "yyyy-MM-dd") }))}
                   initialFocus
                 />
               </PopoverContent>

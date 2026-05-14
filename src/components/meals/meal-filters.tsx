@@ -24,8 +24,8 @@ export function MealFilters() {
     const end = endOfMonth(newDate);
     
     updateBatch({
-      start: start.toISOString(),
-      end: end.toISOString()
+      start: format(start, "yyyy-MM-dd"),
+      end: format(end, "yyyy-MM-dd")
     });
   };
 

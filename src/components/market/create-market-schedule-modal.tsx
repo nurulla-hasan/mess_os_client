@@ -188,7 +188,7 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
     try {
       const payload = {
         assignedTo,
-        targetDate: date.toISOString(),
+        targetDate: format(date, "yyyy-MM-dd"),
         estimatedBudget: parseFloat(estimatedBudget) || 0,
         shoppingItems: validItems.map(({ name, quantity }) => ({ name, quantity }))
       };

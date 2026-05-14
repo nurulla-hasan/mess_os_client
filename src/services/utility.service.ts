@@ -70,23 +70,3 @@ export const payUtilityBill = async (
   }
 };
 
-/**
- * Delete a utility bill
- */
-export const deleteUtilityBill = async (
-  messId: string,
-  billId: string
-): Promise<ApiResponse<null>> => {
-  try {
-    return (await serverFetch(`/messes/${messId}/utility-bills/${billId}`, {
-      method: "DELETE",
-      updateTag: ["utility-bills", "dashboard-stats"],
-    })) as ApiResponse<null>;
-  } catch (error: unknown) {
-    return {
-      success: false,
-      message: (error as Error)?.message || "Failed to delete utility bill.",
-      data: null,
-    };
-  }
-};

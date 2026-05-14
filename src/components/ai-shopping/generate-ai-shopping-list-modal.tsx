@@ -35,7 +35,7 @@ export function GenerateAiShoppingListModal({ messId, menuPlans }: GenerateAiSho
     try {
       const res = await generateAiShoppingList(messId, {
         menuPlanId,
-        targetDate: targetDate.toISOString(),
+        targetDate: format(targetDate, "yyyy-MM-dd"),
       });
 
       if (res.success) {

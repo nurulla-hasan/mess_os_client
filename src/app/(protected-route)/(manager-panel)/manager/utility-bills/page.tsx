@@ -37,7 +37,7 @@ export default async function ManagerUtilityBillsPage({
   }
 
   const params = (await searchParams) as QueryParams;
-  
+
   // Fetch bills and mess details in parallel
   const [billsRes, messRes] = await Promise.all([
     getUtilityBills(activeMessId, params),
@@ -46,7 +46,7 @@ export default async function ManagerUtilityBillsPage({
 
   const bills = billsRes?.data || [];
   const mess = messRes?.data;
-  
+
   // Get dynamic categories from mess settings (equalShareCategories)
   const dynamicCategories = mess?.settings?.equalShareCategories || [];
 
