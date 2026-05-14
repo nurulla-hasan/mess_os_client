@@ -32,10 +32,11 @@ export interface IMember {
  */
 export interface IMemberOption {
   _id: string;
+  userId: string;
   name: string;
   email: string;
-  phone?: string;
-  avatar?: string;
+  phone: string;
   messRole: MessRole;
-  participation?: IMemberParticipation;
+  participation: IMemberParticipation;
+  avatar: string;
 }

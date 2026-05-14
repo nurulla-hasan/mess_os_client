@@ -10,9 +10,14 @@ import { IManagerDashboardData } from "@/types/dashboard.type";
 
 // ─── Service Functions ────────────────────────────────────────────────────────
 
-export const createMess = async (data: Record<string, unknown>): Promise<ApiResponse<IMess>> => {
+export const createMess = async (
+  data: Record<string, unknown>,
+): Promise<ApiResponse<IMess>> => {
   try {
-    const res = (await serverFetch("/messes", { method: "POST", body: data })) as ApiResponse<IMess>;
+    const res = (await serverFetch("/messes", {
+      method: "POST",
+      body: data,
+    })) as ApiResponse<IMess>;
     if (res?.success && res.data?._id) {
       const cookieStore = await cookies();
       cookieStore.set("activeMessId", res.data._id, {
@@ -33,9 +38,14 @@ export const createMess = async (data: Record<string, unknown>): Promise<ApiResp
   }
 };
 
-export const joinMess = async (data: Record<string, unknown>): Promise<ApiResponse<null>> => {
+export const joinMess = async (
+  data: Record<string, unknown>,
+): Promise<ApiResponse<null>> => {
   try {
-    return (await serverFetch("/messes/join", { method: "POST", body: data })) as ApiResponse<null>;
+    return (await serverFetch("/messes/join", {
+      method: "POST",
+      body: data,
+    })) as ApiResponse<null>;
   } catch (error: unknown) {
     return {
       success: false,
@@ -50,7 +60,7 @@ export const joinMess = async (data: Record<string, unknown>): Promise<ApiRespon
  */
 export const getMessMembers = async (
   messId: string,
-  params: QueryParams = {}
+  params: QueryParams = {},
 ): Promise<ApiResponse<IMember[]>> => {
   const qs = buildQueryString(params);
   try {
@@ -73,7 +83,7 @@ export const getMessMembers = async (
 export const updateMemberStatus = async (
   messId: string,
   memberId: string,
-  status: "active" | "rejected"
+  status: "active" | "rejected",
 ): Promise<ApiResponse<IMember>> => {
   try {
     return (await serverFetch(`/messes/${messId}/members/${memberId}/status`, {
@@ -95,7 +105,7 @@ export const updateMemberStatus = async (
  */
 export const removeMember = async (
   messId: string,
-  memberId: string
+  memberId: string,
 ): Promise<ApiResponse<null>> => {
   try {
     return (await serverFetch(`/messes/${messId}/members/${memberId}/remove`, {
@@ -114,7 +124,9 @@ export const removeMember = async (
 /**
  * Get details of a specific mess
  */
-export const getMessDetails = async (messId: string): Promise<ApiResponse<IMess>> => {
+export const getMessDetails = async (
+  messId: string,
+): Promise<ApiResponse<IMess>> => {
   try {
     return (await serverFetch(`/messes/${messId}`, {
       method: "GET",
@@ -134,7 +146,7 @@ export const getMessDetails = async (messId: string): Promise<ApiResponse<IMess>
  * Endpoint: GET /messes/:messId/members/options
  */
 export const getMessMemberOptions = async (
-  messId: string
+  messId: string,
 ): Promise<ApiResponse<IMemberOption[]>> => {
   try {
     return (await serverFetch(`/messes/${messId}/members/options`, {
@@ -154,18 +166,97 @@ export const getMessMemberOptions = async (
  * Get aggregated dashboard data for the manager
  */
 export const getManagerDashboard = async (
-  messId: string
+  messId: string,
 ): Promise<ApiResponse<IManagerDashboardData>> => {
   try {
     return (await serverFetch(`/messes/${messId}/dashboard`, {
       method: "GET",
-      tags: ["dashboard-stats", "mess-details", "meals", "market-schedules", "meal-off-requests", "mess-members"],
+      tags: [
+        "dashboard-stats",
+        "mess-details",
+        "meals",
+        "market-schedules",
+        "meal-off-requests",
+        "mess-members",
+      ],
     })) as ApiResponse<IManagerDashboardData>;
   } catch (error: unknown) {
     return {
       success: false,
-      message: (error as Error)?.message || "Failed to fetch manager dashboard data.",
+      message:
+        (error as Error)?.message || "Failed to fetch manager dashboard data.",
       data: null as unknown as IManagerDashboardData,
+    };
+  }
+};
+
+/**
+ * Update mess details (Manager only)
+ */
+export const updateMess = async (
+  messId: string,
+  data: {
+    name?: string;
+    address?: string;
+    settings?: {
+      mealCategories?: string[];
+      equalShareCategories?: string[];
+    };
+  },
+): Promise<ApiResponse<IMess>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}`, {
+      method: "PATCH",
+      body: data,
+      updateTag: ["mess-details", "dashboard-stats"],
+    })) as ApiResponse<IMess>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to update mess.",
+      data: null as unknown as IMess,
+    };
+  }
+};
+
+/**
+ * Regenerate mess invite code (Manager only)
+ */
+export const regenerateInviteCode = async (
+  messId: string,
+): Promise<ApiResponse<IMess>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/regenerate-invite-code`, {
+      method: "POST",
+      updateTag: ["mess-details", "dashboard-stats"],
+    })) as ApiResponse<IMess>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to regenerate invite code.",
+      data: null as unknown as IMess,
+    };
+  }
+};
+
+/**
+ * Transfer mess ownership to another member (Manager only)
+ */
+export const transferOwnership = async (
+  messId: string,
+  newManagerUserId: string,
+): Promise<ApiResponse<null>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/transfer-ownership`, {
+      method: "POST",
+      body: { newManagerUserId },
+      updateTag: ["mess-details", "mess-members", "dashboard-stats"],
+    })) as ApiResponse<null>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to transfer ownership.",
+      data: null,
     };
   }
 };
