@@ -1,3 +1,15 @@
+export interface ISubscriptionFeatures {
+  meals: boolean;
+  expenses: boolean;
+  billing: boolean;
+  reports: boolean;
+  marketSchedule: boolean;
+  aiShopping: boolean;
+  notices: boolean;
+  complaints: boolean;
+  prioritySupport: boolean;
+}
+
 export interface ISubscriptionPlan {
   _id: string;
   name: string;
@@ -7,12 +19,35 @@ export interface ISubscriptionPlan {
   billingCycle: string;
   durationDays?: number;
   maxMembers: number;
-  features: Record<string, boolean>;
+  features: ISubscriptionFeatures;
   isDefault: boolean;
   isActive: boolean;
   sortOrder?: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IMessSubscription {
+  _id: string;
+  messId: string;
+  planId: string;
+  status: "active" | "past_due" | "canceled" | "unpaid";
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  cancelAtPeriodEnd: boolean;
+  createdAt: string;
+  updatedAt: string;
+  plan: ISubscriptionPlan;
+}
+
+export interface ISubscriptionLog {
+  _id: string;
+  messId: string;
+  planId: string;
+  action: "subscribed" | "canceled" | "payment_failed" | "fallback_to_default" | "expired" | string;
+  amount: number;
+  note?: string;
+  createdAt: string;
 }
 
 export interface ISubscriptionHistory {
