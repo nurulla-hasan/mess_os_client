@@ -4,7 +4,6 @@ import { MessageSquare } from "lucide-react";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { 
   getSubscriptionPlans, 
-  getCurrentSubscription, 
   getSubscriptionHistory 
 } from "@/services/subscription.service";
 import { SubscriptionContent } from "@/components/subscription/subscription-content";
@@ -25,14 +24,12 @@ export default async function ManagerSubscriptionPage() {
   }
 
   // Parallel data fetching
-  const [plansRes, currentSubRes, historyRes] = await Promise.all([
+  const [plansRes, historyRes] = await Promise.all([
     getSubscriptionPlans(),
-    getCurrentSubscription(messId),
     getSubscriptionHistory(messId),
   ]);
 
   const plans = plansRes?.success ? plansRes.data : [];
-  const currentSubscription = currentSubRes?.success ? currentSubRes.data : null;
   const history = historyRes?.success ? historyRes.data : [];
 
   return (
@@ -44,7 +41,6 @@ export default async function ManagerSubscriptionPage() {
       
       <SubscriptionContent 
         plans={plans}
-        currentSubscription={currentSubscription}
         history={history}
         messId={messId}
       />

@@ -1,20 +1,55 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, RefreshCcw } from "lucide-react";
+import { AlertTriangle, RefreshCcw, ShieldCheck } from "lucide-react";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 
 export default function GlobalPanelError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
+  error: Error & { digest?: string; status?: number };
   reset: () => void;
 }) {
   useEffect(() => {
     console.error("Panel Route Error:", error);
   }, [error]);
+
+  const is402 = error.status === 402 || error.message?.includes("402");
+
+  if (is402) {
+    return (
+      <DashboardPageLayout>
+        <div className="flex flex-col items-center justify-center min-h-[60vh] w-full p-6 text-center animate-in fade-in zoom-in-95 duration-500">
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
+            <div className="h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center relative ring-8 ring-primary/5 border border-primary/20 shadow-2xl">
+              <ShieldCheck className="h-12 w-12 text-primary drop-shadow-md" />
+            </div>
+          </div>
+          
+          <h2 className="text-3xl font-bold  text-foreground mb-3 drop-shadow-sm">
+            Upgrade Required
+          </h2>
+          <p className="text-muted-foreground/80 max-w-md mx-auto mb-8 leading-relaxed font-medium">
+            {error.message || "Your current plan does not include access to this feature. Please upgrade your subscription to continue."}
+          </p>
+          
+          <Button 
+            asChild
+            size="lg"
+            className="shadow-xl shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 rounded-full px-8 font-semibold"
+          >
+            <Link href="/manager/subscription">
+              View Subscription Plans
+            </Link>
+          </Button>
+        </div>
+      </DashboardPageLayout>
+    );
+  }
 
   return (
     <DashboardPageLayout>

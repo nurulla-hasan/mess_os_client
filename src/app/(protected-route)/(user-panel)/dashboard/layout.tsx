@@ -3,6 +3,9 @@ import MainLayout from "@/layout/main-layout";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { getMessDetails } from "@/services/mess.service";
 
+import { getCurrentSubscription } from "@/services/subscription.service";
+import { SubscriptionProvider } from "@/providers/subscription-provider";
+
 export default async function UserLayout({
   children,
 }: Readonly<{
@@ -10,17 +13,27 @@ export default async function UserLayout({
 }>) {
   const activeMessId = await getActiveMessIdFromCookies();
   let messName = "";
+  let currentSubscription = null;
 
   if (activeMessId) {
-    const messRes = await getMessDetails(activeMessId);
+    const [messRes, subRes] = await Promise.all([
+      getMessDetails(activeMessId),
+      getCurrentSubscription(activeMessId).catch(() => null),
+    ]);
+
     if (messRes.success) {
       messName = messRes.data.name;
+    }
+    if (subRes && subRes.success) {
+      currentSubscription = subRes.data;
     }
   }
 
   return (
-    <MainLayout userRole="member" messName={messName}>
-      {children}
-    </MainLayout>
+    <SubscriptionProvider subscription={currentSubscription}>
+      <MainLayout userRole="member" messName={messName}>
+        {children}
+      </MainLayout>
+    </SubscriptionProvider>
   );
 }

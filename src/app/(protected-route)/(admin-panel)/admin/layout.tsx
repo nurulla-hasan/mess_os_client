@@ -2,14 +2,18 @@
 import type { ReactNode } from "react";
 import MainLayout from "@/layout/main-layout";
 
+import { SubscriptionProvider } from "@/providers/subscription-provider";
+
 export default function AdminLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
   return (
-    <MainLayout userRole="admin">
-      {children}
-    </MainLayout>
+    <SubscriptionProvider subscription={null}>
+      <MainLayout userRole="admin">
+        {children}
+      </MainLayout>
+    </SubscriptionProvider>
   );
 }

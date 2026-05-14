@@ -13,24 +13,24 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
-import { ISubscriptionPlan, IMessSubscription, ISubscriptionLog } from "@/types/subscription.type";
+import { ISubscriptionPlan, ISubscriptionLog } from "@/types/subscription.type";
 import { subscriptionHistoryColumns } from "./subscription-history-columns";
 import { subscribeToPlan, cancelSubscription } from "@/services/subscription.service";
 import { cn, formatDate, SuccessToast, ErrorToast } from "@/lib/utils";
+import { useSubscription } from "@/providers/subscription-provider";
 
 interface SubscriptionContentProps {
   plans: ISubscriptionPlan[];
-  currentSubscription: IMessSubscription | null;
   history: ISubscriptionLog[];
   messId: string;
 }
 
-export function SubscriptionContent({
-  plans,
-  currentSubscription,
-  history,
-  messId
+export function SubscriptionContent({ 
+  plans, 
+  history, 
+  messId 
 }: SubscriptionContentProps) {
+  const { subscription: currentSubscription } = useSubscription();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 

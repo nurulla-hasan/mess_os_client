@@ -31,15 +31,17 @@ import {
   LucideIcon,
   ShieldCheck,
   History,
+  Lock,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, ErrorToast } from "@/lib/utils";
 import { logout } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
+import { useSubscription, routeFeatureMap, alwaysAccessibleRoutes } from "@/providers/subscription-provider";
 
 type UserRole = "member" | "manager" | "admin";
 
@@ -195,30 +197,84 @@ function getSidebarSections(role: UserRole): NavSection[] {
   ];
 }
 
-function SidebarSectionGroup({ section, pathname }: { section: NavSection; pathname: string }) {
+function SidebarSectionGroup({ 
+  section, 
+  pathname, 
+  userRole,
+  prefix,
+  isAllowed 
+}: { 
+  section: NavSection; 
+  pathname: string;
+  userRole: UserRole;
+  prefix: string;
+  isAllowed: (featureKey?: string, role?: string) => boolean;
+}) {
+  const router = useRouter();
   // Check if any item in this section is currently active
   const isSectionActive = section.items.some((item) => pathname === item.href);
   const [isOpen, setIsOpen] = useState(true);
 
-  // Render navigation item
+  // Visual content for navigation item
+  const NavItemContent = ({ item, isLocked, isActive }: { 
+    item: NavItemType; 
+    isLocked: boolean; 
+    isSubItem: boolean;
+    isActive: boolean;
+  }) => (
+    <div className="flex items-center text-sm px-2">
+      <item.icon className={cn(
+        "mr-2 h-4 w-4 transition-colors",
+        isActive ? "text-primary-foreground" : isLocked ? "text-muted-foreground/40" : "text-muted-foreground group-hover:text-primary"
+      )} />
+      <span className={cn(isLocked && "select-none")}>{item.name}</span>
+    </div>
+  );
+
+  // Main navigation item component
   const NavItem = ({ item, isSubItem = false }: { item: NavItemType; isSubItem?: boolean }) => {
     const isActive = pathname === item.href;
+    
+    // Determine if locked
+    const routePart = item.href.replace(prefix, "") || "/dashboard";
+    const isAlwaysAllowed = alwaysAccessibleRoutes.includes(routePart);
+    const featureKey = routeFeatureMap[routePart];
+    const allowed = isAlwaysAllowed || isAllowed(featureKey, userRole);
+    const isLocked = !allowed;
+
+    const handleClick = (e: React.MouseEvent) => {
+      if (isLocked) {
+        e.preventDefault();
+        if (userRole === "manager") {
+          router.push(`${prefix}/subscription`);
+        } else {
+          ErrorToast("Feature locked. Please contact your manager to upgrade.");
+        }
+      }
+    };
+
+    const commonClasses = cn(
+      "flex items-center justify-between p-2 rounded-sm text-sm font-medium transition-colors duration-200 group cursor-pointer",
+      isActive
+        ? "bg-primary text-primary-foreground"
+        : isLocked 
+          ? "text-muted-foreground/60"
+          : "hover:bg-accent hover:text-accent-foreground",
+      isSubItem && "w-[90%] ml-5"
+    );
+
+    if (isLocked) {
+      return (
+        <div onClick={handleClick} className={commonClasses}>
+          <NavItemContent item={item} isLocked={true} isSubItem={isSubItem} isActive={isActive} />
+          <Lock className="h-3 w-3 text-muted-foreground/40" />
+        </div>
+      );
+    }
 
     return (
-      <Link
-        href={item.href}
-        className={cn(
-          "flex items-center justify-start p-2 rounded-sm text-sm font-medium transition-colors duration-200",
-          isActive
-            ? "bg-primary text-primary-foreground"
-            : "hover:bg-accent hover:text-accent-foreground",
-          isSubItem && "w-[90%] ml-5"
-        )}
-      >
-        <div className="flex items-center text-sm px-2">
-          <item.icon className="mr-2 h-4 w-4" />
-          {item.name}
-        </div>
+      <Link href={item.href} className={commonClasses}>
+        <NavItemContent item={item} isLocked={false} isSubItem={isSubItem} isActive={isActive} />
       </Link>
     );
   };
@@ -273,8 +329,10 @@ export default function Sidebar({
 }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const { isAllowed } = useSubscription();
 
   const sections = getSidebarSections(userRole);
+  const prefix = getRoutePrefix(userRole);
 
   useEffect(() => {
     setIsSidebarOpen(false);
@@ -296,7 +354,7 @@ export default function Sidebar({
     >
       {/* Brand Logo */}
       <div className="flex items-center gap-3 px-6 border-b h-20">
-        <Link href="/dashboard" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+        <Link href={prefix} className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
           <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary shadow-lg shadow-primary/20 ring-1 ring-primary/20">
             <Utensils className="h-5 w-5 text-primary-foreground" />
           </div>
@@ -315,7 +373,14 @@ export default function Sidebar({
       <ScrollArea className="flex-1 h-[calc(100vh-148px)]">
         <nav className="space-y-2 p-4">
           {sections.map((section, idx) => (
-            <SidebarSectionGroup key={idx} section={section} pathname={pathname} />
+            <SidebarSectionGroup 
+              key={idx} 
+              section={section} 
+              pathname={pathname} 
+              userRole={userRole}
+              prefix={prefix}
+              isAllowed={isAllowed}
+            />
           ))}
         </nav>
       </ScrollArea>
