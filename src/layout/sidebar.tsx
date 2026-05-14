@@ -219,7 +219,6 @@ function SidebarSectionGroup({
   const NavItemContent = ({ item, isLocked, isActive }: { 
     item: NavItemType; 
     isLocked: boolean; 
-    isSubItem: boolean;
     isActive: boolean;
   }) => (
     <div className="flex items-center text-sm px-2">
@@ -245,8 +244,12 @@ function SidebarSectionGroup({
     const handleClick = (e: React.MouseEvent) => {
       if (isLocked) {
         e.preventDefault();
+        e.stopPropagation();
         if (userRole === "manager") {
-          router.push(`${prefix}/subscription`);
+          const targetPath = `${prefix}/subscription`;
+          if (pathname !== targetPath) {
+            router.push(targetPath);
+          }
         } else {
           ErrorToast("Feature locked. Please contact your manager to upgrade.");
         }
@@ -266,7 +269,7 @@ function SidebarSectionGroup({
     if (isLocked) {
       return (
         <div onClick={handleClick} className={commonClasses}>
-          <NavItemContent item={item} isLocked={true} isSubItem={isSubItem} isActive={isActive} />
+          <NavItemContent item={item} isLocked={true} isActive={isActive} />
           <Lock className="h-3 w-3 text-muted-foreground/40" />
         </div>
       );
@@ -274,7 +277,7 @@ function SidebarSectionGroup({
 
     return (
       <Link href={item.href} className={commonClasses}>
-        <NavItemContent item={item} isLocked={false} isSubItem={isSubItem} isActive={isActive} />
+        <NavItemContent item={item} isLocked={false} isActive={isActive} />
       </Link>
     );
   };
