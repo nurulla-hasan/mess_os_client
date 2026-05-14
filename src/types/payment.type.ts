@@ -9,7 +9,6 @@ export interface IPaymentUser {
   email: string;
   phone?: string;
   avatar?: string;
-  avatar?: string;
 }
 
 export interface IPaymentMember {

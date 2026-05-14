@@ -31,11 +31,11 @@ export default function MemberNoticesPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Pinned Announcements</span>
           </div>
           {pinnedNotices.map((notice) => (
-            <Card key={notice.id} className="border-primary/20 bg-primary/5">
+            <Card key={notice._id} className="border-primary/20 bg-primary/5">
               <CardContent className="flex items-center justify-between p-4">
                 <div className="flex flex-col gap-1">
                   <h3 className="text-sm font-bold">{notice.title}</h3>
-                  <p className="text-xs text-muted-foreground italic">Posted by {notice.author} on May 01, 2024</p>
+                  <p className="text-xs text-muted-foreground italic">Posted by {notice.createdBy.fullName} on May 01, 2024</p>
                 </div>
                 <Button variant="ghost" size="sm" className="text-primary font-bold">
                   View Full

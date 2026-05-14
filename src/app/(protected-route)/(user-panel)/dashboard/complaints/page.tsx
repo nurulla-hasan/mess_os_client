@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function MemberComplaintsPage() {
-  const myComplaints = mockComplaints.filter(c => c.member.name === "Nasir Uddin");
+  const myComplaints = mockComplaints.filter(c => c.messMemberId.user.fullName === "Nasir Uddin");
   const openComplaints = myComplaints.filter(c => c.status === "open");
   const resolvedComplaints = myComplaints.filter(c => c.status === "resolved");
 
