@@ -129,7 +129,7 @@ export const columns: ColumnDef<IMealOffRequest>[] = [
       return (
         <div className="flex items-center gap-3">
           <Avatar className="border border-primary/10">
-            <AvatarImage src={user.avatarUrl} alt={user.fullName} />
+            <AvatarImage src={user.avatar} alt={user.fullName} />
             <AvatarFallback className="bg-primary/5 text-primary text-xs font-medium">
               {user.fullName?.charAt(0) || "U"}
             </AvatarFallback>

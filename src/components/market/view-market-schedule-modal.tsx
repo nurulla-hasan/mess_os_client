@@ -60,7 +60,7 @@ export function ViewMarketScheduleModal({ schedule }: ViewMarketScheduleModalPro
               {schedule.assignedTo.map((assignee) => (
                 <div key={assignee._id} className="flex items-center gap-3 p-2 rounded-md border text-sm">
                   <Avatar className="h-6 w-6">
-                    <AvatarImage src={assignee.user.avatarUrl} />
+                    <AvatarImage src={assignee.user.avatar} />
                     <AvatarFallback>{assignee.user.fullName[0]}</AvatarFallback>
                   </Avatar>
                   <span>{assignee.user.fullName}</span>

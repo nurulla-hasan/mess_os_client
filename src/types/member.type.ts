@@ -20,7 +20,7 @@ export interface IMember {
     fullName: string;
     email: string;
     phone: string;
-    avatarUrl?: string;
+    avatar?: string;
   };
   dueAmount?: number;
   advanceAmount?: number;
@@ -35,7 +35,7 @@ export interface IMemberOption {
   name: string;
   email: string;
   phone?: string;
-  avatarUrl?: string;
+  avatar?: string;
   messRole: MessRole;
   participation?: IMemberParticipation;
 }

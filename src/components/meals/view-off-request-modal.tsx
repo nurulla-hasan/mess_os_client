@@ -96,7 +96,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
         {/* Compact Header Section */}
         <div className="flex items-center gap-5 p-5 bg-muted dark:bg-muted border-b">
           <Avatar className="h-14 w-14 border border-primary/10 shadow-sm">
-            <AvatarImage src={user.avatarUrl} alt={user.fullName} />
+            <AvatarImage src={user.avatar} alt={user.fullName} />
             <AvatarFallback className="bg-primary/5 text-primary text-xl font-bold">
               {user.fullName.charAt(0)}
             </AvatarFallback>

@@ -1,11 +1,11 @@
-﻿"use server";
+"use server";
 
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams, ApiResponse } from "@/types/global.type";
 import { IMarketSchedule } from "@/types/market-schedule.type";
 
-// â”€â”€â”€ Request Payload Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Request Payload Types ────────────────────────────────────────────────────
 
 interface ShoppingItemPayload {
   name: string;
@@ -32,7 +32,7 @@ interface UpdateMarketScheduleStatusPayload {
   fundSource?: string;
 }
 
-// â”€â”€â”€ Service Functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Service Functions ────────────────────────────────────────────────────────
 
 /**
  * Get market schedules of a specific mess

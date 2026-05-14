@@ -110,7 +110,7 @@ export const columns: ColumnDef<IMarketSchedule>[] = [
               className="h-7 w-7 border-2 border-background ring-offset-background"
             >
               <AvatarImage
-                src={member.user.avatarUrl}
+                src={member.user.avatar}
                 alt={member.user.fullName}
               />
               <AvatarFallback className="text-xs bg-primary/10 text-primary">

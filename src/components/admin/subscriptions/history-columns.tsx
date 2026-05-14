@@ -39,7 +39,7 @@ export const columns: ColumnDef<ISubscriptionHistory>[] = [
       return (
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8 border border-border">
-            <AvatarImage src={manager?.avatarUrl} alt={manager?.fullName || "User"} />
+            <AvatarImage src={manager?.avatar} alt={manager?.fullName || "User"} />
             <AvatarFallback className="text-xs">{getInitials(manager?.fullName || "U")}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">

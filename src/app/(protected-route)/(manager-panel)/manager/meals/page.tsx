@@ -1,4 +1,4 @@
-﻿import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
+import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { AlertCircle, Utensils, UserCircle } from "lucide-react";
 import { DataTable } from "@/components/ui/custom/data-table";

@@ -19,7 +19,7 @@ export interface IMeal {
       fullName: string;
       email: string;
       phone: string;
-      avatarUrl?: string;
+      avatar?: string;
     };
     messRole: string;
     status: string;

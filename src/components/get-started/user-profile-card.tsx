@@ -39,7 +39,7 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
           <div className="relative">
             <div className="absolute -inset-2 bg-primary/20 rounded-full blur-md animate-pulse" />
             <Avatar className="h-20 w-20 border-2 border-primary/50 shadow-lg group-hover:scale-105 transition-transform duration-300">
-              <AvatarImage src={user.avatarUrl} alt={user.fullName} />
+              <AvatarImage src={user.avatar} alt={user.fullName} />
               <AvatarFallback className="bg-primary/10 text-primary text-xl font-bold">
                 {getInitials(user.fullName)}
               </AvatarFallback>

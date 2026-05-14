@@ -92,8 +92,8 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
                     <>
                       <Avatar className="h-9 w-9 border border-border">
                         <AvatarImage
-                          key={user?.avatarUrl}
-                          src={user?.avatarUrl}
+                          key={user?.avatar}
+                          src={user?.avatar}
                           alt={user?.fullName || "user"}
                           className="object-cover"
                         />

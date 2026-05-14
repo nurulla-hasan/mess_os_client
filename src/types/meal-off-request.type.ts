@@ -16,7 +16,7 @@ export interface IMealOffRequest {
     fullName: string;
     email: string;
     phone: string;
-    avatarUrl?: string;
+    avatar?: string;
   };
   reviewedAt?: string;
   createdAt: string;

@@ -127,7 +127,7 @@ export const columns: ColumnDef<IMember>[] = [
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
         <Avatar className="h-8 w-8 border border-primary/10">
-          <AvatarImage src={row.original.user.avatarUrl} alt={row.original.user.fullName} />
+          <AvatarImage src={row.original.user.avatar} alt={row.original.user.fullName} />
           <AvatarFallback className="bg-primary/5 text-primary text-xs font-medium">
             {row.original.user.fullName.charAt(0)}
           </AvatarFallback>

@@ -8,12 +8,15 @@ export type MembershipStatus = "pending" | "active" | "rejected" | "removed";
 
 export interface IMembership {
   _id?: string;
-  messId: string | IMess;
+  messId: string | IMess | null;
+  userId: string;
   role?: MembershipRole; // Keep for backward compatibility
   messRole?: MembershipRole; // Backend uses this
   status: MembershipStatus;
   participation?: IMemberParticipation;
   joinedAt?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IUser {
@@ -24,7 +27,7 @@ export interface IUser {
   phone?: string;
   address?: string;
   bio?: string;
-  avatarUrl?: string;
+  avatar?: string;
   globalRole: GlobalRole;
   isEmailVerified: boolean;
   isPhoneVerified: boolean;

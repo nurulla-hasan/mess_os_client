@@ -42,7 +42,7 @@ export interface ISubscriptionHistory {
     email: string;
     phone: string;
     status: string;
-    avatarUrl?: string;
+    avatar?: string;
   };
   plan: ISubscriptionPlan;
 }

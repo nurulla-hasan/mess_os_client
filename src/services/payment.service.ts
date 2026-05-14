@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { serverFetch } from "@/lib/fetcher";
 import { buildQueryString } from "@/lib/buildQueryString";

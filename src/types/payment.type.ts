@@ -8,7 +8,7 @@ export interface IPaymentUser {
   fullName: string;
   email: string;
   phone?: string;
-  avatarUrl?: string;
+  avatar?: string;
   avatar?: string;
 }
 
