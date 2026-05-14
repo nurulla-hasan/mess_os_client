@@ -31,7 +31,7 @@ export function HistoryToggle({ isHistory }: HistoryToggleProps) {
         checked={isHistory} 
         onCheckedChange={handleToggle}
       />
-      <Label htmlFor="history-mode" className="text-[10px] font-bold uppercase cursor-pointer select-none">
+      <Label htmlFor="history-mode" className="text-xs font-bold uppercase cursor-pointer select-none">
         Include History
       </Label>
     </div>

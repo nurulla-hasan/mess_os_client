@@ -130,7 +130,7 @@ export default async function ManagerBillingPage({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-bold text-foreground">Member Invoices</h3>
-            <Badge variant={activeCycle.status === "finalized" ? "success" : "warning"} className="h-5 text-[10px] uppercase font-bold px-1.5">
+            <Badge variant={activeCycle.status === "finalized" ? "success" : "warning"} className="h-5 text-xs uppercase font-bold px-1.5">
               {activeCycle.status}
             </Badge>
           </div>

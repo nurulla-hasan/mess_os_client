@@ -147,13 +147,13 @@ export const columns: ColumnDef<IComplaint>[] = [
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8 border border-primary/10">
             <AvatarImage src={user.avatar} alt={user.fullName} />
-            <AvatarFallback className="text-[10px]">
+            <AvatarFallback className="text-xs">
               {user.fullName.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
-            <span className="text-[10px] text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               by {user.fullName}
             </span>
           </div>

@@ -74,7 +74,7 @@ export default function MemberMyBillPage() {
           </Card>
 
           <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="p-6 text-center">
+            <CardContent className="text-center">
               <h3 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Estimated Balance</h3>
               <p className="text-3xl font-bold text-primary">৳450</p>
               <Badge variant="rejected" className="mt-2 h-5 text-xs uppercase">Pending Due</Badge>

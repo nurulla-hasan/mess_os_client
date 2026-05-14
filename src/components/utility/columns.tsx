@@ -51,7 +51,7 @@ export const columns: ColumnDef<IUtilityBill>[] = [
             <span className="font-bold text-foreground text-sm capitalize">
               {category} Bill
             </span>
-            <span className="text-[10px] text-muted-foreground uppercase font-medium">
+            <span className="text-xs text-muted-foreground uppercase font-medium">
               {format(new Date(year, billingMonth - 1), "MMMM yyyy")}
             </span>
           </div>
@@ -65,7 +65,7 @@ export const columns: ColumnDef<IUtilityBill>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="font-bold text-foreground text-sm">৳{row.original.amount.toLocaleString()}</span>
-        <span className="text-[10px] text-muted-foreground uppercase font-medium tracking-tight">
+        <span className="text-xs text-muted-foreground uppercase font-medium tracking-tight">
           Utility Charge
         </span>
       </div>
@@ -80,7 +80,7 @@ export const columns: ColumnDef<IUtilityBill>[] = [
           {format(new Date(row.original.dueDate), "dd MMM, yyyy")}
         </span>
         <span className={cn(
-          "text-[10px] uppercase font-bold",
+          "text-xs uppercase font-bold",
           new Date(row.original.dueDate) < new Date() && row.original.status === "unpaid" 
             ? "text-rose-500" 
             : "text-muted-foreground"
@@ -98,7 +98,7 @@ export const columns: ColumnDef<IUtilityBill>[] = [
       return (
         <Badge 
           variant={status === "paid" ? "success" : "pending"}
-          className="uppercase text-[10px] font-bold px-1.5 h-5"
+          className="uppercase text-xs font-bold px-1.5 h-5"
         >
           {status}
         </Badge>

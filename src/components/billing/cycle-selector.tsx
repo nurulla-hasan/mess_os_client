@@ -37,7 +37,7 @@ export function CycleSelector({ cycles, selectedId }: CycleSelectorProps) {
         {cycles.map((cycle) => (
           <SelectItem key={cycle._id} value={cycle._id}>
             {format(new Date(cycle.year, cycle.month - 1), "MMMM yyyy")} 
-            <span className="ml-2 text-[10px] text-muted-foreground uppercase">
+            <span className="ml-2 text-xs text-muted-foreground uppercase">
               ({cycle.status})
             </span>
           </SelectItem>

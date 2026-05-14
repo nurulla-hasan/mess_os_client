@@ -82,7 +82,7 @@ export function ViewUtilityBillModal({ bill }: ViewUtilityBillModalProps) {
           <div className="ml-auto">
             <Badge 
               variant={bill.status === "paid" ? "success" : "pending"}
-              className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest shadow-sm"
+              className="px-3 py-1 text-xs font-bold uppercase tracking-widest shadow-sm"
             >
               {bill.status === "paid" ? <CheckCircle2 className="mr-1 h-3 w-3" /> : <Clock className="mr-1 h-3 w-3" />}
               {bill.status}
@@ -95,7 +95,7 @@ export function ViewUtilityBillModal({ bill }: ViewUtilityBillModalProps) {
           <div className="p-4 rounded-xl border bg-background flex flex-col gap-1.5 shadow-xs">
             <div className="flex items-center gap-2 text-muted-foreground">
               <DollarSign className="h-3.5 w-3.5" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Amount</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Amount</span>
             </div>
             <p className="text-xl font-bold text-foreground">৳{bill.amount.toLocaleString()}</p>
           </div>
@@ -103,7 +103,7 @@ export function ViewUtilityBillModal({ bill }: ViewUtilityBillModalProps) {
           <div className="p-4 rounded-xl border bg-background flex flex-col gap-1.5 shadow-xs">
             <div className="flex items-center gap-2 text-muted-foreground">
               <Calendar className="h-3.5 w-3.5" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Due Date</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Due Date</span>
             </div>
             <p className="text-sm font-bold text-foreground">
               {format(new Date(bill.dueDate), "dd MMMM, yyyy")}
@@ -113,7 +113,7 @@ export function ViewUtilityBillModal({ bill }: ViewUtilityBillModalProps) {
           <div className="p-4 rounded-xl border bg-background flex flex-col gap-1.5 shadow-xs">
             <div className="flex items-center gap-2 text-muted-foreground">
               <Tag className="h-3.5 w-3.5" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Billing Period</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Billing Period</span>
             </div>
             <p className="text-sm font-bold text-foreground capitalize">
               {format(new Date(bill.year, bill.billingMonth - 1), "MMMM yyyy")}
@@ -123,7 +123,7 @@ export function ViewUtilityBillModal({ bill }: ViewUtilityBillModalProps) {
           <div className="p-4 rounded-xl border bg-background flex flex-col gap-1.5 shadow-xs">
             <div className="flex items-center gap-2 text-muted-foreground">
               <Info className="h-3.5 w-3.5" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Payment Status</span>
+              <span className="text-xs font-bold uppercase tracking-wider">Payment Status</span>
             </div>
             <p className={cn(
               "text-sm font-bold capitalize",

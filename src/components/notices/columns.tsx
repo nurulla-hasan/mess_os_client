@@ -121,7 +121,7 @@ export const columns: ColumnDef<INotice>[] = [
         {row.original.isPinned && <Pin className="h-3 w-3 text-primary fill-primary" />}
         <div className="flex flex-col">
           <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
-          <span className="text-[10px] text-muted-foreground italic">
+          <span className="text-xs text-muted-foreground italic">
             by {row.original.createdBy.fullName}
           </span>
         </div>

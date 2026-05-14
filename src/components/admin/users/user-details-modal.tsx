@@ -97,7 +97,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
                   <div key={membership._id} className="p-3 rounded-lg border bg-muted flex flex-col gap-3">
                     <div className="flex items-center justify-between gap-3">
                       <span className="text-sm font-bold truncate">{messName}</span>
-                      <Badge variant={membership.status === "active" ? "success" : "rejected"} className="h-4 px-1 text-[9px] uppercase">
+                      <Badge variant={membership.status === "active" ? "success" : "rejected"} className="h-4 px-1 text-xs uppercase">
                         {membership.status}
                       </Badge>
                     </div>

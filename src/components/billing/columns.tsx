@@ -25,7 +25,7 @@ export const columns: ColumnDef<IMemberBill>[] = [
             <span className="font-bold text-foreground text-sm truncate max-w-[150px]">
               {user?.fullName || "Member"}
             </span>
-            <span className="text-[10px] text-muted-foreground uppercase font-medium">
+            <span className="text-xs text-muted-foreground uppercase font-medium">
               {row.original.messMemberId.messRole}
             </span>
           </div>

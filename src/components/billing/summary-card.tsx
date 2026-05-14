@@ -30,13 +30,13 @@ export function SummaryCard({
       <CardContent>
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
               {label}
             </p>
             <h4 className="text-2xl font-bold tracking-tight text-foreground">
               {value}
             </h4>
-            <p className="text-[10px] font-medium text-muted-foreground uppercase">
+            <p className="text-xs font-medium text-muted-foreground uppercase">
               {subValue}
             </p>
           </div>

@@ -125,7 +125,7 @@ export default function MemberDashboardPage() {
           </Card>
 
           <Card className="bg-amber-500/5 border-amber-500/20">
-            <CardContent className="p-6 space-y-3">
+            <CardContent className="space-y-3">
               <div className="flex items-center gap-3 text-amber-600">
                 <ShoppingCart className="h-4 w-4" />
                 <span className="text-xs font-bold uppercase tracking-widest">Next Market Duty</span>
