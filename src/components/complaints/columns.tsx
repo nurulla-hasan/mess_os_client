@@ -1,47 +1,179 @@
 "use client";
 
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Eye, Play, CheckCircle2, XCircle } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { format } from "date-fns";
+import { Clock, CheckCircle2, XCircle } from "lucide-react";
+import { formatDate, SuccessToast, ErrorToast } from "@/lib/utils";
+import { IComplaint, ComplaintStatus } from "@/types/complaint.type";
+import { updateComplaintStatus } from "@/services/complaint.service";
+import { useRouter } from "next/navigation";
+import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
+import { Textarea } from "@/components/ui/textarea";
+import { Field, FieldLabel } from "@/components/ui/field";
 
-export type Complaint = {
-  id: string;
-  title: string;
-  member: {
-    name: string;
-    email: string;
+interface ActionButtonsProps {
+  complaint: IComplaint;
+}
+
+function ActionButtons({ complaint }: ActionButtonsProps) {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [confirmOpen, setConfirmOpen] = React.useState(false);
+  const [pendingStatus, setPendingStatus] = React.useState<ComplaintStatus | null>(null);
+  const [resolvedNote, setResolvedNote] = React.useState("");
+  const router = useRouter();
+
+  const handleStatusUpdate = async () => {
+    if (!pendingStatus) return;
+    
+    // Note is required for terminal states
+    if ((pendingStatus === "resolved" || pendingStatus === "rejected") && !resolvedNote.trim()) {
+      ErrorToast("Please provide a resolution note.");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await updateComplaintStatus(complaint.messId, complaint._id, pendingStatus, resolvedNote);
+      if (res?.success) {
+        SuccessToast(res.message || "Status updated.");
+        setConfirmOpen(false);
+        setResolvedNote("");
+        router.refresh();
+      } else {
+        ErrorToast(res?.message || "Failed to update status.");
+      }
+    } catch {
+      ErrorToast("Something went wrong.");
+    } finally {
+      setIsLoading(false);
+    }
   };
-  status: "open" | "in_progress" | "resolved" | "rejected";
-  createdAt: string;
-  description: string;
-};
 
-export const columns: ColumnDef<Complaint>[] = [
+  const openConfirm = (status: ComplaintStatus) => {
+    setPendingStatus(status);
+    setConfirmOpen(true);
+  };
+
+  const currentStatus = complaint.status;
+
+  if (currentStatus === "resolved" || currentStatus === "rejected") {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center justify-end gap-2">
+      {currentStatus === "open" && (
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="text-amber-600 hover:text-amber-700"
+          onClick={() => openConfirm("in_progress")}
+          disabled={isLoading}
+        >
+          <Clock className="h-4 w-4" />
+        </Button>
+      )}
+
+      <Button
+        variant="outline"
+        size="icon-sm"
+        className="text-emerald-600 hover:text-emerald-700"
+        onClick={() => openConfirm("resolved")}
+        disabled={isLoading}
+      >
+        <CheckCircle2 className="h-4 w-4" />
+      </Button>
+
+      <Button
+        variant="outline"
+        size="icon-sm"
+        className="text-rose-600 hover:text-rose-700"
+        onClick={() => openConfirm("rejected")}
+        disabled={isLoading}
+      >
+        <XCircle className="h-4 w-4" />
+      </Button>
+
+      {pendingStatus && (
+        <ConfirmationModal
+          open={confirmOpen}
+          onOpenChange={(open) => {
+            setConfirmOpen(open);
+            if (!open) {
+              setPendingStatus(null);
+              setResolvedNote("");
+            }
+          }}
+          trigger={null}
+          title={`Mark as ${pendingStatus.replace("_", " ")}?`}
+          description={
+            pendingStatus === "in_progress" 
+              ? "Update status to in progress." 
+              : `This is a terminal state. Provide a note to ${pendingStatus} this complaint.`
+          }
+          confirmText="Confirm Update"
+          isLoading={isLoading}
+          onConfirm={handleStatusUpdate}
+        >
+          {(pendingStatus === "resolved" || pendingStatus === "rejected") && (
+            <div className="py-4 border-t border-b my-4">
+              <Field>
+                <FieldLabel className="mb-2">Resolution Note (Required)</FieldLabel>
+                <Textarea 
+                  placeholder="Describe how the issue was handled..."
+                  value={resolvedNote}
+                  onChange={(e) => setResolvedNote(e.target.value)}
+                  className="min-h-24"
+                />
+              </Field>
+            </div>
+          )}
+        </ConfirmationModal>
+      )}
+    </div>
+  );
+}
+
+export const columns: ColumnDef<IComplaint>[] = [
   {
     accessorKey: "title",
-    header: "Complaint",
-    cell: ({ row }) => (
-      <div className="flex flex-col">
-        <span className="text-sm font-bold truncate max-w-48">{row.original.title}</span>
-        <span className="text-xs text-muted-foreground uppercase">{row.original.member.name}</span>
-      </div>
-    ),
+    header: "Title & Reporter",
+    cell: ({ row }) => {
+      const user = row.original.messMemberId.user;
+      return (
+        <div className="flex items-center gap-3">
+          <Avatar className="h-8 w-8 border border-primary/10">
+            <AvatarImage src={user.avatar} alt={user.fullName} />
+            <AvatarFallback className="text-[10px]">
+              {user.fullName.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
+            <span className="text-[10px] text-muted-foreground">
+              by {user.fullName}
+            </span>
+          </div>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status;
+      const variants: Record<string, "success" | "warning" | "destructive" | "info" | "muted"> = {
+        open: "info",
+        in_progress: "warning",
+        resolved: "success",
+        rejected: "destructive",
+      };
       return (
-        <Badge variant={status === "resolved" ? "success" : status === "rejected" ? "rejected" : status === "in_progress" ? "info" : "pending"}>
+        <Badge variant={variants[status] || "muted"} className="capitalize">
           {status.replace("_", " ")}
         </Badge>
       );
@@ -51,71 +183,14 @@ export const columns: ColumnDef<Complaint>[] = [
     accessorKey: "createdAt",
     header: "Submitted",
     cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {format(new Date(row.original.createdAt), "MMM dd, yyyy")}
+      <span className="text-xs text-muted-foreground font-medium">
+        {formatDate(row.original.createdAt)}
       </span>
     ),
   },
   {
     id: "actions",
-    header: () => <div className="text-end">Actions</div>,
-    cell: ({ row }) => {
-      const complaint = row.original;
-      const isClosed = complaint.status === "resolved" || complaint.status === "rejected";
-
-      return (
-        <div className="flex items-center justify-end gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon-sm">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>View Details</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
-          {!isClosed && (
-            <>
-              {complaint.status === "open" && (
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="icon-sm" className="text-sky-600">
-                        <Play className="h-4 w-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Mark In Progress</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              )}
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon-sm" className="text-emerald-600">
-                      <CheckCircle2 className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Resolve Complaint</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button variant="outline" size="icon-sm" className="text-rose-600">
-                      <XCircle className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Reject Complaint</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </>
-          )}
-        </div>
-      );
-    },
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => <ActionButtons complaint={row.original} />,
   },
 ];

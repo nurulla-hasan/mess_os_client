@@ -1,69 +1,62 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/complaints/columns";
-import { mockComplaints } from "@/components/complaints/mockData";
-import { 
-  AlertCircle, 
-  Clock, 
-  CheckCircle2, 
-  MessageSquare
-} from "lucide-react";
+import { MessageSquare } from "lucide-react";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
+import { getComplaints } from "@/services/complaint.service";
+import { SearchParams, QueryParams } from "@/types/global.type";
+import { ComplaintFilters } from "@/components/complaints/complaint-filters";
+import { CreateComplaintModal } from "@/components/complaints/create-complaint-modal";
 
-export default function ManagerComplaintsPage() {
-  const openComplaints = mockComplaints.filter(c => c.status === "open");
-  const inProgressComplaints = mockComplaints.filter(c => c.status === "in_progress");
-  const resolvedComplaints = mockComplaints.filter(c => c.status === "resolved");
+interface Props {
+  searchParams: Promise<SearchParams>;
+}
+
+export default async function ManagerComplaintsPage({ searchParams }: Props) {
+  const messId = await getActiveMessIdFromCookies();
+  const params = (await searchParams) as QueryParams;
+
+  if (!messId) {
+    return (
+      <DashboardPageLayout>
+        <div className="flex flex-col items-center justify-center h-[60vh] text-center">
+          <MessageSquare className="h-12 w-12 text-muted-foreground mb-4 opacity-20" />
+          <h2 className="text-xl font-bold">No Active Mess Selected</h2>
+          <p className="text-muted-foreground">Please select a mess to manage complaints.</p>
+        </div>
+      </DashboardPageLayout>
+    );
+  }
+
+  // Fetch complaints with filters
+  const queryParams = { ...params };
+  if (queryParams.status === "all") {
+    delete queryParams.status;
+  }
+
+  const { data: complaints, meta } = await getComplaints(messId, queryParams);
 
   return (
     <DashboardPageLayout>
-      <DashboardPageHeader
-        title="Member Complaints"
-        description="Review and address issues raised by mess members. Maintain a healthy community environment."
-      />
+      <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
+        <DashboardPageHeader
+          title="Member Complaints"
+          description="Review and address issues raised by mess members. Maintain a healthy community environment."
+        />
+        <div className="flex flex-col sm:flex-row items-center gap-3">
+          <ComplaintFilters />
+          <CreateComplaintModal messId={messId} />
+        </div>
+      </div>
 
       <div>
-        <Tabs defaultValue="open" className="w-full">
-          <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="open" className="flex items-center gap-3">
-              <AlertCircle className="h-4 w-4" />
-              <span>Open ({openComplaints.length})</span>
-            </TabsTrigger>
-            <TabsTrigger value="in_progress" className="flex items-center gap-3">
-              <Clock className="h-4 w-4" />
-              <span>In Progress</span>
-            </TabsTrigger>
-            <TabsTrigger value="resolved" className="flex items-center gap-3">
-              <CheckCircle2 className="h-4 w-4" />
-              <span>Resolved</span>
-            </TabsTrigger>
-            <TabsTrigger value="all" className="flex items-center gap-3">
-              <MessageSquare className="h-4 w-4" />
-              <span>All History</span>
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="open">
-            <DataTable columns={columns} data={openComplaints} />
-          </TabsContent>
-          
-          <TabsContent value="in_progress">
-            <DataTable columns={columns} data={inProgressComplaints} />
-          </TabsContent>
-
-          <TabsContent value="resolved">
-            <DataTable columns={columns} data={resolvedComplaints} />
-          </TabsContent>
-
-          <TabsContent value="all">
-            <DataTable columns={columns} data={mockComplaints} searchKey="title" />
-          </TabsContent>
-        </Tabs>
+        <DataTable 
+          columns={columns} 
+          data={complaints || []} 
+          meta={meta}
+        />
       </div>
     </DashboardPageLayout>
   );
 }
-
