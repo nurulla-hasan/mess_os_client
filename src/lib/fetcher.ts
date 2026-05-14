@@ -15,6 +15,7 @@ type ServerFetchOptions = Omit<RequestInit, "body"> & {
   invalidateMode?: "updateTag" | "revalidateTag";
   updateTag?: string | string[]; 
   next?: NextFetchRequestConfig;
+  responseType?: "json" | "text";
 };
 
 export type ApiError = Error & {
@@ -37,6 +38,7 @@ export const serverFetch = async <T = unknown>(
     tags, 
     next,
     persistCookies = false,
+    responseType = "json",
     ...rest 
   } = options;
 
@@ -141,7 +143,7 @@ export const serverFetch = async <T = unknown>(
 
     if (res.status === 204 || res.headers.get("content-length") === "0") return null;
 
-    return res.json();
+    return (responseType === "text" ? res.text() : res.json()) as T;
   } catch (error: unknown) {
     const apiError = error as ApiError;
     if (apiError?.status !== 401) {
