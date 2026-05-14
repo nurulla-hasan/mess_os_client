@@ -130,7 +130,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
                     <Link href="/manager/profile">Profile</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/manager/settings">Settings</Link>
+                    <Link href="/manager/mess-settings">Settings</Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

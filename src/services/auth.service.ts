@@ -224,11 +224,11 @@ export const getActiveMessIdFromCookies = async (): Promise<string | null> => {
 };
 
 /**
- * Update user profile (supports FieldValues for profile image)
+ * Update user profile (name, phone, address, bio)
  */
-export const updateProfile = async (data: FieldValues): Promise<ApiResponse<IUser>> => {
+export const updateMe = async (data: FieldValues): Promise<ApiResponse<IUser>> => {
   try {
-    return (await serverFetch("/auth/update-profile", {
+    return (await serverFetch("/users/me", {
       method: "PATCH",
       body: data,
       updateTag: ["dashboard-stats", "user-profile"],
@@ -237,6 +237,26 @@ export const updateProfile = async (data: FieldValues): Promise<ApiResponse<IUse
     return {
       success: false,
       message: (error as Error)?.message || "Failed to update profile.",
+      data: null as unknown as IUser,
+    };
+  }
+};
+
+/**
+ * Update user avatar image
+ */
+export const updateAvatar = async (formData: FormData): Promise<ApiResponse<IUser>> => {
+  try {
+    return (await serverFetch("/users/me/avatar", {
+      method: "PATCH",
+      body: formData,
+      updateTag: ["dashboard-stats", "user-profile"],
+      // Note: serverFetch should handle FormData automatically if body is FormData
+    })) as ApiResponse<IUser>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to update avatar.",
       data: null as unknown as IUser,
     };
   }
