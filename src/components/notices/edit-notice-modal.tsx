@@ -90,7 +90,7 @@ export function EditNoticeModal({ notice }: EditNoticeModalProps) {
         </Button>
       }
     >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 overflow-y-auto">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 max-h-[50vh] overflow-y-auto">
         <FieldGroup>
           <FieldSet>
             <FieldLegend>Notice Details</FieldLegend>

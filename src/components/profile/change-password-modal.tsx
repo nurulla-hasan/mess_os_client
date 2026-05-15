@@ -54,7 +54,7 @@ export function ChangePasswordModal({ open, onOpenChange }: ChangePasswordModalP
       title="Change Password"
       description="Enter your current password and a new password to update your security."
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6 max-h-[50vh] overflow-y-auto">
         <div className="space-y-2">
           <Label htmlFor="oldPassword">Current Password</Label>
           <Input id="oldPassword" type="password" {...register("oldPassword", { required: true })} />

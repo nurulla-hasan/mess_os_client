@@ -78,7 +78,7 @@ export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarket
         </Button>
       }
     >
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 max-h-[50vh] overflow-y-auto">
         <div className="space-y-4">
           <div className="flex justify-between items-center text-sm border-b pb-4">
             <span className="text-muted-foreground">Estimated Budget</span>

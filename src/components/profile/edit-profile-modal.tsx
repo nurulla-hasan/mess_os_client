@@ -59,7 +59,7 @@ export function EditProfileModal({ user, open, onOpenChange }: EditProfileModalP
       title="Edit Profile"
       description="Make changes to your profile here. Click save when you're done."
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6 max-h-[50vh] overflow-y-auto">
         <div className="space-y-2">
           <Label htmlFor="fullName">Full Name</Label>
           <Input id="fullName" {...register("fullName", { required: true })} />

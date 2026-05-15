@@ -98,36 +98,38 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-2 gap-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="month">Month</Label>
-            <Select value={month} onValueChange={setMonth}>
-              <SelectTrigger id="month">
-                <SelectValue placeholder="Month" />
-              </SelectTrigger>
-              <SelectContent>
-                {months.map((m) => (
-                  <SelectItem key={m.value} value={m.value}>
-                    {m.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="year">Year</Label>
-            <Select value={year} onValueChange={setYear}>
-              <SelectTrigger id="year">
-                <SelectValue placeholder="Year" />
-              </SelectTrigger>
-              <SelectContent>
-                {years.map((y) => (
-                  <SelectItem key={y} value={y}>
-                    {y}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+        <div className="max-h-[50vh] overflow-y-auto pr-1">
+          <div className="grid grid-cols-2 gap-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="month">Month</Label>
+              <Select value={month} onValueChange={setMonth}>
+                <SelectTrigger id="month">
+                  <SelectValue placeholder="Month" />
+                </SelectTrigger>
+                <SelectContent>
+                  {months.map((m) => (
+                    <SelectItem key={m.value} value={m.value}>
+                      {m.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="year">Year</Label>
+              <Select value={year} onValueChange={setYear}>
+                <SelectTrigger id="year">
+                  <SelectValue placeholder="Year" />
+                </SelectTrigger>
+                <SelectContent>
+                  {years.map((y) => (
+                    <SelectItem key={y} value={y}>
+                      {y}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
 

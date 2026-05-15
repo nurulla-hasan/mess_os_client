@@ -173,7 +173,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-6 max-h-[85vh] overflow-hidden">
+      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
         <div className="flex flex-col gap-3">
           <label className="text-sm font-medium">Select Date</label>
           <Popover>

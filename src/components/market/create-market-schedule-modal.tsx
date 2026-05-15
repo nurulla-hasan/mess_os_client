@@ -223,8 +223,8 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-6 max-h-[85vh] overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto pr-1">
+      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pr-1">
           {/* Left Side: Assignees & Date */}
           <div className="space-y-6">
             <div className="space-y-2">

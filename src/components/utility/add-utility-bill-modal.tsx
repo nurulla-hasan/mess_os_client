@@ -94,7 +94,7 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
         </Button>
       }
     >
-      <form onSubmit={handleSubmit} className="px-6 py-4">
+      <form onSubmit={handleSubmit} className="px-6 py-4 max-h-[50vh] overflow-y-auto">
         <div className="grid gap-5">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">

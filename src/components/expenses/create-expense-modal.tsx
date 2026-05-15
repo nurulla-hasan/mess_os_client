@@ -112,7 +112,7 @@ export function CreateExpenseModal({ messId, mode = "manager" }: CreateExpenseMo
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-5 max-h-[85vh] overflow-y-auto">
+      <div className="p-6 flex flex-col gap-5 max-h-[50vh] overflow-y-auto">
         {/* Category & Amount */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
           <div className="flex flex-col gap-2">

@@ -102,7 +102,7 @@ export function CreatePaymentModal({ messId, mode = "member" }: CreatePaymentMod
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-5">
+      <div className="p-6 flex flex-col gap-5 max-h-[50vh] overflow-y-auto">
         {mode === "manager" && (
           <div className="space-y-2">
             <Label>Member</Label>

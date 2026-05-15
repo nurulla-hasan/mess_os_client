@@ -80,7 +80,7 @@ export function CreateComplaintModal({ messId }: CreateComplaintModalProps) {
         </Button>
       }
     >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 overflow-y-auto">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 max-h-[50vh] overflow-y-auto">
         <FieldGroup>
           <FieldSet>
             <FieldLegend>Complaint Information</FieldLegend>

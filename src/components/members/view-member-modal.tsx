@@ -68,7 +68,7 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
         </Button>
       }
     >
-      <div className="p-6">
+      <div className="p-6 max-h-[50vh] overflow-y-auto">
         <div className="flex flex-col items-center py-6 border-b">
           <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center text-primary text-2xl font-bold mb-3 border-2 border-primary/20 shrink-0">
             {member.user.fullName.charAt(0)}

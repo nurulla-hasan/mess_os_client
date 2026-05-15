@@ -67,7 +67,7 @@ export function ViewUtilityBillModal({ bill }: ViewUtilityBillModalProps) {
         </Button>
       }
     >
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 max-h-[50vh] overflow-y-auto">
         {/* Header Section */}
         <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/30 border border-border/50">
           <div className={cn("p-3 rounded-xl border-2 shadow-sm", categoryColors[bill.category])}>

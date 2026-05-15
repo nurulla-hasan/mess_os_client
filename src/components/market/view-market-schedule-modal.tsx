@@ -36,7 +36,7 @@ export function ViewMarketScheduleModal({ schedule }: ViewMarketScheduleModalPro
         </Button>
       }
     >
-      <div className="p-6 space-y-6">
+      <div className="p-6 space-y-6 max-h-[50vh] overflow-y-auto">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3 text-sm">
             <Calendar className="h-4 w-4 text-muted-foreground" />

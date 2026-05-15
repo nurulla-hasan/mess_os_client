@@ -42,7 +42,7 @@ export function SummaryReportView({ data, role }: SummaryReportViewProps) {
 
         <Card>
           <CardContent>
-            <div className="p-6 flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 text-emerald-600">
                 <CheckCircle2 className="h-4 w-4" />
                 <span className="text-xs font-bold uppercase tracking-wider">Finalized Cycles</span>
@@ -60,7 +60,7 @@ export function SummaryReportView({ data, role }: SummaryReportViewProps) {
 
         <Card className="md:col-span-2 lg:col-span-1">
           <CardContent>
-            <div className="p-6 flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 text-amber-600">
                 <Clock className="h-4 w-4" />
                 <span className="text-xs font-bold uppercase tracking-wider">Pending Actions</span>
@@ -81,11 +81,11 @@ export function SummaryReportView({ data, role }: SummaryReportViewProps) {
 
         <Card className="md:col-span-2 lg:col-span-3">
           <CardContent>
-            <div className="p-6 flex items-center gap-4">
+            <div className="flex items-center gap-4">
               <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <Activity className="h-5 w-5 text-primary" />
               </div>
-              <div className="flex flex-col min-w-0">
+              <div className="flex flex-col gap-2 min-w-0">
                 <h4 className="text-sm font-bold uppercase tracking-wider">Mess Operational Insight</h4>
                 <p className="text-xs text-muted-foreground font-medium">
                   Currently tracking <span className="text-primary font-bold">{data.pendingExpenses + data.pendingPayments}</span> pending requests. 

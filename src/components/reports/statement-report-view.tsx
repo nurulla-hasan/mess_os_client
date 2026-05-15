@@ -23,11 +23,11 @@ interface StatementReportViewProps {
 export function StatementReportView({ data }: StatementReportViewProps) {
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <Card className="bg-primary text-primary-foreground border-none">
+      <Card className="bg-primary/5">
         <CardContent>
-          <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[10px] font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-3 py-1 border rounded-md text-sm font-bold uppercase tracking-wider">
                 <Wallet className="h-3 w-3" />
                 Live Statement Balance
               </div>
@@ -47,18 +47,18 @@ export function StatementReportView({ data }: StatementReportViewProps) {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-xl border border-white/10 self-start md:self-center">
-              <div className="h-12 w-12 rounded-full bg-white/10 flex items-center justify-center text-xl font-bold">
+            <div className="flex items-center gap-4 p-4 rounded-xl border border-white/10 self-start md:self-center">
+              <div className="h-12 w-12 rounded-full border flex items-center justify-center text-xl font-bold">
                 {data.member.user.fullName.charAt(0)}
               </div>
               <div>
                 <p className="text-sm font-bold leading-none">{data.member.user.fullName}</p>
-                <p className="text-[10px] opacity-60 mt-1 uppercase font-bold tracking-widest">ID: {data.member._id.slice(-8)}</p>
+                <p className="text-xs opacity-60 mt-1 uppercase font-bold tracking-widest">ID: {data.member._id.slice(-8)}</p>
                 <div className="flex gap-2 mt-2">
-                  <Badge variant="outline" className="bg-emerald-500/20 border-none text-emerald-300 text-[10px] uppercase px-2 py-0">
+                  <Badge variant="success">
                     {data.member.status}
                   </Badge>
-                  <Badge variant="outline" className="bg-white/10 border-none text-white text-[10px] uppercase px-2 py-0">
+                  <Badge variant="info">
                     {data.member.messRole}
                   </Badge>
                 </div>
@@ -75,7 +75,7 @@ export function StatementReportView({ data }: StatementReportViewProps) {
               <History className="h-4 w-4 text-primary" />
               Recent Transactions
             </CardTitle>
-            <span className="text-[10px] font-bold text-muted-foreground uppercase">Last 8 Records</span>
+            <span className="text-xs font-bold text-muted-foreground uppercase">Last 8 Records</span>
           </CardHeader>
           <CardContent className="p-0">
             {data.ledgers.length > 0 ? (
@@ -91,7 +91,7 @@ export function StatementReportView({ data }: StatementReportViewProps) {
                       </div>
                       <div>
                         <p className="text-sm font-bold leading-none">{ledger.description}</p>
-                        <p className="text-[10px] text-muted-foreground mt-1 uppercase font-bold tracking-widest">{formatDate(ledger.date)}</p>
+                        <p className="text-xs text-muted-foreground mt-1 uppercase font-bold tracking-widest">{formatDate(ledger.date)}</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -115,39 +115,39 @@ export function StatementReportView({ data }: StatementReportViewProps) {
         </Card>
 
         <Card>
-          <CardHeader className="border-b pb-4">
+          <CardHeader className="border-b">
             <CardTitle className="text-xs font-bold uppercase tracking-wider flex items-center gap-2">
               <Calendar className="h-4 w-4 text-primary" />
               Billing Summaries
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent>
             <div className="divide-y divide-border">
               {data.historicalFinalizations.map((item) => (
-                <div key={item._id} className="p-4 space-y-4 hover:bg-muted/50 transition-colors">
+                <div key={item._id} className="space-y-4 hover:bg-muted/50 transition-colors">
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
-                      <span className="text-[10px] font-bold uppercase text-primary">Finalized Statement</span>
+                      <span className="text-xs font-bold uppercase text-primary">Finalized Statement</span>
                       <span className="text-xs font-bold text-muted-foreground uppercase">{formatDate(item.createdAt)}</span>
                     </div>
-                    <Badge variant="outline" className="text-[10px] uppercase font-bold">
+                    <Badge variant="outline" className="text-xs uppercase font-bold">
                       {item.status}
                     </Badge>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-2">
                     <div className="bg-muted/50 p-3 rounded-lg text-center">
-                      <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Meals</p>
+                      <p className="text-xs font-bold text-muted-foreground uppercase mb-1">Meals</p>
                       <p className="text-lg font-bold">{item.summary.meals}</p>
                     </div>
                     <div className="bg-primary/5 p-3 rounded-lg text-center">
-                      <p className="text-[10px] font-bold text-primary uppercase mb-1">Payable</p>
+                      <p className="text-xs font-bold text-primary uppercase mb-1">Payable</p>
                       <p className="text-lg font-bold text-primary">৳{item.summary.finalPayable.toLocaleString()}</p>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between pt-2 border-t border-dashed border-border group cursor-pointer">
-                    <span className="text-[10px] font-bold text-muted-foreground uppercase group-hover:text-primary">Details</span>
+                    <span className="text-xs font-bold text-muted-foreground uppercase group-hover:text-primary">Details</span>
                     <ChevronRight className="h-3 w-3 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
@@ -158,23 +158,22 @@ export function StatementReportView({ data }: StatementReportViewProps) {
       </div>
 
       {/* Footer Insight Card */}
-      <Card className="rounded-[40px] border-none bg-linear-to-br from-primary/10 via-background to-background p-1 relative overflow-hidden shadow-sm">
-        <div className="bg-background/90 backdrop-blur-xl rounded-[38px] p-8 relative z-10">
-          <div className="flex flex-col md:flex-row gap-6 items-start md:items-center">
-            <div className="h-16 w-16 rounded-[24px] bg-primary text-primary-foreground flex items-center justify-center shrink-0 shadow-lg shadow-primary/20 ring-4 ring-primary/10">
-              <Info className="h-8 w-8" />
+      <Card className="border-dashed">
+        <CardContent>
+          <div className="flex flex-col md:flex-row gap-5 items-start">
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+              <Info className="h-5 w-5" />
             </div>
-            <div className="space-y-2 flex-1">
-              <h4 className="text-lg font-bold text-primary uppercase tracking-widest">Statement Transparency Notice</h4>
-              <p className="text-sm text-muted-foreground font-medium leading-relaxed">
-                We use real-time synchronization for your <span className="text-primary font-bold">Ledger Activity</span>. 
-                Values in the <span className="font-bold">Premium Balance</span> card update automatically as new payments or expenses are approved. 
+            <div className="space-y-1.5">
+              <h4 className="text-sm font-bold text-foreground uppercase tracking-wider">Statement Transparency Notice</h4>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                We use real-time synchronization for your <span className="text-foreground font-semibold">Ledger Activity</span>. 
+                Values update automatically as new payments or expenses are approved. 
                 Archived cycles are locked and represent historical billing records.
               </p>
             </div>
           </div>
-        </div>
-        <div className="absolute bottom-0 right-0 h-32 w-32 bg-primary/10 rounded-full blur-[50px] -mb-16 -mr-16" />
+        </CardContent>
       </Card>
     </div>
   );

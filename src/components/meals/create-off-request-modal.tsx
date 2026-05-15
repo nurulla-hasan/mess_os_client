@@ -99,7 +99,7 @@ export function CreateMealOffRequestModal({
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-6">
+      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
         <div className="flex flex-col gap-3">
           <label className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
             Date Range
