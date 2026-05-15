@@ -9,7 +9,6 @@ export interface ApiResponse<T = null> {
   success: boolean;
   message: string;
   data: T;
-  status?: number;
   meta?: {
     total: number;
     page: number;

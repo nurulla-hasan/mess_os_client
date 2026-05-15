@@ -1,6 +1,6 @@
 "use server";
 
-import { serverFetch, ApiError } from "@/lib/fetcher";
+import { serverFetch } from "@/lib/fetcher";
 import { QueryParams, ApiResponse } from "@/types/global.type";
 import { IBillingCycle, IMemberBill } from "@/types/billing.type";
 import { buildQueryString } from "@/lib/buildQueryString";
@@ -21,7 +21,6 @@ export const getBillingCycles = async (
       success: false,
       message: (error as Error)?.message || "Failed to fetch billing cycles.",
       data: [],
-      status: (error as ApiError)?.status,
     };
   }
 };
@@ -40,12 +39,11 @@ export const getMemberBills = async (
       method: "GET",
       tags: ["billing"],
     })) as ApiResponse<IMemberBill[]>;
-    } catch (error: unknown) {
+  } catch (error: unknown) {
     return {
       success: false,
       message: (error as Error)?.message || "Failed to fetch member bills.",
       data: [],
-      status: (error as ApiError)?.status,
     };
   }
 };
@@ -67,7 +65,6 @@ export const getMyBill = async (
       success: false,
       message: (error as Error)?.message || "Failed to fetch your bill details.",
       data: null as unknown as IMemberBill,
-      status: (error as ApiError)?.status,
     };
   }
 };
@@ -89,7 +86,6 @@ export const previewBilling = async (
       success: false,
       message: (error as Error)?.message || "Failed to preview billing.",
       data: null as unknown as IBillingCycle,
-      status: (error as ApiError)?.status,
     };
   }
 };
@@ -112,7 +108,6 @@ export const finalizeBilling = async (
       success: false,
       message: (error as Error)?.message || "Failed to finalize billing.",
       data: null as unknown as IBillingCycle,
-      status: (error as ApiError)?.status,
     };
   }
 };
@@ -134,7 +129,6 @@ export const reopenBilling = async (
       success: false,
       message: (error as Error)?.message || "Failed to reopen billing.",
       data: null as unknown as IBillingCycle,
-      status: (error as ApiError)?.status,
     };
   }
 };

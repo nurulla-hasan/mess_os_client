@@ -45,7 +45,7 @@ export default async function MemberMyBillPage({
   // 1. Get all billing cycles for dropdown
   const cyclesRes = await getBillingCycles(activeMessId);
   
-  if (!cyclesRes.success && cyclesRes.status === 403) {
+  if (!cyclesRes.success) {
     return (
       <DashboardPageLayout>
         <DashboardPageHeader
