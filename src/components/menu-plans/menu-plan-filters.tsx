@@ -13,7 +13,11 @@ import { DatePickerWithRange } from "@/components/ui/date-range-picker";
 import { DateRange } from "react-day-picker";
 import { format } from "date-fns";
 
-export function MenuPlanFilters() {
+interface MenuPlanFiltersProps {
+  showStatus?: boolean;
+}
+
+export function MenuPlanFilters({ showStatus = true }: MenuPlanFiltersProps) {
   const { getFilter, updateBatch } = useSmartFilter();
   
   const statusFilter = getFilter("status", "all");
@@ -45,20 +49,22 @@ export function MenuPlanFilters() {
         className="w-full sm:w-64"
       />
 
-      <Select 
-        value={statusFilter} 
-        onValueChange={(val) => updateBatch({ status: val === "all" ? null : val })}
-      >
-        <SelectTrigger className="w-full sm:w-44">
-          <SelectValue placeholder="All Status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Status</SelectItem>
-          <SelectItem value="published">Published Only</SelectItem>
-          <SelectItem value="draft">Drafts Only</SelectItem>
-          <SelectItem value="archived">Archived Only</SelectItem>
-        </SelectContent>
-      </Select>
+      {showStatus && (
+        <Select 
+          value={statusFilter} 
+          onValueChange={(val) => updateBatch({ status: val === "all" ? null : val })}
+        >
+          <SelectTrigger className="w-full sm:w-44">
+            <SelectValue placeholder="All Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="published">Published Only</SelectItem>
+            <SelectItem value="draft">Drafts Only</SelectItem>
+            <SelectItem value="archived">Archived Only</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
     </div>
   );
 }

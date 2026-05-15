@@ -72,7 +72,7 @@ export function ViewMenuPlanModal({ plan }: ViewMenuPlanModalProps) {
         </Button>
       }
     >
-      <div className="p-6 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
+      <div className="p-6 max-h-[50vh] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 py-4 border-b border-muted/20">
           <div className="flex items-center gap-4">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20 shrink-0">

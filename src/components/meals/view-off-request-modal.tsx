@@ -91,7 +91,7 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
         </Button>
       }
     >
-      <div className="p-0">
+      <div className="p-0 max-h-[50vh] overflow-y-auto">
         {/* Header Profile Section */}
         {/* Compact Header Section */}
         <div className="flex items-center gap-5 p-5 bg-muted dark:bg-muted border-b">
