@@ -23,16 +23,18 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
       accessorKey: "date",
       header: "Date",
       cell: ({ row }) => (
-        <span className="text-xs font-bold text-muted-foreground uppercase">{formatDate(row.original.date)}</span>
+        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{formatDate(row.original.date)}</span>
       ),
     },
     {
       accessorKey: "title", 
-      header: "Category & Description",
+      header: "Category & Source",
       cell: ({ row }) => (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-0.5">
           <span className="text-xs font-bold uppercase text-primary">{row.original.category}</span>
-          <span className="text-xs text-muted-foreground font-bold uppercase">Fund: {row.original.fundSource}</span>
+          <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider bg-muted w-fit px-1.5 rounded">
+            {row.original.fundSource}
+          </span>
         </div>
       ),
     },
@@ -40,21 +42,26 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
       accessorKey: "paidBy",
       header: "Paid By",
       cell: ({ row }) => (
-        <span className="text-xs font-bold text-muted-foreground uppercase">{row.original.paidBy.user.fullName}</span>
+        <div className="flex items-center gap-2">
+          <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
+            {row.original.paidBy.user.fullName.charAt(0)}
+          </div>
+          <span className="text-xs font-bold text-muted-foreground uppercase">{row.original.paidBy.user.fullName}</span>
+        </div>
       ),
     },
     {
       accessorKey: "amount",
       header: "Amount",
       cell: ({ row }) => (
-        <span className="text-sm font-bold">৳{row.original.amount.toLocaleString()}</span>
+        <span className="text-sm font-bold text-rose-600">৳{row.original.amount.toLocaleString()}</span>
       ),
     },
     {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <Badge variant="success" className="h-5 px-2 text-xs font-bold uppercase">
+        <Badge variant="outline" className="h-5 px-3 text-[10px] font-bold uppercase tracking-widest">
           {row.original.status}
         </Badge>
       ),
@@ -62,29 +69,30 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
   ];
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="h-10 w-10 rounded-xl bg-rose-500/10 flex items-center justify-center">
+          <CardContent className="p-0">
+            <div className="p-6 flex items-center gap-4">
+              <div className="h-10 w-10 rounded-lg bg-rose-500/10 flex items-center justify-center shrink-0">
                 <Wallet className="h-5 w-5 text-rose-600" />
               </div>
               <div className="flex flex-col">
-                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Total Expenses</p>
+                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-0.5">Total Expenses</p>
                 <p className="text-2xl font-bold text-rose-600">৳{data.summary.totalAmount.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
         </Card>
+
         <Card>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <CardContent className="p-0">
+            <div className="p-6 flex items-center gap-4">
+              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <Tag className="h-5 w-5 text-primary" />
               </div>
               <div className="flex flex-col">
-                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Total Records</p>
+                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-0.5">Transaction Count</p>
                 <p className="text-2xl font-bold text-primary">{data.summary.totalRecords}</p>
               </div>
             </div>
@@ -92,9 +100,14 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
         </Card>
       </div>
 
-      <div className="bg-background rounded-2xl border border-primary/10 overflow-hidden shadow-sm">
-        <DataTable columns={columns} data={data.data} />
-      </div>
+      <Card>
+        <CardContent className="p-0">
+          <DataTable
+            columns={columns}
+            data={data.data}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -1,13 +1,11 @@
 "use client";
 
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { IReportSummary } from "@/types/report.type";
 import { 
   Wallet, 
   Clock, 
   CheckCircle2,
-  TrendingUp,
   Activity
 } from "lucide-react";
 
@@ -20,23 +18,22 @@ export function SummaryReportView({ data, role }: SummaryReportViewProps) {
   const isManager = role === "manager";
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-6 animate-in fade-in duration-500">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Mess Cash Balance */}
         {isManager && (
           <Card>
-            <CardHeader>
-              <CardTitle className="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
-                <Wallet className="h-3.5 w-3.5" /> Mess Cash Balance
-              </CardTitle>
-            </CardHeader>
             <CardContent>
-              <div className="flex flex-col gap-1">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold">৳{data.totalMessCash.toLocaleString()}</span>
+              <div className="p-6 flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Wallet className="h-4 w-4" />
+                  <span className="text-xs font-bold uppercase tracking-wider">Total Mess Cash</span>
                 </div>
-                <p className="text-xs text-muted-foreground font-bold mt-2 uppercase">
-                  Current available funds in mess account
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl font-bold">৳{data.totalMessCash.toLocaleString()}</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground uppercase font-medium">
+                  Available mess funds
                 </p>
               </div>
             </CardContent>
@@ -44,58 +41,64 @@ export function SummaryReportView({ data, role }: SummaryReportViewProps) {
         )}
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-xs font-bold uppercase tracking-widest text-emerald-600 flex items-center gap-2">
-              <CheckCircle2 className="h-3.5 w-3.5" /> Finalized Cycles
-            </CardTitle>
-          </CardHeader>
           <CardContent>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-emerald-600">{data.finalizedCycles}</span>
-                <span className="text-sm font-bold text-muted-foreground uppercase">Months</span>
+            <div className="p-6 flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-emerald-600">
+                <CheckCircle2 className="h-4 w-4" />
+                <span className="text-xs font-bold uppercase tracking-wider">Finalized Cycles</span>
               </div>
-              <p className="text-xs text-muted-foreground font-bold mt-2 uppercase">
-                Total billing cycles completed so far
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-emerald-600">{data.finalizedCycles}</span>
+                <span className="text-xs font-bold text-muted-foreground uppercase">Months</span>
+              </div>
+              <p className="text-[10px] text-muted-foreground uppercase font-medium">
+                Billing cycles completed
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xs font-bold uppercase tracking-widest text-amber-600 flex items-center gap-2">
-              <Clock className="h-3.5 w-3.5" /> Pending Actions
-            </CardTitle>
-          </CardHeader>
+        <Card className="md:col-span-2 lg:col-span-1">
           <CardContent>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs font-bold uppercase text-muted-foreground mb-1">Expenses</p>
-                <p className="text-xl font-bold text-amber-600">{data.pendingExpenses}</p>
+            <div className="p-6 flex flex-col gap-2">
+              <div className="flex items-center gap-2 text-amber-600">
+                <Clock className="h-4 w-4" />
+                <span className="text-xs font-bold uppercase tracking-wider">Pending Actions</span>
               </div>
-              <div>
-                <p className="text-xs font-bold uppercase text-muted-foreground mb-1">Payments</p>
-                <p className="text-xl font-bold text-amber-600">{data.pendingPayments}</p>
+              <div className="grid grid-cols-2 gap-4 divide-x divide-border mt-1">
+                <div>
+                  <p className="text-[10px] font-bold uppercase text-muted-foreground mb-1">Expenses</p>
+                  <p className="text-xl font-bold text-amber-600">{data.pendingExpenses}</p>
+                </div>
+                <div className="pl-4">
+                  <p className="text-[10px] font-bold uppercase text-muted-foreground mb-1">Payments</p>
+                  <p className="text-xl font-bold text-amber-600">{data.pendingPayments}</p>
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-              <Activity className="h-3.5 w-3.5" /> Mess Activity
-            </CardTitle>
-          </CardHeader>
+        <Card className="md:col-span-2 lg:col-span-3">
           <CardContent>
-            <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-primary" />
+            <div className="p-6 flex items-center gap-4">
+              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Activity className="h-5 w-5 text-primary" />
               </div>
               <div className="flex flex-col min-w-0">
-                <p className="text-sm font-bold">Operational Status</p>
-                <p className="text-xs text-muted-foreground">Running smoothly this month</p>
+                <h4 className="text-sm font-bold uppercase tracking-wider">Mess Operational Insight</h4>
+                <p className="text-xs text-muted-foreground font-medium">
+                  Currently tracking <span className="text-primary font-bold">{data.pendingExpenses + data.pendingPayments}</span> pending requests. 
+                  Everything else is up to date for this period.
+                </p>
+                <div className="flex items-center gap-3 mt-2">
+                  <div className="flex items-center gap-1 text-[10px] font-bold uppercase text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded">
+                    System Active
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] font-bold uppercase text-primary bg-primary/10 px-2 py-0.5 rounded">
+                    Real-time Data
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>

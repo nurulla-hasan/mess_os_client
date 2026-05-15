@@ -70,7 +70,7 @@ export function ReportSidebar({ activeType, role }: ReportSidebarProps) {
               key={item.id}
               href={`?type=${item.id}`}
               className={cn(
-                "flex items-center gap-3 p-3 rounded-xl transition-all duration-200 group",
+                "flex items-center gap-3 p-2 rounded-md transition-all duration-200 group",
                 activeType === item.id 
                   ? "bg-primary text-primary-foreground shadow-md shadow-primary/20" 
                   : "hover:bg-muted text-muted-foreground hover:text-foreground"
@@ -81,7 +81,7 @@ export function ReportSidebar({ activeType, role }: ReportSidebarProps) {
                 activeType === item.id ? "text-primary-foreground" : "text-primary group-hover:scale-110 transition-transform"
               )} />
               <div className="flex flex-col min-w-0">
-                <span className="text-sm font-bold leading-none">{item.label}</span>
+                <span className="text-sm font-semibold leading-none">{item.label}</span>
                 <span className={cn(
                   "text-xs mt-1 truncate",
                   activeType === item.id ? "text-primary-foreground/70" : "text-muted-foreground"
