@@ -103,3 +103,27 @@ export const getMyMealOffRequests = async (
     };
   }
 };
+
+/**
+ * Cancel a pending meal off request (own request)
+ */
+export const cancelMealOffRequest = async (
+  messId: string,
+  requestId: string
+): Promise<ApiResponse<IMealOffRequest>> => {
+  try {
+    return (await serverFetch(
+      `/messes/${messId}/meal-off-requests/${requestId}/cancel`,
+      {
+        method: "PATCH",
+        updateTag: ["meal-off-requests"],
+      }
+    )) as ApiResponse<IMealOffRequest>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to cancel meal off request.",
+      data: null as unknown as IMealOffRequest,
+    };
+  }
+};

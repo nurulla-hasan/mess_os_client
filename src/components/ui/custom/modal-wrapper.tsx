@@ -39,7 +39,7 @@ export function ModalWrapper({
         </DialogTrigger>
       )}
 
-      <DialogContent className="p-0 gap-0 shadow-md shadow-primary">
+      <DialogContent className="p-0 gap-0 shadow-md shadow-primary overflow-hidden">
         
         {/* Header Section */}
         {title && (

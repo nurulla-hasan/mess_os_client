@@ -1,60 +1,93 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/market/columns";
 import { 
   ShoppingCart, 
-  Clock, 
+  AlertCircle,
+  InfoIcon,
+  Clock,
   CheckCircle2,
-  AlertCircle
+  Ban
 } from "lucide-react";
-import { IMarketSchedule } from "@/types/market-schedule.type";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
+import { getMyMarketDuties } from "@/services/market-schedule.service";
+import { SearchParams, QueryParams } from "@/types/global.type";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Link from "next/link";
+import { Metadata } from "next";
 
-export default function MemberMarketDutiesPage() {
-  const myDuties: IMarketSchedule[] = [];
-  const upcomingDuties = myDuties.filter(s => s.status === "pending");
-  const completedDuties = myDuties.filter(s => s.status === "completed");
+export const metadata: Metadata = {
+  title: "Market Duties | MessManager",
+  description: "Track your assigned bazaar days and view shopping lists.",
+};
+
+export default async function MemberMarketDutiesPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const activeMessId = await getActiveMessIdFromCookies();
+
+  if (!activeMessId) {
+    return (
+      <DashboardPageLayout>
+        <DashboardPageHeader
+          title="Market Duties"
+          description="Track bazaar days."
+        />
+        <Alert className="mt-6">
+          <InfoIcon className="h-4 w-4" />
+          <AlertTitle>No Active Mess</AlertTitle>
+          <AlertDescription>Please join a mess to see your market duties.</AlertDescription>
+        </Alert>
+      </DashboardPageLayout>
+    );
+  }
+
+  const params = (await searchParams) as QueryParams;
+  const status = (typeof params.status === "string" ? params.status : params.status?.[0]) || "all";
+  
+  const { data, meta } = await getMyMarketDuties(activeMessId, params);
 
   return (
     <DashboardPageLayout>
       <DashboardPageHeader
-        title="My Market Duties"
+        title="Market Duties"
         description="Track your assigned bazaar days, view shopping lists, and record actual expenditures."
       />
 
-      <div className="mt-2">
-        <Tabs defaultValue="upcoming" className="w-full">
-          <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="upcoming" className="flex items-center gap-3">
-              <Clock className="h-4 w-4" />
-              <span>Upcoming ({upcomingDuties.length})</span>
-            </TabsTrigger>
-            <TabsTrigger value="completed" className="flex items-center gap-3">
-              <CheckCircle2 className="h-4 w-4" />
-              <span>Completed</span>
-            </TabsTrigger>
-            <TabsTrigger value="all" className="flex items-center gap-3">
+      <Tabs value={status}>
+        <TabsList variant="line">
+          <Link href="/dashboard/market-duties">
+            <TabsTrigger value="all">
               <ShoppingCart className="h-4 w-4" />
-              <span>All History</span>
+              <span>All Duties</span>
             </TabsTrigger>
-          </TabsList>
+          </Link>
+          <Link href="?status=pending">
+            <TabsTrigger value="pending">
+              <Clock className="h-3.5 w-3.5" />
+              Pending
+            </TabsTrigger>
+          </Link>
+          <Link href="?status=completed">
+            <TabsTrigger value="completed">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              Completed
+            </TabsTrigger>
+          </Link>
+          <Link href="?status=void">
+            <TabsTrigger value="void">
+              <Ban className="h-3.5 w-3.5" />
+              Voided
+            </TabsTrigger>
+          </Link>
+        </TabsList>
+      </Tabs>
 
-          <TabsContent value="upcoming">
-            <DataTable columns={columns} data={upcomingDuties} />
-          </TabsContent>
-          
-          <TabsContent value="completed">
-            <DataTable columns={columns} data={completedDuties} />
-          </TabsContent>
-
-          <TabsContent value="all">
-            <DataTable columns={columns} data={myDuties} />
-          </TabsContent>
-        </Tabs>
-      </div>
+      <DataTable columns={columns} data={data || []} meta={meta} />
 
       {/* Quick Tips */}
       <div className="mt-6 p-4 rounded-lg border border-dashed border-amber-500/30 bg-amber-500/5 flex gap-3">
@@ -69,4 +102,3 @@ export default function MemberMarketDutiesPage() {
     </DashboardPageLayout>
   );
 }
-

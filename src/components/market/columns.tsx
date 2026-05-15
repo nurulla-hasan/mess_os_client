@@ -16,11 +16,14 @@ import { updateMarketScheduleStatus } from "@/services/market-schedule.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/providers/user-provider";
 
 const MarketActionCell = ({ schedule }: { schedule: IMarketSchedule }) => {
   const router = useRouter();
   const [isVoidOpen, setIsVoidOpen] = React.useState(false);
   const [isPending, setIsPending] = React.useState(false);
+  const { role } = useUser();
+  const isManager = role === "manager";
 
   const handleVoid = async () => {
     setIsPending(true);
@@ -49,39 +52,45 @@ const MarketActionCell = ({ schedule }: { schedule: IMarketSchedule }) => {
 
       {schedule.status === "pending" && (
         <div className="flex items-center gap-1">
-          {/* Update Modal */}
-          <UpdateMarketScheduleModal
-            messId={schedule.messId}
-            schedule={schedule}
-          />
+          {/* Update Modal - Manager Only */}
+          {isManager && (
+            <UpdateMarketScheduleModal
+              messId={schedule.messId}
+              schedule={schedule}
+            />
+          )}
 
-          {/* Complete Action Modal */}
+          {/* Complete Action Modal - Available for Member+ */}
           <CompleteMarketScheduleModal
             messId={schedule.messId}
             schedule={schedule}
           />
 
-          {/* Void Action Trigger */}
-          <Button
-            variant="outline"
-            size="icon-sm"
-            onClick={() => setIsVoidOpen(true)}
-            className="text-rose-600"
-          >
-            <Ban />
-          </Button>
+          {/* Void Action Trigger - Manager Only */}
+          {isManager && (
+            <>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                onClick={() => setIsVoidOpen(true)}
+                className="text-rose-600"
+              >
+                <Ban />
+              </Button>
 
-          <ConfirmationModal
-            open={isVoidOpen}
-            onOpenChange={setIsVoidOpen}
-            trigger={null}
-            title="Void Market Schedule"
-            description="Are you sure you want to void this schedule? This action cannot be undone and will cancel this bazaar duty."
-            confirmText="Void Schedule"
-            variant="destructive"
-            isLoading={isPending}
-            onConfirm={handleVoid}
-          />
+              <ConfirmationModal
+                open={isVoidOpen}
+                onOpenChange={setIsVoidOpen}
+                trigger={null}
+                title="Void Market Schedule"
+                description="Are you sure you want to void this schedule? This action cannot be undone and will cancel this bazaar duty."
+                confirmText="Void Schedule"
+                variant="destructive"
+                isLoading={isPending}
+                onConfirm={handleVoid}
+              />
+            </>
+          )}
         </div>
       )}
     </div>

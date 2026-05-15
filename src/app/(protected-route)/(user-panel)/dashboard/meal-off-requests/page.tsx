@@ -2,7 +2,7 @@ import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
-import { userMealOffColumns } from "@/components/meal-off-requests/user-columns";
+import { memberMealOffColumns } from "@/components/meal-off-requests/member-meal-off-columns";
 import { 
   Clock, 
   CheckCircle2, 
@@ -96,10 +96,9 @@ export default async function MemberMealOffRequestsPage({
             </Link>
           </TabsList>
         </Tabs>
-
-        <DataTable columns={userMealOffColumns} data={requests} meta={meta} />
+ 
+        <DataTable columns={memberMealOffColumns} data={requests} meta={meta} />
       </div>
     </DashboardPageLayout>
   );
 }
-
