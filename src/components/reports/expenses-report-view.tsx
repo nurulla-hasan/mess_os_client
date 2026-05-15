@@ -41,7 +41,7 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
       header: "Paid By",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground">
+          <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground">
             {row.original.paidBy.user.fullName.charAt(0)}
           </div>
           <span className="text-sm">{row.original.paidBy.user.fullName}</span>

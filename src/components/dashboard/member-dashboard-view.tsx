@@ -77,7 +77,7 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
 
         {/* Quick Access Tiles */}
         <div>
-          <h3 className="text-sm font-bold mb-4 flex items-center gap-3">
+          <h3 className="text-md font-bold mb-4 flex items-center gap-3">
             <CheckCircle2 className="h-4 w-4 text-primary" />
             Quick Actions
           </h3>
@@ -85,11 +85,11 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
             {activeQuickActions.map((action, i) => (
               <Link key={i} href={action.href}>
                 <Card className="hover:border-primary/50 transition-all cursor-pointer group">
-                  <CardContent className="flex flex-col items-center justify-center gap-3 text-center p-4">
+                  <CardContent className="flex flex-col items-center justify-center gap-3 text-center">
                     <div className={`p-3 rounded-lg ${action.bg} group-hover:scale-110 transition-transform`}>
                       <action.icon className={`h-5 w-5 ${action.color}`} />
                     </div>
-                    <span className="text-xs font-bold">{action.title}</span>
+                    <span className="text-sm font-bold">{action.title}</span>
                   </CardContent>
                 </Card>
               </Link>
@@ -102,7 +102,7 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
       <div className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold flex items-center gap-3">
+            <CardTitle className="flex items-center gap-3">
               <Clock className="h-4 w-4 text-primary" />
               Recent Activity
             </CardTitle>
@@ -116,7 +116,7 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
                     act.type === "payment" ? "bg-emerald-500" : "bg-primary"
                   )} />
                   <div>
-                    <p className="text-xs font-bold">{act.title}</p>
+                    <p className="text-sm font-bold">{act.title}</p>
                     <p className="text-xs text-muted-foreground line-clamp-2">{act.description}</p>
                     <p className="text-xs text-muted-foreground mt-1">
                       {format(new Date(act.createdAt), "MMM dd, hh:mm a")}
@@ -145,7 +145,7 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
                 <p className="text-xs font-bold text-muted-foreground uppercase">Items:</p>
                 <div className="flex flex-wrap gap-1">
                   {marketDuty.next.shoppingItems.slice(0, 3).map((item, idx) => (
-                    <Badge key={idx} variant="outline" className="text-[9px] bg-background/50">
+                    <Badge key={idx} variant="pending">
                       {item.name} ({item.quantity})
                     </Badge>
                   ))}
