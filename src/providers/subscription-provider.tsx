@@ -34,10 +34,6 @@ export function useSubscription() {
     if (role === "admin") return true;
     if (!featureKey) return true;
     
-    // If we have no subscription, we assume it's a member or something went wrong.
-    // In many cases, members should be allowed if the mess has a plan.
-    // But per rules, we check if featureKey exists in the subscription's plan features.
-    
     const features = context.subscription?.plan?.features;
     if (!features) return false;
 

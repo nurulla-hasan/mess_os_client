@@ -232,8 +232,6 @@ function SidebarSectionGroup({
 
   // Main navigation item component
   const NavItem = ({ item, isSubItem = false }: { item: NavItemType; isSubItem?: boolean }) => {
-    const isActive = pathname === item.href;
-    
     // Determine if locked
     const routePart = item.href.replace(prefix, "") || "/dashboard";
     const isAlwaysAllowed = alwaysAccessibleRoutes.includes(routePart);
@@ -241,44 +239,40 @@ function SidebarSectionGroup({
     const allowed = isAlwaysAllowed || isAllowed(featureKey, userRole);
     const isLocked = !allowed;
 
+    // Active route style dio na if locked
+    const isActive = !isLocked && pathname === item.href;
+    
     const handleClick = (e: React.MouseEvent) => {
       if (isLocked) {
         e.preventDefault();
-        e.stopPropagation();
         if (userRole === "manager") {
           const targetPath = `${prefix}/subscription`;
+          ErrorToast("Upgrade your plan to unlock this feature");
           if (pathname !== targetPath) {
             router.push(targetPath);
           }
         } else {
-          ErrorToast("Feature locked. Please contact your manager to upgrade.");
+          ErrorToast("This feature is not included in your mess plan. Ask your mess manager to upgrade.");
         }
+      } else {
+        router.push(item.href);
       }
     };
 
     const commonClasses = cn(
-      "flex items-center justify-between p-2 rounded-sm text-sm font-medium transition-colors duration-200 group cursor-pointer",
+      "flex items-center justify-between p-2 rounded-sm text-sm font-medium transition-colors duration-200 group cursor-pointer w-full",
       isActive
         ? "bg-primary text-primary-foreground"
-        : isLocked 
-          ? "text-muted-foreground/60"
-          : "hover:bg-accent hover:text-accent-foreground",
-      isSubItem && "w-[90%] ml-5"
+        : "hover:bg-accent hover:text-accent-foreground",
+      isLocked && "text-muted-foreground/60",
+      isSubItem && (section.title ? "w-[90%] ml-5" : "w-full")
     );
 
-    if (isLocked) {
-      return (
-        <div onClick={handleClick} className={commonClasses}>
-          <NavItemContent item={item} isLocked={true} isActive={isActive} />
-          <Lock className="h-3 w-3 text-muted-foreground/40" />
-        </div>
-      );
-    }
-
     return (
-      <Link href={item.href} className={commonClasses}>
-        <NavItemContent item={item} isLocked={false} isActive={isActive} />
-      </Link>
+      <div onClick={handleClick} className={commonClasses}>
+        <NavItemContent item={item} isLocked={isLocked} isActive={isActive} />
+        {isLocked && <Lock className="h-3 w-3 text-muted-foreground/40 ml-2" />}
+      </div>
     );
   };
 
