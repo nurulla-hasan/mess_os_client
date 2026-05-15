@@ -1,25 +1,61 @@
-"use client";
-
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// TODO: Uncomment when API is ready
-// import { TabsContent } from "@/components/ui/tabs";
-// import { DataTable } from "@/components/ui/custom/data-table";
-// import { userMealOffColumns } from "@/components/meal-off-requests/user-columns";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { userMealOffColumns } from "@/components/meal-off-requests/user-columns";
 import { 
-  Calendar, 
   Clock, 
   CheckCircle2, 
   XCircle,
-  Plus
+  Inbox
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
+import { getMyMealOffRequests } from "@/services/meal-off-request.service";
+import { CreateMealOffRequestModal } from "@/components/meals/create-off-request-modal";
+import { SearchParams, QueryParams } from "@/types/global.type";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { InfoIcon } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
-export default function MemberMealOffRequestsPage() {
-  // TODO: Replace with actual API data when meal-off-request endpoint is ready
-  const myRequests: { status: string }[] = [];
-  const pendingRequests = myRequests.filter(r => r.status === "pending");
+export const metadata: Metadata = {
+  title: "Meal Off Requests | MessManager",
+  description: "Request to skip meals for a specific date range.",
+};
+
+export default async function MemberMealOffRequestsPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const activeMessId = await getActiveMessIdFromCookies();
+
+  if (!activeMessId) {
+    return (
+      <DashboardPageLayout>
+        <DashboardPageHeader
+          title="Meal Off Requests"
+          description="Request to skip meals."
+        />
+        <Alert className="mt-6">
+          <InfoIcon className="h-4 w-4" />
+          <AlertTitle>No Active Mess</AlertTitle>
+          <AlertDescription>Please join a mess to manage meal off requests.</AlertDescription>
+        </Alert>
+      </DashboardPageLayout>
+    );
+  }
+
+  const params = (await searchParams) as QueryParams;
+  const statusFilter = (typeof params.status === "string" ? params.status : params.status?.[0]) || "all";
+  
+  // Prepare API params - if status is 'all', don't send status filter
+  const apiParams = { ...params };
+  if (statusFilter === "all") delete apiParams.status;
+  
+  const { data, meta } = await getMyMealOffRequests(activeMessId, apiParams);
+  
+  const requests = data || [];
 
   return (
     <DashboardPageLayout>
@@ -28,48 +64,40 @@ export default function MemberMealOffRequestsPage() {
           title="Meal Off Requests"
           description="Request to skip meals for a specific date range. Manager approval is required."
         />
-        <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">
-          <Plus className="h-4 w-4" /> New Request
-        </Button>
+        <CreateMealOffRequestModal messId={activeMessId} />
       </div>
 
-      <div className="mt-2">
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList variant="line" className="mb-4">
-            <TabsTrigger value="all" className="flex items-center gap-3">
-              <Calendar className="h-4 w-4" />
-              <span>My Requests</span>
-            </TabsTrigger>
-            <TabsTrigger value="pending" className="flex items-center gap-3">
-              <Clock className="h-4 w-4" />
-              <span>Pending ({pendingRequests.length})</span>
-            </TabsTrigger>
-            <TabsTrigger value="approved" className="flex items-center gap-3">
-              <CheckCircle2 className="h-4 w-4" />
-              <span>Approved</span>
-            </TabsTrigger>
-            <TabsTrigger value="rejected" className="flex items-center gap-3">
-              <XCircle className="h-4 w-4" />
-              <span>Rejected</span>
-            </TabsTrigger>
+      <div className="space-y-4">
+        <Tabs value={statusFilter} className="w-full">
+          <TabsList variant="line">
+            <Link href="?status=all">
+              <TabsTrigger value="all" className="flex items-center gap-3">
+                <Inbox className="h-4 w-4" />
+                <span>All Requests</span>
+              </TabsTrigger>
+            </Link>
+            <Link href="?status=pending">
+              <TabsTrigger value="pending" className="flex items-center gap-3 text-amber-500">
+                <Clock className="h-4 w-4" />
+                <span>Pending</span>
+              </TabsTrigger>
+            </Link>
+            <Link href="?status=approved">
+              <TabsTrigger value="approved" className="flex items-center gap-3 text-emerald-500">
+                <CheckCircle2 className="h-4 w-4" />
+                <span>Approved</span>
+              </TabsTrigger>
+            </Link>
+            <Link href="?status=rejected">
+              <TabsTrigger value="rejected" className="flex items-center gap-3 text-rose-500">
+                <XCircle className="h-4 w-4" />
+                <span>Rejected</span>
+              </TabsTrigger>
+            </Link>
           </TabsList>
-
-          {/* <TabsContent value="all">
-            <DataTable columns={userMealOffColumns} data={myRequests} />
-          </TabsContent>
-          
-          <TabsContent value="pending">
-            <DataTable columns={userMealOffColumns} data={pendingRequests} />
-          </TabsContent>
-
-          <TabsContent value="approved">
-            <DataTable columns={userMealOffColumns} data={myRequests.filter(r => r.status === "approved")} />
-          </TabsContent>
-
-          <TabsContent value="rejected">
-            <DataTable columns={userMealOffColumns} data={myRequests.filter(r => r.status === "rejected")} />
-          </TabsContent> */}
         </Tabs>
+
+        <DataTable columns={userMealOffColumns} data={requests} meta={meta} />
       </div>
     </DashboardPageLayout>
   );

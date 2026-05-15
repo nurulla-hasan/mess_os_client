@@ -4,20 +4,12 @@ import React from "react";
 import { SearchInput } from "@/components/ui/custom/search-input";
 import { format } from "date-fns";
 import { useSmartFilter } from "@/hooks/useSmartFilter";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { DatePickerWithRange } from "@/components/ui/date-range-picker";
 import { DateRange } from "react-day-picker";
 
 export function OffRequestFilters() {
-  const { getFilter, updateFilter, updateBatch } = useSmartFilter();
+  const { getFilter, updateBatch } = useSmartFilter();
   
-  const statusFilter = getFilter("status", "all");
   const startDate = getFilter("startDate");
   const endDate = getFilter("endDate");
 
@@ -55,21 +47,6 @@ export function OffRequestFilters() {
         filterKey="searchTerm" 
         placeholder="Search member..." 
       />
-      
-      <Select 
-        value={statusFilter} 
-        onValueChange={(val) => updateFilter("status", val === "all" ? null : val)}
-      >
-        <SelectTrigger className="w-full xl:w-40">
-          <SelectValue placeholder="Status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Requests</SelectItem>
-          <SelectItem value="pending">Pending</SelectItem>
-          <SelectItem value="approved">Approved</SelectItem>
-          <SelectItem value="rejected">Rejected</SelectItem>
-        </SelectContent>
-      </Select>
     </div>
   );
 }
