@@ -8,16 +8,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calendar } from "lucide-react";
 import { IBillingCycle } from "@/types/billing.type";
 import { format } from "date-fns";
 
 interface CycleSelectorProps {
   cycles: IBillingCycle[];
-  selectedId: string;
+  initialId: string;
 }
 
-export function CycleSelector({ cycles, selectedId }: CycleSelectorProps) {
+export function CycleSelector({ cycles, initialId }: CycleSelectorProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -28,18 +27,19 @@ export function CycleSelector({ cycles, selectedId }: CycleSelectorProps) {
   };
 
   return (
-    <Select value={selectedId} onValueChange={handleValueChange}>
-      <SelectTrigger className="w-56 shadow-sm">
-        <Calendar className="mr-2 h-4 w-4 text-primary" />
+    <Select value={initialId} onValueChange={handleValueChange}>
+      <SelectTrigger className="w-full shadow-sm bg-background">
         <SelectValue placeholder="Select Cycle" />
       </SelectTrigger>
       <SelectContent>
         {cycles.map((cycle) => (
           <SelectItem key={cycle._id} value={cycle._id}>
-            {format(new Date(cycle.year, cycle.month - 1), "MMMM yyyy")} 
-            <span className="ml-2 text-xs text-muted-foreground uppercase">
-              ({cycle.status})
-            </span>
+            <div className="flex items-center justify-between gap-4 w-full">
+              <span>{format(new Date(cycle.year, cycle.month - 1), "MMMM yyyy")}</span>
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-2 py-0.5 rounded-full bg-muted">
+                {cycle.status}
+              </span>
+            </div>
           </SelectItem>
         ))}
       </SelectContent>
