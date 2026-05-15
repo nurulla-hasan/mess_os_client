@@ -89,7 +89,7 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
                     <div className={`p-3 rounded-lg ${action.bg} group-hover:scale-110 transition-transform`}>
                       <action.icon className={`h-5 w-5 ${action.color}`} />
                     </div>
-                    <span className="text-sm font-bold">{action.title}</span>
+                    <span className="text-sm font-semibold">{action.title}</span>
                   </CardContent>
                 </Card>
               </Link>

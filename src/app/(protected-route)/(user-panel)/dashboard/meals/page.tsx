@@ -65,7 +65,7 @@ export default async function MemberMealsPage({
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Monthly Summary Cards */}
         <div className="lg:col-span-1 space-y-4">
-          <Card>
+          <Card className="gap-2">
             <CardHeader>
               <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <Utensils className="h-4 w-4 text-primary" />
@@ -78,7 +78,7 @@ export default async function MemberMealsPage({
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="gap-2">
             <CardHeader>
               <CardTitle className="text-sm font-bold flex items-center gap-3">
                 <TrendingUp className="h-4 w-4 text-emerald-500" />

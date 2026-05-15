@@ -76,7 +76,7 @@ export default async function MemberExpensesPage({
       {/* Expense Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="bg-rose-500/5 border-rose-500/20 shadow-none">
-          <CardContent className="flex flex-col gap-1 p-4">
+          <CardContent className="flex flex-col gap-1">
             <div className="flex items-center gap-3 text-rose-500">
               <Wallet className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Total Approved</span>
@@ -85,7 +85,7 @@ export default async function MemberExpensesPage({
           </CardContent>
         </Card>
         <Card className="bg-amber-500/5 border-amber-500/20 shadow-none">
-          <CardContent className="flex flex-col gap-1 p-4">
+          <CardContent className="flex flex-col gap-1">
             <div className="flex items-center gap-3 text-amber-500">
               <Clock className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Pending Approval</span>
@@ -94,7 +94,7 @@ export default async function MemberExpensesPage({
           </CardContent>
         </Card>
         <Card className="bg-emerald-500/5 border-emerald-500/20 shadow-none">
-          <CardContent className="flex flex-col gap-1 p-4">
+          <CardContent className="flex flex-col gap-1">
             <div className="flex items-center gap-3 text-emerald-500">
               <ArrowDownRight className="h-4 w-4" />
               <span className="text-xs font-bold uppercase tracking-wider">Reimbursed</span>
