@@ -131,7 +131,7 @@ export function ViewExpenseModal({ expense, messId, isManager = false }: ViewExp
         </Button>
       }
     >
-      <div className="p-0">
+      <div className="p-0 max-h-[50vh] overflow-y-auto">
         <div className="flex items-center gap-5 p-5 bg-muted dark:bg-muted border-b">
           <Avatar className="h-14 w-14 border border-primary/10 shadow-sm">
             <AvatarImage src={user?.avatar} alt={user?.fullName} />

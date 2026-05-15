@@ -5,25 +5,25 @@ import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, X, HandCoins } from "lucide-react";
+import { Check, X, HandCoins, Ban, XCircle } from "lucide-react";
 import { IExpense } from "@/types/expense.type";
 import { updateExpenseStatus, reimburseExpense } from "@/services/expense.service";
 import { SuccessToast, ErrorToast, formatDate, getInitials } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ViewExpenseModal } from "./view-expense-modal";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
-import { usePathname } from "next/navigation";
+import { useUser } from "@/providers/user-provider";
 
 interface ActionButtonsProps {
   expense: IExpense;
 }
 
 function ActionButtons({ expense }: ActionButtonsProps) {
-  const pathname = usePathname();
-  const isManager = pathname.includes("/manager/");
+  const { role } = useUser();
+  const isManager = role === "manager";
   const [isLoading, setIsLoading] = React.useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
-  const [actionType, setActionType] = React.useState<"approved" | "rejected" | "reimburse" | null>(null);
+  const [actionType, setActionType] = React.useState<"approved" | "rejected" | "canceled" | "reimburse" | null>(null);
 
   const handleAction = async () => {
     if (!actionType) return;
@@ -49,15 +49,43 @@ function ActionButtons({ expense }: ActionButtonsProps) {
     }
   };
 
-  const openConfirm = (type: "approved" | "rejected" | "reimburse") => {
+  const openConfirm = (type: "approved" | "rejected" | "canceled" | "reimburse") => {
     setActionType(type);
     setIsConfirmOpen(true);
+  };
+
+  const modalCopy = {
+    approved: {
+      title: "Approve Expense",
+      description: "Approve this expense record? This will affect the mess balance.",
+      confirmText: "Approve",
+      variant: "default" as const,
+    },
+    rejected: {
+      title: "Reject Expense",
+      description: "Reject this pending expense record?",
+      confirmText: "Reject",
+      variant: "destructive" as const,
+    },
+    canceled: {
+      title: "Cancel Expense",
+      description: "Cancel this pending expense request? This action cannot be undone.",
+      confirmText: "Cancel Request",
+      variant: "destructive" as const,
+    },
+    reimburse: {
+      title: "Confirm Reimbursement",
+      description: "Mark this expense as reimbursed? Ensure the member has been paid.",
+      confirmText: "Confirm Paid",
+      variant: "default" as const,
+    }
   };
 
   return (
     <div className="flex items-center justify-end gap-1">
       <ViewExpenseModal expense={expense} messId={expense.messId} isManager={isManager} />
 
+      {/* Manager Controls */}
       {isManager && expense.status === "pending" && (
         <>
           <Button
@@ -65,6 +93,7 @@ function ActionButtons({ expense }: ActionButtonsProps) {
             size="icon-sm"
             className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
             onClick={() => openConfirm("approved")}
+            title="Approve"
           >
             <Check className="h-4 w-4" />
           </Button>
@@ -72,14 +101,39 @@ function ActionButtons({ expense }: ActionButtonsProps) {
           <Button
             variant="outline"
             size="icon-sm"
-            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+            className="text-amber-600 hover:text-amber-700 hover:bg-amber-50"
             onClick={() => openConfirm("rejected")}
+            title="Reject"
           >
             <X className="h-4 w-4" />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+            onClick={() => openConfirm("canceled")}
+            title="Cancel"
+          >
+            <Ban className="h-4 w-4" />
           </Button>
         </>
       )}
 
+      {/* Member Controls (Dashboard) */}
+      {!isManager && expense.status === "pending" && (
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
+          onClick={() => openConfirm("canceled")}
+          title="Cancel My Request"
+        >
+          <XCircle className="h-4 w-4" />
+        </Button>
+      )}
+
+      {/* Reimbursement Control (Manager Only) */}
       {isManager &&
         expense.status === "approved" &&
         expense.fundSource === "personal_cash" &&
@@ -89,6 +143,7 @@ function ActionButtons({ expense }: ActionButtonsProps) {
             size="icon-sm"
             className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
             onClick={() => openConfirm("reimburse")}
+            title="Reimburse"
           >
             <HandCoins className="h-4 w-4" />
           </Button>
@@ -99,10 +154,10 @@ function ActionButtons({ expense }: ActionButtonsProps) {
           open={isConfirmOpen}
           onOpenChange={setIsConfirmOpen}
           trigger={null}
-          title={actionType === "reimburse" ? "Confirm Reimbursement" : `Confirm ${actionType}`}
-          description={`Are you sure you want to mark this expense as ${actionType === "reimburse" ? "reimbursed" : actionType}?`}
-          confirmText={actionType === "reimburse" ? "Confirm Paid" : "Confirm"}
-          variant={actionType === "rejected" ? "destructive" : "default"}
+          title={modalCopy[actionType].title}
+          description={modalCopy[actionType].description}
+          confirmText={modalCopy[actionType].confirmText}
+          variant={modalCopy[actionType].variant}
           isLoading={isLoading}
           onConfirm={handleAction}
         />
@@ -181,7 +236,7 @@ export const columns: ColumnDef<IExpense>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status;
-      const badgeVariant = status === "approved" ? "success" : (status === "canceled" ? "muted" : status);
+      const badgeVariant = status === "approved" ? "success" : (status === "canceled" ? "secondary" : status);
       return (
         <Badge variant={badgeVariant as any}>
           {status}
