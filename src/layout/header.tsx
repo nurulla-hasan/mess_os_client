@@ -126,12 +126,20 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem asChild>
-                    <Link href="/manager/profile">Profile</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/manager/mess-settings">Settings</Link>
-                  </DropdownMenuItem>
+                  {user?.globalRole === "manager" ? (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/manager/profile">Profile</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/manager/mess-settings">Settings</Link>
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/profile">Profile</Link>
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>

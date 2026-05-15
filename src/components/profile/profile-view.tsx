@@ -179,10 +179,10 @@ export function ProfileView({ user, role }: { user: IUser; role: "manager" | "me
           </Card>
 
           <Card className="border-rose-500/20 bg-rose-500/5 overflow-hidden">
-            <CardContent className="p-0">
+            <CardContent>
               <Button 
                 variant="ghost" 
-                className="w-full justify-start h-12 rounded-none text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 font-bold transition-all px-6"
+                className="w-full justify-start rounded-none text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/30 font-bold transition-all px-6"
                 onClick={handleLogout}
               >
                 <LogOut className="mr-2 h-4 w-4" /> Sign Out
