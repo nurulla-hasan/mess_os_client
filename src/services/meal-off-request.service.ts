@@ -35,6 +35,7 @@ export const getMessMealOffRequests = async (
 export interface CreateMealOffRequestPayload {
   startDate: string;
   endDate: string;
+  meals?: string[];
   reason: string;
 }
 

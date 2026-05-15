@@ -8,6 +8,7 @@ export interface IMealOffRequest {
   messMemberId: IMember;
   startDate: string;
   endDate: string;
+  meals?: string[];
   status: MealOffRequestStatus;
   reason: string;
   adminNote?: string;

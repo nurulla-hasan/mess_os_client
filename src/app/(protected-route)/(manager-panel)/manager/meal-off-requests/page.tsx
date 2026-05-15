@@ -3,6 +3,7 @@ import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/meals/off-requests-columns";
 import { getMessMealOffRequests, getMyMealOffRequests } from "@/services/meal-off-request.service";
+import { getMessDetails } from "@/services/mess.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { AlertCircle, ClipboardList, UserCircle } from "lucide-react";
 import { SearchParams, QueryParams } from "@/types/global.type";
@@ -21,10 +22,18 @@ export default async function ManagerMealOffRequestsPage({
   if (!activeMessId) {
     return (
       <DashboardPageLayout>
-        <div className="flex flex-col items-center justify-center min-h-100 space-y-4 text-center">
-          <AlertCircle className="h-10 w-10 text-muted-foreground opacity-20" />
-          <h2 className="text-lg font-bold">No Active Mess</h2>
-          <p className="text-sm text-muted-foreground">Select a mess to manage meal off requests.</p>
+        <DashboardPageHeader
+          title="Meal Off Requests"
+          description="Review and manage member requests."
+        />
+        <div className="mt-6 p-4 rounded-lg border border-dashed border-primary/30 bg-primary/5 flex gap-3">
+          <AlertCircle className="h-5 w-5 text-primary shrink-0" />
+          <div className="space-y-1">
+            <p className="text-sm font-medium">No Active Mess</p>
+            <p className="text-xs text-muted-foreground">
+              Please join a mess to see meal off requests.
+            </p>
+          </div>
         </div>
       </DashboardPageLayout>
     );
@@ -37,6 +46,9 @@ export default async function ManagerMealOffRequestsPage({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { view: _view, ...apiParams } = params;
   
+  const { data: messDetails } = await getMessDetails(activeMessId);
+  const mealCategories = messDetails?.settings?.mealCategories || [];
+
   const { data, meta } = await (view === "my" 
     ? getMyMealOffRequests(activeMessId, apiParams)
     : getMessMealOffRequests(activeMessId, apiParams));
@@ -50,7 +62,10 @@ export default async function ManagerMealOffRequestsPage({
         />
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <OffRequestFilters />
-          <CreateMealOffRequestModal messId={activeMessId} />
+          <CreateMealOffRequestModal 
+            messId={activeMessId} 
+            mealCategories={mealCategories}
+          />
         </div>
       </div>
 

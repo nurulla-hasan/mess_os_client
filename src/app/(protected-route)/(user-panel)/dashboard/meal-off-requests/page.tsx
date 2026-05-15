@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { getMyMealOffRequests } from "@/services/meal-off-request.service";
+import { getMessDetails } from "@/services/mess.service";
 import { CreateMealOffRequestModal } from "@/components/meals/create-off-request-modal";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -53,6 +54,9 @@ export default async function MemberMealOffRequestsPage({
   const apiParams = { ...params };
   if (statusFilter === "all") delete apiParams.status;
   
+  const { data: messDetails } = await getMessDetails(activeMessId);
+  const mealCategories = messDetails?.settings?.mealCategories || [];
+
   const { data, meta } = await getMyMealOffRequests(activeMessId, apiParams);
   
   const requests = data || [];
@@ -64,7 +68,10 @@ export default async function MemberMealOffRequestsPage({
           title="Meal Off Requests"
           description="Request to skip meals for a specific date range. Manager approval is required."
         />
-        <CreateMealOffRequestModal messId={activeMessId} />
+        <CreateMealOffRequestModal 
+          messId={activeMessId} 
+          mealCategories={mealCategories}
+        />
       </div>
 
       <div className="space-y-4">

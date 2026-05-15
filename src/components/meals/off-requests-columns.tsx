@@ -164,6 +164,24 @@ export const columns: ColumnDef<IMealOffRequest>[] = [
     },
   },
   {
+    accessorKey: "meals",
+    header: "Off Meals",
+    cell: ({ row }) => {
+      const meals = row.original.meals;
+      if (!meals || meals.length === 0) return <Badge variant="success">Full Day</Badge>;
+      
+      return (
+        <div className="flex flex-wrap gap-1">
+          {meals.map((meal) => (
+            <Badge key={meal} variant="info">
+              {meal}
+            </Badge>
+          ))}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "reason",
     header: "Reason",
     cell: ({ row }) => (

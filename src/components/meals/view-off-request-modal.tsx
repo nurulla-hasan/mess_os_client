@@ -145,6 +145,13 @@ export function ViewOffRequestModal({ request }: ViewOffRequestModalProps) {
               variant="info"
             />
             <DetailItem
+              icon={Clock}
+              label="Off Meals"
+              value={request.meals && request.meals.length > 0 ? request.meals.join(", ") : "Full Day"}
+              subValue="Selected categories"
+              variant="warning"
+            />
+            <DetailItem
               icon={MessageSquare}
               label="Submission"
               value={format(new Date(request.createdAt), "MMM dd, hh:mm a")}
