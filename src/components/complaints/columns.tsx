@@ -13,12 +13,16 @@ import { useRouter } from "next/navigation";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { Textarea } from "@/components/ui/textarea";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { useUser } from "@/providers/user-provider";
+import { ViewComplaintModal } from "./view-complaint-modal";
 
 interface ActionButtonsProps {
   complaint: IComplaint;
 }
 
 function ActionButtons({ complaint }: ActionButtonsProps) {
+  const { role } = useUser();
+  const isManager = role === "manager";
   const [isLoading, setIsLoading] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
   const [pendingStatus, setPendingStatus] = React.useState<ComplaintStatus | null>(null);
@@ -28,7 +32,6 @@ function ActionButtons({ complaint }: ActionButtonsProps) {
   const handleStatusUpdate = async () => {
     if (!pendingStatus) return;
     
-    // Note is required for terminal states
     if ((pendingStatus === "resolved" || pendingStatus === "rejected") && !resolvedNote.trim()) {
       ErrorToast("Please provide a resolution note.");
       return;
@@ -59,45 +62,50 @@ function ActionButtons({ complaint }: ActionButtonsProps) {
 
   const currentStatus = complaint.status;
 
-  if (currentStatus === "resolved" || currentStatus === "rejected") {
-    return null;
-  }
-
   return (
-    <div className="flex items-center justify-end gap-2">
-      {currentStatus === "open" && (
-        <Button
-          variant="outline"
-          size="icon-sm"
-          className="text-amber-600 hover:text-amber-700"
-          onClick={() => openConfirm("in_progress")}
-          disabled={isLoading}
-        >
-          <Clock className="h-4 w-4" />
-        </Button>
+    <div className="flex items-center justify-end gap-1">
+      <ViewComplaintModal complaint={complaint} />
+
+      {isManager && (currentStatus === "open" || currentStatus === "in_progress") && (
+        <>
+          {currentStatus === "open" && (
+            <Button
+              variant="outline"
+              size="icon-sm"
+              className="text-amber-600 hover:text-amber-700"
+              onClick={() => openConfirm("in_progress")}
+              disabled={isLoading}
+              title="Mark In Progress"
+            >
+              <Clock className="h-3.5 w-3.5" />
+            </Button>
+          )}
+
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="text-emerald-600 hover:text-emerald-700"
+            onClick={() => openConfirm("resolved")}
+            disabled={isLoading}
+            title="Mark Resolved"
+          >
+            <CheckCircle2 className="h-3.5 w-3.5" />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="text-rose-600 hover:text-rose-700"
+            onClick={() => openConfirm("rejected")}
+            disabled={isLoading}
+            title="Mark Rejected"
+          >
+            <XCircle className="h-3.5 w-3.5" />
+          </Button>
+        </>
       )}
 
-      <Button
-        variant="outline"
-        size="icon-sm"
-        className="text-emerald-600 hover:text-emerald-700"
-        onClick={() => openConfirm("resolved")}
-        disabled={isLoading}
-      >
-        <CheckCircle2 className="h-4 w-4" />
-      </Button>
-
-      <Button
-        variant="outline"
-        size="icon-sm"
-        className="text-rose-600 hover:text-rose-700"
-        onClick={() => openConfirm("rejected")}
-        disabled={isLoading}
-      >
-        <XCircle className="h-4 w-4" />
-      </Button>
-
-      {pendingStatus && (
+      {isManager && pendingStatus && (
         <ConfirmationModal
           open={confirmOpen}
           onOpenChange={(open) => {
@@ -112,7 +120,7 @@ function ActionButtons({ complaint }: ActionButtonsProps) {
           description={
             pendingStatus === "in_progress" 
               ? "Update status to in progress." 
-              : `This is a terminal state. Provide a note to ${pendingStatus} this complaint.`
+              : `Provide a resolution note to ${pendingStatus} this complaint.`
           }
           confirmText="Confirm Update"
           isLoading={isLoading}
@@ -140,20 +148,20 @@ function ActionButtons({ complaint }: ActionButtonsProps) {
 export const columns: ColumnDef<IComplaint>[] = [
   {
     accessorKey: "title",
-    header: "Title & Reporter",
+    header: "Complaint Detail",
     cell: ({ row }) => {
       const user = row.original.messMemberId.user;
       return (
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8 border border-primary/10">
             <AvatarImage src={user.avatar} alt={user.fullName} />
-            <AvatarFallback className="text-xs">
+            <AvatarFallback className="text-xs font-bold bg-primary/5">
               {user.fullName.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
               by {user.fullName}
             </span>
           </div>

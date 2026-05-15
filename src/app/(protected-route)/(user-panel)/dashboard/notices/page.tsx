@@ -59,9 +59,9 @@ export default async function MemberNoticesPage({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {pinnedNotices.map((notice) => (
               <Card key={notice._id} className="border-primary/20 bg-primary/5 shadow-none overflow-hidden group hover:bg-primary/10 transition-colors">
-                <CardContent className="flex items-center justify-between">
+                <CardContent className="flex items-center justify-between p-5">
                   <div className="flex flex-col gap-1 min-w-0">
-                    <h3 className="text-sm font-bild truncate">{notice.title}</h3>
+                    <h3 className="text-sm font-bold truncate">{notice.title}</h3>
                     <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
                       By {notice.createdBy.fullName} • {format(new Date(notice.createdAt), "MMM dd, yyyy")}
                     </p>

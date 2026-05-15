@@ -21,6 +21,7 @@ export interface IComplaint {
   title: string;
   description: string;
   status: ComplaintStatus;
+  resolvedNote?: string;
   createdAt: string;
   updatedAt: string;
 }
