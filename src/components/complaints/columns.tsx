@@ -161,7 +161,7 @@ export const columns: ColumnDef<IComplaint>[] = [
           </Avatar>
           <div className="flex flex-col">
             <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
-            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
+            <span className="text-xs text-muted-foreground uppercase font-bold">
               by {user.fullName}
             </span>
           </div>
