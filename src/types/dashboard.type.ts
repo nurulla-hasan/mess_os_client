@@ -68,3 +68,119 @@ export interface IManagerDashboardData {
   };
   pendingActions: IPendingActions;
 }
+
+export interface IBillingInfo {
+  activeCycle: {
+    _id: string;
+    year: number;
+    month: number;
+    status: string;
+    summary: {
+      totalMeals: number;
+      totalMealExpense: number;
+      totalEqualShareExpense: number;
+      mealRate: number;
+    };
+  };
+  latestBill: {
+    _id: string;
+    status: string;
+    summary: {
+      meals: number;
+      mealRate: number;
+      mealCharge: number;
+      equalShare: number;
+      previousDue: number;
+      totalPaymentsAndCredits: number;
+      finalPayable: number;
+      finalDue: number;
+      finalAdvance: number;
+    };
+  };
+  balance: {
+    type: "due" | "advance";
+    amount: number;
+    finalDue: number;
+    finalAdvance: number;
+    status: string;
+  };
+}
+
+export interface IMealStats {
+  month: number;
+  year: number;
+  total: number;
+  records: number;
+  breakdown: {
+    [key: string]: number;
+  };
+}
+
+export interface IMarketDutyAssignee {
+  _id: string;
+  userId: {
+    _id: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    avatar?: string;
+  };
+  messRole: string;
+  status: string;
+}
+
+export interface IMarketDuty {
+  next: {
+    _id: string;
+    targetDate: string;
+    shoppingItems: {
+      name: string;
+      quantity: string;
+      _id: string;
+    }[];
+    estimatedBudget: number;
+    status: string;
+    assignedTo: IMarketDutyAssignee[];
+  } | null;
+}
+
+export interface IRecentActivity {
+  type: "payment" | "notice";
+  title: string;
+  description: string;
+  status?: string;
+  amount?: number;
+  createdAt: string;
+  refId: string;
+}
+
+export interface IDashboardPayment {
+  _id: string;
+  reference: string;
+  amount: number;
+  createdAt: string;
+  method: string;
+  receivedDate: string;
+  status: string;
+  updatedAt: string;
+}
+
+export interface IMemberDashboardData {
+  mess: IMess;
+  subscription: ISubscriptionInfo;
+  member: {
+    _id: string;
+    role: string;
+  };
+  billing: IBillingInfo;
+  meals: IMealStats;
+  marketDuty: IMarketDuty;
+  recent: {
+    activity: IRecentActivity[];
+    payments: IDashboardPayment[];
+    notices: INoticeItem[];
+  };
+  quickLinks: {
+    [key: string]: boolean;
+  };
+}

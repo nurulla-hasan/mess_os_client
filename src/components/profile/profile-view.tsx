@@ -169,7 +169,7 @@ export function ProfileView({ user, role }: { user: IUser; role: "manager" | "me
                 Change Password
               </Button>
               <div className="p-3 bg-muted/30 rounded-lg border border-border/50">
-                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Status</p>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">Status</p>
                 <div className="flex items-center gap-2">
                   <div className={`h-2 w-2 rounded-full ${user.status === "active" ? "bg-emerald-500" : "bg-rose-500"}`} />
                   <p className="text-xs font-bold capitalize">{user.status}</p>

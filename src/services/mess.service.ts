@@ -6,9 +6,36 @@ import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams, ApiResponse } from "@/types/global.type";
 import { IMember, IMemberOption } from "@/types/member.type";
 import { IMess } from "@/types/mess.type";
-import { IManagerDashboardData } from "@/types/dashboard.type";
+import { IManagerDashboardData, IMemberDashboardData } from "@/types/dashboard.type";
 
 // ─── Service Functions ────────────────────────────────────────────────────────
+
+export const getMemberDashboard = async (
+  messId: string,
+): Promise<ApiResponse<IMemberDashboardData>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/member-dashboard`, {
+      method: "GET",
+      tags: [
+        "dashboard-stats",
+        "mess-details",
+        "meals",
+        "market-schedules",
+        "meal-off-requests",
+        "mess-members",
+        "notices",
+        "payments",
+      ],
+    })) as ApiResponse<IMemberDashboardData>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message:
+        (error as Error)?.message || "Failed to fetch member dashboard data.",
+      data: null as unknown as IMemberDashboardData,
+    };
+  }
+};
 
 export const createMess = async (
   data: Record<string, unknown>,
