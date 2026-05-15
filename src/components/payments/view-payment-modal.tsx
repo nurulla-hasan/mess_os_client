@@ -34,7 +34,7 @@ export function ViewPaymentModal({ payment }: ViewPaymentModalProps) {
       }
       showClose
     >
-      <div className="p-6 space-y-5">
+      <div className="p-6 space-y-5 max-h-[50vh] overflow-y-auto">
         <div className="flex items-center justify-between rounded-lg border bg-muted/40 p-4">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 rounded-md bg-primary/10 flex items-center justify-center text-primary">
@@ -65,7 +65,7 @@ export function ViewPaymentModal({ payment }: ViewPaymentModalProps) {
 
         <div className="space-y-2 rounded-md border p-3">
           <p className="text-xs text-muted-foreground uppercase flex items-center gap-2"><ReceiptText className="h-4 w-4" /> Reference</p>
-          <p className="text-sm break-words">{payment.reference || "No reference provided."}</p>
+          <p className="text-sm wrap-break-word">{payment.reference || "No reference provided."}</p>
         </div>
 
         {payment.receivedDate && (

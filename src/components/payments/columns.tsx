@@ -1,15 +1,16 @@
 "use client";
 
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Check, X, XCircle } from "lucide-react";
+import { Check, X, XCircle, Ban } from "lucide-react";
 import { format } from "date-fns";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { ErrorToast, SuccessToast, getInitials } from "@/lib/utils";
 import { updatePaymentStatus } from "@/services/payment.service";
+import { useUser } from "@/providers/user-provider";
 import { IPayment, IPaymentMember, PaymentStatus } from "@/types/payment.type";
 import { ViewPaymentModal } from "./view-payment-modal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -24,8 +25,8 @@ interface ActionButtonsProps {
 
 function ActionButtons({ payment }: ActionButtonsProps) {
   const router = useRouter();
-  const pathname = usePathname();
-  const isManagerRoute = pathname.startsWith("/manager");
+  const { role } = useUser();
+  const isManager = role === "manager";
   const [isLoading, setIsLoading] = React.useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
   const [actionType, setActionType] = React.useState<Extract<PaymentStatus, "approved" | "rejected" | "canceled"> | null>(null);
@@ -69,7 +70,7 @@ function ActionButtons({ payment }: ActionButtonsProps) {
     },
     canceled: {
       title: "Cancel Payment",
-      description: "Cancel this pending payment record?",
+      description: "Cancel this pending payment record? This action cannot be undone.",
       confirmText: "Cancel Payment",
       variant: "destructive" as const,
     },
@@ -79,20 +80,49 @@ function ActionButtons({ payment }: ActionButtonsProps) {
     <div className="flex items-center justify-end gap-1">
       <ViewPaymentModal payment={payment} />
 
-      {isManagerRoute && payment.status === "pending" && (
+      {/* Manager Controls */}
+      {isManager && payment.status === "pending" && (
         <>
-          <Button variant="outline" size="icon-sm" className="text-emerald-600" onClick={() => openModal("approved")}>
-            <Check />
+          <Button 
+            variant="outline" 
+            size="icon-sm" 
+            className="text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" 
+            onClick={() => openModal("approved")}
+            title="Approve"
+          >
+            <Check className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon-sm" className="text-rose-600" onClick={() => openModal("rejected")}>
-            <X />
+          <Button 
+            variant="outline" 
+            size="icon-sm" 
+            className="text-amber-600 hover:text-amber-700 hover:bg-amber-50" 
+            onClick={() => openModal("rejected")}
+            title="Reject"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="outline" 
+            size="icon-sm" 
+            className="text-rose-600 hover:text-rose-700 hover:bg-rose-50" 
+            onClick={() => openModal("canceled")}
+            title="Cancel"
+          >
+            <Ban className="h-4 w-4" />
           </Button>
         </>
       )}
 
-      {!isManagerRoute && payment.status === "pending" && (
-        <Button variant="outline" size="icon-sm" className="text-rose-600" onClick={() => openModal("canceled")}>
-          <XCircle />
+      {/* Member Controls (Dashboard) */}
+      {!isManager && payment.status === "pending" && (
+        <Button 
+          variant="outline" 
+          size="icon-sm" 
+          className="text-rose-600 hover:text-rose-700 hover:bg-rose-50" 
+          onClick={() => openModal("canceled")}
+          title="Cancel My Request"
+        >
+          <XCircle className="h-4 w-4" />
         </Button>
       )}
 
@@ -167,7 +197,7 @@ export const columns: ColumnDef<IPayment>[] = [
         canceled: "secondary",
       };
 
-      return <Badge variant={variantMap[status]}>{status}</Badge>;
+      return <Badge variant={variantMap[status]} className="capitalize">{status}</Badge>;
     },
   },
   {

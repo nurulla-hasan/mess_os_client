@@ -7,12 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { RotateCcw } from "lucide-react";
 import { useSmartFilter } from "@/hooks/useSmartFilter";
 
 export function PaymentFilters() {
-  const { getFilter, updateFilter, clearAll, isFilterActive } = useSmartFilter();
+  const { getFilter, updateFilter } = useSmartFilter();
 
   return (
     <div className="flex flex-wrap items-center gap-3">
@@ -31,18 +29,6 @@ export function PaymentFilters() {
           <SelectItem value="canceled">Canceled</SelectItem>
         </SelectContent>
       </Select>
-
-      {isFilterActive() && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => clearAll()}
-          className="h-10 px-3 text-muted-foreground hover:text-foreground"
-        >
-          <RotateCcw className="mr-2 h-4 w-4" />
-          Reset
-        </Button>
-      )}
     </div>
   );
 }
