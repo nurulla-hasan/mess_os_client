@@ -132,7 +132,7 @@ export function CreateMealOffRequestModal({
               </div>
             ))}
           </div>
-          <p className="text-[10px] text-muted-foreground italic">
+          <p className="text-xs text-muted-foreground italic">
             * Selected meals will be suspended for the selected dates.
           </p>
         </div>

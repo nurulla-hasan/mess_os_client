@@ -31,8 +31,8 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
       header: "Reference",
       cell: ({ row }) => (
         <div className="flex flex-col">
-          <span className="text-xs font-black uppercase text-primary truncate max-w-[200px]">{row.original.reference}</span>
-          <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tight">Method: {row.original.method}</span>
+          <span className="text-xs font-bold uppercase text-primary truncate max-w-[200px]">{row.original.reference}</span>
+          <span className="text-xs text-muted-foreground font-bold uppercase">Method: {row.original.method}</span>
         </div>
       ),
     },
@@ -47,14 +47,14 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
       accessorKey: "amount",
       header: "Amount",
       cell: ({ row }) => (
-        <span className="text-sm font-black text-emerald-600">৳{row.original.amount.toLocaleString()}</span>
+        <span className="text-sm font-bold text-emerald-600">৳{row.original.amount.toLocaleString()}</span>
       ),
     },
     {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <Badge variant="success" className="h-5 px-2 text-[10px] font-black uppercase">
+        <Badge variant="success" className="h-5 px-2 text-xs font-bold uppercase">
           {row.original.status}
         </Badge>
       ),
@@ -71,8 +71,8 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
                 <TrendingUp className="h-5 w-5 text-emerald-600" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Total Payments</p>
-                <p className="text-2xl font-black text-emerald-600">৳{data.summary.totalAmount.toLocaleString()}</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Total Payments</p>
+                <p className="text-2xl font-bold text-emerald-600">৳{data.summary.totalAmount.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -84,8 +84,8 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
                 <Tag className="h-5 w-5 text-primary" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Total Records</p>
-                <p className="text-2xl font-black text-primary">{data.summary.totalRecords}</p>
+                <p className="text-xs font-bold uppercase text-muted-foreground tracking-widest">Total Records</p>
+                <p className="text-2xl font-bold text-primary">{data.summary.totalRecords}</p>
               </div>
             </div>
           </CardContent>

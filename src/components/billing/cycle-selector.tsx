@@ -36,7 +36,7 @@ export function CycleSelector({ cycles, initialId }: CycleSelectorProps) {
           <SelectItem key={cycle._id} value={cycle._id}>
             <div className="flex items-center justify-between gap-4 w-full">
               <span>{format(new Date(cycle.year, cycle.month - 1), "MMMM yyyy")}</span>
-              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-2 py-0.5 rounded-full bg-muted">
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest px-2 py-0.5 rounded-full bg-muted">
                 {cycle.status}
               </span>
             </div>

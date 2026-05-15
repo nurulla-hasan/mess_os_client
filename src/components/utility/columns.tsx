@@ -65,7 +65,7 @@ export const columns: ColumnDef<IUtilityBill>[] = [
     cell: ({ row }) => (
       <div className="flex flex-col">
         <span className="font-bold text-foreground text-sm">৳{row.original.amount.toLocaleString()}</span>
-        <span className="text-xs text-muted-foreground uppercase font-medium tracking-tight">
+        <span className="text-xs text-muted-foreground uppercase font-medium">
           Utility Charge
         </span>
       </div>

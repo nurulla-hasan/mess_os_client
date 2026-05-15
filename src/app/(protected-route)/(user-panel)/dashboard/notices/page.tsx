@@ -62,7 +62,7 @@ export default async function MemberNoticesPage({
                 <CardContent className="flex items-center justify-between p-5">
                   <div className="flex flex-col gap-1 min-w-0">
                     <h3 className="text-sm font-bold truncate">{notice.title}</h3>
-                    <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
+                    <p className="text-xs text-muted-foreground uppercase font-bold">
                       By {notice.createdBy.fullName} • {format(new Date(notice.createdAt), "MMM dd, yyyy")}
                     </p>
                   </div>

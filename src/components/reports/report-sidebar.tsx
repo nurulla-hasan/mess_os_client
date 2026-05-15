@@ -58,7 +58,7 @@ export function ReportSidebar({ activeType, role }: ReportSidebarProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xs font-black flex items-center gap-2 uppercase tracking-widest text-muted-foreground">
+        <CardTitle className="text-xs font-bold flex items-center gap-2 uppercase tracking-widest text-muted-foreground">
           <Filter className="h-3.5 w-3.5" />
           Select Report
         </CardTitle>
@@ -83,7 +83,7 @@ export function ReportSidebar({ activeType, role }: ReportSidebarProps) {
               <div className="flex flex-col min-w-0">
                 <span className="text-sm font-bold leading-none">{item.label}</span>
                 <span className={cn(
-                  "text-[10px] mt-1 truncate",
+                  "text-xs mt-1 truncate",
                   activeType === item.id ? "text-primary-foreground/70" : "text-muted-foreground"
                 )}>
                   {item.description}

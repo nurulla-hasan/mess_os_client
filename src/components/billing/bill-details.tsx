@@ -29,7 +29,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
         <div className="p-4 rounded-xl border bg-background space-y-2">
           <div className="flex items-center gap-3 text-muted-foreground">
             <Hash className="h-4 w-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Total Meals</span>
+            <span className="text-xs font-bold uppercase tracking-widest">Total Meals</span>
           </div>
           <p className="text-2xl font-bold">{summary.meals}</p>
         </div>
@@ -37,7 +37,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
         <div className="p-4 rounded-xl border bg-background space-y-2">
           <div className="flex items-center gap-3 text-muted-foreground">
             <Calculator className="h-4 w-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Meal Rate</span>
+            <span className="text-xs font-bold uppercase tracking-widest">Meal Rate</span>
           </div>
           <p className="text-2xl font-bold">৳{summary.mealRate.toFixed(2)}</p>
         </div>
@@ -45,7 +45,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
         <div className="p-4 rounded-xl border bg-background space-y-2">
           <div className="flex items-center gap-3 text-primary">
             <Receipt className="h-4 w-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Meal Charge</span>
+            <span className="text-xs font-bold uppercase tracking-widest">Meal Charge</span>
           </div>
           <p className="text-2xl font-bold">৳{summary.mealCharge.toLocaleString()}</p>
         </div>
@@ -53,7 +53,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
         <div className="p-4 rounded-xl border bg-background space-y-2">
           <div className="flex items-center gap-3 text-amber-500">
             <Scale className="h-4 w-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">Equal Shares</span>
+            <span className="text-xs font-bold uppercase tracking-widest">Equal Shares</span>
           </div>
           <p className="text-2xl font-bold">৳{summary.equalShare.toLocaleString()}</p>
         </div>
@@ -91,7 +91,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
 
             <div className="flex justify-between items-center py-2 text-primary">
               <span className="font-bold">Total Billable Amount</span>
-              <span className="text-lg font-black tracking-tight">৳{summary.finalPayable.toLocaleString()}</span>
+              <span className="text-lg font-bold">৳{summary.finalPayable.toLocaleString()}</span>
             </div>
           </CardContent>
         </Card>
@@ -123,7 +123,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
                   <ArrowUpRight className="h-5 w-5" />
                   <span className="font-bold">Net Payable (Due)</span>
                 </div>
-                <span className="text-xl font-black text-rose-600">৳{summary.finalDue.toLocaleString()}</span>
+                <span className="text-xl font-bold text-rose-600">৳{summary.finalDue.toLocaleString()}</span>
               </div>
             ) : summary.finalAdvance > 0 ? (
               <div className="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between">
@@ -131,7 +131,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
                   <ArrowDownRight className="h-5 w-5" />
                   <span className="font-bold">Advance Balance</span>
                 </div>
-                <span className="text-xl font-black text-emerald-600">৳{summary.finalAdvance.toLocaleString()}</span>
+                <span className="text-xl font-bold text-emerald-600">৳{summary.finalAdvance.toLocaleString()}</span>
               </div>
             ) : (
               <div className="p-4 rounded-lg bg-muted border flex items-center justify-between">
@@ -139,7 +139,7 @@ export function BillDetails({ bill }: BillDetailsProps) {
                   <CheckCircle2 className="h-5 w-5" />
                   <span className="font-bold">Bill Settled</span>
                 </div>
-                <span className="text-xl font-black">৳0</span>
+                <span className="text-xl font-bold">৳0</span>
               </div>
             )}
           </CardContent>

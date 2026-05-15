@@ -59,7 +59,7 @@ export function ViewComplaintModal({ complaint }: ViewComplaintModalProps) {
         </div>
 
         <div className="space-y-2">
-          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
             <MessageSquare className="h-3 w-3" /> Description
           </span>
           <div className="p-4 rounded-xl border bg-muted/20 text-sm leading-relaxed text-foreground/80 min-h-[100px]">
@@ -69,7 +69,7 @@ export function ViewComplaintModal({ complaint }: ViewComplaintModalProps) {
 
         {complaint.resolvedNote && (
           <div className="space-y-2">
-            <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2">
+            <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2">
               <CheckCircle2 className="h-3 w-3" /> Resolution Notes
             </span>
             <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-sm leading-relaxed text-foreground/90 italic">

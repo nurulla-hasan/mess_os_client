@@ -33,7 +33,7 @@ export function SummaryCard({
             <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
               {label}
             </p>
-            <h4 className="text-2xl font-bold tracking-tight text-foreground">
+            <h4 className="text-2xl font-bold text-foreground">
               {value}
             </h4>
             <p className="text-xs font-medium text-muted-foreground uppercase">

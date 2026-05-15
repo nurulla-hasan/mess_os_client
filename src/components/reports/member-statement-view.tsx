@@ -94,7 +94,7 @@ export function MemberStatementView({ statement, isLoading }: MemberStatementVie
                       <TableCell className="text-xs font-medium pl-6">{formatDate(ledger.date)}</TableCell>
                       <TableCell>
                         <p className="text-[11px] font-medium leading-tight max-w-[150px]">{ledger.description}</p>
-                        <span className="text-xs uppercase text-muted-foreground font-bold tracking-tighter">
+                        <span className="text-xs uppercase text-muted-foreground font-bolder">
                           {ledger.referenceType}
                         </span>
                       </TableCell>

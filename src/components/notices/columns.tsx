@@ -129,7 +129,7 @@ export const columns: ColumnDef<INotice>[] = [
         {row.original.isPinned && <Pin className="h-3 w-3 text-primary fill-primary" />}
         <div className="flex flex-col">
           <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
-          <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-tight">
+          <span className="text-xs text-muted-foreground uppercase font-bold">
             by {row.original.createdBy.fullName}
           </span>
         </div>
@@ -142,7 +142,7 @@ export const columns: ColumnDef<INotice>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge variant={status === "active" ? "success" : "muted"} className="capitalize font-bold px-2 py-0 h-5 text-[10px]">
+        <Badge variant={status === "active" ? "success" : "muted"} className="capitalize font-bold px-2 py-0 h-5 text-xs">
           {status}
         </Badge>
       );
