@@ -23,18 +23,16 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
       accessorKey: "receivedDate",
       header: "Date",
       cell: ({ row }) => (
-        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{formatDate(row.original.receivedDate)}</span>
+        <span className="text-sm text-muted-foreground">{formatDate(row.original.receivedDate)}</span>
       ),
     },
     {
       accessorKey: "reference",
-      header: "Ref & Method",
+      header: "Reference",
       cell: ({ row }) => (
-        <div className="flex flex-col gap-0.5">
-          <span className="text-xs font-bold uppercase text-primary tracking-tight truncate max-w-[150px]">{row.original.reference}</span>
-          <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider bg-muted w-fit px-1.5 rounded">
-            {row.original.method}
-          </span>
+        <div className="flex flex-col">
+          <span className="text-sm font-medium truncate max-w-[150px]">{row.original.reference || "No Reference"}</span>
+          <span className="text-xs text-muted-foreground capitalize">{row.original.method}</span>
         </div>
       ),
     },
@@ -43,10 +41,10 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
       header: "Member",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
+          <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground">
             {row.original.messMemberId.user.fullName.charAt(0)}
           </div>
-          <span className="text-xs font-bold text-muted-foreground uppercase">{row.original.messMemberId.user.fullName}</span>
+          <span className="text-sm">{row.original.messMemberId.user.fullName}</span>
         </div>
       ),
     },
@@ -61,7 +59,7 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <Badge variant="success" className="h-5 px-3 text-[10px] font-bold uppercase tracking-widest rounded-full border-none shadow-sm">
+        <Badge variant="success" className="capitalize font-medium">
           {row.original.status}
         </Badge>
       ),
@@ -72,13 +70,13 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card>
-          <CardContent className="p-0">
-            <div className="p-6 flex items-center gap-4">
+          <CardContent>
+            <div className="flex items-center gap-4">
               <div className="h-10 w-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
                 <TrendingUp className="h-5 w-5 text-emerald-600" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-0.5">Total Collections</p>
+                <p className="text-xs text-muted-foreground font-medium">Total Collections</p>
                 <p className="text-2xl font-bold text-emerald-600">৳{data.summary.totalAmount.toLocaleString()}</p>
               </div>
             </div>
@@ -86,13 +84,13 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
         </Card>
 
         <Card>
-          <CardContent className="p-0">
-            <div className="p-6 flex items-center gap-4">
+          <CardContent>
+            <div className="flex items-center gap-4">
               <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <Tag className="h-5 w-5 text-primary" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-0.5">Payment Records</p>
+                <p className="text-xs text-muted-foreground font-medium">Payment Records</p>
                 <p className="text-2xl font-bold text-primary">{data.summary.totalRecords}</p>
               </div>
             </div>
@@ -101,7 +99,7 @@ export function PaymentsReportView({ data }: PaymentsReportViewProps) {
       </div>
 
       <Card>
-        <CardContent className="p-0">
+        <CardContent>
           <DataTable
             columns={columns}
             data={data.data}

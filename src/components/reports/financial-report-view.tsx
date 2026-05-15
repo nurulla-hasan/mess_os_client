@@ -54,7 +54,7 @@ export function FinancialReportView({ data }: FinancialReportViewProps) {
     <div className="space-y-6 animate-in fade-in duration-500">
       <Card>
         <CardContent>
-          <div className="p-6 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
                 <Calendar className="h-6 w-6" />
@@ -65,10 +65,10 @@ export function FinancialReportView({ data }: FinancialReportViewProps) {
                   {monthNames[data.month - 1]} {data.year}
                 </h3>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-[10px] uppercase font-bold">
+                  <Badge variant="outline" className="capitalize font-medium">
                     {data.status}
                   </Badge>
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Period Overview</p>
+                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Period Overview</p>
                 </div>
               </div>
             </div>
@@ -88,6 +88,10 @@ export function FinancialReportView({ data }: FinancialReportViewProps) {
                 size="icon"
                 className="h-8 w-8"
                 onClick={() => updateMonth(1)}
+                disabled={
+                  data.year > new Date().getFullYear() || 
+                  (data.year === new Date().getFullYear() && data.month >= new Date().getMonth() + 1)
+                }
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
@@ -98,29 +102,29 @@ export function FinancialReportView({ data }: FinancialReportViewProps) {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Card>
-          <CardHeader className="border-b pb-4">
-            <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          <CardHeader className="border-b">
+            <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               <TrendingDown className="h-4 w-4 text-primary" />
               Meal Expense Insights
             </CardTitle>
           </CardHeader>
 
           <CardContent>
-            <div className="p-6 space-y-6">
+            <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
-                <div className="rounded-xl bg-muted/50 p-4 border">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase mb-1">Total Meals</p>
+                <div className="rounded-xl bg-muted/40 p-4 border">
+                  <p className="text-xs text-muted-foreground font-medium mb-1">Total Meals</p>
                   <p className="text-2xl font-bold">{data.summary.totalMeals}</p>
                 </div>
 
-                <div className="rounded-xl bg-emerald-500/5 p-4 text-right border border-emerald-500/10">
-                  <p className="text-[10px] font-bold text-emerald-600 uppercase mb-1">Meal Rate</p>
+                <div className="rounded-xl bg-muted/40 p-4 text-right border">
+                  <p className="text-xs text-muted-foreground font-medium mb-1">Meal Rate</p>
                   <p className="text-2xl font-bold text-emerald-600">৳{data.summary.mealRate.toFixed(2)}</p>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-dashed p-4 flex items-center justify-between">
-                <span className="text-[10px] font-bold text-primary uppercase">Total Meal Expense</span>
+              <div className="rounded-xl border border-dashed p-4 flex items-center justify-between bg-primary/5">
+                <span className="text-xs font-bold text-primary uppercase tracking-wider">Total Meal Expense</span>
                 <span className="text-xl font-bold text-primary">৳{data.summary.totalMealExpense.toLocaleString()}</span>
               </div>
             </div>
@@ -128,23 +132,23 @@ export function FinancialReportView({ data }: FinancialReportViewProps) {
         </Card>
 
         <Card>
-          <CardHeader className="border-b pb-4">
-            <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          <CardHeader className="border-b">
+            <CardTitle className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               <TrendingUp className="h-4 w-4 text-rose-600" />
               Shared Overhead Costs
             </CardTitle>
           </CardHeader>
 
           <CardContent>
-            <div className="p-6 space-y-6">
+            <div className="space-y-6">
               <div className="rounded-xl bg-rose-500/5 p-6 border border-rose-500/10 text-center">
-                <p className="text-[10px] font-bold text-rose-600 uppercase mb-1">Total Shared Expense</p>
+                <p className="text-xs font-medium text-rose-600 uppercase tracking-widest mb-1">Total Shared Expense</p>
                 <p className="text-4xl font-bold text-rose-600">৳{data.summary.totalEqualShareExpense.toLocaleString()}</p>
               </div>
 
-              <div className="rounded-xl border bg-muted/30 p-4 flex gap-3 items-start">
-                <Users className="h-4 w-4 text-muted-foreground mt-0.5" />
-                <p className="text-[10px] leading-relaxed text-muted-foreground font-medium uppercase">
+              <div className="rounded-xl border bg-muted/20 p-4 flex gap-3 items-center">
+                <Users className="h-4 w-4 text-muted-foreground" />
+                <p className="text-xs text-muted-foreground font-medium">
                   Divided equally among all mess members.
                 </p>
               </div>
@@ -156,10 +160,10 @@ export function FinancialReportView({ data }: FinancialReportViewProps) {
       {data.finalizedAt && (
         <Card className="bg-muted/50">
           <CardContent>
-            <div className="p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <Users className="h-4 w-4 text-muted-foreground" />
-                <p className="text-xs font-bold text-muted-foreground uppercase">Cycle Finalized on {formatDate(data.finalizedAt)}</p>
+                <p className="text-xs font-medium text-muted-foreground">Cycle Finalized on {formatDate(data.finalizedAt)}</p>
               </div>
             </div>
           </CardContent>

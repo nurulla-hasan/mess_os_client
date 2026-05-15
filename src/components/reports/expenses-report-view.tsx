@@ -23,18 +23,16 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
       accessorKey: "date",
       header: "Date",
       cell: ({ row }) => (
-        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{formatDate(row.original.date)}</span>
+        <span className="text-sm text-muted-foreground">{formatDate(row.original.date)}</span>
       ),
     },
     {
       accessorKey: "title", 
-      header: "Category & Source",
+      header: "Category",
       cell: ({ row }) => (
-        <div className="flex flex-col gap-0.5">
-          <span className="text-xs font-bold uppercase text-primary">{row.original.category}</span>
-          <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider bg-muted w-fit px-1.5 rounded">
-            {row.original.fundSource}
-          </span>
+        <div className="flex flex-col">
+          <span className="text-sm font-medium">{row.original.category}</span>
+          <span className="text-xs text-muted-foreground capitalize">{row.original.fundSource.replace("_", " ")}</span>
         </div>
       ),
     },
@@ -43,10 +41,10 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
       header: "Paid By",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">
+          <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-bold text-muted-foreground">
             {row.original.paidBy.user.fullName.charAt(0)}
           </div>
-          <span className="text-xs font-bold text-muted-foreground uppercase">{row.original.paidBy.user.fullName}</span>
+          <span className="text-sm">{row.original.paidBy.user.fullName}</span>
         </div>
       ),
     },
@@ -61,7 +59,7 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <Badge variant="outline" className="h-5 px-3 text-[10px] font-bold uppercase tracking-widest">
+        <Badge variant="outline" className="capitalize font-medium">
           {row.original.status}
         </Badge>
       ),
@@ -72,13 +70,13 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card>
-          <CardContent className="p-0">
-            <div className="p-6 flex items-center gap-4">
+          <CardContent>
+            <div className="flex items-center gap-4">
               <div className="h-10 w-10 rounded-lg bg-rose-500/10 flex items-center justify-center shrink-0">
                 <Wallet className="h-5 w-5 text-rose-600" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-0.5">Total Expenses</p>
+                <p className="text-xs text-muted-foreground font-medium">Total Expenses</p>
                 <p className="text-2xl font-bold text-rose-600">৳{data.summary.totalAmount.toLocaleString()}</p>
               </div>
             </div>
@@ -86,13 +84,13 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
         </Card>
 
         <Card>
-          <CardContent className="p-0">
-            <div className="p-6 flex items-center gap-4">
+          <CardContent>
+            <div className="flex items-center gap-4">
               <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <Tag className="h-5 w-5 text-primary" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-wider mb-0.5">Transaction Count</p>
+                <p className="text-xs text-muted-foreground font-medium">Transaction Count</p>
                 <p className="text-2xl font-bold text-primary">{data.summary.totalRecords}</p>
               </div>
             </div>
@@ -101,7 +99,7 @@ export function ExpensesReportView({ data }: ExpensesReportViewProps) {
       </div>
 
       <Card>
-        <CardContent className="p-0">
+        <CardContent>
           <DataTable
             columns={columns}
             data={data.data}
