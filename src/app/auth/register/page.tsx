@@ -64,11 +64,11 @@ export default function RegisterPage() {
         ErrorToast(
           response?.message || "Registration failed. Please try again.",
         );
+        setIsLoading(false);
       }
     } catch (error: unknown) {
       const errorMessage = (error as Error).message || "An unexpected error occurred. Please try again.";
       ErrorToast(errorMessage);
-    } finally {
       setIsLoading(false);
     }
   }

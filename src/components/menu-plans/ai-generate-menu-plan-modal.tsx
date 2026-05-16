@@ -79,7 +79,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-6 max-h-[70vh] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
+      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
         <div className="flex flex-col gap-3">
           <Label className="text-sm font-medium">Target Date</Label>
           <Popover>

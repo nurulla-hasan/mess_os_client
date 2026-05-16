@@ -191,7 +191,7 @@ export function PlanModal({ plan, trigger }: PlanModalProps) {
     >
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="p-6 max-h-[80vh] overflow-y-auto"
+        className="p-6 max-h-[50vh] overflow-y-auto"
       >
         <FieldGroup>
           {/* Section 1: Identity */}
