@@ -90,7 +90,7 @@ export default async function ManagerBillingPage({
         />
         <div className="flex flex-col sm:flex-row items-center gap-3">
           <GenerateBillingModal messId={activeMessId} />
-          <CycleSelector cycles={cycles} selectedId={activeCycle._id} />
+          <CycleSelector cycles={cycles} initialId={activeCycle._id} />
         </div>
       </div>
 
