@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Mail, Lock, Eye, EyeOff, Chrome } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -21,7 +21,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 import { loginSchema } from "@/schemas/auth.schema";
 import { login } from "@/services/auth.service";
 
@@ -155,7 +155,7 @@ export default function LoginPage() {
         </form>
 
         {/* Divider */}
-        <div className="relative">
+        {/* <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <Separator className="w-full" />
           </div>
@@ -164,13 +164,13 @@ export default function LoginPage() {
               or continue with
             </span>
           </div>
-        </div>
+        </div> */}
 
         {/* Social Auth */}
-        <Button variant="outline" className="w-full" type="button">
+        {/* <Button variant="outline" className="w-full" type="button">
           <Chrome className="mr-2 h-4 w-4" />
           Google
-        </Button>
+        </Button> */}
 
         {/* Footer */}
         <p className="text-center text-sm text-muted-foreground">
