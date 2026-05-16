@@ -75,7 +75,7 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
               variant="destructive" 
               size="icon" 
               onClick={onLogout}
-              className="rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+              className="rounded-full"
               title="Logout"
             >
               <LogOut className="h-4.5 w-4.5" />

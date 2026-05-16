@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Loader2, ArrowRight, Hash } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Hash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -66,7 +66,7 @@ export function JoinMessModal() {
                 <Input
                   id="inviteCode"
                   placeholder="Ex: MESS-123-ABC"
-                  className="pl-10 h-12 bg-muted border-primary/10 focus-visible:ring-primary"
+                  className="pl-10"
                   value={inviteCode}
                   onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
                 />
@@ -79,20 +79,15 @@ export function JoinMessModal() {
         </div>
 
         <div className="p-6 border-t bg-muted flex items-center justify-end">
-          <Button 
+          <Button
             size="lg"
-            onClick={handleJoinMess} 
+            onClick={handleJoinMess}
+            loading={isSubmitting}
+            loadingText="Joining..."
             disabled={isSubmitting || !inviteCode.trim()}
             className="w-full sm:w-auto"
           >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Joining...
-              </>
-            ) : (
-              "Join Mess"
-            )}
+            Join Mess
           </Button>
         </div>
       </div>

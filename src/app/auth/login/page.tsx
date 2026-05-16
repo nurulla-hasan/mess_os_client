@@ -23,7 +23,7 @@ import {
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { loginSchema } from "@/schemas/auth.schema";
-import { login, getMe } from "@/services/auth.service";
+import { login } from "@/services/auth.service";
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
@@ -49,33 +49,18 @@ export default function LoginPage() {
       if (response?.success) {
         SuccessToast(response.message || "Login successful!");
 
-        let user: IUser | null = null;
-
-        // Always fetch full user profile including memberships for accurate routing
-        try {
-          const meResponse = await getMe();
-          if (meResponse?.success && meResponse.data) {
-            user = meResponse.data as IUser;
-          } else if (response.data?.user) {
-            // Fallback to partial user from login if getMe fails
-            user = response.data.user as IUser;
-          }
-        } catch {
-          if (response.data?.user) {
-            user = response.data.user as IUser;
-          }
-        }
+        const user = (response.data?.user as IUser) || null;
 
         // Determine redirect route based on user state
         const redirectRoute = getPostLoginRoute(user);
         router.replace(redirectRoute);
       } else {
         ErrorToast(response?.message || "Login failed. Please try again.");
+        setIsLoading(false);
       }
     } catch (error) {
       ErrorToast("Something went wrong. Please try again.");
       console.error(error);
-    } finally {
       setIsLoading(false);
     }
   }
