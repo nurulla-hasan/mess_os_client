@@ -191,7 +191,7 @@ export const getPlatformStats = async (): Promise<ApiResponse<IPlatformStats>> =
   try {
     return (await serverFetch("/admin/stats", {
       method: "GET",
-      cache: "no-store",
+      revalidate: 0,
     })) as ApiResponse<IPlatformStats>;
   } catch (error: unknown) {
     return {
@@ -209,7 +209,7 @@ export const getPlatformAnalytics = async (): Promise<ApiResponse<IPlatformAnaly
   try {
     return (await serverFetch("/admin/analytics", {
       method: "GET",
-      cache: "no-store",
+      revalidate: 0,
     })) as ApiResponse<IPlatformAnalytics>;
   } catch (error: unknown) {
     return {

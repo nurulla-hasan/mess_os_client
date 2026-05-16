@@ -82,7 +82,6 @@ export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponse
       isPublic: true,
       persistCookies: true,
     })) as ApiResponse<AuthResponseData>;
-    console.log(response);
 
     if (response && response.success) {
       const cookieStore = await cookies();
