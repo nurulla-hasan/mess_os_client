@@ -39,7 +39,8 @@ function ActionButtons({ complaint }: ActionButtonsProps) {
 
     setIsLoading(true);
     try {
-      const res = await updateComplaintStatus(complaint.messId, complaint._id, pendingStatus, resolvedNote);
+      const note = pendingStatus === "resolved" || pendingStatus === "rejected" ? resolvedNote.trim() : undefined;
+      const res = await updateComplaintStatus(complaint.messId, complaint._id, pendingStatus, note);
       if (res?.success) {
         SuccessToast(res.message || "Status updated.");
         setConfirmOpen(false);

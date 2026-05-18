@@ -59,9 +59,11 @@ export const updateComplaintStatus = async (
   resolvedNote?: string
 ): Promise<ApiResponse<IComplaint>> => {
   try {
+    const body = resolvedNote?.trim() ? { status, resolvedNote: resolvedNote.trim() } : { status };
+
     return (await serverFetch(`/messes/${messId}/complaints/${complaintId}/status`, {
       method: "PATCH",
-      body: { status, resolvedNote },
+      body,
       updateTag: ["complaints"],
     })) as ApiResponse<IComplaint>;
   } catch (error: unknown) {
