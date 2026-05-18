@@ -21,7 +21,7 @@ import { ChangePasswordModal } from "./change-password-modal";
 import { logout, updateAvatar } from "@/services/auth.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 
-export function ProfileView({ user, role }: { user: IUser; role: "manager" | "member" }) {
+export function ProfileView({ user, role }: { user: IUser; role: "admin" | "manager" | "member" }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [avatarLoading, setAvatarLoading] = useState(false);
@@ -87,7 +87,7 @@ export function ProfileView({ user, role }: { user: IUser; role: "manager" | "me
           <div className="pb-4">
             <h2 className="text-2xl font-bold flex items-center gap-3">
               {user.fullName}
-              <Badge variant={role === "manager" ? "manager" : "member"} className="uppercase h-5">
+              <Badge variant={role === "admin" ? "admin" : role === "manager" ? "manager" : "member"} className="uppercase h-5">
                 {role}
               </Badge>
             </h2>

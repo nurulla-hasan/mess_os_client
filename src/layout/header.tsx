@@ -45,6 +45,13 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
     router.replace("/auth/login");
   };
 
+  const profileHref =
+    user?.globalRole === "super_admin"
+      ? "/admin/profile"
+      : user?.globalRole === "manager"
+        ? "/manager/profile"
+        : "/dashboard/profile";
+
   return (
     <header className="fixed top-0 right-0 left-0 lg:left-64 h-20 z-30 bg-sidebar border-b">
       <div className="relative h-full flex items-center justify-between px-4">
@@ -129,7 +136,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
                   {user?.globalRole === "manager" ? (
                     <>
                       <DropdownMenuItem asChild>
-                        <Link href="/manager/profile">Profile</Link>
+                        <Link href={profileHref}>Profile</Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
                         <Link href="/manager/mess-settings">Settings</Link>
@@ -137,7 +144,7 @@ const Header = ({ onMenuClick }: { onMenuClick: () => void }) => {
                     </>
                   ) : (
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/profile">Profile</Link>
+                      <Link href={profileHref}>Profile</Link>
                     </DropdownMenuItem>
                   )}
                 </DropdownMenuGroup>

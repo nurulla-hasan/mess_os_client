@@ -76,6 +76,13 @@ export function getSidebarSections(role: UserRole): NavSection[] {
           { name: "Platform Stats", icon: BarChart3, href: `${prefix}/stats` },
         ],
       },
+      {
+        title: "Account",
+        icon: Settings,
+        items: [
+          { name: "Profile", icon: User, href: `${prefix}/profile` },
+        ],
+      },
     ];
   }
 
