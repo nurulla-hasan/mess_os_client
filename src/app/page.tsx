@@ -11,9 +11,19 @@ import {
   Calendar,
   Wallet,
   Smartphone,
-  BookOpen
+  BookOpen,
+  Menu,
+  LogIn,
+  UserPlus
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/custom/theme-toggle";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 export default function RootPage() {
   return (
@@ -22,12 +32,13 @@ export default function RootPage() {
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-3xl">
         <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm">
-              <Utensils className="size-4" />
+            <span className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm">
+              <Utensils className="size-3.5 sm:size-4" />
             </span>
-            <span className="font-bold text-lg tracking-tight">Mess OS</span>
+            <span className="font-bold text-base sm:text-lg tracking-tight">Mess OS</span>
           </Link>
 
+          {/* Desktop Navigation Links */}
           <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
             <Link href="/docs" className="transition-colors hover:text-foreground flex items-center gap-1.5">
               <BookOpen className="size-4 text-primary" /> Documentation
@@ -40,7 +51,8 @@ export default function RootPage() {
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* Desktop Right Actions */}
+          <div className="hidden md:flex items-center gap-3">
             <ThemeToggle variant="outline" size="icon-sm" />
             <Button asChild variant="ghost" size="sm" className="font-semibold">
               <Link href="/auth/login">Login</Link>
@@ -48,6 +60,47 @@ export default function RootPage() {
             <Button asChild size="sm" className="font-semibold shadow-sm">
               <Link href="/auth/register">Get Started</Link>
             </Button>
+          </div>
+
+          {/* Mobile Right Actions & Dropdown */}
+          <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle variant="outline" size="icon-sm" />
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="rounded-full" size="icon-sm" aria-label="Navigation Menu">
+                  <Menu className="size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem asChild>
+                  <Link href="/docs" className="flex items-center gap-2 font-medium">
+                    <BookOpen className="size-4 text-primary" /> Documentation
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/docs/manager" className="flex items-center gap-2 font-medium">
+                    <ShieldCheck className="size-4 text-emerald-600" /> Manager Manual
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/docs/user" className="flex items-center gap-2 font-medium">
+                    <Users className="size-4 text-primary" /> Member Manual
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/auth/login" className="flex items-center gap-2 font-semibold text-foreground">
+                    <LogIn className="size-4 text-muted-foreground" /> Login
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/auth/register" className="flex items-center gap-2 font-semibold text-primary">
+                    <UserPlus className="size-4" /> Get Started
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
