@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark, .theme-teal-dark, .theme-rose-dark, .theme-blue-dark, .theme-orange-dark, .theme-green-dark *));
+@custom-variant dark (&:where(.dark, .dark *, .theme-teal-dark, .theme-teal-dark *, .theme-rose-dark, .theme-rose-dark *, .theme-blue-dark, .theme-blue-dark *, .theme-orange-dark, .theme-orange-dark *, .theme-green-dark, .theme-green-dark *));
 
 @theme inline {
   --color-background: var(--background);

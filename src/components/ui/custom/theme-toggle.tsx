@@ -36,7 +36,7 @@ export function ThemeToggle({
 
   // Extract current color and mode robustly from resolvedTheme or theme string
   const getCurrentThemeInfo = () => {
-    const activeTheme = resolvedTheme || theme || "light";
+    const activeTheme = theme === "system" ? resolvedTheme || "light" : theme || resolvedTheme || "light";
     if (activeTheme === "light" || activeTheme === "system") return { color: "teal", mode: "light" };
     if (activeTheme === "dark") return { color: "teal", mode: "dark" };
 
@@ -53,19 +53,11 @@ export function ThemeToggle({
   const { color: currentColor, mode: currentMode } = getCurrentThemeInfo();
 
   const handleModeChange = (newMode: "light" | "dark") => {
-    if (currentColor === "teal") {
-      setTheme(newMode);
-    } else {
-      setTheme(`theme-${currentColor}${newMode === "dark" ? "-dark" : ""}`);
-    }
+    setTheme(`theme-${currentColor}${newMode === "dark" ? "-dark" : ""}`);
   };
 
   const handleColorChange = (newColor: string) => {
-    if (newColor === "teal") {
-      setTheme(currentMode === "dark" ? "dark" : "light");
-    } else {
-      setTheme(`theme-${newColor}${currentMode === "dark" ? "-dark" : ""}`);
-    }
+    setTheme(`theme-${newColor}${currentMode === "dark" ? "-dark" : ""}`);
   };
 
   return (
