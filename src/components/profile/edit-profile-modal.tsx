@@ -9,7 +9,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { updateMe } from "@/services/auth.service";
 import { IUser } from "@/types/user.type";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
@@ -27,7 +26,11 @@ interface EditProfileFormValues {
   bio: string;
 }
 
-export function EditProfileModal({ user, open, onOpenChange }: EditProfileModalProps) {
+export function EditProfileModal({
+  user,
+  open,
+  onOpenChange,
+}: EditProfileModalProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm<EditProfileFormValues>({
@@ -59,7 +62,10 @@ export function EditProfileModal({ user, open, onOpenChange }: EditProfileModalP
       title="Edit Profile"
       description="Make changes to your profile here. Click save when you're done."
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6 max-h-[50vh] overflow-y-auto">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4 p-6 max-h-[50vh] overflow-y-auto"
+      >
         <div className="space-y-2">
           <Label htmlFor="fullName">Full Name</Label>
           <Input id="fullName" {...register("fullName", { required: true })} />
@@ -74,14 +80,21 @@ export function EditProfileModal({ user, open, onOpenChange }: EditProfileModalP
         </div>
         <div className="space-y-2">
           <Label htmlFor="bio">Bio</Label>
-          <Textarea id="bio" {...register("bio")} placeholder="Tell us a bit about yourself" />
+          <Textarea
+            id="bio"
+            {...register("bio")}
+            placeholder="Tell us a bit about yourself"
+          />
         </div>
         <div className="flex justify-end gap-3 pt-2">
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+          >
             Cancel
           </Button>
-          <Button type="submit" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit" loading={loading} loadingText="Saving...">
             Save Changes
           </Button>
         </div>

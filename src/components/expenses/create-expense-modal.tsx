@@ -226,11 +226,10 @@ export function CreateExpenseModal({ messId, mode = "manager" }: CreateExpenseMo
           </Button>
           <Button 
             onClick={handleSubmit} 
-            disabled={isLoading}
             loading={isLoading}
             loadingText="Saving..."
           >
-            <Save className="mr-2 h-4 w-4" /> Save Expense
+            <Save /> Save Expense
           </Button>
         </div>
       </div>

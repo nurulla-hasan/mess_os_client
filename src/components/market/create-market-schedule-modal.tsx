@@ -332,11 +332,10 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
           </Button>
           <Button 
             onClick={handleSubmit} 
-            disabled={isLoading}
             loading={isLoading}
             loadingText="Saving..."
           >
-            <Save className="mr-2 h-4 w-4" /> Save Schedule
+            <Save /> Save Schedule
           </Button>
         </div>
       </div>

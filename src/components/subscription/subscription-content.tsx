@@ -2,20 +2,24 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import {
-  Check,
-  History,
-  Loader2,
-  ShieldCheck
-} from "lucide-react";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import { Check, History, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { ISubscriptionPlan, ISubscriptionLog } from "@/types/subscription.type";
 import { subscriptionHistoryColumns } from "./subscription-history-columns";
-import { subscribeToPlan, cancelSubscription } from "@/services/subscription.service";
+import {
+  subscribeToPlan,
+  cancelSubscription,
+} from "@/services/subscription.service";
 import { cn, formatDate, SuccessToast, ErrorToast } from "@/lib/utils";
 import { useSubscription } from "@/providers/subscription-provider";
 
@@ -25,10 +29,10 @@ interface SubscriptionContentProps {
   messId: string;
 }
 
-export function SubscriptionContent({ 
-  plans, 
-  history, 
-  messId 
+export function SubscriptionContent({
+  plans,
+  history,
+  messId,
 }: SubscriptionContentProps) {
   const { subscription: currentSubscription } = useSubscription();
   const [isPending, startTransition] = useTransition();
@@ -36,7 +40,9 @@ export function SubscriptionContent({
 
   // Refresh data if user returns from payment gateway
   // Many gateways append status or session params
-  const hasStatus = typeof window !== "undefined" && new URLSearchParams(window.location.search).has("status");
+  const hasStatus =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).has("status");
 
   if (hasStatus) {
     // Clear status from URL and refresh
@@ -99,34 +105,42 @@ export function SubscriptionContent({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-lg">Active Subscription: {currentSubscription.plan.name}</h3>
-                  <Badge variant="success" className="capitalize">{currentSubscription.status}</Badge>
+                  <h3 className="font-bold text-lg">
+                    Active Subscription: {currentSubscription.plan.name}
+                  </h3>
+                  <Badge variant="success" className="capitalize">
+                    {currentSubscription.status}
+                  </Badge>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Renews on <span className="font-bold">{formatDate(currentSubscription.currentPeriodEnd)}</span>
+                  Renews on{" "}
+                  <span className="font-bold">
+                    {formatDate(currentSubscription.currentPeriodEnd)}
+                  </span>
                 </p>
               </div>
             </div>
-            {currentSubscription.planId !== "free" && !currentSubscription.cancelAtPeriodEnd && (
-              <ConfirmationModal
-                title="Cancel Subscription?"
-                description="Are you sure you want to cancel your subscription? You will lose access to premium features at the end of the billing cycle."
-                confirmText="Yes, Cancel"
-                loadingText="Cancelling..."
-                onConfirm={handleCancel}
-                isLoading={isPending}
-                variant="destructive"
-                trigger={
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    disabled={isPending}
-                  >
-                    Cancel Subscription
-                  </Button>
-                }
-              />
-            )}
+            {currentSubscription.planId !== "free" &&
+              !currentSubscription.cancelAtPeriodEnd && (
+                <ConfirmationModal
+                  title="Cancel Subscription?"
+                  description="Are you sure you want to cancel your subscription? You will lose access to premium features at the end of the billing cycle."
+                  confirmText="Yes, Cancel"
+                  loadingText="Cancelling..."
+                  onConfirm={handleCancel}
+                  isLoading={isPending}
+                  variant="destructive"
+                  trigger={
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      disabled={isPending}
+                    >
+                      Cancel Subscription
+                    </Button>
+                  }
+                />
+              )}
             {currentSubscription.cancelAtPeriodEnd && (
               <Badge variant="rejected">Scheduled for Cancellation</Badge>
             )}
@@ -136,64 +150,83 @@ export function SubscriptionContent({
 
       {/* Plans Selection */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {plans.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)).map((plan) => {
-          const active = isCurrentPlan(plan.code);
-          const isFree = plan.price === 0;
+        {plans
+          .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
+          .map((plan) => {
+            const active = isCurrentPlan(plan.code);
+            const isFree = plan.price === 0;
 
-          return (
-            <Card key={plan._id} className={cn(
-              "flex flex-col relative overflow-hidden transition-all duration-300",
-              active ? "border-primary ring-1 ring-primary" : "hover:border-primary/30"
-            )}>
-              {plan.code === "pro" && (
-                <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg uppercase">
-                  Recommended
-                </div>
-              )}
-              <CardHeader>
-                <CardTitle className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
-                  {plan.name}
-                </CardTitle>
-                <div className="flex items-baseline gap-1 mt-2">
-                  <span className="text-3xl font-bold">
-                    {isFree ? "Free" : `৳${plan.price}`}
-                  </span>
-                  {!isFree && (
-                    <span className="text-xs text-muted-foreground">/ {plan.billingCycle}</span>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="flex-1 space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-bold">
-                    <Check className="h-3.5 w-3.5 text-emerald-500" />
-                    <span>Up to {plan.maxMembers} Members</span>
+            return (
+              <Card
+                key={plan._id}
+                className={cn(
+                  "flex flex-col relative overflow-hidden transition-all duration-300",
+                  active
+                    ? "border-primary ring-1 ring-primary"
+                    : "hover:border-primary/30",
+                )}
+              >
+                {plan.code === "pro" && (
+                  <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-bl-lg uppercase">
+                    Recommended
                   </div>
-                  {Object.entries(plan.features).map(([feature, enabled]) => {
-                    if (!enabled) return null;
-                    return (
-                      <div key={feature} className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Check className="h-3.5 w-3.5 text-emerald-500/50" />
-                        <span className="capitalize">{feature.replace(/([A-Z])/g, ' $1').trim()}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button
-                  className="w-full shadow-sm"
-                  variant={active ? "outline" : "default"}
-                  disabled={active || isPending}
-                  onClick={() => handleSubscribe(plan.code)}
-                >
-                  {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {active ? "Current Active Plan" : isFree ? "Switch to Free" : "Upgrade to " + plan.name}
-                </Button>
-              </CardFooter>
-            </Card>
-          );
-        })}
+                )}
+                <CardHeader>
+                  <CardTitle className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                    {plan.name}
+                  </CardTitle>
+                  <div className="flex items-baseline gap-1 mt-2">
+                    <span className="text-3xl font-bold">
+                      {isFree ? "Free" : `৳${plan.price}`}
+                    </span>
+                    {!isFree && (
+                      <span className="text-xs text-muted-foreground">
+                        / {plan.billingCycle}
+                      </span>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="flex-1 space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-xs font-bold">
+                      <Check className="h-3.5 w-3.5 text-emerald-500" />
+                      <span>Up to {plan.maxMembers} Members</span>
+                    </div>
+                    {Object.entries(plan.features).map(([feature, enabled]) => {
+                      if (!enabled) return null;
+                      return (
+                        <div
+                          key={feature}
+                          className="flex items-center gap-2 text-xs text-muted-foreground"
+                        >
+                          <Check className="h-3.5 w-3.5 text-emerald-500/50" />
+                          <span className="capitalize">
+                            {feature.replace(/([A-Z])/g, " $1").trim()}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    className="w-full shadow-sm"
+                    variant={active ? "outline" : "default"}
+                    disabled={active}
+                    loading={!active && isPending}
+                    loadingText="Processing..."
+                    onClick={() => handleSubscribe(plan.code)}
+                  >
+                    {active
+                      ? "Current Active Plan"
+                      : isFree
+                        ? "Switch to Free"
+                        : "Upgrade to " + plan.name}
+                  </Button>
+                </CardFooter>
+              </Card>
+            );
+          })}
       </div>
 
       {/* History Table */}
@@ -205,10 +238,7 @@ export function SubscriptionContent({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <DataTable
-            columns={subscriptionHistoryColumns}
-            data={history}
-          />
+          <DataTable columns={subscriptionHistoryColumns} data={history} />
         </CardContent>
       </Card>
     </div>

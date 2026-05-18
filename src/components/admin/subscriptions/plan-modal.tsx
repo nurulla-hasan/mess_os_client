@@ -6,7 +6,7 @@ import { useForm, Controller, Path, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
-import { Plus, Pencil, Loader2 } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -382,10 +382,11 @@ export function PlanModal({ plan, trigger }: PlanModalProps) {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting && (
-                <Loader2 className="animate-spin" />
-              )}
+            <Button
+              type="submit"
+              loading={isSubmitting}
+              loadingText={plan ? "Updating..." : "Creating..."}
+            >
               {plan ? "Update Plan" : "Create Plan"}
             </Button>
           </Field>

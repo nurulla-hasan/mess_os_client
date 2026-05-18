@@ -9,8 +9,7 @@ import {
   Lock, 
   LogOut,
   Edit,
-  MapPin,
-  Loader2
+  MapPin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -79,9 +78,9 @@ export function ProfileView({ user, role }: { user: IUser; role: "admin" | "mana
               variant="secondary" 
               className="absolute bottom-0 right-0 h-8 w-8 rounded-full shadow-lg border border-border"
               onClick={handleAvatarClick}
-              disabled={avatarLoading}
+              loading={avatarLoading}
             >
-              {avatarLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}
+              <Camera />
             </Button>
           </div>
           <div className="pb-4">

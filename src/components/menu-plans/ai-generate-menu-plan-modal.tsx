@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Calendar as CalendarIcon, Loader2 } from "lucide-react";
+import { Sparkles, Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { 
   Popover,
@@ -154,8 +154,8 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
           <Button variant="outline" onClick={() => setOpen(false)} disabled={isGenerating}>
             Cancel
           </Button>
-          <Button onClick={handleGenerate} disabled={isGenerating} className="gap-3 px-8">
-            {isGenerating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          <Button onClick={handleGenerate} loading={isGenerating} loadingText="Generating..." className="gap-3 px-8">
+            <Sparkles />
             Generate with AI
           </Button>
         </div>

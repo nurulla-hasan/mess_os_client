@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useEffect, useState, useCallback } from "react";
-import { Loader2, ArrowRight, Clock, CheckCircle2, XCircle, Info } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+import { ArrowRight, Clock, CheckCircle2, XCircle, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { SuccessToast, ErrorToast, cn } from "@/lib/utils";
-import { requestManagerAccess, getMyManagerRequest } from "@/services/user.service";
+import {
+  requestManagerAccess,
+  getMyManagerRequest,
+} from "@/services/user.service";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { IManagerRequest, RequestStatus } from "@/types/manager-request.type";
 
@@ -15,7 +18,8 @@ export function RequestManagerModal() {
   const [requestReason, setRequestReason] = useState("");
   const [isSubmittingRequest, setIsSubmittingRequest] = useState(false);
   const [, setIsLoadingStatus] = useState(false);
-  const [existingRequest, setExistingRequest] = useState<IManagerRequest | null>(null);
+  const [existingRequest, setExistingRequest] =
+    useState<IManagerRequest | null>(null);
 
   const fetchRequestStatus = useCallback(async () => {
     setIsLoadingStatus(true);
@@ -62,56 +66,67 @@ export function RequestManagerModal() {
   const getStatusConfig = (status: RequestStatus) => {
     switch (status) {
       case "pending":
-        return { 
-          icon: <Clock className="h-4 w-4" />, 
-          label: "Pending Review", 
+        return {
+          icon: <Clock className="h-4 w-4" />,
+          label: "Pending Review",
           class: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-          description: "Your request is currently being reviewed by the super admin. Please wait for approval."
+          description:
+            "Your request is currently being reviewed by the super admin. Please wait for approval.",
         };
       case "approved":
-        return { 
-          icon: <CheckCircle2 className="h-4 w-4" />, 
-          label: "Approved", 
+        return {
+          icon: <CheckCircle2 className="h-4 w-4" />,
+          label: "Approved",
           class: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
-          description: "Your request has been approved! You should have manager access now."
+          description:
+            "Your request has been approved! You should have manager access now.",
         };
       case "rejected":
-        return { 
-          icon: <XCircle className="h-4 w-4" />, 
-          label: "Rejected", 
+        return {
+          icon: <XCircle className="h-4 w-4" />,
+          label: "Rejected",
           class: "bg-destructive/10 text-destructive border-destructive/20",
-          description: "Your request was unfortunately rejected. You can try submitting a new request with a better reason."
+          description:
+            "Your request was unfortunately rejected. You can try submitting a new request with a better reason.",
         };
       default:
-        return { 
-          icon: <Info className="h-4 w-4" />, 
-          label: "Unknown", 
+        return {
+          icon: <Info className="h-4 w-4" />,
+          label: "Unknown",
           class: "bg-muted text-muted-foreground border-border",
-          description: "We couldn't determine the status of your request."
+          description: "We couldn't determine the status of your request.",
         };
     }
   };
 
   const isPending = existingRequest?.status === "pending";
   const isApproved = existingRequest?.status === "approved";
-  const statusConfig = existingRequest ? getStatusConfig(existingRequest.status) : null;
+  const statusConfig = existingRequest
+    ? getStatusConfig(existingRequest.status)
+    : null;
 
   return (
     <ModalWrapper
       open={isOpen}
       onOpenChange={setIsOpen}
       title="Manager Access Request"
-      description={existingRequest 
-        ? statusConfig?.description 
-        : "To create and manage a mess, you need manager privileges. Please provide a reason for your request."}
+      description={
+        existingRequest
+          ? statusConfig?.description
+          : "To create and manage a mess, you need manager privileges. Please provide a reason for your request."
+      }
       showClose={isPending || isApproved}
       actionTrigger={
-        <Button 
-          size="lg" 
+        <Button
+          size="lg"
           variant={isPending ? "outline" : isApproved ? "secondary" : "default"}
           className="gap-3"
         >
-          {isPending ? "Request Pending" : isApproved ? "Access Approved" : "Request Manager Access"}
+          {isPending
+            ? "Request Pending"
+            : isApproved
+              ? "Access Approved"
+              : "Request Manager Access"}
           <ArrowRight className="h-4 w-4" />
         </Button>
       }
@@ -119,10 +134,17 @@ export function RequestManagerModal() {
       <div className="flex flex-col h-full">
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {existingRequest && (
-            <div className={cn("p-4 rounded-lg border flex items-center justify-between", statusConfig?.class)}>
+            <div
+              className={cn(
+                "p-4 rounded-lg border flex items-center justify-between",
+                statusConfig?.class,
+              )}
+            >
               <div className="flex items-center gap-3">
                 {statusConfig?.icon}
-                <span className="font-bold uppercase tracking-wider text-xs">{statusConfig?.label}</span>
+                <span className="font-bold uppercase tracking-wider text-xs">
+                  {statusConfig?.label}
+                </span>
               </div>
               <span className="text-xs opacity-70 font-medium uppercase">
                 Status Update
@@ -132,7 +154,10 @@ export function RequestManagerModal() {
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="reason" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+              <Label
+                htmlFor="reason"
+                className="text-xs font-bold uppercase tracking-widest text-muted-foreground"
+              >
                 Your Request Reason
               </Label>
               <Textarea
@@ -145,38 +170,36 @@ export function RequestManagerModal() {
               />
             </div>
 
-            {existingRequest?.status === "rejected" && existingRequest.adminNote && (
-              <div className="p-4 rounded-lg border border-destructive/20 bg-destructive/5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
-                <div className="flex items-center gap-3 text-destructive">
-                  <XCircle className="h-4 w-4" />
-                  <span className="text-xs font-bold uppercase tracking-widest">Admin Feedback</span>
+            {existingRequest?.status === "rejected" &&
+              existingRequest.adminNote && (
+                <div className="p-4 rounded-lg border border-destructive/20 bg-destructive/5 space-y-2 animate-in fade-in slide-in-from-top-2 duration-500">
+                  <div className="flex items-center gap-3 text-destructive">
+                    <XCircle className="h-4 w-4" />
+                    <span className="text-xs font-bold uppercase tracking-widest">
+                      Admin Feedback
+                    </span>
+                  </div>
+                  <p className="text-sm italic text-foreground/80 leading-relaxed">
+                    &quot;{existingRequest.adminNote}&quot;
+                  </p>
                 </div>
-                <p className="text-sm italic text-foreground/80 leading-relaxed">
-                  &quot;{existingRequest.adminNote}&quot;
-                </p>
-              </div>
-            )}
+              )}
           </div>
         </div>
 
         {!isPending && !isApproved && (
           <div className="p-6 border-t bg-muted flex items-center justify-end">
-            <Button 
+            <Button
               size="lg"
-              onClick={handleRequestManager} 
-              disabled={isSubmittingRequest || !requestReason.trim()}
+              onClick={handleRequestManager}
+              disabled={!requestReason.trim()}
+              loading={isSubmittingRequest}
+              loadingText="Submitting..."
               className="w-full sm:w-auto"
             >
-              {isSubmittingRequest ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Submitting...
-                </>
-              ) : existingRequest?.status === "rejected" ? (
-                "Re-submit Request"
-              ) : (
-                "Submit Request"
-              )}
+              {existingRequest?.status === "rejected"
+                ? "Re-submit Request"
+                : "Submit Request"}
             </Button>
           </div>
         )}

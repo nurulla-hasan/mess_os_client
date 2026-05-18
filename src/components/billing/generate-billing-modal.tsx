@@ -2,21 +2,21 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogFooter, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Plus, Calculator } from "lucide-react";
@@ -32,7 +32,7 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const now = new Date();
   const [month, setMonth] = useState<string>((now.getMonth() + 1).toString());
   const [year, setYear] = useState<string>(now.getFullYear().toString());
@@ -53,18 +53,22 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
   ];
 
   const currentYear = now.getFullYear();
-  const years = Array.from({ length: 5 }, (_, i) => (currentYear - 2 + i).toString());
+  const years = Array.from({ length: 5 }, (_, i) =>
+    (currentYear - 2 + i).toString(),
+  );
 
   const handleGenerate = async () => {
     setLoading(true);
     try {
-      const res = await finalizeBilling(messId, { 
-        month: parseInt(month), 
-        year: parseInt(year) 
+      const res = await finalizeBilling(messId, {
+        month: parseInt(month),
+        year: parseInt(year),
       });
-      
+
       if (res.success) {
-        SuccessToast(`Billing for ${months.find(m => m.value === month)?.label} ${year} generated.`);
+        SuccessToast(
+          `Billing for ${months.find((m) => m.value === month)?.label} ${year} generated.`,
+        );
         setOpen(false);
         router.refresh();
       } else {
@@ -85,7 +89,7 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
           Generate New Bill
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[400px]">
+      <DialogContent className="sm:max-w-100">
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <div className="p-2 bg-primary/10 rounded-lg">
@@ -94,7 +98,8 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
             <DialogTitle>Generate Monthly Bill</DialogTitle>
           </div>
           <DialogDescription>
-            Select a month and year to calculate meals and finalize invoices. Note that you cannot finalize future months.
+            Select a month and year to calculate meals and finalize invoices.
+            Note that you cannot finalize future months.
           </DialogDescription>
         </DialogHeader>
 
@@ -134,11 +139,19 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
+            disabled={loading}
+          >
             Cancel
           </Button>
-          <Button onClick={handleGenerate} disabled={loading}>
-            {loading ? "Generating..." : "Generate & Finalize"}
+          <Button
+            onClick={handleGenerate}
+            loading={loading}
+            loadingText="Generating..."
+          >
+            Generate & Finalize
           </Button>
         </DialogFooter>
       </DialogContent>

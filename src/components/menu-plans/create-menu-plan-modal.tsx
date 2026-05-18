@@ -5,7 +5,7 @@ import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
 import { Plus, Save, Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import { format } from "date-fns";
-import { 
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -40,7 +40,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
             setCategories(res.data.settings.mealCategories);
             // Initialize empty meals for all categories
             const initialMeals: Record<string, string> = {};
-            res.data.settings.mealCategories.forEach(cat => {
+            res.data.settings.mealCategories.forEach((cat) => {
               initialMeals[cat] = "";
             });
             setMeals(initialMeals);
@@ -67,9 +67,9 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
       const res = await createMenuPlan(messId, {
         date: format(date, "yyyy-MM-dd"),
         meals,
-        isAiGenerated: false
+        isAiGenerated: false,
       });
-      
+
       if (res.success) {
         SuccessToast(res.message || "Menu plan created successfully!");
         setOpen(false);
@@ -86,7 +86,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
   };
 
   const handleMealChange = (category: string, value: string) => {
-    setMeals(prev => ({ ...prev, [category]: value }));
+    setMeals((prev) => ({ ...prev, [category]: value }));
   };
 
   return (
@@ -110,7 +110,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
                 variant="outline"
                 className={cn(
                   "w-full justify-start text-left font-normal",
-                  !date && "text-muted-foreground"
+                  !date && "text-muted-foreground",
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
@@ -131,7 +131,9 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-10 space-y-4">
             <Loader2 className="h-8 w-8 animate-spin text-primary opacity-20" />
-            <p className="text-sm text-muted-foreground italic">Loading categories...</p>
+            <p className="text-sm text-muted-foreground italic">
+              Loading categories...
+            </p>
           </div>
         ) : (
           <div className="space-y-5">
@@ -152,11 +154,19 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
             </div>
 
             <div className="pt-4 flex justify-end gap-3 border-t">
-              <Button variant="outline" onClick={() => setOpen(false)} disabled={isSaving}>
+              <Button
+                variant="outline"
+                onClick={() => setOpen(false)}
+                disabled={isSaving}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={isSaving} className="gap-3 px-8">
-                {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+              <Button
+                onClick={handleSave}
+                loading={isSaving}
+                loadingText="Creating..."
+              >
+                <Save />
                 Create Plan
               </Button>
             </div>

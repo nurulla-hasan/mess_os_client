@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
-import { Plus, Save, Loader2 } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import {
   Field,
   FieldLabel,
@@ -158,19 +158,11 @@ export function CreateNoticeModal({ messId }: CreateNoticeModalProps) {
             </Button>
             <Button 
               type="submit" 
-              disabled={isLoading}
+              loading={isLoading}
+              loadingText="Creating..."
             >
-              {isLoading ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <Save className="h-4 w-4" />
-                  Publish Notice
-                </>
-              )}
+              <Save />
+              Publish Notice
             </Button>
           </div>
         </FieldGroup>

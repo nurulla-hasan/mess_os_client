@@ -166,7 +166,7 @@ export function CreatePaymentModal({ messId, mode = "member" }: CreatePaymentMod
 
         <div className="flex justify-end gap-3 pt-4 border-t">
           <Button variant="outline" onClick={() => setOpen(false)} disabled={isLoading}>Cancel</Button>
-          <Button onClick={handleSubmit} disabled={isLoading} loading={isLoading} loadingText="Saving...">
+          <Button onClick={handleSubmit} loading={isLoading} loadingText="Saving...">
             Save Payment
           </Button>
         </div>

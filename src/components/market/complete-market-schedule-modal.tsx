@@ -123,9 +123,10 @@ export function CompleteMarketScheduleModal({ messId, schedule }: CompleteMarket
           </Button>
           <Button 
             onClick={handleComplete}
-            disabled={isLoading}
+            loading={isLoading}
+            loadingText="Processing..."
           >
-            {isLoading ? "Processing..." : "Mark as Completed"}
+            Mark as Completed
           </Button>
         </div>
       </div>

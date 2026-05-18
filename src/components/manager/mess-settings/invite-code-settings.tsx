@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Key, RefreshCw, Copy, CheckCircle2, Loader2 } from "lucide-react";
+import { Key, RefreshCw, Copy, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { regenerateInviteCode } from "@/services/mess.service";
@@ -64,11 +64,12 @@ export function InviteCodeSettings({ mess }: InviteCodeSettingsProps) {
           <Button 
             variant="outline" 
             size="sm" 
-            className="w-full font-bold hover:bg-primary/5 border-primary/20"
+            className="w-full"
             onClick={handleRegenerate}
-            disabled={loading}
+            loading={loading}
+            loadingText="Regenerating..."
           >
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+            <RefreshCw />
             Regenerate New Code
           </Button>
         </div>

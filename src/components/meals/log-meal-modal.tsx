@@ -275,7 +275,6 @@ export function LogMealModal({ messId }: LogMealModalProps) {
           </Button>
           <Button 
             onClick={handleSubmit} 
-            disabled={isLoading}
             loading={isLoading}
             loadingText="Logging..."
           >

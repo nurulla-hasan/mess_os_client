@@ -4,7 +4,7 @@ import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Pin, Archive, Loader2 } from "lucide-react";
+import { Pin, Archive } from "lucide-react";
 import { INotice } from "@/types/notice.type";
 import { toggleNoticePin, archiveNotice } from "@/services/notice.service";
 import { SuccessToast, ErrorToast, formatDate } from "@/lib/utils";
@@ -23,13 +23,19 @@ function ActionButtons({ notice }: ActionButtonsProps) {
   const isManager = role === "manager";
   const [isLoading, setIsLoading] = React.useState(false);
   const [confirmOpen, setConfirmOpen] = React.useState(false);
-  const [confirmAction, setConfirmAction] = React.useState<"archive" | "delete" | null>(null);
+  const [confirmAction, setConfirmAction] = React.useState<
+    "archive" | "delete" | null
+  >(null);
   const router = useRouter();
 
   const handleTogglePin = async () => {
     setIsLoading(true);
     try {
-      const res = await toggleNoticePin(notice.messId, notice._id, !notice.isPinned);
+      const res = await toggleNoticePin(
+        notice.messId,
+        notice._id,
+        !notice.isPinned,
+      );
       if (res?.success) {
         SuccessToast(res.message || "Pin status updated.");
         router.refresh();
@@ -76,20 +82,24 @@ function ActionButtons({ notice }: ActionButtonsProps) {
         <>
           <EditNoticeModal notice={notice} />
 
-          <Button 
-            variant="outline" 
-            size="icon-sm" 
+          <Button
+            variant="outline"
+            size="icon-sm"
             onClick={handleTogglePin}
-            disabled={isLoading}
-            className={notice.isPinned ? "text-primary border-primary/30 bg-primary/5" : "text-muted-foreground"}
+            loading={isLoading}
+            className={
+              notice.isPinned
+                ? "text-primary border-primary/30 bg-primary/5"
+                : "text-muted-foreground"
+            }
             title={notice.isPinned ? "Unpin Notice" : "Pin Notice"}
           >
-            {isLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Pin className={notice.isPinned ? "h-3.5 w-3.5 fill-primary" : "h-3.5 w-3.5"} />}
+            <Pin className={notice.isPinned ? "fill-primary" : ""} />
           </Button>
 
-          <Button 
-            variant="outline" 
-            size="icon-sm" 
+          <Button
+            variant="outline"
+            size="icon-sm"
             className="text-rose-600 hover:text-rose-700 hover:bg-rose-50"
             onClick={openConfirm}
             disabled={isLoading}
@@ -103,7 +113,7 @@ function ActionButtons({ notice }: ActionButtonsProps) {
       {isManager && confirmAction && (
         <ConfirmationModal
           open={confirmOpen}
-          onOpenChange={setOpen => {
+          onOpenChange={(setOpen) => {
             setConfirmOpen(setOpen);
             if (!setOpen) setConfirmAction(null);
           }}
@@ -126,9 +136,13 @@ export const columns: ColumnDef<INotice>[] = [
     header: "Title",
     cell: ({ row }) => (
       <div className="flex items-center gap-3">
-        {row.original.isPinned && <Pin className="h-3 w-3 text-primary fill-primary" />}
+        {row.original.isPinned && (
+          <Pin className="h-3 w-3 text-primary fill-primary" />
+        )}
         <div className="flex flex-col">
-          <span className="text-sm font-bold truncate max-w-64">{row.original.title}</span>
+          <span className="text-sm font-bold truncate max-w-64">
+            {row.original.title}
+          </span>
           <span className="text-xs text-muted-foreground uppercase font-bold">
             by {row.original.createdBy.fullName}
           </span>
@@ -142,7 +156,10 @@ export const columns: ColumnDef<INotice>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       return (
-        <Badge variant={status === "active" ? "success" : "muted"} className="capitalize font-bold px-2 py-0 h-5 text-xs">
+        <Badge
+          variant={status === "active" ? "success" : "muted"}
+          className="capitalize font-bold px-2 py-0 h-5 text-xs"
+        >
           {status}
         </Badge>
       );

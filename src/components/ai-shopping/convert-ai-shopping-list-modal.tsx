@@ -19,7 +19,9 @@ interface ConvertAiShoppingListModalProps {
   list: IAiShoppingList;
 }
 
-export function ConvertAiShoppingListModal({ list }: ConvertAiShoppingListModalProps) {
+export function ConvertAiShoppingListModal({
+  list,
+}: ConvertAiShoppingListModalProps) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -34,7 +36,9 @@ export function ConvertAiShoppingListModal({ list }: ConvertAiShoppingListModalP
   }, [open, list.messId]);
   const toggleMember = React.useCallback((memberId: string) => {
     setAssignedTo((prev) =>
-      prev.includes(memberId) ? prev.filter((id) => id !== memberId) : [...prev, memberId]
+      prev.includes(memberId)
+        ? prev.filter((id) => id !== memberId)
+        : [...prev, memberId],
     );
   }, []);
 
@@ -80,7 +84,11 @@ export function ConvertAiShoppingListModal({ list }: ConvertAiShoppingListModalP
       title="Convert to Market Schedule"
       description="Assign duties and create a pending market schedule from this approved list."
       actionTrigger={
-        <Button variant="outline" size="icon-sm" className="text-primary font-bold">
+        <Button
+          variant="outline"
+          size="icon-sm"
+          className="text-primary font-bold"
+        >
           <ShoppingCart />
         </Button>
       }
@@ -88,8 +96,12 @@ export function ConvertAiShoppingListModal({ list }: ConvertAiShoppingListModalP
       <div className="p-6 flex flex-col gap-6">
         <div className="rounded-lg border bg-muted/40 p-3 flex items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-bold">{list.items.length} shopping items</p>
-            <p className="text-xs text-muted-foreground">Items will be copied into the new schedule.</p>
+            <p className="text-sm font-bold">
+              {list.items.length} shopping items
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Items will be copied into the new schedule.
+            </p>
           </div>
           <Badge variant="info">approved</Badge>
         </div>
@@ -99,19 +111,27 @@ export function ConvertAiShoppingListModal({ list }: ConvertAiShoppingListModalP
             <span className="flex items-center gap-2">
               <UserPlus className="h-4 w-4 text-muted-foreground" /> Assign To
             </span>
-            <Badge variant="secondary" className="text-xs font-normal">{assignedTo.length} Selected</Badge>
+            <Badge variant="secondary" className="text-xs font-normal">
+              {assignedTo.length} Selected
+            </Badge>
           </label>
           <div className="border rounded-md p-2">
             <ScrollArea className="h-48">
               <div className="space-y-1">
                 {members.map((member) => (
-                  <div key={member._id} className="flex items-center space-x-3 p-1 hover:bg-background/50 rounded transition-colors">
+                  <div
+                    key={member._id}
+                    className="flex items-center space-x-3 p-1 hover:bg-background/50 rounded transition-colors"
+                  >
                     <Checkbox
                       id={`convert-${list._id}-${member._id}`}
                       checked={assignedTo.includes(member._id)}
                       onCheckedChange={() => toggleMember(member._id)}
                     />
-                    <label htmlFor={`convert-${list._id}-${member._id}`} className="text-sm cursor-pointer flex-1 py-1">
+                    <label
+                      htmlFor={`convert-${list._id}-${member._id}`}
+                      className="text-sm cursor-pointer flex-1 py-1"
+                    >
                       {member.name}
                     </label>
                   </div>
@@ -123,7 +143,8 @@ export function ConvertAiShoppingListModal({ list }: ConvertAiShoppingListModalP
 
         <div className="space-y-2">
           <label className="text-sm font-medium flex items-center gap-2">
-            <Wallet className="h-4 w-4 text-muted-foreground" /> Estimated Budget
+            <Wallet className="h-4 w-4 text-muted-foreground" /> Estimated
+            Budget
           </label>
           <Input
             type="number"
@@ -135,8 +156,18 @@ export function ConvertAiShoppingListModal({ list }: ConvertAiShoppingListModalP
         </div>
 
         <div className="flex justify-end gap-3 pt-4 border-t">
-          <Button variant="outline" onClick={() => setOpen(false)} disabled={isLoading}>Cancel</Button>
-          <Button onClick={handleConvert} disabled={isLoading} loading={isLoading} loadingText="Converting...">
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
+            disabled={isLoading}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleConvert}
+            loading={isLoading}
+            loadingText="Converting..."
+          >
             Convert
           </Button>
         </div>

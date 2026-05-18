@@ -159,11 +159,10 @@ export function CreateMealOffRequestModal({
           </Button>
           <Button 
             onClick={handleSubmit} 
-            disabled={isLoading}
             loading={isLoading}
             loadingText="Submitting..."
           >
-            <Save className="mr-2 h-4 w-4" /> Submit Request
+            <Save /> Submit Request
           </Button>
         </div>
       </div>

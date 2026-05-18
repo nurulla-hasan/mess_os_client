@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
-import { Plus, Loader2, MessageSquarePlus } from "lucide-react";
+import { Plus, MessageSquarePlus } from "lucide-react";
 import {
   Field,
   FieldLabel,
@@ -112,8 +112,8 @@ export function CreateComplaintModal({ messId }: CreateComplaintModalProps) {
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <MessageSquarePlus className="h-4 w-4" />}
+            <Button type="submit" loading={isLoading} loadingText="Submitting...">
+              <MessageSquarePlus />
               Submit Complaint
             </Button>
           </div>

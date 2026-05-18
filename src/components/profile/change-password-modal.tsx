@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { changePassword } from "@/services/auth.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
 
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 
@@ -22,7 +21,10 @@ interface ChangePasswordFormValues {
   confirmPassword: string;
 }
 
-export function ChangePasswordModal({ open, onOpenChange }: ChangePasswordModalProps) {
+export function ChangePasswordModal({
+  open,
+  onOpenChange,
+}: ChangePasswordModalProps) {
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm<ChangePasswordFormValues>();
 
@@ -54,25 +56,43 @@ export function ChangePasswordModal({ open, onOpenChange }: ChangePasswordModalP
       title="Change Password"
       description="Enter your current password and a new password to update your security."
     >
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6 max-h-[50vh] overflow-y-auto">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4 p-6 max-h-[50vh] overflow-y-auto"
+      >
         <div className="space-y-2">
           <Label htmlFor="oldPassword">Current Password</Label>
-          <Input id="oldPassword" type="password" {...register("oldPassword", { required: true })} />
+          <Input
+            id="oldPassword"
+            type="password"
+            {...register("oldPassword", { required: true })}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="newPassword">New Password</Label>
-          <Input id="newPassword" type="password" {...register("newPassword", { required: true, minLength: 6 })} />
+          <Input
+            id="newPassword"
+            type="password"
+            {...register("newPassword", { required: true, minLength: 6 })}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="confirmPassword">Confirm New Password</Label>
-          <Input id="confirmPassword" type="password" {...register("confirmPassword", { required: true })} />
+          <Input
+            id="confirmPassword"
+            type="password"
+            {...register("confirmPassword", { required: true })}
+          />
         </div>
         <div className="flex justify-end gap-3 pt-2">
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+          >
             Cancel
           </Button>
-          <Button type="submit" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit" loading={loading} loadingText="Updating...">
             Update Password
           </Button>
         </div>

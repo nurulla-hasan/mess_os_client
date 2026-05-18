@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
-import { Save, Loader2, Pencil } from "lucide-react";
+import { Save, Pencil } from "lucide-react";
 import {
   Field,
   FieldLabel,
@@ -165,8 +165,8 @@ export function EditNoticeModal({ notice }: EditNoticeModalProps) {
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            <Button type="submit" loading={isLoading} loadingText="Saving...">
+              <Save />
               Save Changes
             </Button>
           </div>

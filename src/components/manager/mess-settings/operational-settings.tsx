@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Settings, X, Loader2 } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -138,10 +138,10 @@ export function OperationalSettings({ mess }: OperationalSettingsProps) {
         <div className="pt-4">
           <Button 
             onClick={handleUpdate}
-            disabled={loading}
-            className="w-full md:w-auto font-bold px-8 shadow-lg shadow-primary/20"
+            loading={loading}
+            loadingText="Saving..."
+            className="w-full md:w-auto"
           >
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Save Operational Changes
           </Button>
         </div>

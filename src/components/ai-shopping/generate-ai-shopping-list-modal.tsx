@@ -7,8 +7,18 @@ import { Sparkles, Calendar as CalendarIcon, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn, ErrorToast, SuccessToast } from "@/lib/utils";
 import { generateAiShoppingList } from "@/services/ai-shopping.service";
 import { IMenuPlan } from "@/types/menu-plan.type";
@@ -18,7 +28,10 @@ interface GenerateAiShoppingListModalProps {
   menuPlans: IMenuPlan[];
 }
 
-export function GenerateAiShoppingListModal({ messId, menuPlans }: GenerateAiShoppingListModalProps) {
+export function GenerateAiShoppingListModal({
+  messId,
+  menuPlans,
+}: GenerateAiShoppingListModalProps) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -61,7 +74,7 @@ export function GenerateAiShoppingListModal({ messId, menuPlans }: GenerateAiSho
       description="Create a shopping draft from an existing menu plan."
       actionTrigger={
         <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">
-          <Sparkles className="mr-2 h-4 w-4" /> Generate New List
+          <Sparkles/> Generate New List
         </Button>
       }
     >
@@ -81,7 +94,9 @@ export function GenerateAiShoppingListModal({ messId, menuPlans }: GenerateAiSho
             </SelectContent>
           </Select>
           {menuPlans.length === 0 && (
-            <p className="text-xs text-muted-foreground">Create a menu plan first.</p>
+            <p className="text-xs text-muted-foreground">
+              Create a menu plan first.
+            </p>
           )}
         </div>
 
@@ -91,22 +106,45 @@ export function GenerateAiShoppingListModal({ messId, menuPlans }: GenerateAiSho
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
-                className={cn("w-full justify-start text-left font-normal", !targetDate && "text-muted-foreground")}
+                className={cn(
+                  "w-full justify-start text-left font-normal",
+                  !targetDate && "text-muted-foreground",
+                )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {targetDate ? format(targetDate, "PPP") : <span>Pick a date</span>}
+                <CalendarIcon/>
+                {targetDate ? (
+                  format(targetDate, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-              <Calendar mode="single" selected={targetDate} onSelect={(date) => date && setTargetDate(date)} initialFocus />
+              <Calendar
+                mode="single"
+                selected={targetDate}
+                onSelect={(date) => date && setTargetDate(date)}
+                initialFocus
+              />
             </PopoverContent>
           </Popover>
         </div>
 
         <div className="flex justify-end gap-3 pt-4 border-t">
-          <Button variant="outline" onClick={() => setOpen(false)} disabled={isLoading}>Cancel</Button>
-          <Button onClick={handleGenerate} disabled={isLoading || menuPlans.length === 0} loading={isLoading} loadingText="Generating...">
-            <Save className="mr-2 h-4 w-4" /> Generate
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
+            disabled={isLoading}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleGenerate}
+            disabled={menuPlans.length === 0}
+            loading={isLoading}
+            loadingText="Generating..."
+          >
+            <Save/> Generate
           </Button>
         </div>
       </div>

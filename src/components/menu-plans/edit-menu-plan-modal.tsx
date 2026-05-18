@@ -30,10 +30,10 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
           const res = await getMessDetails(plan.messId);
           if (res.success && res.data.settings?.mealCategories) {
             setCategories(res.data.settings.mealCategories);
-            
+
             // Initialize missing categories from plan.meals
             const updatedMeals = { ...plan.meals };
-            res.data.settings.mealCategories.forEach(cat => {
+            res.data.settings.mealCategories.forEach((cat) => {
               if (!updatedMeals[cat]) updatedMeals[cat] = "";
             });
             setMeals(updatedMeals);
@@ -70,7 +70,7 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
   };
 
   const handleMealChange = (category: string, value: string) => {
-    setMeals(prev => ({ ...prev, [category]: value }));
+    setMeals((prev) => ({ ...prev, [category]: value }));
   };
 
   return (
@@ -93,7 +93,9 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-10 space-y-4">
             <Loader2 className="h-8 w-8 animate-spin text-primary opacity-20" />
-            <p className="text-sm text-muted-foreground italic">Loading categories...</p>
+            <p className="text-sm text-muted-foreground italic">
+              Loading categories...
+            </p>
           </div>
         ) : (
           <>
@@ -114,11 +116,19 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
             </div>
 
             <div className="pt-4 flex justify-end gap-3 border-t">
-              <Button variant="outline" onClick={() => setOpen(false)} disabled={isSaving}>
+              <Button
+                variant="outline"
+                onClick={() => setOpen(false)}
+                disabled={isSaving}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={isSaving} className="gap-3 px-8">
-                {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+              <Button
+                onClick={handleSave}
+                loading={isSaving}
+                loadingText="Saving..."
+              >
+                <Save />
                 Save Changes
               </Button>
             </div>
