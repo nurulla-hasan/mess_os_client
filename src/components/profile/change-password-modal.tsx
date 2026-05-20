@@ -10,21 +10,14 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 
-interface ChangePasswordModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
 interface ChangePasswordFormValues {
   oldPassword: string;
   newPassword: string;
   confirmPassword: string;
 }
 
-export function ChangePasswordModal({
-  open,
-  onOpenChange,
-}: ChangePasswordModalProps) {
+export function ChangePasswordModal() {
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm<ChangePasswordFormValues>();
 
@@ -42,7 +35,7 @@ export function ChangePasswordModal({
     if (res.success) {
       SuccessToast("Password changed successfully");
       reset();
-      onOpenChange(false);
+      setOpen(false);
     } else {
       ErrorToast(res.message);
     }
@@ -52,7 +45,16 @@ export function ChangePasswordModal({
   return (
     <ModalWrapper
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={setOpen}
+      actionTrigger={
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full justify-start text-xs font-bold hover:bg-primary/5 border-primary/10"
+        >
+          Change Password
+        </Button>
+      }
       title="Change Password"
       description="Enter your current password and a new password to update your security."
     >
@@ -88,7 +90,7 @@ export function ChangePasswordModal({
           <Button
             type="button"
             variant="outline"
-            onClick={() => onOpenChange(false)}
+            onClick={() => setOpen(false)}
           >
             Cancel
           </Button>

@@ -10,13 +10,12 @@ import { updateMe } from "@/services/auth.service";
 import { IUser } from "@/types/user.type";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { Edit } from "lucide-react";
 
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 
 interface EditProfileModalProps {
   user: IUser;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
 }
 
 interface EditProfileFormValues {
@@ -26,12 +25,9 @@ interface EditProfileFormValues {
   bio: string;
 }
 
-export function EditProfileModal({
-  user,
-  open,
-  onOpenChange,
-}: EditProfileModalProps) {
+export function EditProfileModal({ user }: EditProfileModalProps) {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const { register, handleSubmit } = useForm<EditProfileFormValues>({
     defaultValues: {
@@ -47,7 +43,7 @@ export function EditProfileModal({
     const res = await updateMe(data);
     if (res.success) {
       SuccessToast("Profile updated successfully");
-      onOpenChange(false);
+      setOpen(false);
       router.refresh();
     } else {
       ErrorToast(res.message);
@@ -58,7 +54,17 @@ export function EditProfileModal({
   return (
     <ModalWrapper
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={setOpen}
+      actionTrigger={
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-primary font-bold hover:bg-primary/5"
+        >
+          <Edit />
+          Edit Profile
+        </Button>
+      }
       title="Edit Profile"
       description="Make changes to your profile here. Click save when you're done."
     >
@@ -90,7 +96,7 @@ export function EditProfileModal({
           <Button
             type="button"
             variant="outline"
-            onClick={() => onOpenChange(false)}
+            onClick={() => setOpen(false)}
           >
             Cancel
           </Button>

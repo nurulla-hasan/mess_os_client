@@ -1,14 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   User, 
   ShieldCheck, 
-  Camera, 
   Lock, 
   LogOut,
-  Edit,
   MapPin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,37 +14,10 @@ import { Badge } from "@/components/ui/badge";
 import { IUser } from "@/types/user.type";
 import { EditProfileModal } from "./edit-profile-modal";
 import { ChangePasswordModal } from "./change-password-modal";
-import { logout, updateAvatar } from "@/services/auth.service";
-import { SuccessToast, ErrorToast } from "@/lib/utils";
+import { logout } from "@/services/auth.service";
+import { AvatarCropModal } from "./avatar-crop-modal";
 
 export function ProfileView({ user, role }: { user: IUser; role: "admin" | "manager" | "member" }) {
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [avatarLoading, setAvatarLoading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleAvatarClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("avatar", file);
-
-    setAvatarLoading(true);
-    const res = await updateAvatar(formData);
-    if (res.success) {
-      SuccessToast("Avatar updated successfully");
-      window.location.reload(); // Refresh to show new avatar
-    } else {
-      ErrorToast(res.message);
-    }
-    setAvatarLoading(false);
-  };
-
   const handleLogout = async () => {
     await logout();
     window.location.href = "/login";
@@ -66,22 +36,7 @@ export function ProfileView({ user, role }: { user: IUser; role: "admin" | "mana
                 {user.fullName.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              className="hidden" 
-              accept="image/*" 
-              onChange={handleFileChange}
-            />
-            <Button 
-              size="icon" 
-              variant="secondary" 
-              className="absolute bottom-0 right-0 h-8 w-8 rounded-full shadow-lg border border-border"
-              onClick={handleAvatarClick}
-              loading={avatarLoading}
-            >
-              <Camera />
-            </Button>
+            <AvatarCropModal triggerClassName="absolute bottom-0 right-0" />
           </div>
           <div className="pb-4">
             <h2 className="text-2xl font-bold flex items-center gap-3">
@@ -109,14 +64,7 @@ export function ProfileView({ user, role }: { user: IUser; role: "admin" | "mana
               </CardTitle>
               <CardDescription>Your contact and account details.</CardDescription>
             </div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-primary font-bold hover:bg-primary/5"
-              onClick={() => setIsEditModalOpen(true)}
-            >
-              <Edit className="mr-2 h-3.5 w-3.5" /> Edit Profile
-            </Button>
+            <EditProfileModal user={user} />
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -159,14 +107,7 @@ export function ProfileView({ user, role }: { user: IUser; role: "admin" | "mana
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full justify-start text-xs font-bold hover:bg-primary/5 border-primary/10"
-                onClick={() => setIsPasswordModalOpen(true)}
-              >
-                Change Password
-              </Button>
+              <ChangePasswordModal />
               <div className="p-3 bg-muted/30 rounded-lg border border-border/50">
                 <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">Status</p>
                 <div className="flex items-center gap-2">
@@ -190,17 +131,6 @@ export function ProfileView({ user, role }: { user: IUser; role: "admin" | "mana
           </Card>
         </div>
       </div>
-
-      {/* Modals */}
-      <EditProfileModal 
-        user={user} 
-        open={isEditModalOpen} 
-        onOpenChange={setIsEditModalOpen} 
-      />
-      <ChangePasswordModal 
-        open={isPasswordModalOpen} 
-        onOpenChange={setIsPasswordModalOpen} 
-      />
     </div>
   );
 }
