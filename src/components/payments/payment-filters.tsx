@@ -13,12 +13,12 @@ export function PaymentFilters() {
   const { getFilter, updateFilter } = useSmartFilter();
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
       <Select
         value={getFilter("status", "all")}
         onValueChange={(value) => updateFilter("status", value === "all" ? null : value)}
       >
-        <SelectTrigger className="w-[150px]">
+        <SelectTrigger className="w-full sm:w-[150px]">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>

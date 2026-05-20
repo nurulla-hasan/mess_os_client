@@ -41,9 +41,9 @@ export default async function ManagerMenuPlansPage({
           title="Menu Plans"
           description="Design and publish daily meal menus. Use AI to generate healthy meal ideas."
         />
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row gap-3 w-full xl:w-auto">
           <MenuPlanFilters />
-          <div className="flex gap-3">
+          <div className="col-span-2 grid grid-cols-2 gap-3 sm:flex">
             <AiGenerateMenuPlanModal messId={activeMessId} />
             <CreateMenuPlanModal messId={activeMessId} />
           </div>

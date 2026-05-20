@@ -88,7 +88,7 @@ export function CreateMealOffRequestModal({
       title="Create Meal Off Request"
       description="Apply to stop specific meals for a date range. Defaults to all meals (full-day off)."
       actionTrigger={
-        <Button>
+        <Button className="w-full sm:w-auto">
           <Plus /> Create Request
         </Button>
       }

@@ -96,7 +96,7 @@ export function CreateMenuPlanModal({ messId }: CreateMenuPlanModalProps) {
       title="Create New Menu Plan"
       description="Plan your meals for a specific date."
       actionTrigger={
-        <Button>
+        <Button className="w-full sm:w-auto">
           <Plus /> New Plan
         </Button>
       }

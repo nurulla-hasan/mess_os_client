@@ -62,7 +62,7 @@ export function EditProfileModal({ user }: EditProfileModalProps) {
           className="text-primary font-bold hover:bg-primary/5"
         >
           <Edit />
-          Edit Profile
+          <span className="hidden sm:block">Edit Profile</span>
         </Button>
       }
       title="Edit Profile"

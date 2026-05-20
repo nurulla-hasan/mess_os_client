@@ -39,7 +39,7 @@ export function MealFilters() {
         placeholder="Search members ..." 
       />
       
-      <div className="flex items-center gap-1.5 bg-muted p-0.5 rounded-md border shadow-sm backdrop-blur-sm">
+      <div className="flex w-full sm:w-auto items-center justify-between gap-1.5 bg-muted p-0.5 rounded-md border shadow-sm backdrop-blur-sm">
         <Button 
           variant="ghost" 
           size="icon-sm" 
@@ -53,6 +53,7 @@ export function MealFilters() {
             <Button 
               variant="ghost" 
               size="sm"
+              className="flex-1 sm:flex-none"
             >
               <CalendarIcon className="h-3.5 w-3.5 text-primary" />
               <span className="text-sm font-bold bg-linear-to-r from-foreground to-foreground/70 bg-clip-text text-transparent whitespace-nowrap">

@@ -41,12 +41,12 @@ export function MenuPlanFilters({ showStatus = true }: MenuPlanFiltersProps) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
+    <div className="contents sm:flex sm:flex-row sm:items-center sm:gap-3 sm:w-auto">
       <DatePickerWithRange 
         date={dateRange} 
         setDate={handleDateChange} 
         placeholder="Filter by date range"
-        className="w-full sm:w-64"
+        className="col-span-2 w-full sm:w-64"
       />
 
       {showStatus && (
@@ -54,7 +54,7 @@ export function MenuPlanFilters({ showStatus = true }: MenuPlanFiltersProps) {
           value={statusFilter} 
           onValueChange={(val) => updateBatch({ status: val === "all" ? null : val })}
         >
-          <SelectTrigger className="w-full sm:w-44">
+          <SelectTrigger className="col-span-2 w-full sm:w-44">
             <SelectValue placeholder="All Status" />
           </SelectTrigger>
           <SelectContent>

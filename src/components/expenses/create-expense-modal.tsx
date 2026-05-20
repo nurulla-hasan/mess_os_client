@@ -107,7 +107,7 @@ export function CreateExpenseModal({ messId, mode = "manager" }: CreateExpenseMo
       title="Create New Expense"
       description="Log a new expenditure for the mess. Expenses are subject to approval."
       actionTrigger={
-        <Button>
+        <Button className="col-span-2 w-full sm:col-span-1 sm:w-auto">
           <Plus /> Add Expense
         </Button>
       }

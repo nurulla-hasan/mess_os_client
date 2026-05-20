@@ -218,7 +218,7 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
       title="Create Market Schedule"
       description="Plan bazaar duties and shopping lists for members."
       actionTrigger={
-        <Button>
+        <Button className="w-full sm:w-auto">
           <Plus /> Create Schedule
         </Button>
       }

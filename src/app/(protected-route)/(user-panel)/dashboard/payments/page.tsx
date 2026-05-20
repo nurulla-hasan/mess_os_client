@@ -38,7 +38,7 @@ export default async function MemberPaymentsPage({
           title="My Payments"
           description="View your deposit history and submit new payment records for approval."
         />
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <PaymentFilters />
           <CreatePaymentModal messId={activeMessId} mode="member" />
         </div>

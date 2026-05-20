@@ -74,7 +74,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
       title="AI Menu Optimization"
       description="Let AI generate the perfect menu based on your constraints and members' past meals."
       actionTrigger={
-        <Button variant="outline" className="gap-3">
+        <Button variant="outline" className="w-full gap-3 sm:w-auto">
           <Sparkles className="h-4 w-4" /> AI Generate
         </Button>
       }

@@ -48,7 +48,7 @@ export default async function ManagerMarketSchedulesPage({
           title="Market Schedules"
           description="Plan and assign bazaar/shopping duties to mess members."
         />
-        <div className="flex items-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <MarketScheduleFilters />
           <CreateMarketScheduleModal messId={activeMessId} />
         </div>

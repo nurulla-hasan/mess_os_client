@@ -14,12 +14,12 @@ export function ExpenseFilters() {
   const { getFilter, updateFilter } = useSmartFilter();
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="contents sm:flex sm:flex-wrap sm:items-center sm:gap-3">
       <Select
         value={getFilter("status", "all")}
         onValueChange={(value) => updateFilter("status", value === "all" ? null : value)}
       >
-        <SelectTrigger className="w-[150px]">
+        <SelectTrigger className="w-full sm:w-[150px]">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
@@ -35,7 +35,7 @@ export function ExpenseFilters() {
         value={getFilter("fundSource", "all")}
         onValueChange={(value) => updateFilter("fundSource", value === "all" ? null : value)}
       >
-        <SelectTrigger className="w-[150px]">
+        <SelectTrigger className="w-full sm:w-[150px]">
           <SelectValue placeholder="Fund Source" />
         </SelectTrigger>
         <SelectContent>

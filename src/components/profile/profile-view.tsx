@@ -27,8 +27,8 @@ export function ProfileView({ user, role }: { user: IUser; role: "admin" | "mana
     <div className="max-w-4xl mx-auto space-y-6 pb-12">
       {/* Header / Avatar Section */}
       <div className="relative group">
-        <div className="h-32 w-full bg-linear-to-r from-primary/20 via-primary/10 to-background rounded-3xl" />
-        <div className="absolute -bottom-12 left-8 flex items-end gap-6">
+        <div className="h-56 sm:h-32 w-full bg-linear-to-r from-primary/20 via-primary/10 to-background rounded-3xl" />
+        <div className="absolute inset-x-0 bottom-6 flex flex-col items-center gap-3 px-4 sm:inset-x-auto sm:-bottom-12 sm:left-8 sm:flex-row sm:items-end sm:gap-6 sm:px-0">
           <div className="relative">
             <Avatar className="h-28 w-28 border-4 border-background shadow-xl">
               <AvatarImage src={user.avatar} className="object-cover" />
@@ -38,22 +38,24 @@ export function ProfileView({ user, role }: { user: IUser; role: "admin" | "mana
             </Avatar>
             <AvatarCropModal triggerClassName="absolute bottom-0 right-0" />
           </div>
-          <div className="pb-4">
-            <h2 className="text-2xl font-bold flex items-center gap-3">
-              {user.fullName}
+          <div className="flex flex-col items-center gap-1 sm:items-start sm:pb-4">
+            <h2 className="text-2xl font-bold text-center sm:text-left">
+              <span>{user.fullName}</span>
+            </h2>
+            <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:gap-3">
               <Badge variant={role === "admin" ? "admin" : role === "manager" ? "manager" : "member"} className="uppercase h-5">
                 {role}
               </Badge>
-            </h2>
-            <p className="text-sm text-muted-foreground flex items-center gap-1">
-              <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
-              {user.isEmailVerified ? "Verified Account" : "Unverified Account"}
-            </p>
+              <p className="text-sm text-muted-foreground flex items-center gap-1">
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" />
+                {user.isEmailVerified ? "Verified Account" : "Unverified Account"}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="pt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="sm:pt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Contact Info */}
         <Card className="md:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">

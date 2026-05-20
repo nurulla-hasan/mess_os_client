@@ -3,12 +3,7 @@ import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { memberMealOffColumns } from "@/components/meal-off-requests/member-meal-off-columns";
-import { 
-  Clock, 
-  CheckCircle2, 
-  XCircle,
-  Inbox
-} from "lucide-react";
+import { Clock, CheckCircle2, XCircle, Inbox } from "lucide-react";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { getMyMealOffRequests } from "@/services/meal-off-request.service";
 import { getMessDetails } from "@/services/mess.service";
@@ -18,6 +13,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { InfoIcon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export const metadata: Metadata = {
   title: "Meal Off Requests | MessManager",
@@ -41,24 +37,28 @@ export default async function MemberMealOffRequestsPage({
         <Alert className="mt-6">
           <InfoIcon className="h-4 w-4" />
           <AlertTitle>No Active Mess</AlertTitle>
-          <AlertDescription>Please join a mess to manage meal off requests.</AlertDescription>
+          <AlertDescription>
+            Please join a mess to manage meal off requests.
+          </AlertDescription>
         </Alert>
       </DashboardPageLayout>
     );
   }
 
   const params = (await searchParams) as QueryParams;
-  const statusFilter = (typeof params.status === "string" ? params.status : params.status?.[0]) || "all";
-  
+  const statusFilter =
+    (typeof params.status === "string" ? params.status : params.status?.[0]) ||
+    "all";
+
   // Prepare API params - if status is 'all', don't send status filter
   const apiParams = { ...params };
   if (statusFilter === "all") delete apiParams.status;
-  
+
   const { data: messDetails } = await getMessDetails(activeMessId);
   const mealCategories = messDetails?.settings?.mealCategories || [];
 
   const { data, meta } = await getMyMealOffRequests(activeMessId, apiParams);
-  
+
   const requests = data || [];
 
   return (
@@ -68,42 +68,54 @@ export default async function MemberMealOffRequestsPage({
           title="Meal Off Requests"
           description="Request to skip meals for a specific date range. Manager approval is required."
         />
-        <CreateMealOffRequestModal 
-          messId={activeMessId} 
+        <CreateMealOffRequestModal
+          messId={activeMessId}
           mealCategories={mealCategories}
         />
       </div>
 
       <div className="space-y-4">
-        <Tabs value={statusFilter} className="w-full">
-          <TabsList variant="line">
-            <Link href="?status=all">
-              <TabsTrigger value="all" className="flex items-center gap-3">
-                <Inbox className="h-4 w-4" />
-                <span>All Requests</span>
-              </TabsTrigger>
-            </Link>
-            <Link href="?status=pending">
-              <TabsTrigger value="pending" className="flex items-center gap-3 text-amber-500">
-                <Clock className="h-4 w-4" />
-                <span>Pending</span>
-              </TabsTrigger>
-            </Link>
-            <Link href="?status=approved">
-              <TabsTrigger value="approved" className="flex items-center gap-3 text-emerald-500">
-                <CheckCircle2 className="h-4 w-4" />
-                <span>Approved</span>
-              </TabsTrigger>
-            </Link>
-            <Link href="?status=rejected">
-              <TabsTrigger value="rejected" className="flex items-center gap-3 text-rose-500">
-                <XCircle className="h-4 w-4" />
-                <span>Rejected</span>
-              </TabsTrigger>
-            </Link>
-          </TabsList>
-        </Tabs>
- 
+        <ScrollArea className="w-full overflow-x-auto">
+          <Tabs value={statusFilter}>
+            <TabsList variant="line">
+              <Link href="?status=all">
+                <TabsTrigger value="all" className="flex items-center gap-3">
+                  <Inbox className="h-4 w-4" />
+                  <span>All Requests</span>
+                </TabsTrigger>
+              </Link>
+              <Link href="?status=pending">
+                <TabsTrigger
+                  value="pending"
+                  className="flex items-center gap-3 text-amber-500"
+                >
+                  <Clock className="h-4 w-4" />
+                  <span>Pending</span>
+                </TabsTrigger>
+              </Link>
+              <Link href="?status=approved">
+                <TabsTrigger
+                  value="approved"
+                  className="flex items-center gap-3 text-emerald-500"
+                >
+                  <CheckCircle2 className="h-4 w-4" />
+                  <span>Approved</span>
+                </TabsTrigger>
+              </Link>
+              <Link href="?status=rejected">
+                <TabsTrigger
+                  value="rejected"
+                  className="flex items-center gap-3 text-rose-500"
+                >
+                  <XCircle className="h-4 w-4" />
+                  <span>Rejected</span>
+                </TabsTrigger>
+              </Link>
+            </TabsList>
+          </Tabs>
+          <ScrollBar orientation="horizontal" className="h-0" />
+        </ScrollArea>
+
         <DataTable columns={memberMealOffColumns} data={requests} meta={meta} />
       </div>
     </DashboardPageLayout>

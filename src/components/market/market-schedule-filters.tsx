@@ -19,9 +19,9 @@ export function MarketScheduleFilters() {
   };
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 w-full">
       <Select value={currentStatus} onValueChange={handleStatusChange}>
-        <SelectTrigger className="w-37.5">
+        <SelectTrigger className="w-full sm:w-37.5">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>

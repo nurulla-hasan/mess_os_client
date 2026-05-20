@@ -1,6 +1,7 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/complaints/columns";
 import { 
@@ -61,40 +62,43 @@ export default async function MemberComplaintsPage({
       </div>
 
       <div className="space-y-4">
-        <Tabs value={statusFilter} className="w-full">
-          <TabsList variant="line">
-            <Link href="?status=all">
-              <TabsTrigger value="all" className="flex items-center gap-2">
-                <MessageSquare className="h-4 w-4" />
-                <span>All My Issues</span>
-              </TabsTrigger>
-            </Link>
-            <Link href="?status=open">
-              <TabsTrigger value="open" className="flex items-center gap-2">
-                <AlertCircle className="h-4 w-4" />
-                <span>Open</span>
-              </TabsTrigger>
-            </Link>
-            <Link href="?status=in_progress">
-              <TabsTrigger value="in_progress" className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>In Progress</span>
-              </TabsTrigger>
-            </Link>
-            <Link href="?status=resolved">
-              <TabsTrigger value="resolved" className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4" />
-                <span>Resolved</span>
-              </TabsTrigger>
-            </Link>
-            <Link href="?status=rejected">
-              <TabsTrigger value="rejected" className="flex items-center gap-2">
-                <XCircle className="h-4 w-4" />
-                <span>Rejected</span>
-              </TabsTrigger>
-            </Link>
-          </TabsList>
-        </Tabs>
+        <ScrollArea className="w-full overflow-x-auto">
+          <Tabs value={statusFilter} className="w-full">
+            <TabsList variant="line">
+              <Link href="?status=all">
+                <TabsTrigger value="all" className="flex items-center gap-2">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>All My Issues</span>
+                </TabsTrigger>
+              </Link>
+              <Link href="?status=open">
+                <TabsTrigger value="open" className="flex items-center gap-2">
+                  <AlertCircle className="h-4 w-4" />
+                  <span>Open</span>
+                </TabsTrigger>
+              </Link>
+              <Link href="?status=in_progress">
+                <TabsTrigger value="in_progress" className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>In Progress</span>
+                </TabsTrigger>
+              </Link>
+              <Link href="?status=resolved">
+                <TabsTrigger value="resolved" className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4" />
+                  <span>Resolved</span>
+                </TabsTrigger>
+              </Link>
+              <Link href="?status=rejected">
+                <TabsTrigger value="rejected" className="flex items-center gap-2">
+                  <XCircle className="h-4 w-4" />
+                  <span>Rejected</span>
+                </TabsTrigger>
+              </Link>
+            </TabsList>
+          </Tabs>
+          <ScrollBar orientation="horizontal" className="h-0" />
+        </ScrollArea>
 
         <DataTable columns={columns} data={complaints} meta={meta} />
       </div>

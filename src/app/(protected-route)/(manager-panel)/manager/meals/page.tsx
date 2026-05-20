@@ -42,7 +42,7 @@ export default async function ManagerMealsPage({
           title="Meals Management"
           description="Log daily meals for members and monitor monthly consumption patterns."
         />
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="grid grid-cols-1 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <MealFilters />
           <LogMealModal messId={activeMessId} />
         </div>

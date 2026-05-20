@@ -1,6 +1,7 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/market/columns";
 import { 
@@ -58,34 +59,37 @@ export default async function MemberMarketDutiesPage({
         description="Track your assigned bazaar days, view shopping lists, and record actual expenditures."
       />
 
-      <Tabs value={status}>
-        <TabsList variant="line">
-          <Link href="/dashboard/market-duties">
-            <TabsTrigger value="all">
-              <ShoppingCart className="h-4 w-4" />
-              <span>All Duties</span>
-            </TabsTrigger>
-          </Link>
-          <Link href="?status=pending">
-            <TabsTrigger value="pending">
-              <Clock className="h-3.5 w-3.5" />
-              Pending
-            </TabsTrigger>
-          </Link>
-          <Link href="?status=completed">
-            <TabsTrigger value="completed">
-              <CheckCircle2 className="h-3.5 w-3.5" />
-              Completed
-            </TabsTrigger>
-          </Link>
-          <Link href="?status=void">
-            <TabsTrigger value="void">
-              <Ban className="h-3.5 w-3.5" />
-              Voided
-            </TabsTrigger>
-          </Link>
-        </TabsList>
-      </Tabs>
+      <ScrollArea className="w-full overflow-x-auto">
+        <Tabs value={status}>
+          <TabsList variant="line">
+            <Link href="/dashboard/market-duties">
+              <TabsTrigger value="all">
+                <ShoppingCart className="h-4 w-4" />
+                <span>All Duties</span>
+              </TabsTrigger>
+            </Link>
+            <Link href="?status=pending">
+              <TabsTrigger value="pending">
+                <Clock className="h-3.5 w-3.5" />
+                Pending
+              </TabsTrigger>
+            </Link>
+            <Link href="?status=completed">
+              <TabsTrigger value="completed">
+                <CheckCircle2 className="h-3.5 w-3.5" />
+                Completed
+              </TabsTrigger>
+            </Link>
+            <Link href="?status=void">
+              <TabsTrigger value="void">
+                <Ban className="h-3.5 w-3.5" />
+                Voided
+              </TabsTrigger>
+            </Link>
+          </TabsList>
+        </Tabs>
+        <ScrollBar orientation="horizontal" className="h-0" />
+      </ScrollArea>
 
       <DataTable columns={columns} data={data || []} meta={meta} />
 
