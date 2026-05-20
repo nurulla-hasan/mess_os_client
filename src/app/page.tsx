@@ -26,6 +26,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { getPublicAuthState } from "@/lib/public-auth";
+import { PublicFooter } from "@/components/layout/public-footer";
 
 export default async function RootPage() {
   const { isAuthenticated, appHref } = await getPublicAuthState();
@@ -131,7 +132,7 @@ export default async function RootPage() {
       </header>
 
       {/* Hero Section */}
-      <div className="relative overflow-hidden pt-16 pb-24 sm:pt-24 sm:pb-32 flex-1 flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]">
+      <div className="relative overflow-hidden pt-16 pb-24 flex-1 flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]">
         <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-700 slide-in-from-bottom-6">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold border border-primary/20 shadow-sm mx-auto">
@@ -202,9 +203,20 @@ export default async function RootPage() {
       </div>
 
       {/* Feature Grid Banner */}
-      <section className="border-t bg-muted/20 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center sm:text-left">
-          <div className="space-y-2">
+      <section className="bg-background pt-16 pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-10">
+          <div className="mx-auto max-w-2xl text-center space-y-3">
+            <div className="inline-flex items-center gap-2 rounded-full border bg-primary/5 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
+              <Sparkles className="size-3.5" />
+              Core Advantages
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              Built to keep shared living transparent
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="rounded-xl border bg-card p-5 shadow-sm space-y-3">
             <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary mx-auto sm:mx-0 font-bold mb-3">
               <Calculator className="size-5" />
             </div>
@@ -214,7 +226,7 @@ export default async function RootPage() {
             </p>
           </div>
 
-          <div className="space-y-2">
+          <div className="rounded-xl border bg-card p-5 shadow-sm space-y-3">
             <div className="size-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-600 mx-auto sm:mx-0 font-bold mb-3">
               <Calendar className="size-5" />
             </div>
@@ -224,7 +236,7 @@ export default async function RootPage() {
             </p>
           </div>
 
-          <div className="space-y-2">
+          <div className="rounded-xl border bg-card p-5 shadow-sm space-y-3">
             <div className="size-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-600 mx-auto sm:mx-0 font-bold mb-3">
               <Wallet className="size-5" />
             </div>
@@ -234,7 +246,7 @@ export default async function RootPage() {
             </p>
           </div>
 
-          <div className="space-y-2">
+          <div className="rounded-xl border bg-card p-5 shadow-sm space-y-3">
             <div className="size-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-600 mx-auto sm:mx-0 font-bold mb-3">
               <Smartphone className="size-5" />
             </div>
@@ -243,21 +255,11 @@ export default async function RootPage() {
               Pause your meal with a single click before the daily booking cutoff time when eating outside.
             </p>
           </div>
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t py-6 text-center text-xs text-muted-foreground">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 Mess OS. All rights reserved.</p>
-          <div className="flex items-center gap-6 font-medium">
-            <Link href="/docs" className="hover:underline">Documentation</Link>
-            <Link href="/docs/manager" className="hover:underline">Manager Guide</Link>
-            <Link href="/docs/user" className="hover:underline">Member Guide</Link>
-            <Link href="/auth/login" className="hover:underline">Login</Link>
-          </div>
-        </div>
-      </footer>
+      <PublicFooter />
     </main>
   );
 }

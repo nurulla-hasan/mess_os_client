@@ -23,6 +23,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { getPublicAuthState } from "@/lib/public-auth";
+import { PublicFooter } from "@/components/layout/public-footer";
 
 export default async function DocsLayout({
   children,
@@ -199,6 +200,8 @@ export default async function DocsLayout({
           {children}
         </main>
       </div>
+
+      <PublicFooter />
     </div>
   );
 }
