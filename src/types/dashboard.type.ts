@@ -23,6 +23,8 @@ export interface IDashboardSummary {
   pendingPaymentsCount: number;
   monthlyExpensesAmount: number;
   monthlyExpensesCount: number;
+  monthlyUtilitiesAmount: number;
+  monthlyUtilitiesCount: number;
   pendingExpensesAmount: number;
   pendingExpensesCount: number;
   unpaidUtilities: number;

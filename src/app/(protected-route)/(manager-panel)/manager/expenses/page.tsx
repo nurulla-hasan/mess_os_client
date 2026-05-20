@@ -4,12 +4,13 @@ import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/expenses/columns";
 import { getMessExpenses, getMyExpenses } from "@/services/expense.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
-import { AlertCircle, History, UserCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, History, ReceiptText, UserCircle, Wallet } from "lucide-react";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { ExpenseFilters } from "@/components/expenses/expense-filters";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CreateExpenseModal } from "@/components/expenses/create-expense-modal";
 import Link from "next/link";
+import { SummaryCard } from "@/components/billing/summary-card";
 
 export default async function ManagerExpensesPage({
   searchParams,
@@ -40,6 +41,7 @@ export default async function ManagerExpensesPage({
   const { data, meta } = await (view === "my" 
     ? getMyExpenses(activeMessId, apiParams)
     : getMessExpenses(activeMessId, apiParams));
+  const summary = meta?.summary || {};
 
   return (
     <DashboardPageLayout>
@@ -70,6 +72,37 @@ export default async function ManagerExpensesPage({
           </Link>
         </TabsList>
       </Tabs>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <SummaryCard
+          icon={Wallet}
+          label="Total Expenses"
+          value={`৳${(summary.totalAmount || 0).toLocaleString()}`}
+          subValue={`${(summary.totalCount || 0).toLocaleString()} records`}
+          variant="info"
+        />
+        <SummaryCard
+          icon={CheckCircle2}
+          label="Approved"
+          value={`৳${(summary.approvedAmount || 0).toLocaleString()}`}
+          subValue={`${(summary.approvedCount || 0).toLocaleString()} settled`}
+          variant="success"
+        />
+        <SummaryCard
+          icon={Clock}
+          label="Pending"
+          value={`৳${(summary.pendingAmount || 0).toLocaleString()}`}
+          subValue={`${(summary.pendingCount || 0).toLocaleString()} to approve`}
+          variant="warning"
+        />
+        <SummaryCard
+          icon={ReceiptText}
+          label="Personal Cash"
+          value={`৳${(summary.personalCashAmount || 0).toLocaleString()}`}
+          subValue={`${(summary.personalCashCount || 0).toLocaleString()} reimbursements`}
+          variant="default"
+        />
+      </div>
 
       <DataTable 
         columns={columns} 

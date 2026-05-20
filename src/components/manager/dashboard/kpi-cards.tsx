@@ -55,10 +55,10 @@ export function KPICards({ summary }: KPICardsProps) {
       isWarning: summary.pendingExpensesCount > 0
     },
     {
-      label: "Unpaid Utilities",
-      value: summary.unpaidUtilities.toLocaleString(),
+      label: "Monthly Utilities",
+      value: `৳${summary.monthlyUtilitiesAmount.toLocaleString()}`,
       icon: Zap,
-      subValue: "Bills due",
+      subValue: `${summary.unpaidUtilities.toLocaleString()} bills due`,
       colorVar: "var(--chart-5)",
       isWarning: summary.unpaidUtilities > 0
     },

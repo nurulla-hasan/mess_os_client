@@ -14,5 +14,6 @@ export interface ApiResponse<T = null> {
     page: number;
     limit: number;
     totalPages: number;
+    summary?: Record<string, number>;
   };
 }

@@ -72,9 +72,9 @@ export default async function ManagerNoticesPage({ searchParams }: Props) {
                     Posted by {notice.createdBy.fullName} on {format(new Date(notice.createdAt), "MMM dd, yyyy")}
                   </p>
                 </div>
-                <Button variant="ghost" size="sm" className="text-primary font-bold">
+                {/* <Button variant="ghost" size="sm" className="text-primary font-bold">
                   View Full
-                </Button>
+                </Button> */}
               </CardContent>
             </Card>
           ))}
