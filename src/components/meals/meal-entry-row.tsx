@@ -31,6 +31,12 @@ interface MealEntryRowProps {
   onUpdateMeal: (id: string, type: keyof IMealBreakdown, value: string) => void;
 }
 
+const getMealCategoryShortLabel = (category: string) => {
+  const normalized = category.toLowerCase();
+  if (normalized === "guest") return "G";
+  return category.charAt(0).toUpperCase();
+};
+
 export const MealEntryRow = React.memo(({ 
   entry, 
   members, 
@@ -79,12 +85,12 @@ export const MealEntryRow = React.memo(({
           isVisible && (
             <div key={cat} className="flex flex-col gap-1">
               <span className="text-xs font-bold text-muted-foreground uppercase text-center er">
-                {cat.charAt(0)}
+                {getMealCategoryShortLabel(cat)}
               </span>
               <Input 
                 type="number" 
                 min="0"
-                step={cat === "Guest" ? "1" : "0.5"}
+                step={cat.toLowerCase() === "guest" ? "1" : "0.5"}
                 value={entry.meals[cat as keyof IMealBreakdown]}
                 onChange={(e) => onUpdateMeal(entry.id, cat as keyof IMealBreakdown, e.target.value)}
                 className="h-8 text-center px-1 bg-background/50 focus:bg-background transition-colors"

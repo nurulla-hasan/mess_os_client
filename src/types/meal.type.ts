@@ -1,11 +1,11 @@
 import type { IMemberParticipation } from "./member.type";
 
 export interface IMealBreakdown {
-  Breakfast: number;
-  Lunch: number;
-  Dinner: number;
-  Guest: number;
-  [key: string]: number;
+  Breakfast?: number;
+  Lunch?: number;
+  Dinner?: number;
+  Guest?: number;
+  [key: string]: number | undefined;
 }
 
 export interface IMeal {

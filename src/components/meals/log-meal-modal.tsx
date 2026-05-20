@@ -29,6 +29,17 @@ interface MealEntry {
   meals: IMealBreakdown;
 }
 
+const GUEST_MEAL_CATEGORY = "Guest";
+
+const normalizeMealCategory = (category: string) => category.trim().toLowerCase();
+
+const isDefaultVisibleMeal = (category: string) => {
+  const normalized = normalizeMealCategory(category);
+  return normalized === "lunch" || normalized === "dinner";
+};
+
+const formatMealCategoryLabel = (category: string) => category.trim().replace(/\b\w/g, (char) => char.toUpperCase());
+
 
 export function LogMealModal({ messId }: LogMealModalProps) {
   const [open, setOpen] = React.useState(false);
@@ -38,17 +49,11 @@ export function LogMealModal({ messId }: LogMealModalProps) {
   const [mealCategories, setMealCategories] = React.useState<string[]>([]);
   
   const [visibleMeals, setVisibleMeals] = React.useState<Record<string, boolean>>({
-    Breakfast: false,
-    Lunch: true,
-    Dinner: true,
-    Guest: false
+    [GUEST_MEAL_CATEGORY]: false
   });
 
   const [initialMeals, setInitialMeals] = React.useState<IMealBreakdown>({
-    Breakfast: 0,
-    Lunch: 1,
-    Dinner: 1,
-    Guest: 0
+    [GUEST_MEAL_CATEGORY]: 0
   });
 
   const [entries, setEntries] = React.useState<MealEntry[]>([]);
@@ -66,22 +71,21 @@ export function LogMealModal({ messId }: LogMealModalProps) {
         }
 
         if (messRes?.success) {
-          const categories = messRes.data.settings?.mealCategories || ["Breakfast", "Lunch", "Dinner"];
+          const categories = (messRes.data.settings?.mealCategories || ["breakfast", "lunch", "dinner"])
+            .map(normalizeMealCategory)
+            .filter(Boolean);
           setMealCategories(categories);
           
           // Set initial visibility and values based on categories
-          const newVisible: Record<string, boolean> = { Guest: false };
+          const newVisible: Record<string, boolean> = { [GUEST_MEAL_CATEGORY]: false };
           const newInitial: IMealBreakdown = {
-            Breakfast: 0,
-            Lunch: 0,
-            Dinner: 0,
-            Guest: 0
+            [GUEST_MEAL_CATEGORY]: 0
           };
           
           categories.forEach((cat: string) => {
             // Default: Lunch/Dinner visible and 1, others hidden and 0
-            newVisible[cat] = cat === "Lunch" || cat === "Dinner";
-            newInitial[cat] = (cat === "Lunch" || cat === "Dinner") ? 1 : 0;
+            newVisible[cat] = isDefaultVisibleMeal(cat);
+            newInitial[cat] = isDefaultVisibleMeal(cat) ? 1 : 0;
           });
           
           setVisibleMeals(newVisible);
@@ -136,11 +140,14 @@ export function LogMealModal({ messId }: LogMealModalProps) {
 
     setIsLoading(true);
     try {
+      const allowedPayloadCategories = new Set([...mealCategories, GUEST_MEAL_CATEGORY]);
       const payload = {
         date: format(date, "yyyy-MM-dd"),
         entries: validEntries.map(({ messMemberId, meals }) => ({
           messMemberId,
-          meals
+          meals: Object.fromEntries(
+            Object.entries(meals).filter(([category]) => allowedPayloadCategories.has(category))
+          )
         }))
       };
 
@@ -213,15 +220,15 @@ export function LogMealModal({ messId }: LogMealModalProps) {
                     className="h-7 text-xs px-2 gap-1 font-bold uppercase "
                     onClick={() => toggleMealVisibility(cat)}
                   >
-                    {cat === "Breakfast" && <Coffee className="h-3 w-3" />}
-                    {cat}
+                    {cat === "breakfast" && <Coffee className="h-3 w-3" />}
+                    {formatMealCategoryLabel(cat)}
                   </Button>
                 ))}
                 <Button 
-                  variant={visibleMeals.Guest ? "default" : "outline"}
+                  variant={visibleMeals[GUEST_MEAL_CATEGORY] ? "default" : "outline"}
                   size="sm"
                   className="h-7 text-xs px-2 gap-1 font-bold uppercase "
-                  onClick={() => toggleMealVisibility("Guest")}
+                  onClick={() => toggleMealVisibility(GUEST_MEAL_CATEGORY)}
                 >
                   <Users className="h-3 w-3" /> Guest
                 </Button>
