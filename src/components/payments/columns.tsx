@@ -134,6 +134,13 @@ function ActionButtons({ payment }: ActionButtonsProps) {
           title={modalCopy[actionType].title}
           description={modalCopy[actionType].description}
           confirmText={modalCopy[actionType].confirmText}
+          loadingText={
+            actionType === "approved"
+              ? "Approving..."
+              : actionType === "rejected"
+                ? "Rejecting..."
+                : "Cancelling..."
+          }
           variant={modalCopy[actionType].variant}
           isLoading={isLoading}
           onConfirm={handleStatusUpdate}

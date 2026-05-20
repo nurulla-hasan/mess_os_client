@@ -121,6 +121,7 @@ function ActionButtons({ notice }: ActionButtonsProps) {
           title="Archive Notice?"
           description="This will move the notice to archives and unpin it from the board."
           confirmText="Yes, Archive"
+          loadingText="Archiving..."
           variant="default"
           isLoading={isLoading}
           onConfirm={handleConfirmAction}

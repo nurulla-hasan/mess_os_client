@@ -108,6 +108,13 @@ function ActionButtons({ request }: ActionButtonsProps) {
           title={title}
           description={`Are you sure you want to ${actionType} the meal off request for ${request.messMemberId.user.fullName}?`}
           confirmText={confirm}
+          loadingText={
+            actionType === "approved"
+              ? "Approving..."
+              : actionType === "rejected"
+                ? "Rejecting..."
+                : "Cancelling..."
+          }
           variant={variant}
           isLoading={isLoading}
           onConfirm={handleAction}

@@ -62,6 +62,7 @@ export function ActionButtons({ user }: { user: IUser }) {
             : `Are you sure you want to unblock ${user.fullName}? They will regain access to the platform.`
         }
         confirmText={user.status === "active" ? "Block User" : "Unblock User"}
+        loadingText={user.status === "active" ? "Blocking..." : "Unblocking..."}
         cancelText="Cancel"
         onConfirm={handleStatusUpdate}
         isLoading={isLoading}

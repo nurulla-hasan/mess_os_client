@@ -124,6 +124,7 @@ function ActionButtons({ complaint }: ActionButtonsProps) {
               : `Provide a resolution note to ${pendingStatus} this complaint.`
           }
           confirmText="Confirm Update"
+          loadingText="Updating..."
           isLoading={isLoading}
           onConfirm={handleStatusUpdate}
         >

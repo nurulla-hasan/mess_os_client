@@ -111,6 +111,10 @@ function ActionButtons({ member }: ActionButtonsProps) {
             actionType === "approve" ? "Approve" : 
             actionType === "reject" ? "Reject" : "Remove Member"
           }
+          loadingText={
+            actionType === "approve" ? "Approving..." :
+            actionType === "reject" ? "Rejecting..." : "Removing..."
+          }
           variant={actionType === "approve" ? "default" : "destructive"}
           isLoading={isLoading}
           onConfirm={handleAction}

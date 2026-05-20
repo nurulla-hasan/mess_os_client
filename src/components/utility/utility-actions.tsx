@@ -65,6 +65,7 @@ export function UtilityActions({ bill, messId }: UtilityActionsProps) {
         onConfirm={handlePay}
         isLoading={loading}
         confirmText="Confirm Payment"
+        loadingText="Marking Paid..."
         variant="default"
       />
     </div>

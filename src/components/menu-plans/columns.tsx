@@ -104,6 +104,7 @@ function ActionButtons({ plan }: ActionButtonsProps) {
               : "Are you sure you want to archive this menu plan? It will no longer be visible as active."
           }
           confirmText={actionType === "published" ? "Publish" : "Archive"}
+          loadingText={actionType === "published" ? "Publishing..." : "Archiving..."}
           variant={actionType === "published" ? "default" : "destructive"}
           isLoading={isLoading}
           onConfirm={handleStatusUpdate}

@@ -47,6 +47,7 @@ export function PayNowButton({ messId, amount, cycleLabel }: PayNowButtonProps) 
       title="Submit Payment Record?"
       description={`You are about to submit a cash payment record of ৳${amount.toLocaleString()} for ${cycleLabel}. This will be reviewed by your manager.`}
       confirmText="Yes, Submit"
+      loadingText="Submitting..."
       isLoading={isLoading}
       onConfirm={handlePay}
       trigger={

@@ -85,6 +85,7 @@ function ActionButtons({ list }: ActionButtonsProps) {
               : "Reject this AI shopping draft? It cannot be converted after rejection."
           }
           confirmText={actionType === "approved" ? "Approve" : "Reject"}
+          loadingText={actionType === "approved" ? "Approving..." : "Rejecting..."}
           variant={actionType === "approved" ? "default" : "destructive"}
           isLoading={isLoading}
           onConfirm={handleStatusUpdate}

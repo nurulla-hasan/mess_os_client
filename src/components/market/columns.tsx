@@ -85,6 +85,7 @@ const MarketActionCell = ({ schedule }: { schedule: IMarketSchedule }) => {
                 title="Void Market Schedule"
                 description="Are you sure you want to void this schedule? This action cannot be undone and will cancel this bazaar duty."
                 confirmText="Void Schedule"
+                loadingText="Voiding..."
                 variant="destructive"
                 isLoading={isPending}
                 onConfirm={handleVoid}

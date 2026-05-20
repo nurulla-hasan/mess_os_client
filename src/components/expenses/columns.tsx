@@ -157,6 +157,15 @@ function ActionButtons({ expense }: ActionButtonsProps) {
           title={modalCopy[actionType].title}
           description={modalCopy[actionType].description}
           confirmText={modalCopy[actionType].confirmText}
+          loadingText={
+            actionType === "approved"
+              ? "Approving..."
+              : actionType === "rejected"
+                ? "Rejecting..."
+                : actionType === "reimburse"
+                  ? "Reimbursing..."
+                  : "Cancelling..."
+          }
           variant={modalCopy[actionType].variant}
           isLoading={isLoading}
           onConfirm={handleAction}

@@ -36,7 +36,7 @@ export function ConfirmationModal({
   title = "Are you sure?",
   description = "This action cannot be undone.",
   confirmText = "Delete",
-  loadingText = "Deleting...",
+  loadingText = "Processing...",
   cancelText = "Cancel",
   open,
   onOpenChange,
