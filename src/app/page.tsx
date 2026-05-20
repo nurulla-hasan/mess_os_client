@@ -14,7 +14,8 @@ import {
   BookOpen,
   Menu,
   LogIn,
-  UserPlus
+  UserPlus,
+  LayoutDashboard
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/custom/theme-toggle";
 import {
@@ -24,8 +25,11 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { getPublicAuthState } from "@/lib/public-auth";
 
-export default function RootPage() {
+export default async function RootPage() {
+  const { isAuthenticated, appHref } = await getPublicAuthState();
+
   return (
     <main className="min-h-screen bg-background flex flex-col font-sans selection:bg-primary selection:text-primary-foreground">
       {/* Top Navbar */}
@@ -54,12 +58,23 @@ export default function RootPage() {
           {/* Desktop Right Actions */}
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle variant="outline" size="icon-sm" />
-            <Button asChild variant="ghost" size="sm" className="font-semibold">
-              <Link href="/auth/login">Login</Link>
-            </Button>
-            <Button asChild size="sm" className="font-semibold shadow-sm">
-              <Link href="/auth/register">Get Started</Link>
-            </Button>
+            {isAuthenticated ? (
+              <Button asChild size="sm" className="font-semibold shadow-sm">
+                <Link href={appHref}>
+                  <LayoutDashboard className="size-4" />
+                  Dashboard
+                </Link>
+              </Button>
+            ) : (
+              <>
+                <Button asChild variant="ghost" size="sm" className="font-semibold">
+                  <Link href="/auth/login">Login</Link>
+                </Button>
+                <Button asChild size="sm" className="font-semibold shadow-sm">
+                  <Link href="/auth/register">Get Started</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Right Actions & Dropdown */}
@@ -89,16 +104,26 @@ export default function RootPage() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/login" className="flex items-center gap-2 font-semibold text-foreground">
-                    <LogIn className="size-4 text-muted-foreground" /> Login
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/register" className="flex items-center gap-2 font-semibold text-primary">
-                    <UserPlus className="size-4" /> Get Started
-                  </Link>
-                </DropdownMenuItem>
+                {isAuthenticated ? (
+                  <DropdownMenuItem asChild>
+                    <Link href={appHref} className="flex items-center gap-2 font-semibold text-primary">
+                      <LayoutDashboard className="size-4" /> Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                ) : (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/auth/login" className="flex items-center gap-2 font-semibold text-foreground">
+                        <LogIn className="size-4 text-muted-foreground" /> Login
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/auth/register" className="flex items-center gap-2 font-semibold text-primary">
+                        <UserPlus className="size-4" /> Get Started
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

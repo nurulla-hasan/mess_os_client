@@ -113,9 +113,9 @@ export default function DocsOverviewPage() {
         <h2 className="text-xl font-bold tracking-tight text-foreground">
           Core Architectural Highlights
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Card className="bg-muted/30 border">
-            <CardContent className="p-5 space-y-2">
+            <CardContent className="space-y-2">
               <Calculator className="size-6 text-primary" />
               <h3 className="font-bold text-base">Error-Free Accounting</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -125,7 +125,7 @@ export default function DocsOverviewPage() {
           </Card>
 
           <Card className="bg-muted/30 border">
-            <CardContent className="p-5 space-y-2">
+            <CardContent className="space-y-2">
               <Calendar className="size-6 text-emerald-600" />
               <h3 className="font-bold text-base">Smart Duty Roster</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -135,7 +135,7 @@ export default function DocsOverviewPage() {
           </Card>
 
           <Card className="bg-muted/30 border">
-            <CardContent className="p-5 space-y-2">
+            <CardContent className="space-y-2">
               <Wallet className="size-6 text-rose-600" />
               <h3 className="font-bold text-base">Live Deposit Tracking</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -145,7 +145,7 @@ export default function DocsOverviewPage() {
           </Card>
 
           <Card className="bg-muted/30 border">
-            <CardContent className="p-5 space-y-2">
+            <CardContent className="space-y-2">
               <Smartphone className="size-6 text-amber-600" />
               <h3 className="font-bold text-base">Instant Meal Control</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">

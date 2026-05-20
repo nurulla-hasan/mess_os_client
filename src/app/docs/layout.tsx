@@ -11,7 +11,8 @@ import {
   ArrowLeft,
   Menu,
   LogIn,
-  UserPlus
+  UserPlus,
+  LayoutDashboard
 } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/custom/theme-toggle";
 import {
@@ -21,12 +22,15 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { getPublicAuthState } from "@/lib/public-auth";
 
-export default function DocsLayout({
+export default async function DocsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { isAuthenticated, appHref } = await getPublicAuthState();
+
   return (
     <div className="min-h-screen bg-background flex flex-col font-sans selection:bg-primary selection:text-primary-foreground">
       {/* Top Navbar */}
@@ -61,13 +65,20 @@ export default function DocsLayout({
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle variant="outline" size="icon-sm" />
             <Button asChild variant="outline" size="sm" className="font-semibold">
-              <Link href="/">
-                <ArrowLeft className="mr-1.5 size-4" /> Back to App
+              <Link href={isAuthenticated ? appHref : "/"}>
+                {isAuthenticated ? (
+                  <LayoutDashboard className="mr-1.5 size-4" />
+                ) : (
+                  <ArrowLeft className="mr-1.5 size-4" />
+                )}
+                {isAuthenticated ? "Dashboard" : "Back to App"}
               </Link>
             </Button>
-            <Button asChild size="sm" className="font-semibold shadow-sm">
-              <Link href="/auth/login">Login</Link>
-            </Button>
+            {!isAuthenticated && (
+              <Button asChild size="sm" className="font-semibold shadow-sm">
+                <Link href="/auth/login">Login</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Right Actions & Dropdown */}
@@ -82,8 +93,9 @@ export default function DocsLayout({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuItem asChild>
-                  <Link href="/" className="flex items-center gap-2 font-semibold text-primary">
-                    <ArrowLeft className="size-4" /> Back to App
+                  <Link href={isAuthenticated ? appHref : "/"} className="flex items-center gap-2 font-semibold text-primary">
+                    {isAuthenticated ? <LayoutDashboard className="size-4" /> : <ArrowLeft className="size-4" />}
+                    {isAuthenticated ? "Dashboard" : "Back to App"}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -103,16 +115,20 @@ export default function DocsLayout({
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/login" className="flex items-center gap-2 font-semibold text-foreground">
-                    <LogIn className="size-4 text-muted-foreground" /> Login
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/auth/register" className="flex items-center gap-2 font-semibold text-primary">
-                    <UserPlus className="size-4" /> Get Started
-                  </Link>
-                </DropdownMenuItem>
+                {!isAuthenticated && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/auth/login" className="flex items-center gap-2 font-semibold text-foreground">
+                        <LogIn className="size-4 text-muted-foreground" /> Login
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/auth/register" className="flex items-center gap-2 font-semibold text-primary">
+                        <UserPlus className="size-4" /> Get Started
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
