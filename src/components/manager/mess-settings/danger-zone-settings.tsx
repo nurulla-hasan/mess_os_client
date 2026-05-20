@@ -56,7 +56,7 @@ export function DangerZoneSettings({ mess, members }: DangerZoneSettingsProps) {
             <p className="text-sm font-bold">Transfer Ownership</p>
             <p className="text-xs text-muted-foreground max-w-md">Assign a new manager to this mess. You will lose all managerial privileges immediately after transfer.</p>
           </div>
-          <div className="flex gap-3 min-w-[250px]">
+          <div className="flex gap-3 min-w-62.5">
             <Select value={newManagerId} onValueChange={setNewManagerId}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select new manager" />
@@ -80,12 +80,11 @@ export function DangerZoneSettings({ mess, members }: DangerZoneSettingsProps) {
               onConfirm={handleTransfer}
               trigger={
                 <Button 
-                  variant="outline" 
-                  size="sm" 
+                  variant="outline"
                   className="text-rose-600 border-rose-500/20 hover:bg-rose-500 hover:text-white transition-all font-bold whitespace-nowrap"
                   disabled={!newManagerId || loading}
                 >
-                  <Users className="mr-2 h-4 w-4" />
+                  <Users />
                   Transfer
                 </Button>
               }
