@@ -136,7 +136,7 @@ export const updateMarketScheduleStatus = async (
     return (await serverFetch(`/messes/${messId}/market-schedules/${scheduleId}/status`, {
       method: "PATCH",
       body: data,
-      updateTag: ["market-schedules"],
+      updateTag: ["market-schedules", "expenses", "dashboard-stats"],
     })) as ApiResponse<IMarketSchedule>;
   } catch (error: unknown) {
     return {
