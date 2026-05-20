@@ -38,7 +38,7 @@ export const createUtilityBill = async (
     return (await serverFetch(`/messes/${messId}/utility-bills`, {
       method: "POST",
       body: data,
-      updateTag: ["utility-bills", "dashboard-stats"],
+      updateTag: ["utility-bills", "dashboard-stats", "reports", "summary"],
     })) as ApiResponse<IUtilityBill>;
   } catch (error: unknown) {
     return {
@@ -61,7 +61,7 @@ export const updateUtilityBill = async (
     return (await serverFetch(`/messes/${messId}/utility-bills/${billId}`, {
       method: "PATCH",
       body: data,
-      updateTag: ["utility-bills", "dashboard-stats"],
+      updateTag: ["utility-bills", "dashboard-stats", "reports", "summary"],
     })) as ApiResponse<IUtilityBill>;
   } catch (error: unknown) {
     return {
@@ -82,7 +82,7 @@ export const payUtilityBill = async (
   try {
     return (await serverFetch(`/messes/${messId}/utility-bills/${billId}/pay`, {
       method: "POST",
-      updateTag: ["utility-bills", "dashboard-stats"],
+      updateTag: ["utility-bills", "dashboard-stats", "reports", "summary"],
     })) as ApiResponse<IUtilityBill>;
   } catch (error: unknown) {
     return {

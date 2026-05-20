@@ -69,7 +69,7 @@ export const createPayment = async (
     return (await serverFetch(`/messes/${messId}/payments`, {
       method: "POST",
       body: data,
-      updateTag: ["payments", "dashboard-stats", "member-bills"],
+      updateTag: ["payments", "dashboard-stats", "member-bills", "reports", "summary"],
     })) as ApiResponse<IPayment>;
   } catch (error: unknown) {
     return {
@@ -89,7 +89,7 @@ export const updatePaymentStatus = async (
     return (await serverFetch(`/messes/${messId}/payments/${paymentId}/status`, {
       method: "PATCH",
       body: { status },
-      updateTag: ["payments", "dashboard-stats", "member-bills"],
+      updateTag: ["payments", "dashboard-stats", "member-bills", "reports", "summary"],
     })) as ApiResponse<IPayment>;
   } catch (error: unknown) {
     return {

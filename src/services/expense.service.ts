@@ -60,7 +60,7 @@ export const createExpense = async (
     return (await serverFetch(`/messes/${messId}/expenses`, {
       method: "POST",
       body: data,
-      updateTag: ["expenses", "dashboard-stats"],
+      updateTag: ["expenses", "dashboard-stats", "reports", "summary"],
     })) as ApiResponse<IExpense>;
   } catch (error: unknown) {
     return {
@@ -104,7 +104,7 @@ export const updateExpenseStatus = async (
     return (await serverFetch(`/messes/${messId}/expenses/${expenseId}/status`, {
       method: "PATCH",
       body: { status },
-      updateTag: ["expenses", "dashboard-stats"],
+      updateTag: ["expenses", "dashboard-stats", "reports", "summary"],
     })) as ApiResponse<IExpense>;
   } catch (error: unknown) {
     return {
@@ -125,7 +125,7 @@ export const reimburseExpense = async (
   try {
     return (await serverFetch(`/messes/${messId}/expenses/${expenseId}/reimburse`, {
       method: "POST",
-      updateTag: ["expenses", "dashboard-stats"],
+      updateTag: ["expenses", "dashboard-stats", "reports", "summary"],
     })) as ApiResponse<IExpense>;
   } catch (error: unknown) {
     return {

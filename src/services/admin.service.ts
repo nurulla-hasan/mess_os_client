@@ -120,6 +120,26 @@ export const suspendMess = async (
 };
 
 /**
+ * Permanently delete a mess and all related records (Super Admin)
+ */
+export const deleteMessPermanently = async (
+  messId: string
+): Promise<ApiResponse<{ messDeleted: number; downgradedManagers: number; deleted: Record<string, number> }>> => {
+  try {
+    return (await serverFetch(`/admin/messes/${messId}`, {
+      method: "DELETE",
+      updateTag: ["messes", "all-subscriptions", "dashboard-stats"],
+    })) as ApiResponse<{ messDeleted: number; downgradedManagers: number; deleted: Record<string, number> }>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to delete mess.",
+      data: { messDeleted: 0, downgradedManagers: 0, deleted: {} },
+    };
+  }
+};
+
+/**
  * List all users on the platform (Super Admin)
  */
 export const getAllUsers = async (params: QueryParams = {}): Promise<ApiResponse<IUser[]>> => {

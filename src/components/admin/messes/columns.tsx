@@ -3,19 +3,23 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShieldAlert, CheckCircle2 } from "lucide-react";
+import { ShieldAlert, CheckCircle2, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import React from "react";
 import { IMess } from "@/types/mess.type";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
-import { suspendMess } from "@/services/admin.service";
+import { deleteMessPermanently, suspendMess } from "@/services/admin.service";
 import { SuccessToast, ErrorToast, cn } from "@/lib/utils";
 import { MessDetailsModal } from "./mess-details-modal";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 function ActionButtons({ mess }: { mess: IMess }) {
+  const router = useRouter();
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = React.useState(false);
   const [note, setNote] = React.useState("");
 
   const handleToggleStatus = async () => {
@@ -36,6 +40,7 @@ function ActionButtons({ mess }: { mess: IMess }) {
         SuccessToast(response.message || `Mess status updated successfully!`);
         setNote("");
         setIsModalOpen(false);
+        router.refresh();
       } else {
         ErrorToast(response?.message || "Failed to update mess status.");
       }
@@ -44,6 +49,31 @@ function ActionButtons({ mess }: { mess: IMess }) {
       ErrorToast("Something went wrong. Please try again.");
     } finally {
       setIsUpdating(false);
+    }
+  };
+
+  const handleDeleteMess = async () => {
+    const messId = mess._id;
+    if (!messId) {
+      ErrorToast("Mess ID is missing. Please refresh.");
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const response = await deleteMessPermanently(messId);
+      if (response?.success) {
+        SuccessToast(response.message || "Mess deleted permanently.");
+        setIsDeleteModalOpen(false);
+        router.refresh();
+      } else {
+        ErrorToast(response?.message || "Failed to delete mess.");
+      }
+    } catch (error) {
+      console.error("Mess Delete Error:", error);
+      ErrorToast("Something went wrong. Please try again.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -85,6 +115,27 @@ function ActionButtons({ mess }: { mess: IMess }) {
           />
         </div>
       </ConfirmationModal>
+
+      <ConfirmationModal
+        open={isDeleteModalOpen}
+        onOpenChange={setIsDeleteModalOpen}
+        title="Delete mess permanently?"
+        description={`This will permanently delete ${mess.name} and every related record: members, meals, payments, expenses, billing, subscriptions, notices, complaints, ledgers, and schedules. This action cannot be undone.`}
+        confirmText="Delete Permanently"
+        loadingText="Deleting..."
+        onConfirm={handleDeleteMess}
+        isLoading={isDeleting}
+        variant="destructive"
+        trigger={
+          <Button
+            variant="outline"
+            size="icon-sm"
+            className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+          >
+            <Trash2 />
+          </Button>
+        }
+      />
     </div>
   );
 }
