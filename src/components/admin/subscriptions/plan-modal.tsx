@@ -178,6 +178,7 @@ export function PlanModal({ plan, trigger }: PlanModalProps) {
           <Button
             variant={plan ? "outline" : "default"}
             size={plan ? "icon-sm" : "default"}
+            className={plan ? undefined : "w-full sm:w-auto"}
           >
             {plan ? (
               <Pencil className="h-4 w-4" />

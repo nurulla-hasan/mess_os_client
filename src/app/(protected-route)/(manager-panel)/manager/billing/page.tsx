@@ -55,7 +55,7 @@ export default async function ManagerBillingPage({
             title="Billing Management"
             description="Finalize monthly billing and manage member invoices."
           />
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full xl:w-auto">
              <GenerateBillingModal messId={activeMessId} />
           </div>
         </div>
@@ -88,7 +88,7 @@ export default async function ManagerBillingPage({
           title="Billing Management"
           description="Review monthly summaries, finalize meal rates, and monitor member payments."
         />
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <GenerateBillingModal messId={activeMessId} />
           <CycleSelector cycles={cycles} initialId={activeCycle._id} />
         </div>

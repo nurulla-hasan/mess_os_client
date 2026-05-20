@@ -18,7 +18,9 @@ export default async function AdminMessesPage({ searchParams }: { searchParams: 
           title="Platform Messes"
           description="Monitor all registered messes, track growth, and manage global mess statuses."
         />
-        <MessFilters />
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
+          <MessFilters />
+        </div>
       </div>
 
       <DataTable 

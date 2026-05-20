@@ -46,7 +46,7 @@ export function MenuPlanFilters({ showStatus = true }: MenuPlanFiltersProps) {
         date={dateRange} 
         setDate={handleDateChange} 
         placeholder="Filter by date range"
-        className="col-span-2 w-full sm:w-64"
+        className="w-full sm:w-64"
       />
 
       {showStatus && (
@@ -54,7 +54,7 @@ export function MenuPlanFilters({ showStatus = true }: MenuPlanFiltersProps) {
           value={statusFilter} 
           onValueChange={(val) => updateBatch({ status: val === "all" ? null : val })}
         >
-          <SelectTrigger className="col-span-2 w-full sm:w-44">
+          <SelectTrigger className="w-full sm:w-44">
             <SelectValue placeholder="All Status" />
           </SelectTrigger>
           <SelectContent>

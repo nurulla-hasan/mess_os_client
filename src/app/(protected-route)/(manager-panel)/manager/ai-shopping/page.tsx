@@ -49,7 +49,7 @@ export default async function ManagerAiShoppingPage({
           title="AI Shopping Assistant"
           description="Generate automated shopping lists from your meal plans and convert them to market schedules."
         />
-        <div className="grid grid-cols-1 sm:flex sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto">
           <AiShoppingFilters />
           <GenerateAiShoppingListModal
             messId={activeMessId}

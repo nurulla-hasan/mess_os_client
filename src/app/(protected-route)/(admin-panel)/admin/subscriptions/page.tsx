@@ -20,7 +20,9 @@ export default async function AdminSubscriptionsPage() {
           title="Subscription Plans"
           description="Manage and configure the platform's subscription tiers, pricing, and feature limitations."
         />
-        <PlanModal />
+        <div className="flex items-center gap-3 w-full xl:w-auto">
+          <PlanModal />
+        </div>
       </div>
 
       <div className="space-y-6">

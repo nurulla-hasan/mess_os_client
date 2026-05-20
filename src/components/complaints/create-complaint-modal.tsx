@@ -74,7 +74,7 @@ export function CreateComplaintModal({ messId }: CreateComplaintModalProps) {
       title="Submit a Complaint"
       description="Report an issue or concern to the mess management."
       actionTrigger={
-        <Button>
+        <Button className="w-full sm:w-auto">
           <Plus className="h-4 w-4" />
           New Complaint
         </Button>

@@ -23,7 +23,9 @@ export default async function AdminManagerRequestsPage({
           title="Manager Access Requests"
           description="Review and manage requests from users who want to elevate their role to Manager."
         />
-        <ManagerRequestFilters />
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
+          <ManagerRequestFilters />
+        </div>
       </div>
 
       <DataTable columns={columns} data={data} meta={meta} />

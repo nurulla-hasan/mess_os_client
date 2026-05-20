@@ -21,7 +21,9 @@ export default async function AdminSubscriptionHistoryPage({
           title="Current Subscription History"
           description="Comprehensive log of all mess subscriptions, renewals, and billing cycles across the platform."
         />
-        <SubscriptionHistoryFilters />
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
+          <SubscriptionHistoryFilters />
+        </div>
       </div>
 
       <DataTable columns={columns} data={data} meta={meta} />

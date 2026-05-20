@@ -65,7 +65,7 @@ export default async function ManagerUtilityBillsPage({
           title="Utility Bills"
           description="Manage electricity, water, gas, and other shared mess utilities."
         />
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full xl:w-auto">
           <AddUtilityBillModal messId={activeMessId} dynamicCategories={dynamicCategories} />
         </div>
       </div>

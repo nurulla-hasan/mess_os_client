@@ -50,7 +50,7 @@ export default async function ManagerExpensesPage({
           title="Mess Expenses"
           description="Track and manage all mess expenditures, from daily bazaar to utility bills."
         />
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <ExpenseFilters />
           <CreateExpenseModal messId={activeMessId} mode="manager" />
         </div>

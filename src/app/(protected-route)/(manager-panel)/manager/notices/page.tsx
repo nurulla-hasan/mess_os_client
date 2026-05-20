@@ -50,7 +50,7 @@ export default async function ManagerNoticesPage({ searchParams }: Props) {
           title="Mess Notices"
           description="Broadcast announcements and important updates to all mess members."
         />
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <NoticeFilters />
           <CreateNoticeModal messId={messId} />
         </div>

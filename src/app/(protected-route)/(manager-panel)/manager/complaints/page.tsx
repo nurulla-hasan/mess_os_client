@@ -44,7 +44,7 @@ export default async function ManagerComplaintsPage({ searchParams }: Props) {
           title="Member Complaints"
           description="Review and address issues raised by mess members. Maintain a healthy community environment."
         />
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <ComplaintFilters />
           <CreateComplaintModal messId={messId} />
         </div>

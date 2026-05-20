@@ -49,7 +49,7 @@ export default async function ManagerPaymentsPage({
           title="Mess Payments"
           description="View all member deposits, approve pending payments, and track payment history."
         />
-        <div className="grid grid-cols-1 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <PaymentFilters />
           <CreatePaymentModal messId={activeMessId} mode="manager" />
         </div>

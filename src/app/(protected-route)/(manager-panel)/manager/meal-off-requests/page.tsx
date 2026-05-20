@@ -60,7 +60,7 @@ export default async function ManagerMealOffRequestsPage({
           title="Meal Off Requests"
           description="Review and manage member requests to stop meals for specific date ranges."
         />
-        <div className="grid grid-cols-1 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
+        <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 w-full xl:w-auto">
           <OffRequestFilters />
           <CreateMealOffRequestModal 
             messId={activeMessId} 

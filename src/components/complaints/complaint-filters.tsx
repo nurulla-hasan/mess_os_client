@@ -15,17 +15,18 @@ export function ComplaintFilters() {
   const statusValue = getFilter("status", "all");
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
+    <div className="contents sm:flex sm:flex-row sm:items-center sm:gap-3 sm:w-auto">
       <SearchInput 
         filterKey="searchTerm" 
         placeholder="Search complaints..." 
+        className="col-span-2"
       />
 
       <Select
         value={statusValue}
         onValueChange={(val) => updateFilter("status", val)}
       >
-        <SelectTrigger className="w-full sm:w-40">
+        <SelectTrigger className="col-span-2 w-full sm:w-40">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>

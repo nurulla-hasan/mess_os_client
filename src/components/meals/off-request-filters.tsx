@@ -42,7 +42,7 @@ export function OffRequestFilters() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
+    <div className="contents sm:flex sm:flex-row sm:items-center sm:gap-3 sm:w-auto">
       <div className="w-full sm:w-64">
         <DatePickerWithRange 
           date={dateRange} 
@@ -51,11 +51,6 @@ export function OffRequestFilters() {
         />
       </div>
 
-      <SearchInput 
-        filterKey="searchTerm" 
-        placeholder="Search member..." 
-      />
-      
       <Select 
         value={statusFilter} 
         onValueChange={(val) => updateFilter("status", val === "all" ? null : val)}
@@ -70,6 +65,12 @@ export function OffRequestFilters() {
           <SelectItem value="rejected">Rejected</SelectItem>
         </SelectContent>
       </Select>
+
+      <SearchInput
+        filterKey="searchTerm"
+        placeholder="Search member..."
+        className="col-span-2"
+      />
     </div>
   );
 }

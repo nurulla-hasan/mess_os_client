@@ -17,10 +17,11 @@ export function SubscriptionHistoryFilters() {
   const planFilter = getFilter("planId", "all");
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
+    <div className="contents sm:flex sm:flex-row sm:items-center sm:gap-3 sm:w-auto">
       <SearchInput 
         filterKey="searchTerm" 
         placeholder="Search Mess, Manager or Plan..." 
+        className="col-span-2"
       />
       
       <Select 
