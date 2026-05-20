@@ -81,8 +81,8 @@ export function CreateNoticeModal({ messId }: CreateNoticeModalProps) {
       title="Create New Notice"
       description="Broadcast an announcement to all members of your mess."
       actionTrigger={
-        <Button size="sm">
-          <Plus className="h-4 w-4" /> Create Notice
+        <Button>
+          <Plus /> Create Notice
         </Button>
       }
     >

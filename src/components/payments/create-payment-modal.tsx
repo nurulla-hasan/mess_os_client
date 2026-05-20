@@ -97,8 +97,8 @@ export function CreatePaymentModal({ messId, mode = "member" }: CreatePaymentMod
           : "Submit your deposit record for manager approval."
       }
       actionTrigger={
-        <Button className="w-full sm:w-auto shadow-lg shadow-primary/20">
-          <Plus className="h-4 w-4" /> {mode === "manager" ? "Add Payment" : "Submit Payment"}
+        <Button className="w-full sm:w-auto">
+          <Plus/> {mode === "manager" ? "Add Payment" : "Submit Payment"}
         </Button>
       }
     >

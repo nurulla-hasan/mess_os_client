@@ -2,15 +2,14 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { 
-  Check
-} from "lucide-react";
+import { Check } from "lucide-react";
 import { payUtilityBill } from "@/services/utility.service";
 import { ErrorToast, SuccessToast } from "@/lib/utils";
 import { ConfirmationModal } from "@/components/ui/custom/confirmation-modal";
 import { IUtilityBill } from "@/types/utility.type";
 import { useRouter } from "next/navigation";
 import { ViewUtilityBillModal } from "./view-utility-bill-modal";
+import { EditUtilityBillModal } from "./edit-utility-bill-modal";
 
 interface UtilityActionsProps {
   bill: IUtilityBill;
@@ -45,15 +44,18 @@ export function UtilityActions({ bill, messId }: UtilityActionsProps) {
       <ViewUtilityBillModal bill={bill} />
 
       {bill.status === "unpaid" && (
-        <Button 
-          variant="outline" 
-          size="icon-sm" 
-          className="text-emerald-500 hover:text-emerald-600 hover:bg-emerald-50"
-          onClick={() => setShowPayModal(true)}
-          title="Mark as Paid"
-        >
-          <Check className="h-4 w-4" />
-        </Button>
+        <>
+          <EditUtilityBillModal bill={bill} messId={messId} />
+          <Button 
+            variant="outline" 
+            size="icon-sm" 
+            className="text-emerald-500 hover:text-emerald-600 hover:bg-emerald-50"
+            onClick={() => setShowPayModal(true)}
+            title="Mark as Paid"
+          >
+            <Check className="h-4 w-4" />
+          </Button>
+        </>
       )}
 
       <ConfirmationModal

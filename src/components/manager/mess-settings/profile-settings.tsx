@@ -63,7 +63,6 @@ export function ProfileSettings({ mess }: ProfileSettingsProps) {
           />
         </div>
         <Button 
-          size="sm" 
           onClick={handleUpdate} 
           loading={loading}
           loadingText="Updating..."

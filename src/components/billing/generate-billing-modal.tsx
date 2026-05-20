@@ -84,8 +84,8 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">
-          <Plus className="h-3.5 w-3.5" />
+        <Button>
+          <Plus />
           Generate New Bill
         </Button>
       </DialogTrigger>

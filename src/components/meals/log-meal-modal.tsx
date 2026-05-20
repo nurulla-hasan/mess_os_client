@@ -176,7 +176,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
       description="Select members and record their consumption breakdown."
       actionTrigger={
         <Button>
-          <Plus className="h-4 w-4" /> Log Meal
+          <Plus /> Log Meal
         </Button>
       }
     >

@@ -27,21 +27,15 @@ export function CreateMealOffRequestModal({
     from: new Date(),
     to: undefined,
   });
-  const [selectedMeals, setSelectedMeals] = React.useState<string[]>(mealCategories);
+  const [selectedMeals, setSelectedMeals] = React.useState<string[] | null>(null);
   const [reason, setReason] = React.useState("");
-
-  // Initialize selectedMeals when mealCategories changes (if it was empty before)
-  React.useEffect(() => {
-    if (selectedMeals.length === 0 && mealCategories.length > 0) {
-      setSelectedMeals(mealCategories);
-    }
-  }, [mealCategories, selectedMeals.length]);
+  const effectiveSelectedMeals = selectedMeals ?? mealCategories;
 
   const handleMealToggle = (category: string) => {
     setSelectedMeals((prev) =>
-      prev.includes(category)
-        ? prev.filter((m) => m !== category)
-        : [...prev, category]
+      (prev ?? mealCategories).includes(category)
+        ? (prev ?? mealCategories).filter((m) => m !== category)
+        : [...(prev ?? mealCategories), category]
     );
   };
 
@@ -51,7 +45,7 @@ export function CreateMealOffRequestModal({
       return;
     }
 
-    if (selectedMeals.length === 0) {
+    if (effectiveSelectedMeals.length === 0) {
       ErrorToast("Please select at least one meal category.");
       return;
     }
@@ -66,7 +60,7 @@ export function CreateMealOffRequestModal({
       const payload = {
         startDate: format(dateRange.from, "yyyy-MM-dd"),
         endDate: format(dateRange.to, "yyyy-MM-dd"),
-        meals: selectedMeals,
+        meals: effectiveSelectedMeals,
         reason,
       };
 
@@ -76,7 +70,7 @@ export function CreateMealOffRequestModal({
         setOpen(false);
         setReason("");
         setDateRange({ from: new Date(), to: undefined });
-        setSelectedMeals(mealCategories);
+        setSelectedMeals(null);
       } else {
         ErrorToast(res?.message || "Failed to submit request.");
       }
@@ -95,7 +89,7 @@ export function CreateMealOffRequestModal({
       description="Apply to stop specific meals for a date range. Defaults to all meals (full-day off)."
       actionTrigger={
         <Button>
-          <Plus className="h-4 w-4" /> Create Request
+          <Plus /> Create Request
         </Button>
       }
     >
@@ -120,7 +114,7 @@ export function CreateMealOffRequestModal({
               <div key={category} className="flex items-center gap-2">
                 <Checkbox 
                   id={`meal-${category}`}
-                  checked={selectedMeals.includes(category)}
+                  checked={effectiveSelectedMeals.includes(category)}
                   onCheckedChange={() => handleMealToggle(category)}
                 />
                 <label 

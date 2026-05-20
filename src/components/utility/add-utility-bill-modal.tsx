@@ -88,8 +88,8 @@ export function AddUtilityBillModal({ messId, dynamicCategories }: AddUtilityBil
       title="Add Utility Bill"
       description="Enter the details for the new utility bill. This will be visible to all members."
       actionTrigger={
-        <Button size="sm" className="h-8 gap-1.5 font-bold shadow-md">
-          <Plus className="h-3.5 w-3.5" />
+        <Button>
+          <Plus />
           Add Utility Bill
         </Button>
       }

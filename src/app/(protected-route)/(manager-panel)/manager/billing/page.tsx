@@ -59,7 +59,7 @@ export default async function ManagerBillingPage({
              <GenerateBillingModal messId={activeMessId} />
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center min-h-[40vh] space-y-4 text-center bg-muted/30 rounded-xl border border-dashed mt-6">
+        <div className="flex flex-col items-center justify-center min-h-[40vh] space-y-4 text-center bg-muted/30 rounded-xl border border-dashed">
           <Calculator className="h-10 w-10 text-muted-foreground opacity-20" />
           <h2 className="text-lg font-bold">No Billing Cycles Found</h2>
           <p className="text-sm text-muted-foreground max-w-xs mb-2">You haven&apos;t started any billing cycles yet. Cycles are usually generated at the start of each month.</p>

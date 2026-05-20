@@ -73,7 +73,7 @@ export function GenerateAiShoppingListModal({
       title="Generate AI Shopping List"
       description="Create a shopping draft from an existing menu plan."
       actionTrigger={
-        <Button size="sm" className="bg-primary shadow-lg shadow-primary/20">
+        <Button>
           <Sparkles/> Generate New List
         </Button>
       }

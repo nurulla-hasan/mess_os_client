@@ -205,7 +205,7 @@ export function ReportsContent({ messId, memberOptions }: ReportsContentProps) {
             )}
 
             <Button 
-              className="w-full mt-2 font-bold" 
+              className="w-full mt-2" 
               onClick={fetchReport} 
               disabled={isPending}
             >

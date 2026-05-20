@@ -50,6 +50,29 @@ export const createUtilityBill = async (
 };
 
 /**
+ * Update an unpaid utility bill
+ */
+export const updateUtilityBill = async (
+  messId: string,
+  billId: string,
+  data: Partial<IUtilityBill>
+): Promise<ApiResponse<IUtilityBill>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/utility-bills/${billId}`, {
+      method: "PATCH",
+      body: data,
+      updateTag: ["utility-bills", "dashboard-stats"],
+    })) as ApiResponse<IUtilityBill>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to update utility bill.",
+      data: null as unknown as IUtilityBill,
+    };
+  }
+};
+
+/**
  * Mark a utility bill as paid
  */
 export const payUtilityBill = async (
