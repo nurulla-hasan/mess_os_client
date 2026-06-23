@@ -1,11 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import "server-only";
 import { jwtDecode } from "jwt-decode";
 import { revalidateTag, updateTag } from "next/cache";
 import { cookies } from "next/headers";
 
+type CookieMapping = {
+  /** dot-notation path in JSON response body, e.g. "data.accessToken" */
+  responsePath: string;
+  /** cookie name to store the value under, e.g. "accessToken" */
+  cookieName: string;
+};
+
 type ServerFetchOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
   isPublic?: boolean;
+  /**
+   * Persist cookies from JSON response body.
+   * e.g. [{ responsePath: "data.accessToken", cookieName: "accessToken" }]
+   */
+  setCookies?: CookieMapping[];
+  /**
+   * Persist cookies from Set-Cookie response header (for APIs that send tokens in headers).
+   * Only saves "accessToken" and "refreshToken" named cookies.
+   */
   persistCookies?: boolean;
   revalidate?: number | false;
   tags?: string[];
@@ -46,11 +63,12 @@ const getValidAccessToken = async (baseUrl: string): Promise<string | null> => {
     return null;
   }
 
-  const res = await fetch(`${baseUrl}/user/access-token`, {
-    method: "GET",
+  const res = await fetch(`${baseUrl}/auth/refresh-token`, {
+    method: "POST",
     headers: {
-      Authorization: `Bearer ${refreshToken}`,
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify({ refreshToken }),
   });
 
   if (!res.ok) {
@@ -87,6 +105,7 @@ export const serverFetch = async <T = any>(
     invalidateMode = "updateTag",
     tags,
     next,
+    setCookies,
     persistCookies = false,
     responseType = "json",
     ...rest
@@ -148,18 +167,16 @@ export const serverFetch = async <T = any>(
       });
     }
 
+    // Persist tokens from Set-Cookie header (for APIs that send tokens in headers)
     const setCookieHeader = res.headers.get("set-cookie");
     if (persistCookies && setCookieHeader) {
       const cookieStore = await cookies();
       const cookiesArray = setCookieHeader.split(/,(?=[^;]+=[^;]+)/);
-
       cookiesArray.forEach((cookieString) => {
         if (!cookieString.includes("=")) return;
-
         const parts = cookieString.split(";")[0].split("=");
         const name = parts[0].trim();
         const value = parts.slice(1).join("=");
-
         if (name === "accessToken" || name === "refreshToken") {
           try {
             cookieStore.set(name, value, {
@@ -187,9 +204,41 @@ export const serverFetch = async <T = any>(
       return null as T;
     }
 
+    const responseText = await res.text();
+    let jsonResult: any = null;
+    try {
+      jsonResult = JSON.parse(responseText);
+    } catch {
+      // response is not valid JSON, skip
+    }
+
+    // Persist specific fields from the response body into cookies
+    if (setCookies && setCookies.length > 0 && jsonResult) {
+      const cookieStore = await cookies();
+      for (const { responsePath, cookieName } of setCookies) {
+        // Resolve dot-notation path, e.g. "data.accessToken"
+        const value = responsePath
+          .split(".")
+          .reduce((obj: any, key: string) => obj?.[key], jsonResult);
+
+        if (typeof value === "string" && value) {
+          try {
+            cookieStore.set(cookieName, value, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              path: "/",
+            });
+          } catch {
+            // Some server contexts do not allow writing cookies.
+          }
+        }
+      }
+    }
+
     return responseType === "text"
-      ? ((await res.text()) as T)
-      : ((await res.json()) as T);
+      ? (responseText as unknown as T)
+      : (jsonResult as T);
   } catch (error: unknown) {
     const apiError = error as ApiError;
     if (apiError?.status !== 401) {
