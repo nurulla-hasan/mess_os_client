@@ -4,6 +4,10 @@ node_modules
 build
 .env.local
 .env
+
+# Serwist
+public/sw*
+public/swe-worker*
 .vercel
 lint_output.txt
 pnpm-lock.yaml

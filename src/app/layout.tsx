@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { SerwistProvider } from "@serwist/turbopack/react";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -11,10 +12,48 @@ const outfit = Outfit({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
+const APP_NAME = "Mess Manager OS";
+const APP_DEFAULT_TITLE = "Mess Manager - Simplified Mess Management";
+const APP_TITLE_TEMPLATE = "%s - Mess OS";
+const APP_DESCRIPTION = "Efficiently manage your mess meals, expenses, and deposits with Mess Manager.";
+
 export const metadata: Metadata = {
-  title: "Mess Manager - Simplified Mess Management",
-  description:
-    "Efficiently manage your mess meals, expenses, and deposits with Mess Manager.",
+  applicationName: APP_NAME,
+  title: {
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
+  },
+  description: APP_DESCRIPTION,
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_DEFAULT_TITLE,
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0d9488",
 };
 
 export default function RootLayout({
@@ -26,7 +65,9 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
         className={`${outfit.variable} antialiased font-sans max-w-480 mx-auto`}
+        suppressHydrationWarning
       >
+        <SerwistProvider swUrl="/serwist/sw.js">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -51,6 +92,7 @@ export default function RootLayout({
           <Toaster richColors theme="system"/>
           {children}
         </ThemeProvider>
+        </SerwistProvider>
       </body>
     </html>
   );

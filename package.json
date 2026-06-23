@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "echo \"No tests configured yet\"",
-    "test:watch": "echo \"No tests configured yet\""
+    "test:watch": "echo \"No tests configured yet\"",
+    "generate-icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -35,6 +36,7 @@
     "react-easy-crop": "^5.5.7",
     "react-hook-form": "^7.71.2",
     "recharts": "2.15.4",
+    "serwist": "^9.5.11",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.5.0",
     "vaul": "^1.1.2",
@@ -42,11 +44,13 @@
     "zustand": "^5.0.13"
   },
   "devDependencies": {
+    "@serwist/turbopack": "^9.5.11",
     "@tailwindcss/postcss": "^4",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.28.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "shadcn": "^3.8.5",
