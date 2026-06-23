@@ -64,7 +64,7 @@ export default async function NotificationsPage() {
           title="Notifications"
           description="View all your mess notifications and updates."
         />
-        <Alert className="bg-primary/5 border-primary/20 mt-6">
+        <Alert className="bg-primary/5 border-primary/20">
           <InfoIcon className="h-4 w-4 text-primary" />
           <AlertTitle>No Active Mess</AlertTitle>
           <AlertDescription>

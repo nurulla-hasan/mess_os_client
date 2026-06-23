@@ -55,7 +55,7 @@ export function JoinMessModal() {
       }
     >
       <div className="flex flex-col h-full">
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 max-h-[50vh]">
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="inviteCode" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">

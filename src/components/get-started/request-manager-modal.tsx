@@ -132,7 +132,7 @@ export function RequestManagerModal() {
       }
     >
       <div className="flex flex-col h-full">
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 max-h-[50vh]">
           {existingRequest && (
             <div
               className={cn(

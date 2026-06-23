@@ -18,7 +18,7 @@ export default async function MemberDashboardPage() {
           title={`Welcome, ${user?.fullName || "Member"}!`}
           description="You are not currently active in any mess."
         />
-        <Alert className="bg-primary/5 border-primary/20 mt-6">
+        <Alert className="bg-primary/5 border-primary/20">
           <InfoIcon className="h-4 w-4 text-primary" />
           <AlertTitle>No Active Mess</AlertTitle>
           <AlertDescription>

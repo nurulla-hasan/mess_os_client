@@ -23,6 +23,8 @@ export function ActionButtons({ user }: { user: IUser }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const router = useRouter();
 
+  const isSuperAdmin = user.globalRole === "super_admin";
+
   const handleStatusUpdate = async () => {
     setIsLoading(true);
     const newStatus = user.status === "active" ? "blocked" : "active";
@@ -51,8 +53,9 @@ export function ActionButtons({ user }: { user: IUser }) {
       {/* Global Role Update Action */}
       <RoleUpdateModal user={user} />
 
-      {/* Account Status Toggle Action (Block/Unblock) */}
-      <ConfirmationModal
+      {/* Account Status Toggle Action (Block/Unblock) — hidden for super_admin */}
+      {!isSuperAdmin && (
+        <ConfirmationModal
         open={isStatusModalOpen}
         onOpenChange={setIsStatusModalOpen}
         title={user.status === "active" ? "Block User" : "Unblock User"}
@@ -81,6 +84,7 @@ export function ActionButtons({ user }: { user: IUser }) {
           </Button>
         }
       />
+      )}
     </div>
   );
 }

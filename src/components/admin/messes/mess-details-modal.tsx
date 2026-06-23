@@ -29,7 +29,7 @@ export function MessDetailsModal({ mess }: MessDetailsModalProps) {
         </Button>
       }
     >
-      <div className="flex-1 overflow-y-auto p-6 space-y-8">
+      <div className="flex-1 overflow-y-auto p-6 space-y-8 max-h-[50vh]">
         {/* Header Info */}
         <div className="space-y-4">
           <div className="flex items-start justify-between">

@@ -51,7 +51,7 @@ export function ViewRequestModal({ request }: ViewRequestModalProps) {
       }
     >
       <div className="flex flex-col h-full">
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 max-h-[50vh]">
           {/* Status Header */}
           <div className={cn("p-4 rounded-lg border flex items-center justify-between", Config.class)}>
             <div className="flex items-center gap-3">

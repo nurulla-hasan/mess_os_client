@@ -78,7 +78,7 @@ export function GenerateAiShoppingListModal({
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-6">
+      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
         <div className="space-y-2">
           <label className="text-sm font-medium">Menu Plan</label>
           <Select value={menuPlanId} onValueChange={setMenuPlanId}>

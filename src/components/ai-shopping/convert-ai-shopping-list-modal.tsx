@@ -93,7 +93,7 @@ export function ConvertAiShoppingListModal({
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-6">
+      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
         <div className="rounded-lg border bg-muted/40 p-3 flex items-center justify-between gap-3">
           <div>
             <p className="text-sm font-bold">

@@ -36,7 +36,7 @@ export function SubscriptionDetailsModal({ history }: SubscriptionDetailsModalPr
         </Button>
       }
     >
-      <div className="flex-1 overflow-y-auto p-6 space-y-8">
+      <div className="flex-1 overflow-y-auto p-6 space-y-8 max-h-[50vh]">
         {/* Subscription Status Header */}
         <div className="flex items-start justify-between">
           <div className="space-y-1">

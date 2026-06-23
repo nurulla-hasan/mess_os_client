@@ -86,7 +86,7 @@ export function CreateNoticeModal({ messId }: CreateNoticeModalProps) {
         </Button>
       }
     >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 overflow-y-auto">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 overflow-y-auto max-h-[50vh]">
         <FieldGroup>
           <FieldSet>
             <FieldLegend>Notice Details</FieldLegend>

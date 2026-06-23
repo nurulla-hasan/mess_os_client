@@ -68,7 +68,7 @@ export function RoleUpdateModal({ user }: RoleUpdateModalProps) {
         </Button>
       }
     >
-      <div className="p-6 space-y-4">
+      <div className="p-6 space-y-4 max-h-[50vh] overflow-y-auto">
         <div className="space-y-2">
           <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
             Select New Role
