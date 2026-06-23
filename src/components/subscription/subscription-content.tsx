@@ -19,6 +19,7 @@ import { subscriptionHistoryColumns } from "./subscription-history-columns";
 import {
   subscribeToPlan,
   cancelSubscription,
+  startTrial,
 } from "@/services/subscription.service";
 import { cn, formatDate, SuccessToast, ErrorToast } from "@/lib/utils";
 import { useSubscription } from "@/providers/subscription-provider";
@@ -89,6 +90,22 @@ export function SubscriptionContent({
     });
   };
 
+  const handleStartTrial = () => {
+    startTransition(async () => {
+      try {
+        const res = await startTrial(messId);
+        if (res.success) {
+          SuccessToast("Free trial started! Enjoy premium features.");
+          router.refresh();
+        } else {
+          ErrorToast(res.message || "Failed to start trial.");
+        }
+      } catch {
+        ErrorToast("An unexpected error occurred.");
+      }
+    });
+  };
+
   const isCurrentPlan = (planCode: string) => {
     return currentSubscription?.planId === planCode;
   };
@@ -144,6 +161,35 @@ export function SubscriptionContent({
             {currentSubscription.cancelAtPeriodEnd && (
               <Badge variant="rejected">Scheduled for Cancellation</Badge>
             )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Trial CTA — shown when on free plan or no active subscription */}
+      {(!currentSubscription || currentSubscription.planId === "free") && (
+        <Card className="border-amber-200 bg-linear-to-br from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 dark:border-amber-800">
+          <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-6 py-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-full bg-amber-100 dark:bg-amber-900">
+                <ShieldCheck className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+              </div>
+              <div>
+                <h3 className="font-bold text-lg">Try Premium Free!</h3>
+                <p className="text-sm text-muted-foreground">
+                  Start a free trial and explore all premium features — meals, billing, reports, AI shopping & more. No payment required.
+                </p>
+              </div>
+            </div>
+            <Button
+              size="lg"
+              className="bg-amber-600 hover:bg-amber-700 text-white shrink-0 shadow-sm"
+              onClick={handleStartTrial}
+              disabled={isPending}
+              loading={isPending}
+              loadingText="Starting..."
+            >
+              Start Free Trial
+            </Button>
           </CardContent>
         </Card>
       )}

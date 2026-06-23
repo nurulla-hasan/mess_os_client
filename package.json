@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "echo \"No tests configured yet\"",
+    "test:watch": "echo \"No tests configured yet\""
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

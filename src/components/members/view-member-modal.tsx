@@ -11,9 +11,14 @@ import {
   Phone,
   LucideIcon,
   Eye,
+  UtensilsCrossed,
+  DollarSign,
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
+import { updateMemberParticipation } from "@/services/mess.service";
+import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 interface ViewMemberModalProps {
   member: IMember;
@@ -54,6 +59,36 @@ const DetailItem = ({
 
 export function ViewMemberModal({ member }: ViewMemberModalProps) {
   const [open, setOpen] = React.useState(false);
+  const [meals, setMeals] = React.useState(member.participation?.meals ?? true);
+  const [sharedExpenses, setSharedExpenses] = React.useState(member.participation?.sharedExpenses ?? true);
+  const [saving, setSaving] = React.useState(false);
+
+  // Reset local state when modal opens with a different member
+  React.useEffect(() => {
+    if (open) {
+      setMeals(member.participation?.meals ?? true);
+      setSharedExpenses(member.participation?.sharedExpenses ?? true);
+    }
+  }, [open, member]);
+
+  const handleSaveParticipation = async () => {
+    setSaving(true);
+    try {
+      const res = await updateMemberParticipation(member.messId, member._id, {
+        meals,
+        sharedExpenses,
+      });
+      if (res.success) {
+        SuccessToast("Participation updated successfully");
+      } else {
+        ErrorToast(res.message || "Failed to update participation");
+      }
+    } catch {
+      ErrorToast("Something went wrong");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <ModalWrapper
@@ -139,6 +174,49 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
                 {format(new Date(member.leftAt), "PPP")}
               </span>
             </div>
+          </div>
+        )}
+
+        {/* Participation Settings - only for active members */}
+        {member.status === "active" && (
+          <div className="mt-6 p-4 rounded-lg bg-muted/30 border">
+            <h4 className="text-sm font-bold mb-3 flex items-center gap-2">
+              <Shield className="h-4 w-4 text-primary" />
+              Participation Settings
+            </h4>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <UtensilsCrossed className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Meals</span>
+                </div>
+                <Switch
+                  checked={meals}
+                  onCheckedChange={setMeals}
+                  disabled={saving}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm">Shared Expenses</span>
+                </div>
+                <Switch
+                  checked={sharedExpenses}
+                  onCheckedChange={setSharedExpenses}
+                  disabled={saving}
+                />
+              </div>
+            </div>
+            <Button
+              size="sm"
+              className="w-full mt-3"
+              onClick={handleSaveParticipation}
+              loading={saving}
+              loadingText="Saving..."
+            >
+              Save Changes
+            </Button>
           </div>
         )}
       </div>
