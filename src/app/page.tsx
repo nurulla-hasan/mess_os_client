@@ -34,7 +34,7 @@ export default async function RootPage() {
   return (
     <main className="min-h-screen bg-background flex flex-col font-sans selection:bg-primary selection:text-primary-foreground">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-3xl">
+      <header className="sticky top-0 z-50 border-b bg-background/95">
         <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <span className="flex size-8 sm:size-9 items-center justify-center rounded-md bg-primary text-primary-foreground shadow-sm">

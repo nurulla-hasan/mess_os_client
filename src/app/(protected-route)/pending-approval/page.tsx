@@ -13,7 +13,7 @@ export default function PendingApprovalPage() {
           {/* Status Icon */}
           <div className="flex justify-center">
             <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
+              <div className="absolute inset-0 bg-primary/20 rounded-full animate-pulse" />
               <div className="relative flex items-center justify-center w-24 h-24 rounded-full bg-linear-to-br from-primary/30 to-primary/10 border-2 border-primary/20 shadow-xl shadow-primary/10">
                 <Clock className="h-12 w-12 text-primary animate-pulse" />
               </div>
@@ -36,7 +36,7 @@ export default function PendingApprovalPage() {
           </div>
 
           {/* Info Card */}
-          <Card className="border-2 border-primary/10 bg-card/80 backdrop-blur-sm">
+          <Card className="border-2 border-primary/10 bg-card/80">
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10">

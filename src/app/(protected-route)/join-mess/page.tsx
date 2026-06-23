@@ -57,7 +57,7 @@ export default function JoinMessPage() {
   return (
     <PageLayout>
       <div className="flex items-center justify-center min-h-[60vh]">
-        <Card className="w-full max-w-md border-2 border-primary/10 shadow-xl shadow-primary/5 bg-card/80 backdrop-blur-sm">
+        <Card className="w-full max-w-md border-2 border-primary/10 shadow-xl shadow-primary/5 bg-card/80">
           <CardHeader className="text-center space-y-2 pt-8">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 mb-2">
               <Key className="h-8 w-8 text-primary" />

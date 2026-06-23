@@ -8,9 +8,9 @@ export function ParticleField() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Giant soft orbs */}
-      <div className="absolute -top-20 -left-20 w-125 h-125 bg-primary/8 rounded-full blur-[150px] animate-pulse" />
-      <div className="absolute -bottom-40 -right-40 w-150 h-150 bg-primary/6 rounded-full blur-[180px] animate-pulse" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/3 left-1/2 w-100 h-100 bg-primary/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+      <div className="absolute -top-20 -left-20 w-125 h-125 bg-primary/8 rounded-full animate-pulse" />
+      <div className="absolute -bottom-40 -right-40 w-150 h-150 bg-primary/6 rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-1/3 left-1/2 w-100 h-100 bg-primary/5 rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
       
       {/* Floating dots with different animations */}
       {[...Array(12)].map((_, i) => (

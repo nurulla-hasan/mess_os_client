@@ -266,7 +266,7 @@ export default function CreateMessPage() {
                 <div className="p-4 rounded-lg bg-secondary/50 border border-border/50 flex justify-between items-center group">
                   <div>
                     <p className="text-xs font-medium text-muted-foreground mb-1 uppercase tracking-wider">Invite Code</p>
-                    <p className="font-mono font-bold text-primary tracking-widest blur-xs group-hover:blur-none transition-all">MESS-XXXX</p>
+                    <p className="font-mono font-bold text-primary tracking-widest transition-all">MESS-XXXX</p>
                   </div>
                   <Button variant="ghost" size="icon">
                     <Copy className="h-4 w-4" />

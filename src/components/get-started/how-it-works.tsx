@@ -27,11 +27,11 @@ export function HowItWorks() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 relative">
           {/* Step 1 */}
           <div className="group relative">
-            <div className="absolute -inset-2 bg-primary/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <Card className="relative border-2 border-transparent hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 bg-card/80 backdrop-blur-sm">
+            <div className="absolute -inset-2 bg-primary/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Card className="relative border-2 border-transparent hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 bg-card/80">
               <CardContent className="flex flex-col items-center text-center gap-6 py-12">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-primary/30 rounded-full blur-2xl group-hover:bg-primary/40 transition-colors animate-pulse" />
+                  <div className="absolute inset-0 bg-primary/30 rounded-full group-hover:bg-primary/40 transition-colors animate-pulse" />
                   <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-primary to-primary/70 text-primary-foreground shadow-xl shadow-primary/30 group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-primary/40 transition-all duration-300">
                     <Users className="h-7 w-7" />
                   </div>
@@ -49,11 +49,11 @@ export function HowItWorks() {
 
           {/* Step 2 */}
           <div className="group relative">
-            <div className="absolute -inset-2 bg-primary/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <Card className="relative border-2 border-transparent hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 bg-card/80 backdrop-blur-sm">
+            <div className="absolute -inset-2 bg-primary/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Card className="relative border-2 border-transparent hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 bg-card/80">
               <CardContent className="flex flex-col items-center text-center gap-6 py-12">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-primary/30 rounded-full blur-2xl group-hover:bg-primary/40 transition-colors animate-pulse" />
+                  <div className="absolute inset-0 bg-primary/30 rounded-full group-hover:bg-primary/40 transition-colors animate-pulse" />
                   <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-primary to-primary/70 text-primary-foreground shadow-xl shadow-primary/30 group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-primary/40 transition-all duration-300">
                     <CreditCard className="h-7 w-7" />
                   </div>
@@ -71,11 +71,11 @@ export function HowItWorks() {
 
           {/* Step 3 */}
           <div className="group relative">
-            <div className="absolute -inset-2 bg-primary/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <Card className="relative border-2 border-transparent hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 bg-card/80 backdrop-blur-sm">
+            <div className="absolute -inset-2 bg-primary/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Card className="relative border-2 border-transparent hover:border-primary/20 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 bg-card/80">
               <CardContent className="flex flex-col items-center text-center gap-6 py-12">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-primary/30 rounded-full blur-2xl group-hover:bg-primary/40 transition-colors animate-pulse" />
+                  <div className="absolute inset-0 bg-primary/30 rounded-full group-hover:bg-primary/40 transition-colors animate-pulse" />
                   <div className="relative flex items-center justify-center w-16 h-16 rounded-full bg-linear-to-br from-primary to-primary/70 text-primary-foreground shadow-xl shadow-primary/30 group-hover:scale-110 group-hover:shadow-2xl group-hover:shadow-primary/40 transition-all duration-300">
                     <CheckCircle className="h-7 w-7" />
                   </div>

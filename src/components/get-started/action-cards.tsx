@@ -18,7 +18,7 @@ function ShimmerEffect() {
 // Glow orb for cards
 function CardGlow() {
   return (
-    <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-primary/10 rounded-lg blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+    <div className="absolute -inset-1 bg-linear-to-r from-primary/20 to-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
   );
 }
 
@@ -33,7 +33,7 @@ export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProp
       {/* Join a Mess Card */}
       <div className="group relative">
         <CardGlow />
-        <Card className={`py-0 relative overflow-hidden border-2 border-transparent ${!isSuspended && "hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1"} transition-all duration-500 bg-card/80 backdrop-blur-sm ${isSuspended && "opacity-80 grayscale-[0.5]"}`}>
+        <Card className={`py-0 relative overflow-hidden border-2 border-transparent ${!isSuspended && "hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1"} transition-all duration-500 bg-card/80 ${isSuspended && "opacity-80 grayscale-[0.5]"}`}>
           <ShimmerEffect />
           
           <CardContent className="relative flex flex-col gap-8 p-8">
@@ -71,7 +71,7 @@ export function ActionCards({ isUserOnly, isSuspended = false }: ActionCardsProp
       {/* Create a Mess Card */}
       <div className="group relative">
         <CardGlow />
-        <Card className={`py-0 relative overflow-hidden border-2 border-transparent ${!isSuspended && "hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1"} transition-all duration-500 bg-card/80 backdrop-blur-sm ${isSuspended && "opacity-80 grayscale-[0.5]"}`}>
+        <Card className={`py-0 relative overflow-hidden border-2 border-transparent ${!isSuspended && "hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1"} transition-all duration-500 bg-card/80 ${isSuspended && "opacity-80 grayscale-[0.5]"}`}>
           <ShimmerEffect />
           
           <CardContent className="relative flex flex-col gap-8 p-8">

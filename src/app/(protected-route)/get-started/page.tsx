@@ -39,7 +39,7 @@ export default async function GetStartedPage() {
         {/* Suspension Banner */}
         {suspendedMess && (
           <div className="relative z-10 max-w-4xl mx-auto mb-12">
-            <div className="p-6 rounded-lg bg-rose-500/10 border border-rose-500/20 backdrop-blur-md shadow-2xl shadow-rose-500/10 flex flex-col xl:flex-row xl:items-center justify-between gap-3 overflow-hidden">
+            <div className="p-6 rounded-lg bg-rose-500/10 border border-rose-500/20 shadow-2xl shadow-rose-500/10 flex flex-col xl:flex-row xl:items-center justify-between gap-3 overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10">
                 <Icons.ShieldAlert className="h-24 w-24 text-rose-500" />
               </div>
@@ -61,7 +61,7 @@ export default async function GetStartedPage() {
 
         {/* Hero Header Section */}
         <div className="relative text-center space-y-5 mb-20">
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm shadow-lg shadow-primary/5">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 shadow-lg shadow-primary/5">
             <Sparkles className="h-4 w-4 text-primary animate-pulse" />
             <span className="text-sm font-semibold text-primary">Welcome to Mess OS</span>
             <Sparkles className="h-4 w-4 text-primary animate-pulse" />

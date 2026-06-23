@@ -46,7 +46,7 @@ export default function BlockedPage() {
       <div className="max-w-md w-full space-y-8 text-center">
         {/* Animated Icon Container */}
         <div className="relative inline-flex items-center justify-center">
-          <div className="absolute inset-0 bg-rose-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute inset-0 bg-rose-500/20 rounded-full animate-pulse" />
           <div className="relative bg-rose-500/10 p-6 rounded-3xl border border-rose-500/20">
             <Ban className="h-16 w-16 text-rose-600 animate-in zoom-in duration-500" />
           </div>

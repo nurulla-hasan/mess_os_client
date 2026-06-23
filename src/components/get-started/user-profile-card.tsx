@@ -18,7 +18,7 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
   if (isLoading) {
     return (
       <div className="flex justify-center mt-8 w-full max-w-md mx-auto">
-        <div className="flex items-center gap-4 p-4 rounded-lg bg-card/50 backdrop-blur-sm border border-border/50 w-full animate-pulse">
+        <div className="flex items-center gap-4 p-4 rounded-lg bg-card/50 border border-border/50 w-full animate-pulse">
           <Skeleton className="h-16 w-16 rounded-lg" />
           <div className="space-y-2 flex-1">
             <Skeleton className="h-5 w-32" />
@@ -34,10 +34,10 @@ export function UserProfileCard({ user, isLoading, onLogout }: UserProfileCardPr
   return (
     <div className="flex justify-center mt-8">
       <div className="group relative">
-        <div className="absolute -inset-1 bg-linear-to-r from-primary/30 to-primary/10 rounded-lg blur-lg opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="relative flex flex-col xl:flex-row items-center gap-6 p-6 rounded-lg bg-card/80 backdrop-blur-md border border-primary/20 shadow-xl overflow-hidden min-w-[320px] xl:min-w-112.5">
+        <div className="absolute -inset-1 bg-linear-to-r from-primary/30 to-primary/10 rounded-lg opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="relative flex flex-col xl:flex-row items-center gap-6 p-6 rounded-lg bg-card/80 border border-primary/20 shadow-xl overflow-hidden min-w-[320px] xl:min-w-112.5">
           <div className="relative">
-            <div className="absolute -inset-2 bg-primary/20 rounded-full blur-md animate-pulse" />
+            <div className="absolute -inset-2 bg-primary/20 rounded-full animate-pulse" />
             <Avatar className="h-20 w-20 border-2 border-primary/50 shadow-lg group-hover:scale-105 transition-transform duration-300">
               <AvatarImage src={user.avatar} alt={user.fullName} />
               <AvatarFallback className="bg-primary/10 text-primary text-xl font-bold">

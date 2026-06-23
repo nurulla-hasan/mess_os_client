@@ -43,15 +43,15 @@ export default function SelectMessClient({ usableMemberships }: SelectMessClient
     <PageLayout>
       {/* Decorative background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-primary/5" />
+        <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-primary/5"
       </div>
 
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="w-full max-w-2xl space-y-10">
           {/* Header */}
           <div className="text-center space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
               <Sparkles className="h-4 w-4 text-primary animate-pulse" />
               <span className="text-sm font-semibold text-primary">Multiple Messes Found</span>
             </div>

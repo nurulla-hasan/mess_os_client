@@ -40,7 +40,7 @@ export function MealFilters() {
         className="col-span-2"
       />
       
-      <div className="flex w-full sm:w-auto items-center justify-between gap-1.5 bg-muted p-0.5 rounded-md border shadow-sm backdrop-blur-sm">
+      <div className="flex w-full sm:w-auto items-center justify-between gap-1.5 bg-muted p-0.5 rounded-md border shadow-sm">
         <Button 
           variant="ghost" 
           size="icon-sm" 

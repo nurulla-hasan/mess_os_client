@@ -24,7 +24,7 @@ export default function GlobalPanelError({
       <DashboardPageLayout>
         <div className="flex flex-col items-center justify-center min-h-[60vh] w-full p-6 text-center animate-in fade-in zoom-in-95 duration-500">
           <div className="relative mb-8">
-            <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
+            <div className="absolute inset-0 bg-primary/20 rounded-full animate-pulse" />
             <div className="h-24 w-24 bg-primary/10 rounded-full flex items-center justify-center relative ring-8 ring-primary/5 border border-primary/20 shadow-2xl">
               <ShieldCheck className="h-12 w-12 text-primary drop-shadow-md" />
             </div>
@@ -55,7 +55,7 @@ export default function GlobalPanelError({
     <DashboardPageLayout>
       <div className="flex flex-col items-center justify-center min-h-[60vh] w-full p-6 text-center animate-in fade-in zoom-in-95 duration-500">
         <div className="relative mb-8">
-          <div className="absolute inset-0 bg-destructive/20 blur-2xl rounded-full animate-pulse" />
+          <div className="absolute inset-0 bg-destructive/20 rounded-full animate-pulse" />
           <div className="h-24 w-24 bg-destructive/10 rounded-full flex items-center justify-center relative ring-8 ring-destructive/5 border border-destructive/20 shadow-2xl">
             <AlertTriangle className="h-12 w-12 text-destructive drop-shadow-md" />
           </div>

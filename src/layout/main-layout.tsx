@@ -35,7 +35,7 @@ const MainLayout = ({ children, userRole = "member", messName }: MainLayoutProps
       {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden transition-opacity"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}

@@ -24,15 +24,15 @@ function PaymentCancelContent() {
       <div className="flex flex-col items-center justify-center min-h-[70vh] py-12 px-4">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[20%] right-[10%] w-[35%] h-[35%] bg-rose-500/5 rounded-full blur-[100px] animate-pulse" />
-          <div className="absolute bottom-[20%] left-[10%] w-[35%] h-[35%] bg-amber-500/5 rounded-full blur-[100px] animate-pulse" />
+          <div className="absolute top-[20%] right-[10%] w-[35%] h-[35%] bg-rose-500/5 rounded-full animate-pulse" />
+          <div className="absolute bottom-[20%] left-[10%] w-[35%] h-[35%] bg-amber-500/5 rounded-full animate-pulse" />
         </div>
 
         <div className="relative w-full max-w-xl">
           {/* Cancel Icon Animation Container */}
           <div className="flex flex-col items-center mb-8">
             <div className="relative">
-              <div className="absolute inset-0 scale-150 bg-rose-500/20 rounded-full blur-2xl animate-pulse" />
+              <div className="absolute inset-0 scale-150 bg-rose-500/20 rounded-full animate-pulse" />
               <div className="relative bg-rose-500 text-white p-5 rounded-full shadow-2xl shadow-rose-500/40 animate-in zoom-in duration-500">
                 <XCircle className="h-16 w-16 stroke-[2.5px]" />
               </div>
@@ -46,7 +46,7 @@ function PaymentCancelContent() {
             </div>
           </div>
 
-          <Card className="border-2 border-rose-500/10 shadow-2xl shadow-rose-500/5 bg-card/80 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <Card className="border-2 border-rose-500/10 shadow-2xl shadow-rose-500/5 bg-card/80 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <CardContent className="p-8">
               <div className="space-y-6">
                 <div className="flex items-center justify-between pb-6 border-b border-border/50">
