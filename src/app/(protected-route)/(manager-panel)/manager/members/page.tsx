@@ -2,7 +2,7 @@ import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { AlertCircle } from "lucide-react";
 import { getMessMembers } from "@/services/mess.service";
-import { getActiveMessIdFromCookies, getMe } from "@/services/auth.service";
+import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MemberFilters } from "@/components/members/member-filters";
 import ManagerMembersClient from "./manager-members-client";
@@ -29,14 +29,6 @@ export default async function ManagerMembersPage({
   const params = (await searchParams) as QueryParams;
   const { data, meta } = await getMessMembers(activeMessId, params);
 
-  // Get current user's member _id to prevent self-toggle of resident status
-  const userRes = await getMe();
-  const currentUser = userRes.data;
-  const currentMembership = currentUser?.memberships?.find(
-    (m) => (typeof m.messId === 'string' ? m.messId : m.messId?._id) === activeMessId
-  );
-  const currentMemberId = currentMembership?._id;
-
   return (
     <DashboardPageLayout>
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-3">
@@ -50,7 +42,6 @@ export default async function ManagerMembersPage({
       <ManagerMembersClient
         data={data || []}
         meta={meta}
-        currentMemberId={currentMemberId}
       />
     </DashboardPageLayout>
   );
