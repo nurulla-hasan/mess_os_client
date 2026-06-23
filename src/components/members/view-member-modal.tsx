@@ -23,7 +23,6 @@ import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 interface ViewMemberModalProps {
   member: IMember;
-  currentMemberId?: string;
 }
 
 interface DetailItemProps {
@@ -59,8 +58,9 @@ const DetailItem = ({
   </div>
 );
 
-export function ViewMemberModal({ member, currentMemberId }: ViewMemberModalProps) {
+export function ViewMemberModal({ member }: ViewMemberModalProps) {
   const [open, setOpen] = React.useState(false);
+  const [currentMemberId, setCurrentMemberId] = React.useState<string | undefined>(undefined);
   const [meals, setMeals] = React.useState(member.participation?.meals ?? true);
   const [sharedExpenses, setSharedExpenses] = React.useState(member.participation?.sharedExpenses ?? true);
   const [saving, setSaving] = React.useState(false);
@@ -69,6 +69,33 @@ export function ViewMemberModal({ member, currentMemberId }: ViewMemberModalProp
     acceptedBy: { _id: string }[];
   } | null>(null);
   const [loadingRequest, setLoadingRequest] = React.useState(false);
+
+  // Fetch current user's member ID on mount
+  React.useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_API;
+        const res = await fetch(`${baseUrl}/users/me`, {
+          credentials: "include",
+        });
+        const result = await res.json();
+        const user = result?.data as { _id: string; memberships?: { _id: string; messId: string | { _id: string } }[] } | undefined;
+        if (user?.memberships) {
+          const activeMessId = member.messId;
+          const found = user.memberships.find((m) => {
+            const mId = typeof m.messId === "string" ? m.messId : m.messId?._id;
+            return mId === activeMessId;
+          });
+          if (found?._id) {
+            setCurrentMemberId(found._id);
+          }
+        }
+      } catch {
+        // fail silently
+      }
+    };
+    fetchCurrentUser();
+  }, [member.messId]);
 
   const isOwnProfile = member._id === currentMemberId;
   const isCurrentlyResident = member.isResidentManager !== false;

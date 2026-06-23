@@ -16,10 +16,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ActionButtonsProps {
   member: IMember;
-  currentMemberId?: string;
 }
 
-function ActionButtons({ member, currentMemberId }: ActionButtonsProps) {
+function ActionButtons({ member }: ActionButtonsProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
   const [actionType, setActionType] = React.useState<"approve" | "reject" | "remove" | null>(null);
@@ -59,7 +58,7 @@ function ActionButtons({ member, currentMemberId }: ActionButtonsProps) {
 
   return (
     <div className="flex items-center justify-end gap-1">
-      <ViewMemberModal key={member._id} member={member} currentMemberId={currentMemberId} />
+      <ViewMemberModal key={member._id} member={member} />
 
       {member.status === "pending" && (
         <>
@@ -125,7 +124,7 @@ function ActionButtons({ member, currentMemberId }: ActionButtonsProps) {
   );
 }
 
-export const columns = (currentMemberId?: string): ColumnDef<IMember>[] => [
+export const columns = (): ColumnDef<IMember>[] => [
   {
     accessorKey: "user.fullName",
     header: "Member",
@@ -189,6 +188,6 @@ export const columns = (currentMemberId?: string): ColumnDef<IMember>[] => [
   {
     id: "actions",
     header: () => <div className="text-end">Actions</div>,
-    cell: ({ row }) => <ActionButtons member={row.original} currentMemberId={currentMemberId} />,
+    cell: ({ row }) => <ActionButtons member={row.original} />,
   },
 ];
