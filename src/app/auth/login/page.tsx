@@ -44,7 +44,7 @@ export default function LoginPage() {
   async function onSubmit(values: LoginFormValues) {
     setIsLoading(true);
     try {
-      const response = await login(values);
+      const response = await login({ ...values, rememberMe });
 
       if (response?.success) {
         SuccessToast(response.message || "Login successful!");

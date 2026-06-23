@@ -63,12 +63,14 @@ const getValidAccessToken = async (baseUrl: string): Promise<string | null> => {
     return null;
   }
 
+  const rememberMe = cookieStore.get("rememberMe")?.value === "true";
+
   const res = await fetch(`${baseUrl}/auth/refresh-token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ refreshToken }),
+    body: JSON.stringify({ refreshToken, rememberMe }),
   });
 
   if (!res.ok) {
@@ -83,7 +85,13 @@ const getValidAccessToken = async (baseUrl: string): Promise<string | null> => {
   }
 
   try {
-    cookieStore.set("accessToken", accessToken);
+    cookieStore.set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      ...(rememberMe ? { maxAge: 30 * 24 * 60 * 60 } : {}),
+    });
   } catch {
     // Some server contexts do not allow writing cookies.
   }

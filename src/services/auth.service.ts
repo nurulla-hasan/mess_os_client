@@ -76,19 +76,28 @@ export const resendVerifyOtp = async (data: FieldValues): Promise<ApiResponse<nu
  */
 export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponseData>> => {
   try {
+    const rememberMe = data?.rememberMe === true;
     const response = (await serverFetch("/auth/login", {
       method: "POST",
       body: data,
       isPublic: true,
       setCookies: [
         { responsePath: "data.accessToken", cookieName: "accessToken" },
-        { responsePath: "data.refreshToken", cookieName: "refreshToken" },
       ],
     })) as ApiResponse<AuthResponseData>;
 
     if (response && response.success) {
       const cookieStore = await cookies();
       const responseData = response.data;
+
+      // Store rememberMe preference as a cookie (for refresh token rotation to read)
+      cookieStore.set("rememberMe", String(rememberMe), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        ...(rememberMe ? { maxAge: 30 * 24 * 60 * 60 } : {}),
+      });
 
       // Get usable memberships (membership.status active + mess.status active)
       const memberships = (responseData?.user?.memberships || []) as IMembership[];
@@ -104,7 +113,7 @@ export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponse
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
             path: "/",
-            maxAge: 60 * 60 * 24 * 7,
+            ...(rememberMe ? { maxAge: 30 * 24 * 60 * 60 } : {}),
           });
         }
       }
@@ -369,4 +378,5 @@ export const logout = async (): Promise<void> => {
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
   cookieStore.delete("activeMessId");
+  cookieStore.delete("rememberMe");
 };
