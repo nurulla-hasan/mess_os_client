@@ -5,6 +5,8 @@ build
 .env.local
 .env
 .vercel
+pnpm-lock.yaml
+pnpm-workspace.yaml
 
 # typescript
 *.tsbuildinfo
