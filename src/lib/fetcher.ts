@@ -3,6 +3,7 @@ import "server-only";
 import { jwtDecode } from "jwt-decode";
 import { revalidateTag, updateTag } from "next/cache";
 import { cookies } from "next/headers";
+import { cache } from "react";
 
 type CookieMapping = {
   /** dot-notation path in JSON response body, e.g. "data.accessToken" */
@@ -50,7 +51,7 @@ const isTokenExpired = (token: string): boolean => {
   }
 };
 
-const getValidAccessToken = async (baseUrl: string): Promise<string | null> => {
+const _getValidAccessTokenImpl = async (baseUrl: string): Promise<string | null> => {
   const cookieStore = await cookies();
   let accessToken = cookieStore.get("accessToken")?.value;
 
@@ -98,6 +99,12 @@ const getValidAccessToken = async (baseUrl: string): Promise<string | null> => {
 
   return accessToken;
 };
+
+/**
+ * Cached version of getValidAccessToken - memoized per request.
+ * Ensures cookies() and token refresh logic runs only ONCE per render.
+ */
+const getValidAccessToken = cache(_getValidAccessTokenImpl);
 
 export const serverFetch = async <T = any>(
   endpoint: string,

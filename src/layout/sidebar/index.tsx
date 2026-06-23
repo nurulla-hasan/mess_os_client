@@ -62,7 +62,7 @@ export default function Sidebar({
             <span className="text-lg font-bold  text-foreground">
               Mess<span className="text-primary">Manager</span>
             </span>
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest truncate max-w-[150px]">
+            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-widest truncate max-w-37.5">
               {messName || "Mess Management"}
             </span>
           </div>
