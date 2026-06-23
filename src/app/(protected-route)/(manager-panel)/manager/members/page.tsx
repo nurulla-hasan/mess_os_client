@@ -5,7 +5,8 @@ import { getMessMembers } from "@/services/mess.service";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MemberFilters } from "@/components/members/member-filters";
-import ManagerMembersClient from "./manager-members-client";
+import { DataTable } from "@/components/ui/custom/data-table";
+import { columns } from "@/components/members/columns";
 
 export default async function ManagerMembersPage({
   searchParams,
@@ -20,7 +21,9 @@ export default async function ManagerMembersPage({
         <div className="flex flex-col items-center justify-center min-h-100 space-y-4 text-center">
           <AlertCircle className="h-10 w-10 text-muted-foreground opacity-20" />
           <h2 className="text-lg font-bold">No Active Mess</h2>
-          <p className="text-sm text-muted-foreground">Select a mess to manage members.</p>
+          <p className="text-sm text-muted-foreground">
+            Select a mess to manage members.
+          </p>
         </div>
       </DashboardPageLayout>
     );
@@ -39,10 +42,7 @@ export default async function ManagerMembersPage({
         <MemberFilters />
       </div>
 
-      <ManagerMembersClient
-        data={data || []}
-        meta={meta}
-      />
+      <DataTable columns={columns} data={data || []} meta={meta} />
     </DashboardPageLayout>
   );
 }

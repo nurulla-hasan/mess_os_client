@@ -19,6 +19,7 @@ import { Switch } from "@/components/ui/switch";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
 import { updateMemberParticipation, requestResidentToggle, acceptResidentToggle, getPendingToggleRequests } from "@/services/mess.service";
+import { getMe } from "@/services/auth.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 interface ViewMemberModalProps {
@@ -68,18 +69,14 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
     _id: string;
     acceptedBy: { _id: string }[];
   } | null>(null);
-  const [loadingRequest, setLoadingRequest] = React.useState(false);
+  const [loadingRequest, setLoadingRequest] = React.useState(true);
 
   // Fetch current user's member ID on mount
   React.useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_API;
-        const res = await fetch(`${baseUrl}/users/me`, {
-          credentials: "include",
-        });
-        const result = await res.json();
-        const user = result?.data as { _id: string; memberships?: { _id: string; messId: string | { _id: string } }[] } | undefined;
+        const res = await getMe();
+        const user = res?.data as { _id: string; memberships?: { _id: string; messId: string | { _id: string } }[] } | undefined;
         if (user?.memberships) {
           const activeMessId = member.messId;
           const found = user.memberships.find((m) => {
@@ -105,7 +102,6 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
   // Fetch pending request when modal opens
   React.useEffect(() => {
     if (open && member.messRole === "manager") {
-      setLoadingRequest(true);
       getPendingToggleRequests(member.messId)
         .then((res) => {
           if (res.success && Array.isArray(res.data)) {
@@ -383,8 +379,8 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
           </div>
         )}
 
-        {/* Participation Settings - only for active members */}
-        {member.status === "active" && (
+        {/* Participation Settings - only for active non-manager members */}
+        {member.status === "active" && member.messRole !== "manager" && (
           <div className="mt-6 p-4 rounded-lg bg-muted/30 border">
             <h4 className="text-sm font-bold mb-3 flex items-center gap-2">
               <Shield className="h-4 w-4 text-primary" />

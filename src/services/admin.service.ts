@@ -140,6 +140,26 @@ export const deleteMessPermanently = async (
 };
 
 /**
+ * Permanently delete a user and handle manager/mess cascade (Super Admin)
+ */
+export const deleteUserPermanently = async (
+  userId: string
+): Promise<ApiResponse<{ deletedMesses: number; removedMemberships: number }>> => {
+  try {
+    return (await serverFetch(`/admin/users/${userId}`, {
+      method: "DELETE",
+      updateTag: ["users", "messes", "dashboard-stats"],
+    })) as ApiResponse<{ deletedMesses: number; removedMemberships: number }>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to delete user.",
+      data: { deletedMesses: 0, removedMemberships: 0 },
+    };
+  }
+};
+
+/**
  * List all users on the platform (Super Admin)
  */
 export const getAllUsers = async (params: QueryParams = {}): Promise<ApiResponse<IUser[]>> => {

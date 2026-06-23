@@ -44,7 +44,7 @@ export default function SelectMessClient({ usableMemberships }: SelectMessClient
       {/* Decorative background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-primary/5" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-primary/5"
+        <div className="absolute bottom-1/4 -right-32 w-80 h-80 rounded-full bg-primary/5" />
       </div>
 
       <div className="flex items-center justify-center min-h-[60vh]">

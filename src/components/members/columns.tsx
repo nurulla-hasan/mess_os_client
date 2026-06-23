@@ -124,7 +124,7 @@ function ActionButtons({ member }: ActionButtonsProps) {
   );
 }
 
-export const columns = (): ColumnDef<IMember>[] => [
+export const columns: ColumnDef<IMember>[] = [
   {
     accessorKey: "user.fullName",
     header: "Member",
