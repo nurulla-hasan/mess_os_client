@@ -1,12 +1,11 @@
 import DashboardPageHeader from "@/components/ui/custom/dashboard-page-header";
 import DashboardPageLayout from "@/components/ui/custom/dashboard-page-layout";
 import { AlertCircle } from "lucide-react";
-import { DataTable } from "@/components/ui/custom/data-table";
-import { columns } from "@/components/members/columns";
 import { getMessMembers } from "@/services/mess.service";
 import { getActiveMessIdFromCookies, getMe } from "@/services/auth.service";
 import { SearchParams, QueryParams } from "@/types/global.type";
 import { MemberFilters } from "@/components/members/member-filters";
+import ManagerMembersClient from "./manager-members-client";
 
 export default async function ManagerMembersPage({
   searchParams,
@@ -48,10 +47,10 @@ export default async function ManagerMembersPage({
         <MemberFilters />
       </div>
 
-      <DataTable 
-        columns={columns(currentMemberId)} 
-        data={data || []} 
-        meta={meta} 
+      <ManagerMembersClient
+        data={data || []}
+        meta={meta}
+        currentMemberId={currentMemberId}
       />
     </DashboardPageLayout>
   );
