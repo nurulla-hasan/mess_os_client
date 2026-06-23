@@ -27,7 +27,6 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} antialiased font-sans max-w-480 mx-auto`}
       >
-        <Toaster richColors/>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -49,6 +48,7 @@ export default function RootLayout({
           ]}
         >
           <NextTopLoader color="var(--primary)" showSpinner={false} />
+          <Toaster richColors theme="system"/>
           {children}
         </ThemeProvider>
       </body>
