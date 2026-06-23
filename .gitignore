@@ -5,6 +5,7 @@ build
 .env.local
 .env
 .vercel
+lint_output.txt
 pnpm-lock.yaml
 pnpm-workspace.yaml
 
