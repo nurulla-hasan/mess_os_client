@@ -13,15 +13,17 @@ import {
   Eye,
   UtensilsCrossed,
   DollarSign,
+  Building2,
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
-import { updateMemberParticipation } from "@/services/mess.service";
+import { updateMemberParticipation, requestResidentToggle, acceptResidentToggle, getPendingToggleRequests } from "@/services/mess.service";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 
 interface ViewMemberModalProps {
   member: IMember;
+  currentMemberId?: string;
 }
 
 interface DetailItemProps {
@@ -57,19 +59,107 @@ const DetailItem = ({
   </div>
 );
 
-export function ViewMemberModal({ member }: ViewMemberModalProps) {
+export function ViewMemberModal({ member, currentMemberId }: ViewMemberModalProps) {
   const [open, setOpen] = React.useState(false);
   const [meals, setMeals] = React.useState(member.participation?.meals ?? true);
   const [sharedExpenses, setSharedExpenses] = React.useState(member.participation?.sharedExpenses ?? true);
   const [saving, setSaving] = React.useState(false);
+  const [pendingRequest, setPendingRequest] = React.useState<{
+    _id: string;
+    acceptedBy: { _id: string }[];
+  } | null>(null);
+  const [loadingRequest, setLoadingRequest] = React.useState(false);
 
-  // Reset local state when modal opens with a different member
+  const isOwnProfile = member._id === currentMemberId;
+  const isCurrentlyResident = member.isResidentManager !== false;
+  const acceptCount = pendingRequest?.acceptedBy?.length ?? 0;
+  const alreadyAccepted = pendingRequest?.acceptedBy?.some((a) => a._id === currentMemberId);
+
+  // Fetch pending request when modal opens
   React.useEffect(() => {
-    if (open) {
-      setMeals(member.participation?.meals ?? true);
-      setSharedExpenses(member.participation?.sharedExpenses ?? true);
+    if (open && member.messRole === "manager") {
+      setLoadingRequest(true);
+      getPendingToggleRequests(member.messId)
+        .then((res) => {
+          if (res.success && Array.isArray(res.data)) {
+            const found = (res.data as { _id: string; managerId?: string | { _id: string }; acceptedBy: { _id: string }[] }[]).find(
+              (r) => {
+                const mgrId = typeof r.managerId === "string" ? r.managerId : r.managerId?._id;
+                return mgrId === member._id;
+              }
+            );
+            setPendingRequest(found ?? null);
+          }
+        })
+        .finally(() => setLoadingRequest(false));
     }
-  }, [open, member]);
+  }, [open, member.messId, member._id, member.messRole]);
+
+  const handleRequestToggle = async () => {
+    setSaving(true);
+    try {
+      const res = await requestResidentToggle(member.messId, member._id);
+      if (res.success) {
+        const data = res.data as { instant?: boolean } | null;
+        if (data?.instant) {
+          SuccessToast("You are now set as Resident and included in billing.");
+        } else {
+          SuccessToast("Request sent! Waiting for member approvals.");
+        }
+        // Refresh pending request
+        const refresh = await getPendingToggleRequests(member.messId);
+        if (refresh.success && Array.isArray(refresh.data)) {
+          const found = (refresh.data as { _id: string; managerId?: string | { _id: string }; acceptedBy: { _id: string }[] }[]).find(
+            (r) => {
+              const mgrId = typeof r.managerId === "string" ? r.managerId : r.managerId?._id;
+              return mgrId === member._id;
+            }
+          );
+          setPendingRequest(found ?? null);
+        }
+      } else {
+        ErrorToast(res.message || "Failed to send request");
+      }
+    } catch {
+      ErrorToast("Something went wrong");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleAcceptRequest = async () => {
+    if (!pendingRequest) return;
+    setSaving(true);
+    try {
+      const res = await acceptResidentToggle(member.messId, pendingRequest._id);
+      if (res.success) {
+        const data = res.data as { approved?: boolean } | null;
+        if (data?.approved) {
+          SuccessToast("Request approved! Manager has been set as External.");
+          setPendingRequest(null);
+        } else {
+          SuccessToast(res.message || "You accepted the request!");
+          // Refresh to update the count
+          const refresh = await getPendingToggleRequests(member.messId);
+          if (refresh.success && Array.isArray(refresh.data)) {
+            const found = (refresh.data as { _id: string; managerId?: string | { _id: string }; acceptedBy: { _id: string }[] }[]).find(
+              (r) => {
+                const mgrId = typeof r.managerId === "string" ? r.managerId : r.managerId?._id;
+                return mgrId === member._id;
+              }
+            );
+            setPendingRequest(found ?? null);
+          }
+        }
+      } else {
+        ErrorToast(res.message || "Failed to accept request");
+      }
+    } catch {
+      ErrorToast("Something went wrong");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleSaveParticipation = async () => {
     setSaving(true);
@@ -174,6 +264,95 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
                 {format(new Date(member.leftAt), "PPP")}
               </span>
             </div>
+          </div>
+        )}
+
+        {/* Resident Status - only for active managers */}
+        {member.status === "active" && member.messRole === "manager" && (
+          <div className="mt-6 p-4 rounded-lg bg-muted/30 border">
+            <h4 className="text-sm font-bold mb-3 flex items-center gap-2">
+              <Building2 className="h-4 w-4 text-primary" />
+              Manager Type
+            </h4>
+
+            {/* Current status badge */}
+            <div className="flex items-center gap-2 mb-3">
+              <Badge variant={isCurrentlyResident ? "active" : "muted"} className="font-medium">
+                {isCurrentlyResident ? "Resident" : "External"}
+              </Badge>
+              <span className="text-xs text-muted-foreground">
+                {isCurrentlyResident
+                  ? "Included in billing (meals & shared expenses)"
+                  : "Excluded from billing"}
+              </span>
+            </div>
+
+            {/* Self (manager viewing own profile) */}
+            {isOwnProfile && (
+              <div className="space-y-2">
+                {pendingRequest ? (
+                  <div className="p-3 rounded-lg bg-amber-50 border border-amber-100">
+                    <p className="text-xs font-medium text-amber-800 mb-1">
+                      Request Pending — {acceptCount}/3 approvals
+                    </p>
+                    <div className="w-full bg-amber-200 rounded-full h-2">
+                      <div
+                        className="bg-amber-500 h-2 rounded-full transition-all"
+                        style={{ width: `${Math.min((acceptCount / 3) * 100, 100)}%` }}
+                      />
+                    </div>
+                    <p className="text-[10px] text-amber-600 mt-1">
+                      Waiting for members to approve your request to go External.
+                    </p>
+                  </div>
+                ) : isCurrentlyResident ? (
+                  <Button
+                    size="sm"
+                    className="w-full"
+                    variant="outline"
+                    onClick={handleRequestToggle}
+                    loading={saving}
+                    loadingText="Sending request..."
+                  >
+                    Request to Go External
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={handleRequestToggle}
+                    loading={saving}
+                    loadingText="Reverting..."
+                  >
+                    Revert to Resident
+                  </Button>
+                )}
+              </div>
+            )}
+
+            {/* Member viewing manager's profile */}
+            {!isOwnProfile && pendingRequest && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                  Requesting to go External ({acceptCount}/3 approved)
+                </div>
+                {alreadyAccepted ? (
+                  <p className="text-xs text-emerald-600 font-medium">You accepted this request ✓</p>
+                ) : (
+                  <Button
+                    size="sm"
+                    className="w-full"
+                    onClick={handleAcceptRequest}
+                    loading={saving}
+                    loadingText="Accepting..."
+                    disabled={loadingRequest}
+                  >
+                    Accept Request
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         )}
 

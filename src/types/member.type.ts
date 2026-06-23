@@ -12,6 +12,7 @@ export interface IMember {
   messRole: MessRole;
   status: MemberStatus;
   participation?: IMemberParticipation;
+  isResidentManager?: boolean;
   joinedAt?: string;
   leftAt?: string;
   createdAt: string;
@@ -38,5 +39,6 @@ export interface IMemberOption {
   phone: string;
   messRole: MessRole;
   participation: IMemberParticipation;
+  isResidentManager?: boolean;
   avatar: string;
 }

@@ -167,10 +167,10 @@ export const columns: ColumnDef<IPayment>[] = [
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col min-w-0">
-            <span className="font-bold text-foreground text-sm truncate max-w-[150px]">
+            <span className="font-bold text-foreground text-sm truncate max-w-37.5">
               {user?.fullName || "Member"}
             </span>
-            <span className="text-xs text-muted-foreground truncate max-w-[150px]">
+            <span className="text-xs text-muted-foreground truncate max-w-37.5">
               {user?.email || (typeof row.original.messMemberId === "string" ? row.original.messMemberId : "N/A")}
             </span>
           </div>
@@ -211,7 +211,7 @@ export const columns: ColumnDef<IPayment>[] = [
     accessorKey: "reference",
     header: "Reference",
     cell: ({ row }) => (
-      <span className="text-xs text-muted-foreground line-clamp-1 max-w-[150px]">
+      <span className="text-xs text-muted-foreground line-clamp-1 max-w-37.5">
         {row.original.reference || "N/A"}
       </span>
     ),

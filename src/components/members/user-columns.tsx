@@ -27,9 +27,16 @@ export const userColumns: ColumnDef<any>[] = [
     accessorKey: "role",
     header: "Role",
     cell: ({ row }) => (
-      <Badge variant={row.original.role === "manager" ? "manager" : "member"} className="capitalize">
-        {row.original.role}
-      </Badge>
+      <div className="flex items-center gap-1.5">
+        <Badge variant={row.original.role === "manager" ? "manager" : "member"} className="capitalize font-medium">
+          {row.original.role}
+        </Badge>
+        {row.original.role === "manager" && (
+          <Badge variant={row.original.isResidentManager !== false ? "active" : "muted"} className="font-medium text-[10px] px-1.5">
+            {row.original.isResidentManager !== false ? "Resident" : "External"}
+          </Badge>
+        )}
+      </div>
     ),
   },
   {

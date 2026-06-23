@@ -128,6 +128,76 @@ export const updateMemberStatus = async (
 };
 
 /**
+ * Manager requests to toggle their resident status.
+ * - Going External → creates a request needing 3 member approvals.
+ * - Going Resident → instant (no approval needed).
+ * Endpoint: POST /messes/:messId/members/:memberId/request-toggle
+ */
+export const requestResidentToggle = async (
+  messId: string,
+  memberId: string,
+): Promise<ApiResponse<unknown>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/members/${memberId}/request-toggle`, {
+      method: "POST",
+      updateTag: ["mess-members", "member-options", "pending-toggle-requests"],
+    })) as ApiResponse<unknown>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to request toggle.",
+      data: null,
+    };
+  }
+};
+
+/**
+ * A member accepts a pending resident toggle request.
+ * When 3 members accept, the manager's status is auto-toggled.
+ * Endpoint: POST /messes/:messId/members/accept-toggle
+ */
+export const acceptResidentToggle = async (
+  messId: string,
+  requestId: string,
+): Promise<ApiResponse<unknown>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/members/accept-toggle`, {
+      method: "POST",
+      body: { requestId },
+      updateTag: ["mess-members", "member-options", "pending-toggle-requests"],
+    })) as ApiResponse<unknown>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to accept toggle request.",
+      data: null,
+    };
+  }
+};
+
+/**
+ * Get all pending resident toggle requests for a mess.
+ * Endpoint: GET /messes/:messId/members/pending-toggle-requests
+ */
+export const getPendingToggleRequests = async (
+  messId: string,
+): Promise<ApiResponse<unknown>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/members/pending-toggle-requests`, {
+      method: "GET",
+      tags: ["pending-toggle-requests"],
+      revalidate: 30,
+    })) as ApiResponse<unknown>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to fetch pending requests.",
+      data: null,
+    };
+  }
+};
+
+/**
  * Update member participation flags (meals, sharedExpenses)
  * Endpoint: PATCH /messes/:messId/members/:memberId/participation
  */

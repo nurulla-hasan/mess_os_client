@@ -16,9 +16,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ActionButtonsProps {
   member: IMember;
+  currentMemberId?: string;
 }
 
-function ActionButtons({ member }: ActionButtonsProps) {
+function ActionButtons({ member, currentMemberId }: ActionButtonsProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = React.useState(false);
   const [actionType, setActionType] = React.useState<"approve" | "reject" | "remove" | null>(null);
@@ -58,7 +59,7 @@ function ActionButtons({ member }: ActionButtonsProps) {
 
   return (
     <div className="flex items-center justify-end gap-1">
-      <ViewMemberModal member={member} />
+      <ViewMemberModal key={member._id} member={member} currentMemberId={currentMemberId} />
 
       {member.status === "pending" && (
         <>
@@ -124,7 +125,7 @@ function ActionButtons({ member }: ActionButtonsProps) {
   );
 }
 
-export const columns: ColumnDef<IMember>[] = [
+export const columns = (currentMemberId?: string): ColumnDef<IMember>[] => [
   {
     accessorKey: "user.fullName",
     header: "Member",
@@ -147,9 +148,16 @@ export const columns: ColumnDef<IMember>[] = [
     accessorKey: "messRole",
     header: "Role",
     cell: ({ row }) => (
-      <Badge variant={row.original.messRole === "manager" ? "manager" : "member"} className="font-medium">
-        {row.original.messRole}
-      </Badge>
+      <div className="flex items-center gap-1.5">
+        <Badge variant={row.original.messRole === "manager" ? "manager" : "member"} className="font-medium">
+          {row.original.messRole}
+        </Badge>
+        {row.original.messRole === "manager" && (
+          <Badge variant={row.original.isResidentManager !== false ? "active" : "muted"} className="font-medium text-[10px] px-1.5">
+            {row.original.isResidentManager !== false ? "Resident" : "External"}
+          </Badge>
+        )}
+      </div>
     ),
   },
   {
@@ -181,6 +189,6 @@ export const columns: ColumnDef<IMember>[] = [
   {
     id: "actions",
     header: () => <div className="text-end">Actions</div>,
-    cell: ({ row }) => <ActionButtons member={row.original} />,
+    cell: ({ row }) => <ActionButtons member={row.original} currentMemberId={currentMemberId} />,
   },
 ];
