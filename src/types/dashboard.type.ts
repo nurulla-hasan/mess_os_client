@@ -104,7 +104,8 @@ export interface IBillingInfo {
     amount: number;
     finalDue: number;
     finalAdvance: number;
-    status: string;
+    source: "latest_bill" | "running_ledger";
+    status: string | null;
   };
 }
 
