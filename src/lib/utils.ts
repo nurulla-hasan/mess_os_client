@@ -29,6 +29,9 @@ export const InfoToast = (msg: string) => {
 };
 
 // Get Initials
+export const isSecureCookie =
+  process.env.NODE_ENV === "production" && process.env.COOKIE_SECURE !== "false";
+
 export const getInitials = (name: string) => {
   if (!name) return "NA";
   const parts = name.trim().split(/\s+/);

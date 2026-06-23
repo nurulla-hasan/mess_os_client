@@ -1,6 +1,7 @@
 "use server";
 
 import { serverFetch } from "@/lib/fetcher";
+import { isSecureCookie } from "@/lib/utils";
 import { FieldValues } from "react-hook-form";
 import { cookies } from "next/headers";
 import { ApiResponse } from "@/types/global.type";
@@ -93,7 +94,7 @@ export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponse
       // Store rememberMe preference as a cookie (for refresh token rotation to read)
       cookieStore.set("rememberMe", String(rememberMe), {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: isSecureCookie,
         sameSite: "lax",
         path: "/",
         ...(rememberMe ? { maxAge: 30 * 24 * 60 * 60 } : {}),
@@ -110,7 +111,7 @@ export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponse
         if (mId) {
           cookieStore.set("activeMessId", mId, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: isSecureCookie,
             sameSite: "lax",
             path: "/",
             ...(rememberMe ? { maxAge: 30 * 24 * 60 * 60 } : {}),
@@ -173,7 +174,7 @@ export const switchActiveMess = async (
       const cookieStore = await cookies();
       cookieStore.set("activeMessId", response.data.messId, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: isSecureCookie,
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24 * 7,
@@ -208,7 +209,7 @@ export const setActiveMessId = async (messId: string): Promise<void> => {
   const cookieStore = await cookies();
   cookieStore.set("activeMessId", messId, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecureCookie,
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 7,

@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { revalidateTag, updateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { cache } from "react";
+import { isSecureCookie } from "@/lib/utils";
 
 type CookieMapping = {
   /** dot-notation path in JSON response body, e.g. "data.accessToken" */
@@ -88,7 +89,7 @@ const _getValidAccessTokenImpl = async (baseUrl: string): Promise<string | null>
   try {
     cookieStore.set("accessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isSecureCookie,
       sameSite: "lax",
       path: "/",
       ...(rememberMe ? { maxAge: 30 * 24 * 60 * 60 } : {}),
@@ -196,7 +197,7 @@ export const serverFetch = async <T = any>(
           try {
             cookieStore.set(name, value, {
               httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
+              secure: isSecureCookie,
               sameSite: "lax",
               path: "/",
             });
@@ -240,7 +241,7 @@ export const serverFetch = async <T = any>(
           try {
             cookieStore.set(cookieName, value, {
               httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
+              secure: isSecureCookie,
               sameSite: "lax",
               path: "/",
             });

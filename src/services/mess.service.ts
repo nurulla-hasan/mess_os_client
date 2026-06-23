@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { serverFetch } from "@/lib/fetcher";
+import { isSecureCookie } from "@/lib/utils";
 import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams, ApiResponse } from "@/types/global.type";
 import { IMember, IMemberOption } from "@/types/member.type";
@@ -49,7 +50,7 @@ export const createMess = async (
       const cookieStore = await cookies();
       cookieStore.set("activeMessId", res.data._id, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: isSecureCookie,
         sameSite: "lax",
         path: "/",
         maxAge: 60 * 60 * 24 * 7,
