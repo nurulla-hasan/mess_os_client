@@ -128,6 +128,30 @@ export const updateMemberStatus = async (
 };
 
 /**
+ * Update member participation flags (meals, sharedExpenses)
+ * Endpoint: PATCH /messes/:messId/members/:memberId/participation
+ */
+export const updateMemberParticipation = async (
+  messId: string,
+  memberId: string,
+  participation: { meals?: boolean; sharedExpenses?: boolean },
+): Promise<ApiResponse<IMember>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/members/${memberId}/participation`, {
+      method: "PATCH",
+      body: { participation },
+      updateTag: ["mess-members", "member-options"],
+    })) as ApiResponse<IMember>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to update member participation.",
+      data: null as unknown as IMember,
+    };
+  }
+};
+
+/**
  * Remove a member from the mess
  */
 export const removeMember = async (

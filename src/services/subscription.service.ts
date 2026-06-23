@@ -118,6 +118,27 @@ export const subscribeToPlan = async (
 };
 
 /**
+ * Start a trial subscription for a mess
+ * Endpoint: POST /messes/:messId/subscriptions/trial
+ */
+export const startTrial = async (
+  messId: string,
+): Promise<ApiResponse<IMessSubscription>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/subscriptions/trial`, {
+      method: "POST",
+      updateTag: ["subscriptions", "current", "history"],
+    })) as ApiResponse<IMessSubscription>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to start trial.",
+      data: null as unknown as IMessSubscription,
+    };
+  }
+};
+
+/**
  * Cancel current subscription
  * Endpoint: POST /messes/:messId/subscriptions/cancel
  */

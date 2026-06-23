@@ -80,43 +80,35 @@ export const login = async (data: FieldValues): Promise<ApiResponse<AuthResponse
       method: "POST",
       body: data,
       isPublic: true,
-      persistCookies: true,
+      setCookies: [
+        { responsePath: "data.accessToken", cookieName: "accessToken" },
+        { responsePath: "data.refreshToken", cookieName: "refreshToken" },
+      ],
     })) as ApiResponse<AuthResponseData>;
 
     if (response && response.success) {
       const cookieStore = await cookies();
       const responseData = response.data;
-      const accessToken = responseData?.accessToken;
 
-      if (accessToken) {
-        cookieStore.set("accessToken", accessToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "lax",
-          path: "/",
-          maxAge: 60 * 60 * 24 * 7,
-        });
+      // Get usable memberships (membership.status active + mess.status active)
+      const memberships = (responseData?.user?.memberships || []) as IMembership[];
+      const usableMemberships = getUsableMemberships(memberships);
 
-        // Get usable memberships (membership.status active + mess.status active)
-        const memberships = (responseData?.user?.memberships || []) as IMembership[];
-        const usableMemberships = getUsableMemberships(memberships);
-
-        // Only auto-set activeMessId when exactly one usable mess exists
-        if (usableMemberships.length === 1) {
-          const mess = usableMemberships[0].messId;
-          const mId = typeof mess === "string" ? mess : (mess as IMess)?._id;
-          if (mId) {
-            cookieStore.set("activeMessId", mId, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "lax",
-              path: "/",
-              maxAge: 60 * 60 * 24 * 7,
-            });
-          }
+      // Only auto-set activeMessId when exactly one usable mess exists
+      if (usableMemberships.length === 1) {
+        const mess = usableMemberships[0].messId;
+        const mId = typeof mess === "string" ? mess : (mess as IMess)?._id;
+        if (mId) {
+          cookieStore.set("activeMessId", mId, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            path: "/",
+            maxAge: 60 * 60 * 24 * 7,
+          });
         }
-        // 0 or 2+ usable messes: do NOT set activeMessId cookie
       }
+      // 0 or 2+ usable messes: do NOT set activeMessId cookie
     }
 
     return response;
@@ -356,10 +348,24 @@ export const changePassword = async (data: FieldValues): Promise<ApiResponse<nul
 };
 
 /**
- * Logout user by clearing cookies
+ * Logout user: invalidate refresh token on backend, then clear cookies
  */
 export const logout = async (): Promise<void> => {
   const cookieStore = await cookies();
+  const refreshToken = cookieStore.get("refreshToken")?.value;
+
+  try {
+    if (refreshToken) {
+      await serverFetch("/auth/logout", {
+        method: "POST",
+        body: { refreshToken },
+        // No auto-refresh needed — we are logging out
+      });
+    }
+  } catch {
+    // Silently ignore — best effort backend invalidation
+  }
+
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
   cookieStore.delete("activeMessId");
