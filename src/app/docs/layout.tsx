@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ChatWidgetProvider } from "@/components/docs/chat-widget-provider";
 import { 
   BookOpen, 
   ShieldCheck, 
@@ -201,8 +200,6 @@ export default async function DocsLayout({
           {children}
         </main>
       </div>
-
-      <ChatWidgetProvider />
 
       <PublicFooter />
     </div>

@@ -5,6 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { SerwistProvider } from "@serwist/turbopack/react";
+import { ChatWidgetProvider } from "@/components/docs/chat-widget-provider";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -91,6 +92,7 @@ export default function RootLayout({
           <NextTopLoader color="var(--primary)" showSpinner={false} />
           <Toaster richColors theme="system"/>
           {children}
+          <ChatWidgetProvider />
         </ThemeProvider>
         </SerwistProvider>
       </body>

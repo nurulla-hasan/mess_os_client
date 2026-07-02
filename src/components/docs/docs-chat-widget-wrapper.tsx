@@ -12,10 +12,19 @@ export function DocsChatWidgetWrapper() {
   const pathname = usePathname();
 
   const getContext = () => {
-    if (pathname === "/docs/manager") return managerContext;
-    if (pathname === "/docs/user") return userContext;
-    // Default: /docs or any nested path
-    return overviewContext;
+    // Manager panel pages
+    if (pathname.startsWith("/manager") || pathname === "/docs/manager")
+      return managerContext;
+
+    // Member/dashboard pages
+    if (pathname.startsWith("/dashboard") || pathname === "/docs/user")
+      return userContext;
+
+    // Docs pages (overview)
+    if (pathname.startsWith("/docs")) return overviewContext;
+
+    // Root or any other page — general overview
+    return undefined;
   };
 
   return <DocsChatWidget context={getContext()} />;

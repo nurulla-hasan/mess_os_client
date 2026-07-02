@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Send, Trash2, Loader2, Bot, X } from "lucide-react";
+import { Send, Trash2, Loader2, Bot } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { chatWithAI } from "@/services/docs-chat.service";
 import type { DocPageContext } from "@/app/docs/docs-context";
@@ -44,6 +44,15 @@ export function DocsChatWidget({ context }: DocsChatWidgetProps) {
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 300);
+    }
+  }, [isOpen]);
+
+  // Scroll to bottom when sheet opens
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+      }, 350);
     }
   }, [isOpen]);
 
@@ -116,9 +125,9 @@ export function DocsChatWidget({ context }: DocsChatWidgetProps) {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button
-          size="icon"
+          size="icon-lg"
           className={cn(
-            "fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:shadow-xl z-40 cursor-pointer",
+            "fixed bottom-6 right-6 rounded-full shadow-lg hover:shadow-xl z-40 cursor-pointer",
             "bg-linear-to-br from-primary via-primary to-primary/80",
             "hover:scale-105 active:scale-95 transition-all duration-200",
             "border border-primary/20"
@@ -166,7 +175,7 @@ export function DocsChatWidget({ context }: DocsChatWidgetProps) {
                 <Trash2 className="h-4 w-4" />
               </Button>
             )}
-            <Button
+            {/* <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
@@ -174,29 +183,29 @@ export function DocsChatWidget({ context }: DocsChatWidgetProps) {
               title="Close"
             >
               <X className="h-4 w-4" />
-            </Button>
+            </Button> */}
           </div>
         </SheetHeader>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4 scrollbar-thin">
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 custom-scrollbar">
           {messages.map((msg, i) => (
             <div
               key={i}
               className={cn(
-                "flex items-end gap-2.5 animate-in fade-in slide-in-from-bottom-2 duration-300",
+                "flex items-end gap-1.5 animate-in fade-in slide-in-from-bottom-2 duration-300",
                 msg.role === "user" ? "justify-end" : "justify-start"
               )}
             >
               {msg.role === "assistant" && (
-                <div className="flex items-center justify-center size-7 rounded-full bg-linear-to-br from-primary/20 to-primary/5 border border-primary/10 shrink-0 mb-0.5">
-                  <Bot className="size-3.5 text-primary" />
+                <div className="flex items-center justify-center size-8 rounded-full bg-linear-to-br from-primary/20 to-primary/5 border border-primary/10 shrink-0 mt-0.5">
+                  <Bot className="size-4 text-primary" />
                 </div>
               )}
 
               <div
                 className={cn(
-                  "max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed shadow-sm",
+                  "max-w-[82%] rounded-xl px-3 py-1.5 text-sm leading-relaxed shadow-sm",
                   msg.role === "user"
                     ? [
                         "bg-linear-to-br from-primary to-primary/90",
@@ -217,7 +226,7 @@ export function DocsChatWidget({ context }: DocsChatWidgetProps) {
                     <ReactMarkdown>{msg.content}</ReactMarkdown>
                   </div>
                 ) : (
-                  <p className="whitespace-pre-wrap text-[15px] leading-relaxed font-medium">
+                  <p className="whitespace-pre-wrap text-sm leading-relaxed">
                     {msg.content}
                   </p>
                 )}
@@ -226,11 +235,11 @@ export function DocsChatWidget({ context }: DocsChatWidgetProps) {
           ))}
 
           {isLoading && (
-            <div className="flex items-end gap-2.5 justify-start animate-in fade-in duration-200">
-              <div className="flex items-center justify-center size-7 rounded-full bg-linear-to-br from-primary/20 to-primary/5 border border-primary/10 shrink-0 mb-0.5">
-                <Bot className="size-3.5 text-primary" />
+            <div className="flex items-end gap-1.5 justify-start animate-in fade-in duration-200">
+              <div className="flex items-center justify-center size-8 rounded-full bg-linear-to-br from-primary/20 to-primary/5 border border-primary/10 shrink-0">
+                <Bot className="size-4 text-primary" />
               </div>
-              <div className="bg-card border border-border/50 rounded-2xl rounded-bl-md px-4 py-3.5 shadow-xs">
+              <div className="bg-card border border-border/50 rounded-xl rounded-bl-md px-3 py-2 shadow-xs">
                 <div className="flex gap-1.5">
                   <span className="size-2 rounded-full bg-primary/60 animate-bounce [animation-delay:0ms]" />
                   <span className="size-2 rounded-full bg-primary/60 animate-bounce [animation-delay:150ms]" />
@@ -279,6 +288,23 @@ export function DocsChatWidget({ context }: DocsChatWidgetProps) {
           </p>
         </div>
       </SheetContent>
+
+      {/* Custom scrollbar styles */}
+      <style>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: hsl(var(--border));
+          border-radius: 999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: hsl(var(--muted-foreground));
+        }
+      `}</style>
     </Sheet>
   );
 }
