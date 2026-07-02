@@ -10,7 +10,7 @@ import {
   Calendar as CalendarIcon, 
   ShoppingCart, 
   UserPlus,
-  PackagePlus
+  PackagePlus,
 } from "lucide-react";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
@@ -22,10 +22,19 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { createMarketSchedule } from "@/services/market-schedule.service";
+import { getAiShoppingLists } from "@/services/ai-shopping.service";
+import { IAiShoppingList } from "@/types/ai-shopping.type";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
 import { getMessMemberOptions } from "@/services/mess.service";
 import { IMemberOption } from "@/types/member.type";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 
@@ -135,23 +144,39 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [date, setDate] = React.useState<Date>(new Date());
-
-  // Fetch active members when modal opens
-  React.useEffect(() => {
-    if (!open) return;
-    getMessMemberOptions(messId).then((res) => {
-      if (res?.success) setMembers(res.data);
-    });
-  }, [open, messId]);
-
   const [assignedTo, setAssignedTo] = React.useState<string[]>([]);
   const [estimatedBudget, setEstimatedBudget] = React.useState<string>("");
-  const [shoppingItems, setShoppingItems] = React.useState<ShoppingItem[]>([
-    { id: Math.random().toString(), name: "", quantity: "" }
+  const [shoppingItems, setShoppingItems] = React.useState<ShoppingItem[]>(() => [
+    { id: crypto.randomUUID(), name: "", quantity: "" }
   ]);
+  const [aiShoppingLists, setAiShoppingLists] = React.useState<IAiShoppingList[]>([]);
+  const [selectedAiListId, setSelectedAiListId] = React.useState<string>("");
+  const [isLoadingLists, setIsLoadingLists] = React.useState(false);
+
+  // Load members and AI shopping lists when modal opens (React 19 pattern: event-driven, not effect)
+  const handleOpenChange = React.useCallback((newOpen: boolean) => {
+    setOpen(newOpen);
+    if (!newOpen) return;
+
+    setIsLoadingLists(true);
+    Promise.all([
+      getMessMemberOptions(messId),
+      getAiShoppingLists(messId, { status: "draft", limit: "50" }),
+      getAiShoppingLists(messId, { status: "approved", limit: "50" }),
+    ]).then(([membersRes, draftRes, approvedRes]) => {
+      if (membersRes?.success) setMembers(membersRes.data);
+      const allLists = [
+        ...(draftRes?.data || []),
+        ...(approvedRes?.data || []),
+      ];
+      allLists.sort((a, b) => new Date(b.targetDate).getTime() - new Date(a.targetDate).getTime());
+      setAiShoppingLists(allLists);
+      setIsLoadingLists(false);
+    }).catch(() => setIsLoadingLists(false));
+  }, [messId]);
 
   const addShoppingItem = React.useCallback(() => {
-    setShoppingItems(prev => [...prev, { id: Math.random().toString(), name: "", quantity: "" }]);
+    setShoppingItems(prev => [...prev, { id: crypto.randomUUID(), name: "", quantity: "" }]);
   }, []);
 
   const removeShoppingItem = React.useCallback((id: string) => {
@@ -163,6 +188,26 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
       item.id === id ? { ...item, [field]: value } : item
     ));
   }, []);
+
+  const handleSelectAiList = React.useCallback((listId: string) => {
+    if (!listId || listId === "_clear") {
+      setSelectedAiListId("");
+      setShoppingItems([{ id: crypto.randomUUID(), name: "", quantity: "" }]);
+      return;
+    }
+    const list = aiShoppingLists.find(l => l._id === listId);
+    if (!list || !list.items?.length) {
+      ErrorToast("This shopping list has no items.");
+      return;
+    }
+    setShoppingItems(list.items.map((item) => ({
+      id: crypto.randomUUID(),
+      name: item.name,
+      quantity: item.quantity,
+    })));
+    setSelectedAiListId(listId);
+    SuccessToast(`Loaded ${list.items.length} items from ${format(new Date(list.targetDate), "PPP")}`);
+  }, [aiShoppingLists]);
 
   const toggleMember = React.useCallback((memberId: string) => {
     setAssignedTo(prev => 
@@ -200,7 +245,8 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
         // Reset state
         setAssignedTo([]);
         setEstimatedBudget("");
-        setShoppingItems([{ id: Math.random().toString(), name: "", quantity: "" }]);
+        setSelectedAiListId("");
+        setShoppingItems([{ id: crypto.randomUUID(), name: "", quantity: "" }]);
       } else {
         ErrorToast(res?.message || "Failed to create schedule.");
       }
@@ -214,7 +260,7 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
   return (
     <ModalWrapper
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={handleOpenChange}
       title="Create Market Schedule"
       description="Plan bazaar duties and shopping lists for members."
       actionTrigger={
@@ -305,6 +351,27 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
                 <PackagePlus className="h-3 w-3" /> Add Item
               </Button>
             </div>
+
+            {isLoadingLists ? (
+              <div className="text-xs text-muted-foreground text-center py-2">Loading AI shopping lists...</div>
+            ) : aiShoppingLists.length > 0 ? (
+              <div className="space-y-1">
+                <label className="text-xs text-muted-foreground">Load from AI Shopping:</label>
+                <Select value={selectedAiListId} onValueChange={handleSelectAiList}>
+                  <SelectTrigger className="h-9 text-xs">
+                    <SelectValue placeholder="Select a saved shopping list..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {aiShoppingLists.map((list) => (
+                      <SelectItem key={list._id} value={list._id} className="text-xs">
+                        {format(new Date(list.targetDate), "dd MMM")} — {list.items?.length || 0} items ({list.status})
+                      </SelectItem>
+                    ))}
+                    <SelectItem value="_clear" className="text-xs text-muted-foreground">Clear selection</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            ) : null}
 
             <ScrollArea className="h-80 pr-3">
               <div className="space-y-3 pb-2">

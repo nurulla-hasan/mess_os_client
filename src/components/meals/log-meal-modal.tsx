@@ -90,7 +90,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
           
           setVisibleMeals(newVisible);
           setInitialMeals(newInitial);
-          setEntries([{ id: Math.random().toString(), messMemberId: "", meals: { ...newInitial } }]);
+          setEntries([{ id: crypto.randomUUID(), messMemberId: "", meals: { ...newInitial } }]);
         }
       };
       fetchData();
@@ -98,12 +98,12 @@ export function LogMealModal({ messId }: LogMealModalProps) {
   }, [open, messId]);
 
   const addEntry = React.useCallback(() => {
-    setEntries(prev => [...prev, { id: Math.random().toString(), messMemberId: "", meals: { ...initialMeals } }]);
+    setEntries(prev => [...prev, { id: crypto.randomUUID(), messMemberId: "", meals: { ...initialMeals } }]);
   }, [initialMeals]);
 
   const addAllMembers = React.useCallback(() => {
     const allEntries = members.map(m => ({
-      id: Math.random().toString(),
+      id: crypto.randomUUID(),
       messMemberId: m._id,
       meals: { ...initialMeals }
     }));
@@ -155,7 +155,7 @@ export function LogMealModal({ messId }: LogMealModalProps) {
       if (res?.success) {
         SuccessToast(res.message || "Meals logged successfully.");
         setOpen(false);
-        setEntries([{ id: Math.random().toString(), messMemberId: "", meals: { ...initialMeals } }]);
+        setEntries([{ id: crypto.randomUUID(), messMemberId: "", meals: { ...initialMeals } }]);
       } else {
         ErrorToast(res?.message || "Failed to log meals.");
       }

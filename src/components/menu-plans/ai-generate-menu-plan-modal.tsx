@@ -28,6 +28,8 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
   
   const [aiPreference, setAiPreference] = useState("");
   const [aiBudget, setAiBudget] = useState<number | "">("");
+  const [aiPersonCount, setAiPersonCount] = useState<number | "">("");
+  const [aiShoppingDays, setAiShoppingDays] = useState<number | "">(7);
   const [avoidRecentDays, setAvoidRecentDays] = useState<number>(7);
 
   const handleGenerate = async () => {
@@ -45,6 +47,8 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
 
       if (aiPreference.trim()) payload.aiPreference = aiPreference.trim();
       if (typeof aiBudget === "number") payload.aiBudget = aiBudget;
+      if (typeof aiPersonCount === "number") payload.aiPersonCount = aiPersonCount;
+      if (typeof aiShoppingDays === "number") payload.aiShoppingDays = aiShoppingDays;
       if (avoidRecentDays !== undefined) payload.avoidRecentDays = avoidRecentDays;
 
       const res = await createMenuPlan(messId, payload);
@@ -56,6 +60,8 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
         setDate(new Date());
         setAiPreference("");
         setAiBudget("");
+        setAiPersonCount("");
+        setAiShoppingDays(7);
         setAvoidRecentDays(7);
       } else {
         ErrorToast(res.message || "Failed to generate menu plan.");
@@ -79,7 +85,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
         </Button>
       }
     >
-      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
+      <div className="p-6 flex flex-col gap-6 max-h-[50vh] overflow-y-auto">
         <div className="flex flex-col gap-3">
           <Label className="text-sm font-medium">Target Date</Label>
           <Popover>
@@ -111,11 +117,12 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
             <Label className="text-xs font-bold uppercase tracking-widest text-primary">
               Dietary Preference (Optional)
             </Label>
-            <Input
-              placeholder="e.g. Healthy, Low Cost, Bangla, Spicy..."
+            <textarea
+              placeholder="e.g. Healthy, Low Cost, Bangla, Spicy...&#10;Write as much detail as you want"
               value={aiPreference}
               onChange={(e) => setAiPreference(e.target.value)}
-              className="focus-visible:ring-primary/20"
+              className="flex min-h-20 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 resize-y"
+              rows={3}
             />
           </div>
 
@@ -129,6 +136,35 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
                 placeholder="e.g. 1500"
                 value={aiBudget}
                 onChange={(e) => setAiBudget(e.target.value ? Number(e.target.value) : "")}
+                className="focus-visible:ring-primary/20"
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label className="text-xs font-bold uppercase tracking-widest text-primary">
+                People Count
+              </Label>
+              <Input
+                type="number"
+                min={1}
+                placeholder="e.g. 10"
+                value={aiPersonCount}
+                onChange={(e) => setAiPersonCount(e.target.value ? Number(e.target.value) : "")}
+                className="focus-visible:ring-primary/20"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-xs font-bold uppercase tracking-widest text-primary">
+                Shopping Duration (Days)
+              </Label>
+              <Input
+                type="number"
+                min={1}
+                max={30}
+                placeholder="7"
+                value={aiShoppingDays}
+                onChange={(e) => setAiShoppingDays(e.target.value ? Number(e.target.value) : "")}
                 className="focus-visible:ring-primary/20"
               />
             </div>

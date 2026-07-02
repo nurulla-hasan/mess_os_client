@@ -146,11 +146,11 @@ export function UpdateMarketScheduleModal({ messId, schedule }: UpdateMarketSche
         quantity: item.quantity
       }));
     }
-    return [{ id: Math.random().toString(), name: "", quantity: "" }];
+    return [{ id: crypto.randomUUID(), name: "", quantity: "" }];
   });
 
   const addShoppingItem = React.useCallback(() => {
-    setShoppingItems(prev => [...prev, { id: Math.random().toString(), name: "", quantity: "" }]);
+    setShoppingItems(prev => [...prev, { id: crypto.randomUUID(), name: "", quantity: "" }]);
   }, []);
 
   const removeShoppingItem = React.useCallback((id: string) => {

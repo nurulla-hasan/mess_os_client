@@ -39,7 +39,7 @@ export function ViewAiShoppingListModal({ list }: ViewAiShoppingListModalProps) 
           </Badge>
         </div>
 
-        <ScrollArea className="max-h-[50vh] pr-3">
+        <ScrollArea className="max-h-[50vh] overflow-y-auto">
           <div className="space-y-2">
             {list.items.map((item, index) => (
               <div key={item._id || `${item.name}-${index}`} className="flex items-start justify-between gap-3 rounded-lg border bg-muted/50 p-3">

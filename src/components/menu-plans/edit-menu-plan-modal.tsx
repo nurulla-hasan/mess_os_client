@@ -99,7 +99,7 @@ export function EditMenuPlanModal({ plan }: EditMenuPlanModalProps) {
           </div>
         ) : (
           <>
-            <div className="space-y-5 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-muted-foreground/20">
+            <div className="space-y-5 max-h-[50vh] overflow-y-auto">
               {categories.map((category) => (
                 <div key={category} className="space-y-2">
                   <Label className="text-xs font-bold uppercase tracking-widest text-primary/70">

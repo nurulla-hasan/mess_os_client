@@ -103,7 +103,7 @@ export function GenerateBillingModal({ messId }: GenerateBillingModalProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="max-h-[50vh] overflow-y-auto pr-1">
+        <div className="max-h-[50vh] overflow-y-auto">
           <div className="grid grid-cols-2 gap-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="month">Month</Label>

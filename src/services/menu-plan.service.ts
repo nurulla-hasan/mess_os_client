@@ -38,6 +38,8 @@ export const createMenuPlan = async (
     isAiGenerated?: boolean;
     aiPreference?: string;
     aiBudget?: number;
+    aiPersonCount?: number;
+    aiShoppingDays?: number;
     avoidRecentDays?: number;
   }
 ): Promise<ApiResponse<IMenuPlan>> => {

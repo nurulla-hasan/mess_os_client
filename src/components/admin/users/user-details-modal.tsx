@@ -28,7 +28,7 @@ export function UserDetailsModal({ user }: UserDetailsModalProps) {
         </Button>
       }
     >
-      <div className="p-6 space-y-6 max-h-[50vh] overflow-y-auto custom-scrollbar">
+      <div className="p-6 space-y-6 max-h-[50vh] overflow-y-auto">
         <div className="space-y-4">
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-2xl">

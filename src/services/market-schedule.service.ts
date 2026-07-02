@@ -147,3 +147,24 @@ export const updateMarketScheduleStatus = async (
   }
 };
 
+/**
+ * Generate shopping items from the AI menu plan for a given date
+ */
+export const generateShoppingItemsFromMenu = async (
+  messId: string,
+  data: { date: string }
+): Promise<ApiResponse<{ name: string; quantity: string }[]>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/market-schedules/generate-items`, {
+      method: "POST",
+      body: data,
+    })) as ApiResponse<{ name: string; quantity: string }[]>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to generate shopping items.",
+      data: [],
+    };
+  }
+};
+
