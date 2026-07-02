@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Sheet,
   SheetContent,
@@ -109,6 +110,8 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
                 { role: "user", content: msg.question },
                 { role: "assistant", content: msg.answer }
               );
+            } else if (msg.role && msg.content) {
+              historyMessages.push({ role: msg.role, content: msg.content });
             }
           }
           if (historyMessages.length > 0) {
@@ -327,8 +330,8 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
                 )}
               >
                 {msg.role === "assistant" ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md prose-code:bg-muted prose-code:text-xs prose-pre:bg-muted prose-pre:border prose-pre:border-border/50">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md prose-code:bg-muted prose-code:text-xs prose-pre:bg-muted prose-pre:border prose-pre:border-border/50 [&_a]:text-primary [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-primary/80 [&_a]:transition-colors">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
                   </div>
                 ) : (
                   <p className="whitespace-pre-wrap text-sm leading-relaxed">

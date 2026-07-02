@@ -9,13 +9,15 @@ export interface ChatResponse {
 }
 
 export interface HistoryMessage {
-  _id: string;
-  sessionId: string;
-  question: string;
-  answer: string;
+  _id?: string;
+  sessionId?: string;
+  question?: string;
+  answer?: string;
+  role?: "user" | "assistant";
+  content?: string;
   context?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export const chatWithAI = async (
