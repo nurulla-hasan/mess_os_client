@@ -2,6 +2,7 @@
 node_modules
 .next
 build
+.env*
 
 # Serwist
 public/sw*
@@ -14,4 +15,3 @@ pnpm-workspace.yaml
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-config.bat
