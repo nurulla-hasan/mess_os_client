@@ -330,7 +330,7 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
                 )}
               >
                 {msg.role === "assistant" ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md prose-code:bg-muted prose-code:text-xs prose-pre:bg-muted prose-pre:border prose-pre:border-border/50 [&_a]:text-primary [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 [&_a:hover]:text-primary/80 [&_a]:transition-colors">
+                  <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-code:px-1 prose-code:py-0.5 prose-code:rounded-md prose-code:bg-muted prose-code:text-xs prose-pre:bg-muted prose-pre:border prose-pre:border-border/50 prose-a:text-primary prose-a:font-medium prose-a:underline prose-a:underline-offset-2 prose-a:transition-colors hover:prose-a:text-primary/80">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
                   </div>
                 ) : (

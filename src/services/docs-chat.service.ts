@@ -47,6 +47,7 @@ export const getChatHistory = async (
     return (await serverFetch(`/docs/chat?sessionId=${encodeURIComponent(sessionId)}`, {
       method: "GET",
       isPublic: true,
+      revalidate: 0,
     })) as ApiResponse<HistoryMessage[]>;
   } catch (error: unknown) {
     return {
