@@ -4,6 +4,262 @@ export interface DocPageContext {
   keyTopics: string[];
 }
 
+/**
+ * Extract a human-readable page name from any pathname.
+ */
+function getPageNameFromPath(pathname: string): string {
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments.length === 0) return "Home";
+
+  // Skip known prefixes to get the meaningful page name
+  const meaningful = segments.filter((s) => !["docs", "dashboard", "manager"].includes(s));
+
+  if (meaningful.length === 0) {
+    // It's a top-level route like /manager, /dashboard, /docs
+    const top = segments[0];
+    const names: Record<string, string> = {
+      manager: "Manager Panel",
+      dashboard: "Dashboard",
+      docs: "Documentation",
+      auth: "Authentication",
+      profile: "My Profile",
+    };
+    return names[top] || top.charAt(0).toUpperCase() + top.slice(1);
+  }
+
+  // Convert kebab-case to Title Case
+  return meaningful
+    .map((s) =>
+      s
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+    )
+    .join(" > ");
+}
+
+/**
+ * Detailed per-page context map for precise AI awareness.
+ * Keys are path prefixes — the longest match wins.
+ */
+const pageSpecificContexts: Record<string, DocPageContext> = {
+  // ── Manager Panel ──
+  "/manager/dashboard": {
+    title: "Manager Dashboard",
+    description:
+      "Main overview page for managers showing key metrics: total members, active members, today's meals, pending meal-off requests, recent expenses, upcoming market schedules, and recent notices.",
+    keyTopics: [
+      "Total vs active members count",
+      "Today's meal overview",
+      "Pending meal-off requests",
+      "Recent expense summary",
+      "Upcoming market schedules",
+      "Recent notices and announcements",
+      "Quick action shortcuts",
+    ],
+  },
+  "/manager/menu-plan": {
+    title: "Menu Plan Management",
+    description:
+      "Create, edit, and manage daily menu plans. Supports manual entry and AI-generated menu suggestions based on budget and preferences.",
+    keyTopics: [
+      "Create new menu plans",
+      "AI Generate suggested menus",
+      "Breakfast, lunch, dinner categories",
+      "Calendar and list view",
+      "Edit or delete plans",
+    ],
+  },
+  "/manager/ai-shopping": {
+    title: "AI Shopping List",
+    description:
+      "AI-powered shopping list generation from menu plans. Review, approve or reject AI-generated lists, then convert approved lists to market schedules.",
+    keyTopics: [
+      "Generate shopping list from menu",
+      "Review AI-suggested items",
+      "Approve or reject lists",
+      "Convert approved list to schedule",
+      "Item quantities and categories",
+    ],
+  },
+  "/manager/market-schedule": {
+    title: "Market Schedule",
+    description:
+      "Create and manage schedules for going to the market/bazar. Assign members, set budgets, and track shopping status.",
+    keyTopics: [
+      "Create manual schedules",
+      "Create from AI Shopping list",
+      "Assign members to shopping duty",
+      "Set estimated budget",
+      "Track status: pending/completed/void",
+    ],
+  },
+  "/manager/expenses": {
+    title: "Expense Tracking",
+    description:
+      "Track all mess expenses by category. Add, edit, filter expenses and view monthly totals.",
+    keyTopics: [
+      "Add new expense with receipt",
+      "Filter by category and date",
+      "Monthly expense summary",
+      "Link expenses to schedules",
+      "Edit or delete expenses",
+    ],
+  },
+  "/manager/members": {
+    title: "Member Management",
+    description:
+      "Manage mess members — view all members, add new ones, update roles, and manage active/inactive status.",
+    keyTopics: [
+      "View all members list",
+      "Add new members",
+      "Update roles (Manager/Member)",
+      "Active vs inactive members",
+      "Remove members",
+    ],
+  },
+  "/manager/meal-off-requests": {
+    title: "Meal Off Requests",
+    description:
+      "Review and manage member meal-off requests. Approve or reject requests that auto-adjust billing.",
+    keyTopics: [
+      "View pending requests",
+      "Approve or reject requests",
+      "View request history",
+      "Auto billing adjustment",
+    ],
+  },
+  "/manager/notices": {
+    title: "Notice Board",
+    description:
+      "Post and manage announcements for all members. Supports markdown formatting and pinning.",
+    keyTopics: [
+      "Create new notice",
+      "Edit or delete notices",
+      "Pin important notices",
+      "Markdown formatting",
+    ],
+  },
+  "/manager/billing": {
+    title: "Billing & Payments",
+    description:
+      "Generate monthly bills, track payment status, and manage payment gateway integration.",
+    keyTopics: [
+      "Generate monthly bills",
+      "View paid/unpaid/overdue",
+      "Bill breakdown details",
+      "Payment gateway integration",
+      "Send payment reminders",
+    ],
+  },
+  "/manager/reports": {
+    title: "Reports & Analytics",
+    description:
+      "Generate analytical reports with charts and graphs for expenses, meal participation, billing, and monthly comparisons.",
+    keyTopics: [
+      "Expense summary reports",
+      "Meal participation analysis",
+      "Billing report",
+      "Monthly comparison",
+      "Export reports",
+    ],
+  },
+  "/manager/utility-bills": {
+    title: "Utility Bills",
+    description:
+      "Track utility expenses (electricity, gas, water, internet) separate from meal costs. Shared among members in billing.",
+    keyTopics: [
+      "Add utility bills by type",
+      "Mark bills as paid",
+      "View all utility expenses",
+      "Auto-share in billing",
+    ],
+  },
+
+  // ── Member Panel ──
+  "/dashboard": {
+    title: "Member Dashboard",
+    description:
+      "Personal overview page for members showing today's menu, upcoming schedules, recent notices, expense summary, and meal-off status.",
+    keyTopics: [
+      "Today's meal menu",
+      "Upcoming market schedules",
+      "Recent notices",
+      "Personal expense summary",
+      "Meal-off request status",
+    ],
+  },
+  "/dashboard/menu-plan": {
+    title: "Menu Plan (Member View)",
+    description:
+      "View-only daily/weekly menu plans created by the manager. Browse meals by date in calendar or list format.",
+    keyTopics: [
+      "View breakfast, lunch, dinner plans",
+      "Calendar and list view",
+      "Read-only access",
+    ],
+  },
+  "/dashboard/meal-off": {
+    title: "Meal Off Request (Member)",
+    description:
+      "Submit meal-off requests with date range and reason. Track request status (pending/approved/rejected).",
+    keyTopics: [
+      "Submit new request",
+      "Select date range",
+      "View request history",
+      "Check approval status",
+    ],
+  },
+  "/dashboard/bills": {
+    title: "My Bills (Member)",
+    description:
+      "View monthly bills, see breakdown, pay online via SSLCommerz payment gateway, and download receipts.",
+    keyTopics: [
+      "Monthly bill summary",
+      "Bill breakdown",
+      "Online payment",
+      "Payment history",
+      "Download receipt",
+    ],
+  },
+  "/dashboard/notices": {
+    title: "Notices (Member View)",
+    description:
+      "Read all notices and announcements posted by the manager, sorted by newest first.",
+    keyTopics: [
+      "View all notices",
+      "Read markdown content",
+      "Newest first sorting",
+    ],
+  },
+
+  // ── Profile ──
+  "/profile": {
+    title: "My Profile",
+    description:
+      "Manage personal profile information, edit name and contact details, change password, and view account settings.",
+    keyTopics: [
+      "Edit personal info",
+      "Change password",
+      "Account settings",
+    ],
+  },
+
+  // ── Auth ──
+  "/auth/login": {
+    title: "Login",
+    description: "Login page for Mess OS. Users can sign in with their credentials to access the platform.",
+    keyTopics: ["Login with credentials", "Access recovery"],
+  },
+  "/auth/register": {
+    title: "Registration",
+    description: "Create a new account to join or manage a mess on the Mess OS platform.",
+    keyTopics: ["Create new account", "Join existing mess"],
+  },
+};
+
+// ── Category fallbacks ──
+
 export const overviewContext: DocPageContext = {
   title: "Overview",
   description:
@@ -48,3 +304,43 @@ export const userContext: DocPageContext = {
     "Reading notices and announcements",
   ],
 };
+
+/**
+ * Resolve the best context + page name for a given pathname.
+ * Returns the most specific page context and a human-readable page title.
+ */
+export function getContextForPath(pathname: string): {
+  context: DocPageContext | undefined;
+  pageTitle: string;
+} {
+  const normalized = pathname.endsWith("/") && pathname.length > 1
+    ? pathname.slice(0, -1)
+    : pathname;
+
+  // 1. Try exact match in page-specific contexts
+  if (pageSpecificContexts[normalized]) {
+    return { context: pageSpecificContexts[normalized], pageTitle: pageSpecificContexts[normalized].title };
+  }
+
+  // 2. Try prefix match (longest first)
+  const prefixes = Object.keys(pageSpecificContexts).sort((a, b) => b.length - a.length);
+  for (const prefix of prefixes) {
+    if (normalized.startsWith(prefix)) {
+      return { context: pageSpecificContexts[prefix], pageTitle: pageSpecificContexts[prefix].title };
+    }
+  }
+
+  // 3. Fallback to category contexts
+  if (normalized.startsWith("/manager")) {
+    return { context: managerContext, pageTitle: getPageNameFromPath(normalized) };
+  }
+  if (normalized.startsWith("/dashboard")) {
+    return { context: userContext, pageTitle: getPageNameFromPath(normalized) };
+  }
+  if (normalized.startsWith("/docs")) {
+    return { context: overviewContext, pageTitle: getPageNameFromPath(normalized) };
+  }
+
+  // 4. Generic fallback — no specific context
+  return { context: undefined, pageTitle: getPageNameFromPath(normalized) };
+}
