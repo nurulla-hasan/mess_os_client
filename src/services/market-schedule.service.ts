@@ -12,11 +12,12 @@ interface ShoppingItemPayload {
   quantity: string;
 }
 
-interface CreateMarketSchedulePayload {
+export interface CreateMarketSchedulePayload {
   assignedTo: string[];
   targetDate: string;
   estimatedBudget: number;
   shoppingItems: ShoppingItemPayload[];
+  aiShoppingListId?: string;
 }
 
 interface UpdateMarketSchedulePayload {

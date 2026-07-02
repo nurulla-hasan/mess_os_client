@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { ModalWrapper } from "@/components/ui/custom/modal-wrapper";
 import { Button } from "@/components/ui/button";
 import { 
@@ -21,7 +22,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { createMarketSchedule } from "@/services/market-schedule.service";
+import { createMarketSchedule, CreateMarketSchedulePayload } from "@/services/market-schedule.service";
 import { getAiShoppingLists } from "@/services/ai-shopping.service";
 import { IAiShoppingList } from "@/types/ai-shopping.type";
 import { SuccessToast, ErrorToast } from "@/lib/utils";
@@ -140,6 +141,7 @@ interface ShoppingItem {
 // ============================================
 
 export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalProps) {
+  const router = useRouter();
   const [members, setMembers] = React.useState<IMemberOption[]>([]);
   const [open, setOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -231,17 +233,19 @@ export function CreateMarketScheduleModal({ messId }: CreateMarketScheduleModalP
 
     setIsLoading(true);
     try {
-      const payload = {
+      const payload: CreateMarketSchedulePayload = {
         assignedTo,
         targetDate: format(date, "yyyy-MM-dd"),
         estimatedBudget: parseFloat(estimatedBudget) || 0,
-        shoppingItems: validItems.map(({ name, quantity }) => ({ name, quantity }))
+        shoppingItems: validItems.map(({ name, quantity }) => ({ name, quantity })),
+        ...(selectedAiListId ? { aiShoppingListId: selectedAiListId } : {}),
       };
 
       const res = await createMarketSchedule(messId, payload);
       if (res?.success) {
         SuccessToast(res.message || "Market schedule created.");
         setOpen(false);
+        router.refresh();
         // Reset state
         setAssignedTo([]);
         setEstimatedBudget("");
