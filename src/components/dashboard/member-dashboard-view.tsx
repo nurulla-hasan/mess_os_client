@@ -48,11 +48,27 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Current Balance</p>
               <div className="flex items-baseline gap-3 mt-1">
                 <p className="text-3xl font-bold">৳{billing.balance.amount.toLocaleString()}</p>
-                <Badge variant={billing.balance.type === "advance" ? "success" : "destructive"} className="h-5 text-xs">
-                  {billing.balance.type.toUpperCase()}
+                <Badge 
+                  variant={
+                    billing.balance.type === "advance" 
+                      ? "success" 
+                      : billing.balance.type === "due" 
+                        ? "destructive" 
+                        : "secondary"
+                  } 
+                  className="h-5 text-xs"
+                >
+                  {billing.balance.type === "settled" ? "SETTLED" : billing.balance.type.toUpperCase()}
                 </Badge>
               </div>
-              <p className="text-xs text-muted-foreground mt-2">Status: <span className="font-bold capitalize">{billing.balance.status}</span></p>
+              {billing.balance.isEstimated && (
+                <p className="text-[10px] text-muted-foreground/70 italic mt-1">
+                  *Includes ৳{billing.balance.estimatedMealCharge} estimated meal cost for {meals.total} meal(s)
+                </p>
+              )}
+              <p className="text-xs text-muted-foreground mt-1">
+                Status: <span className="font-bold capitalize">{billing.balance.status || (billing.balance.source === 'running_ledger' ? 'Awaiting billing' : '—')}</span>
+              </p>
             </CardContent>
           </Card>
 

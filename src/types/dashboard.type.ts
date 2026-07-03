@@ -103,11 +103,13 @@ export interface IBillingInfo {
     };
   };
   balance: {
-    type: "due" | "advance";
+    type: "due" | "advance" | "settled";
     amount: number;
     finalDue: number;
     finalAdvance: number;
     source: "latest_bill" | "running_ledger";
+    isEstimated?: boolean;
+    estimatedMealCharge?: number;
     status: string | null;
   };
 }
