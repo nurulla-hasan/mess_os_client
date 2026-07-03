@@ -163,7 +163,7 @@ export default async function MemberMyBillPage({
           {bill ? (
             <BillDetails bill={bill} />
           ) : (
-            <Card className="h-full flex items-center justify-center min-h-[400px] border-dashed shadow-none">
+            <Card className="h-full flex items-center justify-center min-h-100 border-dashed shadow-none">
               <div className="flex flex-col items-center gap-4 text-muted-foreground">
                 <Receipt className="h-12 w-12 opacity-20" />
                 <p>Select a billing cycle to view your bill details.</p>
