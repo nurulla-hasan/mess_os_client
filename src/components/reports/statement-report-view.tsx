@@ -35,9 +35,21 @@ export function StatementReportView({ data }: StatementReportViewProps) {
               <div className="space-y-1">
                 <div className="flex items-baseline gap-2">
                   <span className="text-sm font-bold opacity-70">৳</span>
-                  <span className="text-5xl md:text-6xl font-bold leading-none">
-                    {data.liveCurrentBalance.toLocaleString()}
+                  <span className={cn(
+                    "text-5xl md:text-6xl font-bold leading-none",
+                    data.liveCurrentBalance > 0 && "text-emerald-600",
+                    data.liveCurrentBalance < 0 && "text-rose-600"
+                  )}>
+                    {Math.abs(data.liveCurrentBalance).toLocaleString()}
                   </span>
+                  {data.liveCurrentBalance !== 0 && (
+                    <span className={cn(
+                      "text-sm font-bold uppercase tracking-wider",
+                      data.liveCurrentBalance > 0 ? "text-emerald-600" : "text-rose-600"
+                    )}>
+                      {data.liveCurrentBalance > 0 ? "Advance" : "Due"}
+                    </span>
+                  )}
                 </div>
                 <p className="text-sm opacity-80 max-w-100 font-medium leading-relaxed">
                   {data.liveCurrentBalance > 0 
