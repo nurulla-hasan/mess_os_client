@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { IMember } from "@/types/member.type";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 import { ActionButtons } from "./action-buttons";
 
@@ -37,7 +38,7 @@ export const columns: ColumnDef<IMember>[] = [
           {row.original.messRole}
         </Badge>
         {row.original.messRole === "manager" && (
-          <Badge variant={row.original.isResidentManager !== false ? "active" : "muted"} className="font-medium text-[10px] px-1.5">
+          <Badge variant={row.original.isResidentManager !== false ? "active" : "muted"} >
             {row.original.isResidentManager !== false ? "Resident" : "External"}
           </Badge>
         )}
@@ -60,6 +61,25 @@ export const columns: ColumnDef<IMember>[] = [
     accessorKey: "user.phone",
     header: "Phone",
     cell: ({ row }) => <span className="text-sm text-muted-foreground">{row.original.user.phone}</span>,
+  },
+  {
+    accessorKey: "balance",
+    header: "Balance",
+    cell: ({ row }) => {
+      const balance = row.original.balance;
+      if (!balance || balance.type === "settled") {
+        return <span className="text-xs text-muted-foreground">—</span>;
+      }
+      return (
+        <span className={cn(
+          "text-sm font-bold",
+          balance.type === "advance" ? "text-emerald-600" : "text-rose-600"
+        )}>
+          ৳{balance.amount.toLocaleString()}
+          <span className="text-[10px] ml-1 uppercase">{balance.type}</span>
+        </span>
+      );
+    },
   },
   {
     accessorKey: "createdAt",

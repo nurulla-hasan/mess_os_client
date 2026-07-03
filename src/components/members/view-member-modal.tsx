@@ -262,15 +262,25 @@ export function ViewMemberModal({ member }: ViewMemberModalProps) {
           />
           <DetailItem
             icon={CreditCard}
-            label="Due Amount"
-            value={`৳${member.dueAmount || 0}`}
-            subValue="Pending balance"
+            label="Member Since"
+            value={member.joinedAt ? format(new Date(member.joinedAt), "MMM dd, yyyy") : "—"}
+            subValue="Mess join date"
           />
           <DetailItem
-            icon={Shield}
-            label="Advance"
-            value={`৳${member.advanceAmount || 0}`}
-            subValue="Credit balance"
+            icon={DollarSign}
+            label="Live Balance"
+            value={
+              member.balance?.type === "settled" || !member.balance
+                ? "Settled"
+                : `৳${member.balance.amount.toLocaleString()}`
+            }
+            subValue={
+              member.balance?.type === "due"
+                ? "Outstanding due"
+                : member.balance?.type === "advance"
+                  ? "Credit balance"
+                  : "No pending balance"
+            }
           />
         </div>
 

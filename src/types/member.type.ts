@@ -23,8 +23,13 @@ export interface IMember {
     phone: string;
     avatar?: string;
   };
-  dueAmount?: number;
-  advanceAmount?: number;
+  balance?: {
+    type: "advance" | "due" | "settled";
+    amount: number;
+    due: number;
+    advance: number;
+    estimatedMealCharge?: number;
+  };
 }
 
 /**

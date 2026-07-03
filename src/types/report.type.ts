@@ -29,7 +29,7 @@ export interface ILedger {
   _id: string;
   messId: string;
   messMemberId: string;
-  type: "credit" | "debit";
+  type: "credit" | "charge";
   amount: number;
   referenceType: string;
   referenceId: string;

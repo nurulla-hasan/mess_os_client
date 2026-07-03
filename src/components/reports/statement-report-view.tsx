@@ -39,10 +39,12 @@ export function StatementReportView({ data }: StatementReportViewProps) {
                     {data.liveCurrentBalance.toLocaleString()}
                   </span>
                 </div>
-                <p className="text-sm opacity-80 max-w-[400px] font-medium leading-relaxed">
-                  {data.liveCurrentBalance >= 0 
+                <p className="text-sm opacity-80 max-w-100 font-medium leading-relaxed">
+                  {data.liveCurrentBalance > 0 
                     ? "You have a surplus balance available for upcoming meal cycles and shared expenses." 
-                    : "Outstanding dues detected. Please settle the amount to avoid service interruption."}
+                    : data.liveCurrentBalance < 0
+                    ? "Outstanding dues detected. Please settle the amount to avoid service interruption."
+                    : "Your balance is settled. No outstanding dues or advances."}
                 </p>
               </div>
             </div>

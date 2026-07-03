@@ -59,9 +59,12 @@ export const columns: ColumnDef<IMemberBill>[] = [
     cell: ({ row }) => {
       const { finalDue, finalAdvance } = row.original.summary;
       if (finalAdvance > 0) {
-        return <span className="font-bold text-blue-600">Advance: ৳{finalAdvance}</span>;
+        return <span className="font-bold text-emerald-600">Advance: ৳{finalAdvance}</span>;
       }
-      return <span className="font-bold text-rose-600">Due: ৳{finalDue}</span>;
+      if (finalDue > 0) {
+        return <span className="font-bold text-rose-600">Due: ৳{finalDue}</span>;
+      }
+      return <span className="font-bold text-muted-foreground">Settled</span>;
     },
   },
   {

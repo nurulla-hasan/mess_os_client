@@ -4,6 +4,7 @@ import React from "react";
 import { IMemberBill } from "@/types/billing.type";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import { 
   Receipt, 
   ArrowUpRight, 
@@ -106,8 +107,10 @@ export function BillDetails({ bill }: BillDetailsProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-medium text-muted-foreground">Previous Due</span>
-              <span className="font-bold text-rose-500">৳{summary.previousDue.toLocaleString()}</span>
+              <span className="text-sm font-medium text-muted-foreground">{summary.previousDue >= 0 ? "Previous Due" : "Previous Advance"}</span>
+              <span className={cn("font-bold", summary.previousDue >= 0 ? "text-rose-500" : "text-emerald-500")}>
+                ৳{Math.abs(summary.previousDue).toLocaleString()}
+              </span>
             </div>
             
             <div className="flex justify-between items-center">

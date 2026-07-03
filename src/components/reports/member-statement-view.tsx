@@ -22,13 +22,13 @@ interface MemberStatementViewProps {
 
 export function MemberStatementView({ statement, isLoading }: MemberStatementViewProps) {
   if (isLoading) {
-    return <div className="h-[600px] bg-accent/5 rounded-xl animate-pulse" />;
+    return <div className="h-150 bg-accent/5 rounded-xl animate-pulse" />;
   }
 
   if (!statement || !("member" in statement)) {
     return (
       <Card className="border-dashed">
-        <CardContent className="h-[400px] flex flex-col items-center justify-center text-center">
+        <CardContent className="h-100 flex flex-col items-center justify-center text-center">
           <UserCircle className="h-12 w-12 text-muted-foreground opacity-20 mb-4" />
           <p className="font-bold">No Member Selected</p>
           <p className="text-sm text-muted-foreground">Select a member from the filters to view their statement.</p>
@@ -37,7 +37,7 @@ export function MemberStatementView({ statement, isLoading }: MemberStatementVie
     );
   }
 
-  const isAdvance = statement.liveCurrentBalance >= 0;
+  const balanceType = statement.liveCurrentBalance > 0 ? "advance" : statement.liveCurrentBalance < 0 ? "due" : "settled";
 
   return (
     <div className="space-y-6">
@@ -61,10 +61,14 @@ export function MemberStatementView({ statement, isLoading }: MemberStatementVie
           <p className="text-xs font-bold uppercase text-muted-foreground">Live Balance</p>
           <p className={cn(
             "text-2xl font-bold",
-            isAdvance ? "text-emerald-600" : "text-rose-600"
+            balanceType === "due" && "text-rose-600",
+            balanceType === "advance" && "text-emerald-600",
+            balanceType === "settled" && "text-muted-foreground"
           )}>
             ৳{Math.abs(statement.liveCurrentBalance).toLocaleString()}
-            <span className="text-xs ml-1 uppercase">{isAdvance ? "Advance" : "Due"}</span>
+            {balanceType !== "settled" && (
+              <span className="text-xs ml-1 uppercase">{balanceType === "advance" ? "Advance" : "Due"}</span>
+            )}
           </p>
         </div>
       </div>
@@ -93,7 +97,7 @@ export function MemberStatementView({ statement, isLoading }: MemberStatementVie
                     <TableRow key={ledger._id}>
                       <TableCell className="text-xs font-medium pl-6">{formatDate(ledger.date)}</TableCell>
                       <TableCell>
-                        <p className="text-[11px] font-medium leading-tight max-w-[150px]">{ledger.description}</p>
+                        <p className="text-[11px] font-medium leading-tight max-w-37.5">{ledger.description}</p>
                         <span className="text-xs uppercase text-muted-foreground font-bolder">
                           {ledger.referenceType}
                         </span>
@@ -148,8 +152,14 @@ export function MemberStatementView({ statement, isLoading }: MemberStatementVie
                       <TableCell className="text-center font-bold text-xs">{hist.summary.meals}</TableCell>
                       <TableCell className="text-right pr-6">
                         <div className="flex flex-col items-end gap-1">
-                           <span className="font-bold text-xs">৳{hist.summary.finalPayable.toLocaleString()}</span>
-                           <Badge variant={hist.status === "paid" ? "success" : "blocked"}>
+                          {hist.summary.finalAdvance > 0 ? (
+                            <span className="font-bold text-xs text-emerald-600">Advance: ৳{hist.summary.finalAdvance.toLocaleString()}</span>
+                          ) : hist.summary.finalDue > 0 ? (
+                            <span className="font-bold text-xs text-rose-600">Due: ৳{hist.summary.finalDue.toLocaleString()}</span>
+                          ) : (
+                            <span className="font-bold text-xs text-muted-foreground">Settled</span>
+                          )}
+                           <Badge variant={hist.status === "paid" ? "success" : hist.status === "unpaid" ? "blocked" : "secondary"}>
                             {hist.status}
                           </Badge>
                         </div>
@@ -169,7 +179,7 @@ export function MemberStatementView({ statement, isLoading }: MemberStatementVie
         </Card>
       </div>
 
-      {!isAdvance && (
+      {balanceType === "due" && (
         <div className="bg-rose-500/5 border border-rose-500/10 p-3 rounded-lg flex items-center gap-3">
           <AlertCircle className="h-4 w-4 text-rose-600 dark:text-rose-400 shrink-0" />
           <p className="text-xs font-medium text-rose-600 dark:text-rose-400 leading-relaxed">

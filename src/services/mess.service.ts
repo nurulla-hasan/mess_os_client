@@ -95,6 +95,7 @@ export const getMessMembers = async (
     return (await serverFetch(`/messes/${messId}/members${qs}`, {
       method: "GET",
       tags: ["mess-members"],
+      revalidate: 300,
     })) as ApiResponse<IMember[]>;
   } catch (error: unknown) {
     return {
