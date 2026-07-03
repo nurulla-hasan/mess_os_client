@@ -79,6 +79,7 @@ export interface IMemberStatement {
   historicalFinalizations: IHistoricalFinalization[];
   ledgers: ILedger[];
   liveCurrentBalance: number;
+  estimatedMealCharge?: number;
 }
 
 export interface IExpenseReportItem {

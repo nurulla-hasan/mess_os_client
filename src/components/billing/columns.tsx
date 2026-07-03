@@ -22,7 +22,7 @@ export const columns: ColumnDef<IMemberBill>[] = [
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col min-w-0">
-            <span className="font-bold text-foreground text-sm truncate max-w-[150px]">
+            <span className="font-bold text-foreground text-sm truncate max-w-37.5">
               {user?.fullName || "Member"}
             </span>
             <span className="text-xs text-muted-foreground uppercase font-medium">

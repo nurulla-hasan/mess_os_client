@@ -58,6 +58,11 @@ export function StatementReportView({ data }: StatementReportViewProps) {
                     ? "Outstanding dues detected. Please settle the amount to avoid service interruption."
                     : "Your balance is settled. No outstanding dues or advances."}
                 </p>
+                {data.estimatedMealCharge != null && data.estimatedMealCharge > 0 && (
+                  <p className="text-[10px] text-muted-foreground/70 italic">
+                    *Includes ৳{data.estimatedMealCharge.toLocaleString()} estimated meal cost for the current month
+                  </p>
+                )}
               </div>
             </div>
 
