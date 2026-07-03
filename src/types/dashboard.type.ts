@@ -66,6 +66,15 @@ export interface IPendingActions {
 export interface IManagerDashboardData {
   mess: IMess;
   subscription: ISubscriptionInfo;
+  selfBalance?: {
+    type: "due" | "advance" | "settled";
+    amount: number;
+    finalDue: number;
+    finalAdvance: number;
+    isEstimated?: boolean;
+    estimatedMealCharge?: number;
+    myMeals?: number;
+  } | null;
   summary: IDashboardSummary;
   today: ITodayStats;
   recent: {

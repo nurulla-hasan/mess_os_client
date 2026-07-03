@@ -41,7 +41,7 @@ export default async function ManagerDashboardPage() {
     );
   }
 
-  const { mess, subscription, summary, today, recent, pendingActions } = response.data;
+  const { mess, subscription, selfBalance, summary, today, recent, pendingActions } = response.data;
 
   return (
     <DashboardPageLayout>
@@ -61,7 +61,7 @@ export default async function ManagerDashboardPage() {
 
         {/* Sidebar Area (Right 1 Column) */}
         <div className="xl:col-span-1">
-          <DashboardSidebar summary={summary} notices={recent.notices} />
+          <DashboardSidebar summary={summary} notices={recent.notices} selfBalance={selfBalance} />
         </div>
       </div>
     </DashboardPageLayout>

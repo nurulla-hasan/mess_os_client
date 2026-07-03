@@ -10,7 +10,6 @@ import {
   MessageSquare,
   ShoppingCart,
   Clock,
-  CheckCircle2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -108,10 +107,6 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
 
         {/* Quick Access Tiles */}
         <div>
-          <h3 className="text-md font-bold mb-4 flex items-center gap-3">
-            <CheckCircle2 className="h-4 w-4 text-primary" />
-            Quick Actions
-          </h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {activeQuickActions.map((action, i) => (
               <Link key={i} href={action.href}>

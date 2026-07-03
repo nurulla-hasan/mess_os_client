@@ -1,10 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { IDashboardSummary, INoticeItem } from "@/types/dashboard.type";
+import type { IDashboardSummary, INoticeItem, IManagerDashboardData } from "@/types/dashboard.type";
 import { 
   Bell, 
   UserPlus, 
   PiggyBank, 
+  Wallet,
   ArrowRight,
   Pin,
   CalendarDays,
@@ -15,9 +17,10 @@ import { timeAgo } from "@/lib/utils";
 interface DashboardSidebarProps {
   summary: IDashboardSummary;
   notices: INoticeItem[];
+  selfBalance?: IManagerDashboardData["selfBalance"];
 }
 
-export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
+export function DashboardSidebar({ summary, notices, selfBalance }: DashboardSidebarProps) {
   return (
     <div className="space-y-6">
       {/* Mess Fund Stats */}
@@ -56,6 +59,38 @@ export function DashboardSidebar({ summary, notices }: DashboardSidebarProps) {
           </div>
         </CardContent>
       </Card>
+
+      {/* Manager's Own Balance */}
+      {selfBalance && (
+        <Card className="bg-primary/5 border-primary/20 overflow-hidden relative">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0">
+            <CardTitle className="text-xs font-bold uppercase tracking-widest">Your Balance</CardTitle>
+            <Wallet className="w-4 h-4 opacity-80" />
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-baseline justify-between">
+              <p className="text-3xl font-bold tabular-nums">৳{selfBalance.amount.toLocaleString()}</p>
+              <Badge
+                variant={
+                  selfBalance.type === "advance"
+                    ? "success"
+                    : selfBalance.type === "due"
+                      ? "destructive"
+                      : "secondary"
+                }
+                className="h-5 text-xs"
+              >
+                {selfBalance.type.toUpperCase()}
+              </Badge>
+            </div>
+            {selfBalance.isEstimated && (
+              <p className="text-[10px] text-muted-foreground/70 italic mt-1">
+                *Includes ৳{selfBalance.estimatedMealCharge} estimated cost for {selfBalance.myMeals} meal(s)
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Join Requests Alert */}
       {summary.pendingJoinRequests > 0 ? (
