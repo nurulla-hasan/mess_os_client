@@ -64,7 +64,7 @@ export default async function MemberMealsPage({
           description="View all meal consumption history for this mess."
         />
         <div className="flex flex-col sm:flex-row items-center gap-3">
-          <MealFilters />
+          <MealFilters showSearch={false} />
         </div>
       </div>
 

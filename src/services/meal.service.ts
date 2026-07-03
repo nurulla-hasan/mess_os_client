@@ -50,7 +50,7 @@ export const logMeal = async (
     return (await serverFetch(`/messes/${messId}/meals`, {
       method: "POST",
       body: data,
-      updateTag: ["meals"],
+      updateTag: ["meals", "mess-members"],
     })) as ApiResponse<IMeal>;
   } catch (error: unknown) {
     return {
@@ -69,7 +69,7 @@ export const bulkLogMeals = async (
     return (await serverFetch(`/messes/${messId}/meals/bulk`, {
       method: "POST",
       body: data,
-      updateTag: ["meals"],
+      updateTag: ["meals", "mess-members"],
     })) as ApiResponse<{ processed: number }>;
   } catch (error: unknown) {
     return {
