@@ -21,13 +21,13 @@ interface FinancialLedgerViewProps {
 
 export function FinancialLedgerView({ report, isLoading }: FinancialLedgerViewProps) {
   if (isLoading) {
-    return <div className="h-[400px] bg-accent/10 rounded-xl animate-pulse" />;
+    return <div className="h-100 bg-accent/10 rounded-xl animate-pulse" />;
   }
 
   if (!report || !report.summary) {
     return (
       <Card className="border-dashed">
-        <CardContent className="h-[300px] flex flex-col items-center justify-center text-center p-6">
+        <CardContent className="h-75 flex flex-col items-center justify-center text-center p-6">
           <CalendarDays className="h-12 w-12 text-muted-foreground opacity-20 mb-4" />
           <p className="font-bold">No Financial Data</p>
           <p className="text-sm text-muted-foreground">Select a month and year to view financial details.</p>
@@ -108,7 +108,7 @@ export function FinancialLedgerView({ report, isLoading }: FinancialLedgerViewPr
                 <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Finalized By</p>
                 <div className="flex items-center gap-2">
                   <UserCheck className="h-3.5 w-3.5 text-primary" />
-                  <p className="text-sm font-bold truncate max-w-[150px]">{report.finalizedBy}</p>
+                  <p className="text-sm font-bold truncate max-w-37.5">{report.finalizedBy}</p>
                 </div>
               </div>
             )}

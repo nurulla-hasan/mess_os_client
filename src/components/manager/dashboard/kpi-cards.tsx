@@ -8,7 +8,8 @@ import {
   Clock, 
   Zap, 
   MessageSquare, 
-  ShoppingCart
+  ShoppingCart,
+  DollarSign
 } from "lucide-react";
 
 interface KPICardsProps {
@@ -61,6 +62,19 @@ export function KPICards({ summary }: KPICardsProps) {
       subValue: `${summary.unpaidUtilities.toLocaleString()} bills due`,
       colorVar: "var(--chart-5)",
       isWarning: summary.unpaidUtilities > 0
+    },
+    {
+      label: "Est. Meal Rate",
+      value: summary.estimatedMealRate > 0
+        ? `৳${summary.estimatedMealRate.toFixed(2)}`
+        : "—",
+      icon: DollarSign,
+      subValue: summary.estimatedMealRate > 0
+        ? `৳${summary.estimatedMealExpense.toLocaleString()} ÷ ${summary.estimatedTotalMeals} meals`
+        : summary.estimatedTotalMeals > 0
+          ? "Awaiting expenses"
+          : "No data this month",
+      colorVar: "var(--chart-2)"
     },
     {
       label: "Open Complaints",

@@ -7,7 +7,7 @@ import { buildQueryString } from "@/lib/buildQueryString";
 import { QueryParams, ApiResponse } from "@/types/global.type";
 import { IMember, IMemberOption } from "@/types/member.type";
 import { IMess } from "@/types/mess.type";
-import { IManagerDashboardData, IMemberDashboardData } from "@/types/dashboard.type";
+import { IManagerDashboardData, IMemberDashboardData, IEstimatedMealRate } from "@/types/dashboard.type";
 
 // ─── Service Functions ────────────────────────────────────────────────────────
 
@@ -379,6 +379,28 @@ export const transferOwnership = async (
       success: false,
       message: (error as Error)?.message || "Failed to transfer ownership.",
       data: null,
+    };
+  }
+};
+
+/**
+ * Get estimated meal rate for current month
+ * Endpoint: GET /messes/:messId/estimated-rate
+ */
+export const getEstimatedMealRate = async (
+  messId: string,
+): Promise<ApiResponse<IEstimatedMealRate>> => {
+  try {
+    return (await serverFetch(`/messes/${messId}/estimated-rate`, {
+      method: "GET",
+      tags: ["estimated-meal-rate"],
+      revalidate: 60,
+    })) as ApiResponse<IEstimatedMealRate>;
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: (error as Error)?.message || "Failed to fetch estimated meal rate.",
+      data: null as unknown as IEstimatedMealRate,
     };
   }
 };

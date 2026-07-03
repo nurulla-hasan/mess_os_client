@@ -5,6 +5,7 @@ import { DataTable } from "@/components/ui/custom/data-table";
 import { columns } from "@/components/meals/columns";
 import { getActiveMessIdFromCookies } from "@/services/auth.service";
 import { getMessMeals } from "@/services/meal.service";
+import { getEstimatedMealRate } from "@/services/mess.service";
 import { 
   Utensils, 
   TrendingUp, 
@@ -45,7 +46,12 @@ export default async function MemberMealsPage({
   }
 
   const params = (await searchParams) as QueryParams;
-  const { data, meta } = await getMessMeals(activeMessId, params);
+  const [{ data, meta }, estimatedRateRes] = await Promise.all([
+    getMessMeals(activeMessId, params),
+    getEstimatedMealRate(activeMessId),
+  ]);
+
+  const estRate = estimatedRateRes?.data?.rate ?? 0;
 
   // Basic stats for the current month
   const totalMeals = data?.reduce((acc, m) => acc + (m.mealCount || 0), 0) || 0;
@@ -86,8 +92,16 @@ export default async function MemberMealsPage({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-xl font-bold">৳{(totalMeals * 80).toFixed(0)}</p>
-              <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest mt-1">Based on ~৳80 rate</p>
+              <p className="text-xl font-bold">
+                {estRate > 0
+                  ? `৳${(totalMeals * estRate).toFixed(0)}`
+                  : "—"}
+              </p>
+              <p className="text-xs text-muted-foreground uppercase font-bold tracking-widest mt-1">
+                {estRate > 0
+                  ? `Based on ৳${estRate.toFixed(2)}/meal rate`
+                  : "Add approved expenses to calculate rate"}
+              </p>
             </CardContent>
           </Card>
         </div>

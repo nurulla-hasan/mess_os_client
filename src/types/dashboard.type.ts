@@ -33,6 +33,9 @@ export interface IDashboardSummary {
   totalMessFund: number;
   totalDeposits: number;
   totalCashOut: number;
+  estimatedMealRate: number;
+  estimatedMealExpense: number;
+  estimatedTotalMeals: number;
 }
 
 export interface ITodayStats {
@@ -117,6 +120,9 @@ export interface IMealStats {
   breakdown: {
     [key: string]: number;
   };
+  estimatedMealRate: number;
+  estimatedMealExpense: number;
+  estimatedTotalMeals: number;
 }
 
 export interface IMarketDutyAssignee {
@@ -186,4 +192,10 @@ export interface IMemberDashboardData {
   quickLinks: {
     [key: string]: boolean;
   };
+}
+
+export interface IEstimatedMealRate {
+  rate: number;
+  mealExpense: number;
+  totalMeals: number;
 }

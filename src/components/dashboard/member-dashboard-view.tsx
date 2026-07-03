@@ -71,6 +71,21 @@ export default function MemberDashboardView({ data }: { data: IMemberDashboardDa
                    val > 0 && <Badge key={key} variant="outline" className="text-xs">{key}: {val}</Badge>
                 ))}
               </div>
+              {meals.total > 0 && (
+                <div className="mt-3 pt-3 border-t border-emerald-500/20 space-y-1 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Est. Meal Rate</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                      {meals.estimatedMealRate > 0 ? `৳${meals.estimatedMealRate.toFixed(2)}` : "—"}
+                    </span>
+                  </div>
+                  {meals.estimatedMealRate === 0 && meals.estimatedMealExpense === 0 && (
+                    <p className="text-[10px] text-muted-foreground/70 italic">
+                      Add expenses with meal category to calculate rate
+                    </p>
+                  )}
+                </div>
+               )}
             </CardContent>
           </Card>
         </div>
