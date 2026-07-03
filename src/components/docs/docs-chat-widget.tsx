@@ -69,7 +69,6 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
   const sessionIdRef = useRef<string>("");
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isHistoryLoading, setIsHistoryLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -99,7 +98,6 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
     if (!isOpen || !sessionIdRef.current || historyLoadedRef.current) return;
 
     const loadHistory = async () => {
-      setIsHistoryLoading(true);
       try {
         const result = await getChatHistory(sessionIdRef.current);
         if (result.success && result.data && result.data.length > 0) {
@@ -121,7 +119,6 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
       } catch {
         // If history fetch fails, just keep the welcome message
       } finally {
-        setIsHistoryLoading(false);
         historyLoadedRef.current = true;
       }
     };
@@ -342,22 +339,7 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
             </div>
           ))}
 
-          {isHistoryLoading && (
-            <div className="flex items-end gap-1.5 justify-start animate-in fade-in duration-200">
-              <div className="flex items-center justify-center size-8 rounded-full bg-linear-to-br from-primary/20 to-primary/5 border border-primary/10 shrink-0">
-                <Bot className="size-4 text-primary" />
-              </div>
-              <div className="bg-card border border-border/50 rounded-xl rounded-bl-md px-3 py-3 shadow-xs">
-                <div className="flex gap-1.5">
-                  <span className="size-2 rounded-full bg-primary/40 animate-pulse [animation-delay:0ms]" />
-                  <span className="size-2 rounded-full bg-primary/40 animate-pulse [animation-delay:300ms]" />
-                  <span className="size-2 rounded-full bg-primary/40 animate-pulse [animation-delay:600ms]" />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {!isHistoryLoading && isLoading && (
+          {isLoading && (
             <div className="flex items-end gap-1.5 justify-start animate-in fade-in duration-200">
               <div className="flex items-center justify-center size-8 rounded-full bg-linear-to-br from-primary/20 to-primary/5 border border-primary/10 shrink-0">
                 <Bot className="size-4 text-primary" />
