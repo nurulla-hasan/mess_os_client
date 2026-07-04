@@ -29,7 +29,6 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
   const [aiPreference, setAiPreference] = useState("");
   const [aiBudget, setAiBudget] = useState<number | "">("");
   const [aiPersonCount, setAiPersonCount] = useState<number | "">("");
-  const [aiShoppingDays, setAiShoppingDays] = useState<number | "">(7);
   const [avoidRecentDays, setAvoidRecentDays] = useState<number>(7);
 
   const handleGenerate = async () => {
@@ -48,7 +47,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
       if (aiPreference.trim()) payload.aiPreference = aiPreference.trim();
       if (typeof aiBudget === "number") payload.aiBudget = aiBudget;
       if (typeof aiPersonCount === "number") payload.aiPersonCount = aiPersonCount;
-      if (typeof aiShoppingDays === "number") payload.aiShoppingDays = aiShoppingDays;
+      payload.aiShoppingDays = 1;
       if (avoidRecentDays !== undefined) payload.avoidRecentDays = avoidRecentDays;
 
       const res = await createMenuPlan(messId, payload);
@@ -61,7 +60,6 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
         setAiPreference("");
         setAiBudget("");
         setAiPersonCount("");
-        setAiShoppingDays(7);
         setAvoidRecentDays(7);
       } else {
         ErrorToast(res.message || "Failed to generate menu plan.");
@@ -154,22 +152,7 @@ export function AiGenerateMenuPlanModal({ messId }: AiGenerateMenuPlanModalProps
               />
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-xs font-bold uppercase tracking-widest text-primary">
-                Shopping Duration (Days)
-              </Label>
-              <Input
-                type="number"
-                min={1}
-                max={30}
-                placeholder="7"
-                value={aiShoppingDays}
-                onChange={(e) => setAiShoppingDays(e.target.value ? Number(e.target.value) : "")}
-                className="focus-visible:ring-primary/20"
-              />
-            </div>
-            
-            <div className="space-y-2">
+            <div className="space-y-2 col-span-2">
               <Label className="text-xs font-bold uppercase tracking-widest text-primary" title="Avoid repeating meals from recent days">
                 Avoid Recent (Days)
               </Label>

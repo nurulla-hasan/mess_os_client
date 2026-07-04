@@ -21,6 +21,7 @@ import {
   LucideIcon,
   ShieldCheck,
   History,
+  DollarSign,
 } from "lucide-react";
 
 export type UserRole = "member" | "manager" | "admin";
@@ -101,6 +102,7 @@ export function getSidebarSections(role: UserRole): NavSection[] {
           { name: "Market Schedules", icon: ShoppingCart, href: `${prefix}/market-schedules` },
           { name: "Menu Plans", icon: Calendar, href: `${prefix}/menu-plans` },
           { name: "AI Shopping", icon: Sparkles, href: `${prefix}/ai-shopping` },
+          { name: "Market Prices", icon: DollarSign, href: `${prefix}/market-prices` },
         ],
       },
       {
