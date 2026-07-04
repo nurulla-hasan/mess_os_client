@@ -89,7 +89,7 @@ export const updatePaymentStatus = async (
     return (await serverFetch(`/messes/${messId}/payments/${paymentId}/status`, {
       method: "PATCH",
       body: { status },
-      updateTag: ["payments", "dashboard-stats", "member-bills", "reports", "summary"],
+      updateTag: ["payments", "dashboard-stats", "member-bills", "reports", "summary", "mess-members"],
     })) as ApiResponse<IPayment>;
   } catch (error: unknown) {
     return {
