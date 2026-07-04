@@ -20,7 +20,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+import { Badge, type badgeVariants } from "@/components/ui/badge";
+import type { VariantProps } from "class-variance-authority";
 import {
   Plus,
   Trash2,
@@ -53,13 +54,15 @@ const CATEGORY_LABELS: Record<MarketPriceCategory, string> = {
   other: "Other",
 };
 
-const CATEGORY_COLORS: Record<MarketPriceCategory, string> = {
-  bazar: "bg-amber-100 text-amber-800 hover:bg-amber-200",
-  meat: "bg-red-100 text-red-800 hover:bg-red-200",
-  vegetables: "bg-green-100 text-green-800 hover:bg-green-200",
-  dairy: "bg-blue-100 text-blue-800 hover:bg-blue-200",
-  spices: "bg-purple-100 text-purple-800 hover:bg-purple-200",
-  other: "bg-gray-100 text-gray-800 hover:bg-gray-200",
+type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
+
+const CATEGORY_VARIANTS: Record<MarketPriceCategory, BadgeVariant> = {
+  bazar: "warning",
+  meat: "rejected",
+  vegetables: "success",
+  dairy: "info",
+  spices: "progress",
+  other: "muted",
 };
 
 export function MarketPriceManager({ messId, initialPrices }: MarketPriceManagerProps) {
@@ -158,38 +161,6 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
 
   return (
     <div className="space-y-6 pb-12">
-      {/* Stats Card */}
-      <Card className="shadow-sm border-primary/10">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-bold flex items-center gap-2">
-            <ShoppingCart className="h-4 w-4 text-primary" />
-            Price Overview
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4 text-sm">
-            <span className="text-muted-foreground">
-              Total items: <strong className="text-foreground">{prices.length}</strong>
-            </span>
-            <span className="text-muted-foreground">
-              Cheapest:{" "}
-              <strong className="text-green-600">
-                {prices.length > 0
-                  ? `${prices.reduce((min, p) => (p.price < min.price ? p : min), prices[0]).itemName} (${prices.reduce((min, p) => (p.price < min.price ? p : min), prices[0]).price} BDT)`
-                  : "N/A"}
-              </strong>
-            </span>
-            <span className="text-muted-foreground">
-              Most expensive:{" "}
-              <strong className="text-red-600">
-                {prices.length > 0
-                  ? `${prices.reduce((max, p) => (p.price > max.price ? p : max), prices[0]).itemName} (${prices.reduce((max, p) => (p.price > max.price ? p : max), prices[0]).price} BDT)`
-                  : "N/A"}
-              </strong>
-            </span>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Add New Item */}
       <Card className="shadow-sm border-primary/10">
@@ -201,8 +172,8 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
           <CardDescription>Add a new item to the market price list.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap items-end gap-3">
-            <div className="space-y-1 flex-1 min-w-45">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+            <div className="space-y-1 lg:col-span-2">
               <Label htmlFor="new-name">Item Name (Bangla)</Label>
               <Input
                 id="new-name"
@@ -211,7 +182,7 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
                 onChange={(e) => setNewItem({ ...newItem, itemName: e.target.value })}
               />
             </div>
-            <div className="space-y-1 w-24">
+            <div className="space-y-1">
               <Label htmlFor="new-price">Price (BDT)</Label>
               <Input
                 id="new-price"
@@ -222,13 +193,13 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
                 onChange={(e) => setNewItem({ ...newItem, price: Number(e.target.value) })}
               />
             </div>
-            <div className="space-y-1 w-24">
+            <div className="space-y-1">
               <Label htmlFor="new-unit">Unit</Label>
               <Select
                 value={newItem.unit}
                 onValueChange={(val) => setNewItem({ ...newItem, unit: val })}
               >
-                <SelectTrigger id="new-unit" className="w-24">
+                <SelectTrigger id="new-unit" className="w-full">
                   <SelectValue placeholder="Unit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -242,7 +213,7 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-1 w-32">
+            <div className="space-y-1 lg:col-span-2">
               <Label htmlFor="new-category">Category</Label>
               <Select
                 value={newItem.category}
@@ -250,7 +221,7 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
                   setNewItem({ ...newItem, category: val })
                 }
               >
-                <SelectTrigger id="new-category" className="w-32">
+                <SelectTrigger id="new-category" className="w-full">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -262,17 +233,19 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
                 </SelectContent>
               </Select>
             </div>
-            <Button onClick={handleAddItem} disabled={loading} className="mb-0.5">
-              <Plus className="h-4 w-4 mr-1" />
-              Add
-            </Button>
+            <div className="lg:col-span-4 flex justify-end">
+              <Button onClick={handleAddItem} disabled={loading} className="w-full sm:w-auto">
+                <Plus className="h-4 w-4 mr-1" />
+                Add
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Price Table */}
       <Card className="shadow-sm border-primary/10">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardHeader className="flex flex-col md:flex-row items-center justify-between space-y-0">
           <div>
             <CardTitle className="text-sm font-bold flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-primary" />
@@ -282,7 +255,7 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
               Edit prices inline and save all changes at once. These are used by AI for budget planning.
             </CardDescription>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 justify-between w-full">
             <Button
               variant="outline"
               size="sm"
@@ -363,8 +336,8 @@ export function MarketPriceManager({ messId, initialPrices }: MarketPriceManager
                             {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
                               <SelectItem key={key} value={key}>
                                 <Badge
-                                  variant="secondary"
-                                  className={`${CATEGORY_COLORS[key as MarketPriceCategory]} text-xs`}
+                                  variant={CATEGORY_VARIANTS[key as MarketPriceCategory]}
+                                  className="text-xs"
                                 >
                                   {label}
                                 </Badge>

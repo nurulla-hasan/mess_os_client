@@ -2,7 +2,7 @@
 /// <reference lib="webworker" />
 import { defaultCache } from "@serwist/turbopack/worker";
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist } from "serwist";
+import { Serwist, disableDevLogs } from "serwist";
 
 declare global {
   interface WorkerGlobalScope extends SerwistGlobalConfig {
@@ -30,4 +30,5 @@ const serwist = new Serwist({
   },
 });
 
+disableDevLogs();
 serwist.addEventListeners();

@@ -61,25 +61,28 @@ const pageSpecificContexts: Record<string, DocPageContext> = {
   "/manager/menu-plan": {
     title: "Menu Plan Management",
     description:
-      "Create, edit, and manage daily menu plans. Supports manual entry and AI-generated menu suggestions based on budget and preferences.",
+      "Create, edit, and manage daily menu plans. Supports manual entry and AI-generated menu suggestions based on budget, member preferences, and current market prices.",
     keyTopics: [
       "Create new menu plans",
       "AI Generate suggested menus",
       "Breakfast, lunch, dinner categories",
       "Calendar and list view",
       "Edit or delete plans",
+      "AI uses market prices for cost estimation",
     ],
   },
   "/manager/ai-shopping": {
     title: "AI Shopping List",
     description:
-      "AI-powered shopping list generation from menu plans. Review, approve or reject AI-generated lists, then convert approved lists to market schedules.",
+      "AI-powered shopping list generation from menu plans. Review, approve or reject AI-generated lists, then convert approved lists to market schedules. Uses market prices configured in Market Prices page for accurate budget estimation.",
     keyTopics: [
       "Generate shopping list from menu",
-      "Review AI-suggested items",
+      "AI uses market prices for budget estimation",
+      "Review AI-suggested items with quantities",
       "Approve or reject lists",
       "Convert approved list to schedule",
       "Item quantities and categories",
+      "Market prices affect AI budget planning",
     ],
   },
   "/manager/market-schedule": {
@@ -92,6 +95,23 @@ const pageSpecificContexts: Record<string, DocPageContext> = {
       "Assign members to shopping duty",
       "Set estimated budget",
       "Track status: pending/completed/void",
+    ],
+  },
+  "/manager/market-prices": {
+    title: "Market Prices",
+    description:
+      "Manage market prices for all common bazar items. These prices are used by AI for budget planning when generating menu plans and shopping lists. Managers can add, edit, delete, bulk update, and reset prices to defaults.",
+    keyTopics: [
+      "View all market prices with category and unit",
+      "Add new items with name (Bangla), price (BDT), unit, and category",
+      "Edit prices inline in the table",
+      "Bulk update all prices at once with Save All",
+      "Delete individual items",
+      "Reset to default prices (25 pre-configured Bangladeshi market items)",
+      "Categories: Bazar, Meat/Fish, Vegetables, Dairy, Spices, Other",
+      "Units: KG, লিটার, ডজন, আঁটি, হালি, টুকরা, পিস",
+      "Prices are used by AI to estimate shopping budgets",
+      "Only managers can edit; members can view prices",
     ],
   },
   "/manager/expenses": {
@@ -275,12 +295,13 @@ export const overviewContext: DocPageContext = {
 export const managerContext: DocPageContext = {
   title: "Manager Complete Guide",
   description:
-    "Complete guide for mess managers covering all administrative features including menu planning, AI shopping list generation, expense tracking, member management, market schedule creation, meal-off request management, notices, billing and payments, reports, and utility bills.",
+    "Complete guide for mess managers covering all administrative features including menu planning, AI shopping list generation, expense tracking, member management, market schedule creation, market prices management, meal-off request management, notices, billing and payments, reports, and utility bills.",
   keyTopics: [
     "Dashboard and analytics overview",
     "Menu plan creation and AI-generated suggestions",
     "AI shopping list generation and approval workflow",
     "Market schedule creation with member assignment",
+    "Market prices management for AI budget planning",
     "Daily and monthly expense tracking",
     "Member management and meal status",
     "Meal-off request approval workflow",
