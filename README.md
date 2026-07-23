@@ -1,84 +1,131 @@
-# Modern Dashboard Template
+# Mess OS
 
-A professional, clean, and highly scalable dashboard template built with the latest web technologies. This project is designed to be a solid foundation for building complex admin panels, SaaS dashboards, or internal tools.
+A full-stack, role-based platform for managing shared-house meals, members, expenses, market duties, billing, and financial reporting.
 
-## 🚀 Features
+[Live Application](https://mess-os-client.vercel.app/) · [Product Documentation](https://mess-os-client.vercel.app/docs) · [Backend Repository](https://github.com/nurulla-hasan/mess_os_server)
 
-- **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
-- **Library**: [React 19](https://react.dev/)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
-- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) (Radix UI primitives)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Forms & Validation**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
-- **Theme**: Emerald Green primary theme with full Dark/Light mode support.
-- **Responsive**: Fully optimized for Desktop, Tablet, and Mobile.
-- **Authentication Flow**: Complete set of auth pages (Login, Forgot Password, Verify OTP, Reset Password).
-- **Dashboard Layout**: 
-  - Collapsible sidebar with smooth transitions.
-  - Interactive overview stats cards.
-  - Custom scrollbars for a premium feel.
+> **Status:** Active personal project. This repository contains the Next.js frontend; the REST API is maintained in a separate public repository.
 
-## 🛠️ Tech Stack
+## Overview
 
-- **Next.js 16+** - Server Components & Server Actions.
-- **TypeScript** - For type safety and better developer experience.
-- **Shadcn UI** - Beautifully designed components.
-- **Lucide Icons** - Clean and consistent icon set.
-- **Oklch Colors** - Modern color space for better gradients and consistency.
+In Bangladesh, a “mess” is a shared living arrangement where residents coordinate meals, grocery duties, and common expenses. Mess OS brings those workflows into one responsive application for members, managers, and platform administrators.
 
-## 📁 Project Structure
+The product combines daily meal operations with live financial visibility, structured approval workflows, AI-assisted shopping support, and installable PWA behavior.
 
-```text
-src/
-├── app/               # App Router pages and layouts
-│   ├── auth/          # Authentication pages (Login, OTP, etc.)
-│   ├── dashboard/     # Dashboard pages and sub-routes
-│   └── globals.css    # Global styles and theme configuration
-├── components/        # Reusable UI components
-│   ├── layout/        # Sidebar, Header, and Main Layout
-│   └── ui/            # Shadcn UI base components
-├── hooks/             # Custom React hooks (useCountdown, etc.)
-├── lib/               # Utility functions (cn, etc.)
-└── schemas/           # Zod validation schemas
+## Key Features
+
+### Meal and member operations
+
+- Role-based dashboards for members, mess managers, and super administrators
+- Member onboarding, approval, participation, and profile workflows
+- Daily meal logs, dynamic meal categories, and meal-off requests
+- Menu planning, notices, complaints, and notifications
+
+### Finance and billing
+
+- Expense and payment submission with manager approval workflows
+- Monthly billing cycles, member invoices, and detailed bill views
+- Live member balances and mid-month estimated meal charges
+- Estimated meal-rate calculation from approved expenses and meal totals
+- Financial summaries, statements, and expense/payment reports
+
+### Market and AI-assisted workflows
+
+- Market-duty scheduling and manager-maintained market prices
+- AI-assisted shopping-list generation for market schedules
+- Global page-aware help chat with user-linked conversation history
+
+### Product experience
+
+- Responsive interfaces for desktop, tablet, and mobile
+- Installable PWA powered by Serwist with an offline fallback
+- Multiple light and dark themes
+- Reusable data tables, filters, forms, modals, and dashboard components
+
+## Role Overview
+
+| Role | Main capabilities |
+| --- | --- |
+| Member | Track meals, request meal pauses, submit payments, view bills and balances, and access notices |
+| Mess Manager | Manage members, meals, expenses, payments, menus, market schedules, billing cycles, and reports |
+| Super Admin | Manage users, messes, subscriptions, feature access, and platform-level operations |
+
+## Engineering Highlights
+
+- Built with the Next.js App Router, Server Components, and Server Actions
+- Uses a server-only API layer for access-token refresh, secure cookie persistence, cache tags, invalidation, and JSON/text responses
+- Applies React Hook Form and Zod for reusable, validated form workflows
+- Uses Zustand for client-side state and TanStack Table for data-heavy management screens
+- Adds PWA precaching, runtime caching, navigation preload, and offline fallback through Serwist
+- Keeps the interface reusable through shared dashboard, table, filter, modal, and theme primitives
+
+## Architecture
+
+```mermaid
+flowchart TD
+    UI["Next.js 16 frontend"] --> DATA["Server Actions and serverFetch"]
+    DATA --> API["Express REST API"]
+    API --> DB[("MongoDB")]
+    UI --> PWA["Serwist PWA layer"]
 ```
 
-## 🏁 Getting Started
+## Tech Stack
+
+| Area | Technologies |
+| --- | --- |
+| Core | Next.js 16, React 19, TypeScript |
+| UI | Tailwind CSS 4, shadcn/ui, Radix UI, Lucide React, Recharts |
+| State and forms | Zustand, React Hook Form, Zod |
+| Data interfaces | TanStack Table, Server Components, Server Actions |
+| PWA | Serwist |
+| Backend | Node.js, Express.js, MongoDB, Mongoose, JWT |
+| Deployment | Vercel |
+
+## Related Repositories
+
+- **Frontend:** [nurulla-hasan/mess_os_client](https://github.com/nurulla-hasan/mess_os_client)
+- **Backend API:** [nurulla-hasan/mess_os_server](https://github.com/nurulla-hasan/mess_os_server)
+
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ 
-- npm / yarn / pnpm
+- Node.js 20 or newer
+- npm
+- A running Mess OS backend
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone <your-repo-url>
-   ```
+```bash
+git clone https://github.com/nurulla-hasan/mess_os_client.git
+cd mess_os_client
+npm install
+```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+Create `.env.local` and point the frontend to the API:
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+```env
+NEXT_PUBLIC_BASE_API=your_backend_api_base_url
+```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+Start the development server:
 
-## 🎨 Theme Customization
+```bash
+npm run dev
+```
 
-The theme is controlled via CSS variables in `src/app/globals.css`. You can easily change the primary color by updating the `--primary` variable using Oklch values.
+Open [http://localhost:3000](http://localhost:3000).
 
-## 📜 Scripts
+## Available Scripts
 
-- `npm run dev`: Starts the development server.
-- `npm run build`: Builds the application for production.
-- `npm run start`: Starts the production server.
-- `npm run lint`: Runs ESLint to check for code quality issues.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Create a production build |
+| `npm run start` | Start the production server |
+| `npm run lint` | Run ESLint |
 
----
+## Author
 
-Built with ❤️ for speed and scalability.
+Developed by [Nurulla Hasan](https://github.com/nurulla-hasan).
+
