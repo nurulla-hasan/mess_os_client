@@ -11,7 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Send, Trash2, Loader2, Bot } from "lucide-react";
+import { Send, Trash2, Loader2, Bot, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { chatWithAI, getChatHistory, deleteChatHistory } from "@/services/docs-chat.service";
 import type { HistoryMessage } from "@/services/docs-chat.service";
@@ -280,7 +280,7 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
                 <Trash2 className="h-4 w-4" />
               </Button>
             )}
-            {/* <Button
+            <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
@@ -288,7 +288,7 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
               title="Close"
             >
               <X className="h-4 w-4" />
-            </Button> */}
+            </Button>
           </div>
         </SheetHeader>
 
