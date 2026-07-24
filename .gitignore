@@ -2,7 +2,7 @@
 node_modules
 .next
 build
-.env*
+.env
 
 # Serwist
 public/sw*
@@ -15,3 +15,4 @@ pnpm-workspace.yaml
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+branch_structure.json
