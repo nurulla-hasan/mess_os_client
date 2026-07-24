@@ -227,7 +227,7 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen} >
       <SheetTrigger asChild>
         <Button
           size="icon-lg"
@@ -244,7 +244,7 @@ export function DocsChatWidget({ context, pageTitle }: DocsChatWidgetProps) {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-full sm:max-w-lg p-0 flex flex-col gap-0 bg-background/95 backdrop-blur-xl border-l"
+        className="w-[90%] sm:max-w-lg p-0 flex flex-col gap-0 bg-background/95 backdrop-blur-xl border-l"
       >
         {/* Header */}
         <SheetHeader className="px-5 py-4 border-b shrink-0 flex flex-row items-center justify-between space-y-0 bg-linear-to-r from-primary/5 via-primary/5 to-transparent">
