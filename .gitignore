@@ -2,7 +2,7 @@
 node_modules
 .next
 build
-.env*
+.env
 
 # Serwist
 public/sw*
@@ -16,5 +16,3 @@ pnpm-workspace.yaml
 *.tsbuildinfo
 next-env.d.ts
 branch_structure.json
-temp_auto_push.bat
-temp_interactive_push.bat
