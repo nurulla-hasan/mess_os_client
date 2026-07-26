@@ -50,6 +50,14 @@ The product combines daily meal operations with live financial visibility, struc
 | Mess Manager | Manage members, meals, expenses, payments, menus, market schedules, billing cycles, and reports |
 | Super Admin | Manage users, messes, subscriptions, feature access, and platform-level operations |
 
+## Demo Access
+
+Role-based demo credentials are available in the following document:
+
+[View Demo Credentials](https://docs.google.com/document/d/1yZHXVvip4QH6J9EQtj5e7Sv7qUH_JDM9G6-dQDnpa1M/edit?usp=sharing)
+
+> These are shared demo accounts. Please avoid changing passwords or deleting important data so other visitors can explore the application.
+
 ## Engineering Highlights
 
 - Built with the Next.js App Router, Server Components, and Server Actions
@@ -128,4 +136,3 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Author
 
 Developed by [Nurulla Hasan](https://github.com/nurulla-hasan).
-
